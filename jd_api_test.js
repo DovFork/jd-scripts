@@ -1,6 +1,28 @@
 /*
-0 12 * * *
+环境测试:
+  1. 互助码api访问测试
+  2. 脚本版本检测
+时间: 2021-06-16-
+
+脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
+===================quantumultx================
+[task_local]
+#环境测试
+0 12 * * * jd_api_test.js, tag=环境测试, enabled=true
+
+=====================Loon================
+[Script]
+cron "0 12 * * *" script-path=jd_api_test.js, tag=环境测试
+
+====================Surge================
+环境测试 = type=cron,cronexp=0 12 * * *,wake-system=1,timeout=3600,script-path=jd_api_test.js
+
+============小火箭=========
+环境测试 = type=cron,script-path=jd_api_test.js, cronexpr="0 12 * * *", timeout=3600, enable=true
 */
+
+console.log(`==================脚本执行- 北京时间(UTC+8)：${new Date(new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*60*60*1000).toLocaleString()}=====================\n`)
+
 const $ = new Env("环境测试")
 
 $.version = '0.1'
@@ -46,11 +68,20 @@ function version() {
           if (data === $.version) {
             console.log('已是最新版本')
           } else {
-            $.msg($.version, data, "请更新！")
+            $.msg("JDHelloWorld", "请更新！", `本地：${$.version}\n远程：${data}`)
+            if ($.isNode()) {
+              const notify = require('./sendNotify')
+              notify.sendNotify("JDHelloWorld", `本地：${$.version}\n远程：${data}\n\n请及时更新！`)
+            }
           }
         }
       } catch (e) {
         $.logErr(e, resp)
+        $.msg("JDHelloWorld", "版本检测失败", `请手动访问http://api.sharecode.ga/api/version`,{"open-url": "http://api.sharecode.ga/api/version"})
+        if ($.isNode()) {
+          const notify = require('./sendNotify')
+          notify.sendNotify("JDHelloWorld", `版本检测失败\n请手动访问\nhttp://api.sharecode.ga/api/version`)
+        }
       } finally {
         resolve()
       }

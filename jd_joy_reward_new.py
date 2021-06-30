@@ -43,7 +43,7 @@ def main(cookie, validate):
         sys.stdout.write(f"{bean['id']} {bean['giftName']} {bean['leftStock']}\n")
         if bean['giftValue'] == JD_JOY_REWARD_NAME:
             while 1:
-                if datetime.datetime.now().second == 0:
+                if datetime.datetime.now().second < 30:
                     break
                 time.sleep(0.1)
             sys.stdout.write('exchange()\n')

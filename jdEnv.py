@@ -1,4 +1,5 @@
 import os
+import random
 
 
 def env(key):
@@ -8,7 +9,7 @@ def env(key):
 # 宠汪汪
 JD_JOY_REWARD_NAME = 500  # 默认500
 if env("JD_JOY_REWARD_NAME"):
-    JD_JOY_REWARD_NAME = env("JD_JOY_REWARD_NAME")
+    JD_JOY_REWARD_NAME = int(env("JD_JOY_REWARD_NAME"))
 
 # Cookie
 cookies = []
@@ -54,3 +55,4 @@ USER_AGENTS = [
     "jdapp;android;10.0.2;10;network/wifi;Mozilla/5.0 (Linux; Android 10; MI 8 Build/QKQ1.190828.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
     "jdapp;iPhone;10.0.2;14.1;network/wifi;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
 ]
+USER_AGENTS = USER_AGENTS[random.randint(0, len(USER_AGENTS) - 1)]

@@ -53,7 +53,9 @@ class FoodRunning:
                             params=params, data=data).json()
         return res
 
-    def mission(self, goods_num_id, mission_type):
+    def mission(self, method, body=None):
+        if body is None:
+            body = {}
         headers = {
             'User-Agent': USER_AGENTS,
             'Accept': 'application/json',
@@ -68,21 +70,50 @@ class FoodRunning:
             ('bizExtString', ''),
             ('user_id', '10299171'),
         )
-        data = json.dumps({"jsonRpc": "2.0", "params": {"commonParameter": {"appkey": "51B59BB805903DA4CE513D29EC448375", "m": "POST", "sign": "ce81175e149f37713f7bcb4cd72f8ad6", "timestamp": round(time.time() * 1000), "userId": 10299171}, "admJson": {"goodsNumId": goods_num_id, "missionType": mission_type, "method": "/foodRunning/complete/mission", "actId": "jd_food_running", "buyerNick": self.buyerNick, "pushWay": 1, "userId": 10299171}}})
-        res = requests.post('https://jinggengjcq-isv.isvjcloud.com/dm/front/foodRunning/complete/mission', headers=headers, params=params, data=data).json()
-        print(res)
+        data = {"jsonRpc": "2.0", "params": {"commonParameter": {"appkey": "51B59BB805903DA4CE513D29EC448375", "m": "POST", "sign": "ce81175e149f37713f7bcb4cd72f8ad6", "timestamp": round(time.time() * 1000), "userId": 10299171}, "admJson": {"method": "/foodRunning/" + method, "actId": "jd_food_running", "buyerNick": self.buyerNick, "pushWay": 1, "userId": 10299171}}}
+        for k, v in body.items():
+            print(k, v)
+            data['params']['admJson'].update({k: v})
+        res = requests.post('https://jinggengjcq-isv.isvjcloud.com/dm/front/foodRunning/' + method, headers=headers, params=params, data=json.dumps(data)).json()
+        return res
 
     def run(self):
         self.token = self.get_token()
         self.buyerNick = self.api('setMixNick')['data']['data']['msg']
         tasks = self.api('DailyTask')['data']['data']
         print(tasks)
-        # for t in tasks:
-        #     print(t['type'])
-            # if t['dayClear'] != t['dayTop']:
-            #     for i in range(t['dayClear'] + 1, t['dayTop'] + 1):
-            #         self.mission(i, t['type'])
-            #         time.sleep(3)
+
+        '''
+        shop_list = self.mission('ShopList')['data']['data']
+        for s in shop_list:
+            print(s['id'],s['shopTitle'])
+            print('view shop')
+            res = self.mission('ViewShop')
+            print(res)
+            break
+        '''
+
+        # print(self.mission('complete/mission', {'goodsNumId': 3, 'missionType': 'viewGoods'}))
+
+        can_do = ['viewBanner', 'viewShop', 'viewGoods', 'addCart']
+        for t in tasks:
+            if t['hasGotNum'] == '':
+                times = t['dayTop']
+            else:
+                times = t['dayTop'] - t['hasGotNum']
+            if t['type'] in can_do:
+                print(t['type'], times)
+
+        print('开始任务！')
+        time.sleep(3)
+        print('任务失败！')
+        coin = random.randint(245, 295) * 5
+        point = random.randint(1514, 1798)
+        print(self.mission('SendCoin', {'coin': coin, 'point': point}))
+        print(f'跑酷完成：{point}分，{coin}币')
+        for i in range(1, 4):
+            res = self.mission('OpenBox', {"awardId": f"jdRunningBox{i}"})
+            print('拆盒子：', res['data']['data']['msg'])
 
 
 if __name__ == '__main__':

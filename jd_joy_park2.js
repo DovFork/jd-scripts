@@ -208,7 +208,7 @@ function merge() {
                 case 0:
                     runtimes++;
                     if (runtimes === 10)
-                        resolve();
+                        return [2 /*return*/];
                     minLevel = [];
                     for (_i = 0, _a = joys.data.activityJoyList; _i < _a.length; _i++) {
                         j = _a[_i];

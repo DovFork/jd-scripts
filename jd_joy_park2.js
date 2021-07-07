@@ -43,8 +43,9 @@ var cookie = '', cookiesArr = [], res = '', shareCodes = [];
 var joyId = [], workJoyInfoList = [];
 var joyId1, userLevel, Joys = [];
 var joys;
+var level = 4, runtimes = 0;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, _i, _a, j;
+    var i, _i, _a, j, joy;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, requireConfig()];
@@ -53,7 +54,7 @@ var joys;
                 i = 0;
                 _b.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 10];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 11];
                 cookie = cookiesArr[i];
                 $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 $.index = i + 1;
@@ -71,28 +72,26 @@ var joys;
                     j = _a[_i];
                     console.log('id:', j.id, '等级:', j.level);
                 }
-                return [4 /*yield*/, wait(7000)];
+                return [4 /*yield*/, makeShareCodes()];
             case 5:
                 _b.sent();
-                return [4 /*yield*/, makeShareCodes()];
+                return [4 /*yield*/, merge()];
             case 6:
                 _b.sent();
-                return [4 /*yield*/, wait(7000)];
+                return [4 /*yield*/, joyList()];
             case 7:
-                _b.sent();
-                return [4 /*yield*/, merge()];
+                joy = _b.sent();
+                if (!(joy.data.activityJoyList.length !== 0)) return [3 /*break*/, 9];
+                joyId1 = joy.data.activityJoyList[0].id;
+                console.log(joy.data.activityJoyList);
+                return [4 /*yield*/, api('joyMove', { "joyId": joyId1, "location": 1, "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
             case 8:
-                _b.sent();
-                /*
-                let joy: any = await joyList();
-                if (joy.data.activityJoyList.length !== 0) {
-                  joyId1 = joy.data.activityJoyList[0].id
-                  console.log(joy.data.activityJoyList)
-                  // 1:种田  2:出来
-                  res = await api('joyMove', {"joyId": joyId1, "location": 0, "linkId": "LsQNxL7iWDlXUs6cFl-AAg"})
-                  console.log(res)
-                }
-            
+                // 1:种田  2:出来
+                res = _b.sent();
+                console.log(res);
+                _b.label = 9;
+            case 9: 
+            /*
                 let taskVos: any = await api('apTaskList', {"linkId": "LsQNxL7iWDlXUs6cFl-AAg"});
                 let tasks: any = taskVos.data
                 for (let t of tasks) {
@@ -110,9 +109,9 @@ var joys;
                       let times: number = name === '汪汪乐园浏览会场' ? 5 : 10;
                       res = await api('apTaskDetail', {"taskType": t.taskType, "taskId": t.id, "channel": 4, "linkId": "LsQNxL7iWDlXUs6cFl-AAg"})
                       let apTaskDetail: any, taskResult: any, awardRes: any;
-            
+        
                       // console.log(res.data)
-            
+        
                       for (let i = 0; i < times; i++) {
                         try {
                           apTaskDetail = res.data.taskItemList[i]
@@ -134,13 +133,13 @@ var joys;
                     }
                   }
                 }
-            
+        
                  */
-                return [3 /*break*/, 10];
-            case 9:
+            return [3 /*break*/, 11];
+            case 10:
                 i++;
                 return [3 /*break*/, 2];
-            case 10: return [2 /*return*/];
+            case 11: return [2 /*return*/];
         }
     });
 }); })();
@@ -162,6 +161,9 @@ function api(fn, body) {
                     })];
                 case 1:
                     data = (_a.sent()).data;
+                    return [4 /*yield*/, heartBeat()];
+                case 2:
+                    _a.sent();
                     resolve(data);
                     return [2 /*return*/];
             }
@@ -185,6 +187,12 @@ function joyList() {
                     })];
                 case 1:
                     data = (_a.sent()).data;
+                    return [4 /*yield*/, wait(1000)];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, heartBeat()];
+                case 3:
+                    _a.sent();
                     resolve(data);
                     return [2 /*return*/];
             }
@@ -194,56 +202,65 @@ function joyList() {
 function merge() {
     var _this = this;
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var level, mergeTemp;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var minLevel, _i, _a, j, mergeTemp;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    level = userLevel < 6 ? 1 : 2;
+                    runtimes++;
+                    if (runtimes === 10)
+                        resolve();
+                    minLevel = [];
+                    for (_i = 0, _a = joys.data.activityJoyList; _i < _a.length; _i++) {
+                        j = _a[_i];
+                        minLevel.push(j.level);
+                    }
+                    minLevel = minLevel.sort();
+                    console.log('min:', minLevel);
                     mergeTemp = joys.data.activityJoyList.filter(function (j) {
-                        return j.level === 3;
+                        return j.level === minLevel[0];
                     });
                     console.log(mergeTemp);
-                    if (!(mergeTemp.length >= 2)) return [3 /*break*/, 2];
+                    if (!(mergeTemp.length >= 2)) return [3 /*break*/, 5];
                     console.log('aaa');
-                    return [4 /*yield*/, api('joyMerge', { "joyOneId": mergeTemp[0].id, "joyTwoId": mergeTemp[1].id, "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
+                    return [4 /*yield*/, wait(1000)];
                 case 1:
-                    res = _a.sent();
-                    console.log(res);
-                    return [3 /*break*/, 8];
+                    _b.sent();
+                    return [4 /*yield*/, api('joyMerge', { "joyOneId": mergeTemp[0].id, "joyTwoId": mergeTemp[1].id, "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
                 case 2:
-                    if (!(mergeTemp.length === 1)) return [3 /*break*/, 8];
+                    res = _b.sent();
+                    console.log(res);
+                    return [4 /*yield*/, joyList()];
+                case 3:
+                    joys = _b.sent();
+                    return [4 /*yield*/, merge()];
+                case 4:
+                    _b.sent();
+                    return [3 /*break*/, 10];
+                case 5:
+                    if (!(mergeTemp.length === 1)) return [3 /*break*/, 10];
                     console.log('bbb');
                     return [4 /*yield*/, api('joyBuy', { "level": level, "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
-                case 3:
-                    res = _a.sent();
-                    console.log('joyBuy:', res);
-                    return [4 /*yield*/, wait(7000)];
-                case 4:
-                    _a.sent();
-                    return [4 /*yield*/, joyList()];
-                case 5:
-                    joys = _a.sent();
-                    return [4 /*yield*/, wait(7000)];
                 case 6:
-                    _a.sent();
-                    return [4 /*yield*/, merge()];
+                    res = _b.sent();
+                    console.log('joyBuy:', res);
+                    if (res.errMsg === '参数非法')
+                        level--;
+                    return [4 /*yield*/, joyList()];
                 case 7:
-                    _a.sent();
-                    _a.label = 8;
+                    joys = _b.sent();
+                    return [4 /*yield*/, heartBeat()];
                 case 8:
-                    /*
-                    let level: number = userLevel < 6 ? 1 : 2
-                    res = await api('joyBuy', {"level": level, "linkId": "LsQNxL7iWDlXUs6cFl-AAg"})
-                    let jid1: number = res.data.id
-                    console.log(jid1)
-                    await wait(2000)
-                    res = await api('joyBuy', {"level": level, "linkId": "LsQNxL7iWDlXUs6cFl-AAg"})
-                    let jid2: number = res.data.id
-                    console.log(jid2)
-                    await wait(2000)
-                    res = await api('joyMerge', {"joyOneId": jid1, "joyTwoId": jid2, "linkId": "LsQNxL7iWDlXUs6cFl-AAg"})
-                    console.log(res)
-                    */
+                    _b.sent();
+                    return [4 /*yield*/, merge()];
+                case 9:
+                    _b.sent();
+                    _b.label = 10;
+                case 10: return [4 /*yield*/, wait(1000)];
+                case 11:
+                    _b.sent();
+                    return [4 /*yield*/, heartBeat()];
+                case 12:
+                    _b.sent();
                     resolve();
                     return [2 /*return*/];
             }
@@ -261,14 +278,52 @@ function makeShareCodes() {
                     console.log('用户等级:', res.data.level, '助力码:', res.data.invitePin);
                     shareCodes.push(res.data.invitePin);
                     userLevel = res.data.level;
+                    return [4 /*yield*/, wait(1000)];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, heartBeat()];
+                case 3:
+                    _a.sent();
                     resolve();
                     return [2 /*return*/];
             }
         });
     }); });
 }
+function heartBeat() {
+    var _this = this;
+    return new Promise(function (resolve) {
+        axios_1["default"].get("https://api.m.jd.com/?functionId=gameHeartbeat&body={%22businessCode%22:1,%22linkId%22:%22LsQNxL7iWDlXUs6cFl-AAg%22}&_t=1625556213451&appid=activities_platform", {
+            headers: {
+                'host': 'api.m.jd.com',
+                'User-agent': TS_USER_AGENTS_1["default"],
+                'cookie': cookie,
+                'origin': 'https://joypark.jd.com',
+                'referer': 'https://joypark.jd.com'
+            }
+        }).then(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                resolve();
+                return [2 /*return*/];
+            });
+        }); });
+    });
+}
 function wait(t) {
-    return new Promise(function (e) { return setTimeout(e, t); });
+    var _this = this;
+    return new Promise(function (resolve) {
+        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, heartBeat()];
+                    case 1:
+                        _a.sent();
+                        resolve();
+                        return [2 /*return*/];
+                }
+            });
+        }); }, 2000);
+    });
 }
 function requireConfig() {
     return new Promise(function (resolve) {

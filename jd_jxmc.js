@@ -64,7 +64,7 @@ var UserName, index, isLogin, nickName;
                 i = 0;
                 _a.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 12];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 35];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -99,9 +99,91 @@ var UserName, index, isLogin, nickName;
             case 9: return [3 /*break*/, 11];
             case 10: return [3 /*break*/, 6];
             case 11:
+                if (!(coins >= 5000 && food <= 500)) return [3 /*break*/, 14];
+                return [4 /*yield*/, api('operservice/Buy', 'channel,sceneid,type', { type: '1' })];
+            case 12:
+                res = _a.sent();
+                if (res.ret === 0) {
+                    console.log('买草成功:', res.data.newnum);
+                    coins -= 5000;
+                    food += 100;
+                }
+                else {
+                    console.log(res);
+                    return [3 /*break*/, 14];
+                }
+                return [4 /*yield*/, wait(1500)];
+            case 13:
+                _a.sent();
+                return [3 /*break*/, 11];
+            case 14: return [4 /*yield*/, wait(2000)];
+            case 15:
+                _a.sent();
+                _a.label = 16;
+            case 16:
+                if (!(food >= 10)) return [3 /*break*/, 24];
+                return [4 /*yield*/, api('operservice/Feed', 'channel,sceneid')];
+            case 17:
+                res = _a.sent();
+                if (!(res.ret === 0)) return [3 /*break*/, 18];
+                food -= 10;
+                console.log('剩余草:', res.data.newnum);
+                return [3 /*break*/, 22];
+            case 18:
+                if (!(res.ret === 2020)) return [3 /*break*/, 21];
+                if (!(res.data.maintaskId === 'pause')) return [3 /*break*/, 20];
+                console.log('收🥚');
+                return [4 /*yield*/, api('operservice/GetSelfResult', 'channel,itemid,sceneid,type', { petid: petid, type: '11' })];
+            case 19:
+                res = _a.sent();
+                if (res.ret === 0) {
+                    console.log('收🥚成功:', res.data.newnum);
+                }
+                _a.label = 20;
+            case 20: return [3 /*break*/, 22];
+            case 21:
+                console.log(res);
+                return [3 /*break*/, 24];
+            case 22: return [4 /*yield*/, wait(4000)];
+            case 23:
+                _a.sent();
+                return [3 /*break*/, 16];
+            case 24: return [4 /*yield*/, wait(2000)];
+            case 25:
+                _a.sent();
+                _a.label = 26;
+            case 26:
+                if (!1) return [3 /*break*/, 29];
+                return [4 /*yield*/, api('operservice/Action', 'channel,sceneid,type', { type: '2' })];
+            case 27:
+                res = _a.sent();
+                if (res.data.addcoins === 0)
+                    return [3 /*break*/, 29];
+                console.log('锄草:', res.data.addcoins);
+                return [4 /*yield*/, wait(1500)];
+            case 28:
+                _a.sent();
+                return [3 /*break*/, 26];
+            case 29: return [4 /*yield*/, wait(2000)];
+            case 30:
+                _a.sent();
+                _a.label = 31;
+            case 31:
+                if (!1) return [3 /*break*/, 34];
+                return [4 /*yield*/, api('operservice/Action', 'channel,sceneid,type', { type: '1', petid: petid })];
+            case 32:
+                res = _a.sent();
+                if (res.data.addcoins === 0)
+                    return [3 /*break*/, 34];
+                console.log('挑逗:', res.data.addcoins);
+                return [4 /*yield*/, wait(1500)];
+            case 33:
+                _a.sent();
+                return [3 /*break*/, 31];
+            case 34:
                 i++;
                 return [3 /*break*/, 3];
-            case 12: return [2 /*return*/];
+            case 35: return [2 /*return*/];
         }
     });
 }); })();
@@ -141,18 +223,19 @@ function api(fn, stk, params) {
 function getTask() {
     var _this = this;
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var tasks, doTaskRes, _i, _a, t, awardCoin;
+        var tasks, doTaskRes, code, _i, _a, t, awardCoin;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, taskAPI('GetUserTaskStatusList', 'bizCode,dateType,source')];
                 case 1:
                     tasks = _b.sent();
+                    doTaskRes = { ret: 1 }, code = 1;
                     _i = 0, _a = tasks.data.userTaskStatusList;
                     _b.label = 2;
                 case 2:
-                    if (!(_i < _a.length)) return [3 /*break*/, 13];
+                    if (!(_i < _a.length)) return [3 /*break*/, 9];
                     t = _a[_i];
-                    if (!((t.dateType === 1 || t.dateType === 2) && t.completedTimes == t.targetTimes && t.awardStatus === 2)) return [3 /*break*/, 7];
+                    if (!((t.dateType === 1 || t.dateType === 2) && t.completedTimes == t.targetTimes && t.awardStatus === 2)) return [3 /*break*/, 5];
                     // 成就任务
                     t.dateType === 1
                         ?
@@ -162,45 +245,32 @@ function getTask() {
                     return [4 /*yield*/, taskAPI('Award', 'bizCode,source,taskId', { taskId: t.taskId })];
                 case 3:
                     doTaskRes = _b.sent();
-                    return [4 /*yield*/, wait(2000)];
+                    return [4 /*yield*/, wait(4000)];
                 case 4:
                     _b.sent();
-                    if (!(doTaskRes.ret === 0)) return [3 /*break*/, 6];
-                    awardCoin = doTaskRes['data']['prizeInfo'].match(/:(.*)}/)[1] * 1;
-                    console.log('领奖成功:', awardCoin);
-                    return [4 /*yield*/, wait(2000)];
+                    if (doTaskRes.ret === 0) {
+                        awardCoin = doTaskRes['data']['prizeInfo'].match(/:(.*)}/)[1] * 1;
+                        console.log('领奖成功:', awardCoin);
+                    }
+                    _b.label = 5;
                 case 5:
-                    _b.sent();
-                    resolve(0);
-                    return [3 /*break*/, 7];
-                case 6:
-                    resolve(1);
-                    _b.label = 7;
-                case 7:
-                    if (!(t.dateType === 2 && t.completedTimes < t.targetTimes && t.awardStatus === 2 && t.taskType === 2)) return [3 /*break*/, 12];
+                    if (!(t.dateType === 2 && t.completedTimes < t.targetTimes && t.awardStatus === 2 && t.taskType === 2)) return [3 /*break*/, 8];
                     console.log('可做每日任务:', t.taskName, t.taskId);
                     return [4 /*yield*/, taskAPI('DoTask', 'bizCode,configExtra,source,taskId', { taskId: t.taskId, configExtra: '' })];
-                case 8:
+                case 6:
                     doTaskRes = _b.sent();
                     console.log(doTaskRes);
-                    return [4 /*yield*/, wait(5000)];
-                case 9:
-                    _b.sent();
-                    if (!(doTaskRes.ret === 0)) return [3 /*break*/, 11];
+                    if (!(doTaskRes.ret === 0)) return [3 /*break*/, 8];
                     console.log('任务完成');
-                    return [4 /*yield*/, wait(2000)];
-                case 10:
+                    return [4 /*yield*/, wait(5000)];
+                case 7:
                     _b.sent();
-                    resolve(0);
-                    return [3 /*break*/, 12];
-                case 11:
-                    resolve(1);
-                    _b.label = 12;
-                case 12:
+                    _b.label = 8;
+                case 8:
                     _i++;
                     return [3 /*break*/, 2];
-                case 13:
-                    resolve(1);
+                case 9:
+                    resolve(doTaskRes.ret);
                     return [2 /*return*/];
             }
         });
@@ -387,7 +457,6 @@ function getQueryString(url, name) {
 function wait(t) {
     return new Promise(function (resolve) {
         setTimeout(function () {
-            console.log('sleep...', t);
             resolve();
         }, t);
     });

@@ -64,6 +64,10 @@ var balance;
                 return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1EFVQwQ", "taskToken": "", "channelId": 1 })];
             case 4:
                 taskVos = _g.sent();
+                if (JSON.stringify(taskVos.data.success) === 'false') {
+                    console.log('此号活动火爆');
+                    return [3 /*break*/, 23];
+                }
                 balance = taskVos.data.result.userInfo.userScore * 1;
                 console.log('余额:', balance);
                 _g.label = 5;

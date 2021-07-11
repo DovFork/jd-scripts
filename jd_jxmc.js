@@ -77,6 +77,14 @@ var UserName, index, isLogin, nickName;
                 return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'channel,isgift,sceneid', { isgift: 0 })];
             case 5:
                 homePageInfo = _a.sent();
+                if (JSON.stringify(homePageInfo.data) === '{}') {
+                    console.log('此号活动火爆');
+                    return [3 /*break*/, 34];
+                }
+                else if (JSON.stringify(homePageInfo.data.isactivenewuser) === '1') {
+                    console.log('此号未完成教学任务');
+                    return [3 /*break*/, 34];
+                }
                 food = homePageInfo.data.materialinfo[0].value;
                 petid = homePageInfo.data.petinfo[0].petid;
                 coins = homePageInfo.data.coins;

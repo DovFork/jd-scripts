@@ -75,7 +75,10 @@ var UserName, index, isLogin, nickName;
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
             case 6:
                 res = _b.sent();
-                console.log(res);
+                if (res.iRet !== 0) {
+                    console.log('去手动新手教程');
+                    return [3 /*break*/, 14];
+                }
                 console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20);
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
             case 7:

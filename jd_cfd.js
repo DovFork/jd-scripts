@@ -3,8 +3,8 @@
  * 京喜财富岛
  * 包含雇佣导游，建议每小时1次
  *
- * 此版本暂定默认不帮助HelloWorld，帮助助力池
- * export CFD_HELP_HW = false   // 帮助HelloWorld
+ * 此版本暂定默认帮助HelloWorld，帮助助力池
+ * export CFD_HELP_HW = true    // 帮助HelloWorld
  * export CFD_HELP_POOL = true  // 帮助助力池
  *
  * 使用jd_env_copy.js同步js环境变量到ts
@@ -60,7 +60,7 @@ var CryptoJS = require('crypto-js');
 dotenv.config();
 var appId = 10028, fingerprint, token, enCryptMethodJD;
 var cookie = '', cookiesArr = [], res = '', shareCodes = [];
-var CFD_HELP_HW = process.env.CFD_HELP_HW ? process.env.CFD_HELP_HW : false;
+var CFD_HELP_HW = process.env.CFD_HELP_HW ? process.env.CFD_HELP_HW : true;
 console.log('帮助HelloWorld:', CFD_HELP_HW);
 var CFD_HELP_POOL = process.env.CFD_HELP_POOL ? process.env.CFD_HELP_POOL : true;
 console.log('帮助助力池:', CFD_HELP_POOL);

@@ -58,66 +58,63 @@ var UserName, index, isLogin, nickName;
                 _b.sent();
                 _b.label = 3;
             case 3:
-                if (!1) return [3 /*break*/, 20];
+                if (!1) return [3 /*break*/, 19];
                 _b.label = 4;
             case 4:
-                _b.trys.push([4, 17, , 18]);
+                _b.trys.push([4, 16, , 17]);
                 i = 0;
                 _b.label = 5;
             case 5:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 16];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 15];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 isLogin = true;
                 nickName = '';
-                return [4 /*yield*/, TotalBean()];
-            case 6:
-                _b.sent();
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
-            case 7:
+            case 6:
                 res = _b.sent();
                 console.log(res);
                 console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20);
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
-            case 8:
+            case 7:
                 shell = _b.sent();
                 _i = 0, _a = shell.Data.NormShell;
-                _b.label = 9;
-            case 9:
-                if (!(_i < _a.length)) return [3 /*break*/, 15];
+                _b.label = 8;
+            case 8:
+                if (!(_i < _a.length)) return [3 /*break*/, 14];
                 s = _a[_i];
                 j = 0;
-                _b.label = 10;
-            case 10:
-                if (!(j < s.dwNum)) return [3 /*break*/, 14];
+                _b.label = 9;
+            case 9:
+                if (!(j < s.dwNum)) return [3 /*break*/, 13];
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)];
-            case 11:
+            case 10:
                 _b.sent();
                 return [4 /*yield*/, wait(1000)];
-            case 12:
+            case 11:
                 _b.sent();
-                _b.label = 13;
-            case 13:
+                _b.label = 12;
+            case 12:
                 j++;
-                return [3 /*break*/, 10];
-            case 14:
-                _i++;
                 return [3 /*break*/, 9];
-            case 15:
+            case 13:
+                _i++;
+                return [3 /*break*/, 8];
+            case 14:
                 i++;
                 return [3 /*break*/, 5];
-            case 16: return [3 /*break*/, 18];
-            case 17:
+            case 15: return [3 /*break*/, 17];
+            case 16:
                 e_1 = _b.sent();
                 console.log(e_1);
-                return [3 /*break*/, 20];
-            case 18: return [4 /*yield*/, wait(10000)];
-            case 19:
+                return [3 /*break*/, 19];
+            case 17: return [4 /*yield*/, wait(10000)];
+            case 18:
                 _b.sent();
                 return [3 /*break*/, 3];
-            case 20: return [2 /*return*/];
+            case 19: return [2 /*return*/];
         }
     });
 }); })();
@@ -239,42 +236,6 @@ function requireConfig() {
         console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
         resolve();
     });
-}
-function TotalBean() {
-    var _this = this;
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            axios_1["default"].get('https://me-api.jd.com/user_new/info/GetJDUserInfoUnion', {
-                headers: {
-                    Host: "me-api.jd.com",
-                    Connection: "keep-alive",
-                    Cookie: cookie,
-                    "User-Agent": TS_USER_AGENTS_1["default"],
-                    "Accept-Language": "zh-cn",
-                    "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
-                    "Accept-Encoding": "gzip, deflate, br"
-                }
-            }).then(function (res) {
-                if (res.data) {
-                    var data = res.data;
-                    if (data['retcode'] === "1001") {
-                        isLogin = false; //cookie过期
-                        return;
-                    }
-                    if (data['retcode'] === "0" && data['data'] && data.data.hasOwnProperty("userInfo")) {
-                        nickName = data.data.userInfo.baseInfo.nickname;
-                    }
-                }
-                else {
-                    console.log('京东服务器返回空数据');
-                }
-            })["catch"](function (e) {
-                console.log('Error:', e);
-            });
-            resolve();
-            return [2 /*return*/];
-        });
-    }); });
 }
 function generateFp() {
     var e = "0123456789";

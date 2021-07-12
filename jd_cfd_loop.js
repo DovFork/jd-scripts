@@ -113,7 +113,7 @@ var UserName, index, isLogin, nickName;
                 e_1 = _b.sent();
                 console.log(e_1);
                 return [3 /*break*/, 19];
-            case 17: return [4 /*yield*/, wait(10000)];
+            case 17: return [4 /*yield*/, wait(getRandomNumberByRange(10, 25))];
             case 18:
                 _b.sent();
                 return [3 /*break*/, 3];
@@ -261,4 +261,7 @@ function wait(t) {
             resolve();
         }, t);
     });
+}
+function getRandomNumberByRange(start, end) {
+    return Math.floor(Math.random() * (end - start) + start);
 }

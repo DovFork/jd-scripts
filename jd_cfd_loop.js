@@ -47,25 +47,25 @@ var appId = 10028, fingerprint, token, enCryptMethodJD;
 var cookie = '', cookiesArr = [], res = '';
 var UserName, index, isLogin, nickName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, e_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var i, shell, _i, _a, s, j, e_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
-                _a.sent();
+                _b.sent();
                 return [4 /*yield*/, requireConfig()];
             case 2:
-                _a.sent();
-                _a.label = 3;
+                _b.sent();
+                _b.label = 3;
             case 3:
-                if (!1) return [3 /*break*/, 13];
-                _a.label = 4;
+                if (!1) return [3 /*break*/, 20];
+                _b.label = 4;
             case 4:
-                _a.trys.push([4, 10, , 11]);
+                _b.trys.push([4, 17, , 18]);
                 i = 0;
-                _a.label = 5;
+                _b.label = 5;
             case 5:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 9];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 16];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -73,31 +73,55 @@ var UserName, index, isLogin, nickName;
                 nickName = '';
                 return [4 /*yield*/, TotalBean()];
             case 6:
-                _a.sent();
+                _b.sent();
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
             case 7:
-                res = _a.sent();
+                res = _b.sent();
                 console.log(res);
                 console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20);
-                _a.label = 8;
+                return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
             case 8:
+                shell = _b.sent();
+                _i = 0, _a = shell.Data.NormShell;
+                _b.label = 9;
+            case 9:
+                if (!(_i < _a.length)) return [3 /*break*/, 15];
+                s = _a[_i];
+                j = 0;
+                _b.label = 10;
+            case 10:
+                if (!(j < s.dwNum)) return [3 /*break*/, 14];
+                return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)];
+            case 11:
+                _b.sent();
+                return [4 /*yield*/, wait(1000)];
+            case 12:
+                _b.sent();
+                _b.label = 13;
+            case 13:
+                j++;
+                return [3 /*break*/, 10];
+            case 14:
+                _i++;
+                return [3 /*break*/, 9];
+            case 15:
                 i++;
                 return [3 /*break*/, 5];
-            case 9: return [3 /*break*/, 11];
-            case 10:
-                e_1 = _a.sent();
+            case 16: return [3 /*break*/, 18];
+            case 17:
+                e_1 = _b.sent();
                 console.log(e_1);
-                return [3 /*break*/, 13];
-            case 11: return [4 /*yield*/, wait(10000)];
-            case 12:
-                _a.sent();
+                return [3 /*break*/, 20];
+            case 18: return [4 /*yield*/, wait(10000)];
+            case 19:
+                _b.sent();
                 return [3 /*break*/, 3];
-            case 13: return [2 /*return*/];
+            case 20: return [2 /*return*/];
         }
     });
 }); })();
-function speedUp(stk) {
+function speedUp(stk, dwType) {
     var _this = this;
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
         var url, data;
@@ -105,6 +129,10 @@ function speedUp(stk) {
             switch (_a.label) {
                 case 0:
                     url = "https://m.jingxi.com/jxbfd/user/SpeedUp?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&strBuildIndex=food&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
+                    if (stk === '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
+                        url = "https://m.jingxi.com/jxbfd/story/queryshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=_cfd_t%2CbizCode%2CdwEnv%2Cptag%2Csource%2CstrZone&_ste=1&_=" + Date.now() + "&sceneval=2";
+                    if (stk === '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone')
+                        url = "https://m.jingxi.com/jxbfd/story/pickshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&dwType=" + dwType + "&_stk=_cfd_t%2CbizCode%2CdwEnv%2CdwType%2Cptag%2Csource%2CstrZone&_ste=1&_=" + Date.now() + "&sceneval=2";
                     url += '&h5st=' + decrypt(stk, url);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {

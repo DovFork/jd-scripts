@@ -52,19 +52,19 @@ var cookie = '', cookiesArr = [], res = '', shareCodes;
 var homePageInfo;
 var UserName, index, isLogin, nickName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, buildings, _i, buildings_1, b;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var i, tasks, _i, _a, t, _b, _c, b;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
-                _a.sent();
+                _d.sent();
                 return [4 /*yield*/, requireConfig()];
             case 2:
-                _a.sent();
+                _d.sent();
                 i = 0;
-                _a.label = 3;
+                _d.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 13];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 27];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -72,37 +72,118 @@ var UserName, index, isLogin, nickName;
                 nickName = '';
                 return [4 /*yield*/, TotalBean()];
             case 4:
-                _a.sent();
+                _d.sent();
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                buildings = ['food', 'fun', 'shop', 'sea'];
-                _i = 0, buildings_1 = buildings;
-                _a.label = 5;
+                i = 0;
+                _d.label = 5;
             case 5:
-                if (!(_i < buildings_1.length)) return [3 /*break*/, 11];
-                b = buildings_1[_i];
-                return [4 /*yield*/, api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b })];
+                if (!(i < 20)) return [3 /*break*/, 9];
+                return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
             case 6:
-                res = _a.sent();
-                console.log(b + "\u5347\u7EA7\u9700\u8981:", res.ddwNextLvlCostCoin);
-                return [4 /*yield*/, wait(1000)];
+                res = _d.sent();
+                console.log(res);
+                console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20);
+                return [4 /*yield*/, wait(2000)];
             case 7:
-                _a.sent();
-                return [4 /*yield*/, api('user/CollectCoin', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b, dwType: '1' })];
+                _d.sent();
+                _d.label = 8;
             case 8:
-                res = _a.sent();
+                i++;
+                return [3 /*break*/, 5];
+            case 9:
+                tasks = void 0;
+                return [4 /*yield*/, mainTask('GetUserTaskStatusList', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', { taskId: 0 })];
+            case 10:
+                /*
+                 tasks= await api('story/GetActTask', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
+                for (let t of tasks.Data.TaskList) {
+                  if (t.dwCompleteNum === t.dwTargetNum && t.dwAwardStatus === 2) {
+                    res = await api('Award', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', {taskId: t.ddwTaskId})
+                    if (res.ret === 0) {
+                      console.log(`${t.strTaskName}领奖成功:`, res.data.prizeInfo)
+                    }
+                    await wait(1000)
+                  }
+                }
+                 */
+                tasks = _d.sent();
+                _i = 0, _a = tasks.data.userTaskStatusList;
+                _d.label = 11;
+            case 11:
+                if (!(_i < _a.length)) return [3 /*break*/, 18];
+                t = _a[_i];
+                if (!(t.dateType === 2)) return [3 /*break*/, 17];
+                if (!(t.awardStatus === 2 && t.completedTimes === t.targetTimes)) return [3 /*break*/, 14];
+                console.log(1, t.taskName);
+                return [4 /*yield*/, mainTask('Award', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', { taskId: t.taskId })];
+            case 12:
+                res = _d.sent();
+                console.log(res);
+                if (res.ret === 0) {
+                    console.log(t.taskName + "\u9886\u5956\u6210\u529F:", res.data.prizeInfo);
+                }
+                return [4 /*yield*/, wait(2000)];
+            case 13:
+                _d.sent();
+                return [3 /*break*/, 17];
+            case 14:
+                if (!(t.awardStatus === 2 && t.completedTimes < t.targetTimes && (t.orderId === 2 || t.orderId === 3))) return [3 /*break*/, 17];
+                return [4 /*yield*/, mainTask('DoTask', '_cfd_t,bizCode,configExtra,dwEnv,ptag,source,strZone,taskId', { taskId: t.taskId, configExtra: '' })];
+            case 15:
+                // console.log('做任务:', t.taskId, t.taskName, t.completedTimes, t.targetTimes)
+                res = _d.sent();
+                console.log('做任务:', res);
+                return [4 /*yield*/, wait(5000)];
+            case 16:
+                _d.sent();
+                _d.label = 17;
+            case 17:
+                _i++;
+                return [3 /*break*/, 11];
+            case 18:
+                _b = 0, _c = ['food', 'fun', 'shop', 'sea'];
+                _d.label = 19;
+            case 19:
+                if (!(_b < _c.length)) return [3 /*break*/, 25];
+                b = _c[_b];
+                return [4 /*yield*/, api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b })];
+            case 20:
+                res = _d.sent();
+                console.log(b + "\u5347\u7EA7\u9700\u8981:", res.ddwNextLvlCostCoin);
+                return [4 /*yield*/, wait(1000)
+                    // if (res.dwCanLvlUp === 1) {
+                    //   res = await api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', {ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b})
+                    // if (res.iRet === 0) {
+                    //   console.log(`升级成功`)
+                    //   await wait(2000)
+                    // }
+                    // }
+                ];
+            case 21:
+                _d.sent();
+                return [4 /*yield*/, api('user/CollectCoin', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b, dwType: '1' })];
+            case 22:
+                // if (res.dwCanLvlUp === 1) {
+                //   res = await api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', {ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b})
+                // if (res.iRet === 0) {
+                //   console.log(`升级成功`)
+                //   await wait(2000)
+                // }
+                // }
+                res = _d.sent();
                 console.log(b + "\u6536\u91D1\u5E01:", res.ddwCoin);
                 return [4 /*yield*/, wait(1000)];
-            case 9:
-                _a.sent();
-                _a.label = 10;
-            case 10:
-                _i++;
-                return [3 /*break*/, 5];
-            case 11: return [3 /*break*/, 13];
-            case 12:
+            case 23:
+                _d.sent();
+                _d.label = 24;
+            case 24:
+                _b++;
+                return [3 /*break*/, 19];
+            case 25: return [3 /*break*/, 27];
+            case 26:
                 i++;
                 return [3 /*break*/, 3];
-            case 13: return [2 /*return*/];
+            case 27: return [2 /*return*/];
         }
     });
 }); })();
@@ -114,7 +195,7 @@ function speedUp(stk, params) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "https://m.jingxi.com/jxbfd/user/SpeedUp?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&strBuildIndex=food&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
+                    url = "https://m.jingxi.com/jxbfd/user/SpeedUp?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&strBuildIndex=" + ['food', 'shop', 'sea', 'fun'][Math.floor(Math.random() * 4)] + "&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
                     if (Object.keys(params).length !== 0) {
                         key = void 0;
                         for (key in params) {
@@ -148,8 +229,9 @@ function api(fn, stk, params) {
             switch (_a.label) {
                 case 0:
                     url = "https://m.jingxi.com/jxbfd/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
-                    if (fn === 'Award') {
-                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/Award?strZone=jxbfd&bizCode=jxbfddch&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=_cfd_t%2CbizCode%2CdwEnv%2Cptag%2Csource%2CstrZone%2CtaskId&_ste=1&_=" + Date.now() + "&sceneval=2";
+                    if (['GetUserTaskStatusList', 'Award', 'DoTask'].includes(fn)) {
+                        console.log('api2');
+                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/" + fn + "?strZone=jxbfd&bizCode=jxbfddch&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
                     }
                     if (Object.keys(params).length !== 0) {
                         key = void 0;
@@ -164,6 +246,47 @@ function api(fn, stk, params) {
                                 'Host': 'm.jingxi.com',
                                 'Referer': 'https://st.jingxi.com/',
                                 'User-Agent': 'jdpingou;android;4.11.0;10;b21fede89fb4bc77;network/wifi;model/M2004J7AC;appBuild/17304;partner/xiaomi;;session/535;aid/b21fede89fb4bc77;oaid/dcb5f3e835497cc3;pap/JA2019_3111789;brand/Xiaomi;eu/8313831616035373;fv/7333732616631643;Mozilla/5.0 (Linux; Android 10; M2004J7AC Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/90.0.4430.91 Mobile Safari/537.36',
+                                'Cookie': cookie
+                            }
+                        })];
+                case 1:
+                    data = (_a.sent()).data;
+                    resolve(data);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+}
+function mainTask(fn, stk, params) {
+    var _this = this;
+    if (params === void 0) { params = {}; }
+    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+        var url, key, data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    url = "https://m.jingxi.com/newtasksys/newtasksys_front/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
+                    if (Object.keys(params).length !== 0) {
+                        key = void 0;
+                        for (key in params) {
+                            if (params.hasOwnProperty(key))
+                                url += "&" + key + "=" + params[key];
+                        }
+                    }
+                    url += '&h5st=' + decrypt(stk, url);
+                    return [4 /*yield*/, axios_1["default"].get(url, {
+                            headers: {
+                                'Sec-Fetch-Dest': 'script',
+                                'X-Proxyman-Repeated-ID': '09920498',
+                                'Accept': '*/*',
+                                'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
+                                'X-Requested-With': 'com.jd.pingou',
+                                'Referer': 'https://st.jingxi.com/',
+                                'Host': 'm.jingxi.com',
+                                'User-Agent': 'jdpingou;android;4.11.0;10;b21fede89fb4bc77;network/wifi;model/M2004J7AC;appBuild/17304;partner/xiaomi;;session/535;aid/b21fede89fb4bc77;oaid/dcb5f3e835497cc3;pap/JA2019_3111789;brand/Xiaomi;eu/8313831616035373;fv/7333732616631643;Mozilla/5.0 (Linux; Android 10; M2004J7AC Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/90.0.4430.91 Mobile Safari/537.36',
+                                'Sec-Fetch-Site': 'same-site',
+                                'Connection': 'close',
+                                'Sec-Fetch-Mode': 'no-cors',
                                 'Cookie': cookie
                             }
                         })];

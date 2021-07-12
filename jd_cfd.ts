@@ -1,22 +1,16 @@
 /**
- * 京喜牧场
- * 买、喂、收蛋、锄草、挑逗
- * // TODO
- * 领奖、任务
+ * 京喜财富岛
+ * 包含雇佣导游，建议每小时1次
  */
 
 import {format} from 'date-fns';
-import {writeFileSync} from 'fs'
 import axios from 'axios';
 import USER_AGENT from './TS_USER_AGENTS';
 
 const CryptoJS = require('crypto-js')
 
-// console.log('时间戳：', format(new Date(), 'yyyyMMddHHmmssSSS'));
-
 let appId: number = 10028, fingerprint: string | number, token: string, enCryptMethodJD: any;
 let cookie: string = '', cookiesArr: Array<string> = [], res: any = '', shareCodes: Array<string>;
-let homePageInfo: any;
 
 let UserName: string, index: number, isLogin: boolean, nickName: string
 !(async () => {
@@ -32,13 +26,6 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
     await TotalBean();
     console.log(`\n开始【京东账号${index}】${nickName || UserName}\n`);
 
-    // for (i = 0; i < 20; i++) {
-    //   res = await speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')
-    //   console.log(res)
-    //   console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20)
-    //   await wait(2000)
-    // }
-
     // 任务1
     let tasks: any
     /*
@@ -53,22 +40,7 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
       }
     }
      */
-    // 贝壳
-    // while (1) {
-    //
-    //   res = await api('story/pickshell', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', {dwType: '3'})
-    //   console.log(res)
-    //   await wait(1000)
-        //   res = await api('story/pickshell', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', {dwType: '2'})
-    //   console.log(res)
-    //   await wait(1000)
-    //   res = await api('story/pickshell', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', {dwType: '1'})
-    //   console.log(res)
-    //   await wait(1000)
-    //   if (res.iRet !== 0) {
-    //     break
-    //   }
-    // }
+
 
     // res = await api('story/SpecialUserOper',
     //   '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType',
@@ -79,6 +51,18 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
     //   '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType',
     //   {strStoryId: 'stroy_1626065998453014_1', dwType: '3', triggerType: 0, ddwTriggerDay: 1626019200})
     // console.log('下船:', res)
+
+    // 导游
+    res = await api('user/EmployTourGuideInfo', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
+    for (let e of res.TourGuideList) {
+      console.log(e.dwIsUnLock, e.strGuideName)
+      if (e.strBuildIndex !== 'food' && e.ddwRemainTm === 0) {
+        let employ: any = await api('user/EmployTourGuide', '_cfd_t,bizCode,ddwConsumeCoin,dwEnv,dwIsFree,ptag,source,strBuildIndex,strZone',
+          {ddwConsumeCoin: e.ddwCostCoin, dwIsFree: 0, strBuildIndex: e.strBuildIndex})
+        console.log(employ)
+        await wait(3000)
+      }
+    }
 
     tasks = await mainTask('GetUserTaskStatusList', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', {taskId: 0});
     for (let t of tasks.data.userTaskStatusList) {
@@ -119,29 +103,6 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
   }
 })()
 
-function speedUp(stk: string, params: Params = {}) {
-  return new Promise(async resolve => {
-    let url = `https://m.jingxi.com/jxbfd/user/SpeedUp?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=&strBuildIndex=${['food', 'shop', 'sea', 'fun'][Math.floor(Math.random() * 4)]}&_ste=1&_=${Date.now()}&sceneval=2&_stk=${encodeURIComponent(stk)}`
-    if (Object.keys(params).length !== 0) {
-      let key: (keyof Params)
-      for (key in params) {
-        if (params.hasOwnProperty(key))
-          url += `&${key}=${params[key]}`
-      }
-    }
-    url += '&h5st=' + decrypt(stk, url)
-    let {data} = await axios.get(url, {
-      headers: {
-        'Host': 'm.jingxi.com',
-        'Referer': 'https://st.jingxi.com/',
-        'User-Agent': 'jdpingou;android;4.11.0;10;b21fede89fb4bc77;network/wifi;model/M2004J7AC;appBuild/17304;partner/xiaomi;;session/535;aid/b21fede89fb4bc77;oaid/dcb5f3e835497cc3;pap/JA2019_3111789;brand/Xiaomi;eu/8313831616035373;fv/7333732616631643;Mozilla/5.0 (Linux; Android 10; M2004J7AC Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/90.0.4430.91 Mobile Safari/537.36',
-        'Cookie': cookie
-      }
-    })
-    resolve(data)
-  })
-}
-
 interface Params {
   strBuildIndex?: string,
   ddwCostCoin?: number,
@@ -151,6 +112,9 @@ interface Params {
   strStoryId?: string,
   triggerType?: number,
   ddwTriggerDay?: number,
+  ddwConsumeCoin?: number,
+  dwIsFree?: number,
+
 }
 
 function api(fn: string, stk: string, params: Params = {}) {
@@ -172,7 +136,7 @@ function api(fn: string, stk: string, params: Params = {}) {
       headers: {
         'Host': 'm.jingxi.com',
         'Referer': 'https://st.jingxi.com/',
-        'User-Agent': 'jdpingou;android;4.11.0;10;b21fede89fb4bc77;network/wifi;model/M2004J7AC;appBuild/17304;partner/xiaomi;;session/535;aid/b21fede89fb4bc77;oaid/dcb5f3e835497cc3;pap/JA2019_3111789;brand/Xiaomi;eu/8313831616035373;fv/7333732616631643;Mozilla/5.0 (Linux; Android 10; M2004J7AC Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/90.0.4430.91 Mobile Safari/537.36',
+        'User-Agent': USER_AGENT,
         'Cookie': cookie
       }
     })
@@ -193,17 +157,10 @@ function mainTask(fn: string, stk: string, params: Params = {}) {
     url += '&h5st=' + decrypt(stk, url)
     let {data} = await axios.get(url, {
       headers: {
-        'Sec-Fetch-Dest': 'script',
-        'X-Proxyman-Repeated-ID': '09920498',
-        'Accept': '*/*',
-        'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
         'X-Requested-With': 'com.jd.pingou',
         'Referer': 'https://st.jingxi.com/',
         'Host': 'm.jingxi.com',
-        'User-Agent': 'jdpingou;android;4.11.0;10;b21fede89fb4bc77;network/wifi;model/M2004J7AC;appBuild/17304;partner/xiaomi;;session/535;aid/b21fede89fb4bc77;oaid/dcb5f3e835497cc3;pap/JA2019_3111789;brand/Xiaomi;eu/8313831616035373;fv/7333732616631643;Mozilla/5.0 (Linux; Android 10; M2004J7AC Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/90.0.4430.91 Mobile Safari/537.36',
-        'Sec-Fetch-Site': 'same-site',
-        'Connection': 'close',
-        'Sec-Fetch-Mode': 'no-cors',
+        'User-Agent': USER_AGENT,
         'Cookie': cookie
       }
     })

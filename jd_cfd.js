@@ -60,9 +60,9 @@ var CryptoJS = require('crypto-js');
 dotenv.config();
 var appId = 10028, fingerprint, token, enCryptMethodJD;
 var cookie = '', cookiesArr = [], res = '', shareCodes = [];
-var CFD_HELP_HW = process.env.CFD_HELP_HW ? process.env.CFD_HELP_HW : true;
+var CFD_HELP_HW = process.env.CFD_HELP_HW ? process.env.CFD_HELP_HW : "true";
 console.log('帮助HelloWorld:', CFD_HELP_HW);
-var CFD_HELP_POOL = process.env.CFD_HELP_POOL ? process.env.CFD_HELP_POOL : true;
+var CFD_HELP_POOL = process.env.CFD_HELP_POOL ? process.env.CFD_HELP_POOL : "true";
 console.log('帮助助力池:', CFD_HELP_POOL);
 var UserName, index, isLogin, nickName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -210,14 +210,14 @@ var UserName, index, isLogin, nickName;
                 return [3 /*break*/, 3];
             case 31:
                 // 获取随机助力码
-                if (CFD_HELP_HW) {
+                if (CFD_HELP_HW === 'true') {
                     shareCodes = __spreadArray(__spreadArray([], shareCodes), [
                         '845605C0CDB46E027B53DBFD505C152CE2FDBBFB74ABBD8CB9FD0FE0ACC43FF8',
                         '84A1A690E9AA8B7267F347E319954401BF810183738AA300E8FCFDEE97F12036',
                         'C533B4DCDAA0EA415CEBC49F13851C2556F2BE27E8D4026713C7D5229A5F0C55',
                     ]);
                 }
-                if (!CFD_HELP_POOL) return [3 /*break*/, 33];
+                if (!(CFD_HELP_POOL === 'true')) return [3 /*break*/, 33];
                 return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxcfd/20')];
             case 32:
                 data = (_f.sent()).data;
@@ -242,6 +242,9 @@ var UserName, index, isLogin, nickName;
             case 37:
                 res = _f.sent();
                 console.log(res);
+                if (res.sErrMsg === '参数错误') {
+                    console.log('可合理举报错误助力码');
+                }
                 if (res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~')
                     return [3 /*break*/, 40];
                 return [4 /*yield*/, wait(3000)];

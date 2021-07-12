@@ -211,11 +211,7 @@ var UserName, index, isLogin, nickName;
             case 31:
                 // 获取随机助力码
                 if (CFD_HELP_HW === 'true') {
-                    shareCodes = __spreadArray(__spreadArray([], shareCodes), [
-                        '845605C0CDB46E027B53DBFD505C152CE2FDBBFB74ABBD8CB9FD0FE0ACC43FF8',
-                        '84A1A690E9AA8B7267F347E319954401BF810183738AA300E8FCFDEE97F12036',
-                        'C533B4DCDAA0EA415CEBC49F13851C2556F2BE27E8D4026713C7D5229A5F0C55',
-                    ]);
+                    shareCodes = __spreadArray([], shareCodes);
                 }
                 if (!(CFD_HELP_POOL === 'true')) return [3 /*break*/, 33];
                 return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxcfd/20')];
@@ -242,11 +238,9 @@ var UserName, index, isLogin, nickName;
             case 37:
                 res = _f.sent();
                 console.log(res);
-                if (res.sErrMsg === '参数错误') {
-                    console.log('可合理举报错误助力码');
-                }
-                if (res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~')
+                if (res.iRet === 2232 || res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
                     return [3 /*break*/, 40];
+                }
                 return [4 /*yield*/, wait(3000)];
             case 38:
                 _f.sent();
@@ -335,14 +329,36 @@ function mainTask(fn, stk, params) {
 function makeShareCodes() {
     var _this = this;
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+        var data, farm;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strShareId,strZone', { ddwTaskId: '', strShareId: '', strMarkList: 'undefined' })];
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action?functionId=initForFarm', "body=" + escape(JSON.stringify({ "version": 4 })) + "&appid=wh5&clientVersion=9.1.0", {
+                        headers: {
+                            "cookie": cookie,
+                            "origin": "https://home.m.jd.com",
+                            "referer": "https://home.m.jd.com/myJd/newhome.action",
+                            "User-Agent": TS_USER_AGENTS_1["default"],
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        }
+                    })];
                 case 1:
+                    data = (_a.sent()).data;
+                    farm = data.farmUserPro.shareCode;
+                    return [4 /*yield*/, api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strShareId,strZone', { ddwTaskId: '', strShareId: '', strMarkList: 'undefined' })];
+                case 2:
                     res = _a.sent();
                     console.log('助力码:', res.strMyShareId);
                     shareCodes.push(res.strMyShareId);
-                    resolve();
+                    axios_1["default"].get("https://api.sharecode.ga/api/jxcfd/insert?code=" + res.strMyShareId + "&farm=" + farm)
+                        .then(function (res) {
+                        if (res.data.code === 200)
+                            console.log('已自动提交助力码');
+                        else
+                            console.log('提交失败！已提交farm的cookie才可提交cfd');
+                        resolve();
+                    })["catch"](function (e) {
+                        console.log(e);
+                    });
                     return [2 /*return*/];
             }
         });

@@ -52,7 +52,7 @@ var cookie = '', cookiesArr = [], res = '', shareCodes;
 var homePageInfo;
 var UserName, index, isLogin, nickName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, food, petid, coins, taskRetCode;
+    var i, food, petid, coins, taskRetCode, e_1, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
@@ -64,7 +64,7 @@ var UserName, index, isLogin, nickName;
                 i = 0;
                 _a.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 35];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 41];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -77,14 +77,6 @@ var UserName, index, isLogin, nickName;
                 return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'channel,isgift,sceneid', { isgift: 0 })];
             case 5:
                 homePageInfo = _a.sent();
-                if (JSON.stringify(homePageInfo.data) === '{}') {
-                    console.log('此号活动火爆');
-                    return [3 /*break*/, 34];
-                }
-                else if (JSON.stringify(homePageInfo.data.isactivenewuser) === '1') {
-                    console.log('此号未完成教学任务');
-                    return [3 /*break*/, 34];
-                }
                 food = homePageInfo.data.materialinfo[0].value;
                 petid = homePageInfo.data.petinfo[0].petid;
                 coins = homePageInfo.data.coins;
@@ -161,45 +153,62 @@ var UserName, index, isLogin, nickName;
                 _a.sent();
                 _a.label = 26;
             case 26:
-                if (!1) return [3 /*break*/, 29];
-                return [4 /*yield*/, api('operservice/Action', 'channel,sceneid,type', { type: '2' })];
+                if (!1) return [3 /*break*/, 32];
+                _a.label = 27;
             case 27:
+                _a.trys.push([27, 30, , 31]);
+                return [4 /*yield*/, api('operservice/Action', 'channel,sceneid,type', { type: '2' })];
+            case 28:
                 res = _a.sent();
+                console.log(res);
                 if (res.data.addcoins === 0)
-                    return [3 /*break*/, 29];
+                    return [3 /*break*/, 32];
                 console.log('锄草:', res.data.addcoins);
                 return [4 /*yield*/, wait(1500)];
-            case 28:
-                _a.sent();
-                return [3 /*break*/, 26];
-            case 29: return [4 /*yield*/, wait(2000)];
-            case 30:
-                _a.sent();
-                _a.label = 31;
-            case 31:
-                if (!1) return [3 /*break*/, 34];
-                return [4 /*yield*/, api('operservice/Action', 'channel,sceneid,type', { type: '1', petid: petid })];
-            case 32:
-                res = _a.sent();
-                if (res.data.addcoins === 0)
-                    return [3 /*break*/, 34];
-                console.log('挑逗:', res.data.addcoins);
-                return [4 /*yield*/, wait(1500)];
-            case 33:
+            case 29:
                 _a.sent();
                 return [3 /*break*/, 31];
+            case 30:
+                e_1 = _a.sent();
+                console.log('Error:', e_1);
+                return [3 /*break*/, 31];
+            case 31: return [3 /*break*/, 26];
+            case 32: return [4 /*yield*/, wait(2000)];
+            case 33:
+                _a.sent();
+                _a.label = 34;
             case 34:
+                if (!1) return [3 /*break*/, 40];
+                _a.label = 35;
+            case 35:
+                _a.trys.push([35, 38, , 39]);
+                return [4 /*yield*/, api('operservice/Action', 'channel,sceneid,type', { type: '1', petid: petid })];
+            case 36:
+                res = _a.sent();
+                if (res.data.addcoins === 0)
+                    return [3 /*break*/, 40];
+                console.log('挑逗:', res.data.addcoins);
+                return [4 /*yield*/, wait(1500)];
+            case 37:
+                _a.sent();
+                return [3 /*break*/, 39];
+            case 38:
+                e_2 = _a.sent();
+                console.log('Error:', e_2);
+                return [3 /*break*/, 39];
+            case 39: return [3 /*break*/, 34];
+            case 40:
                 i++;
                 return [3 /*break*/, 3];
-            case 35: return [2 /*return*/];
+            case 41: return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, stk, params) {
     var _this = this;
     if (params === void 0) { params = {}; }
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var url, key, data;
+    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+        var url, key, data, e_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -212,6 +221,9 @@ function api(fn, stk, params) {
                         }
                     }
                     url += '&h5st=' + decrypt(stk, url);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Cookie': cookie,
@@ -220,10 +232,15 @@ function api(fn, stk, params) {
                                 'Referer': 'https://st.jingxi.com/'
                             }
                         })];
-                case 1:
+                case 2:
                     data = (_a.sent()).data;
                     resolve(data);
-                    return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_3 = _a.sent();
+                    reject(401);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     }); });

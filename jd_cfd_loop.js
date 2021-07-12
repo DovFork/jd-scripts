@@ -123,8 +123,8 @@ var UserName, index, isLogin, nickName;
 }); })();
 function speedUp(stk, dwType) {
     var _this = this;
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var url, data;
+    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+        var url, data, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -134,6 +134,9 @@ function speedUp(stk, dwType) {
                     if (stk === '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone')
                         url = "https://m.jingxi.com/jxbfd/story/pickshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&dwType=" + dwType + "&_stk=_cfd_t%2CbizCode%2CdwEnv%2CdwType%2Cptag%2Csource%2CstrZone&_ste=1&_=" + Date.now() + "&sceneval=2";
                     url += '&h5st=' + decrypt(stk, url);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'm.jingxi.com',
@@ -142,10 +145,15 @@ function speedUp(stk, dwType) {
                                 'Cookie': cookie
                             }
                         })];
-                case 1:
+                case 2:
                     data = (_a.sent()).data;
                     resolve(data);
-                    return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_2 = _a.sent();
+                    reject(e_2);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     }); });

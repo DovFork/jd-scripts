@@ -72,7 +72,7 @@ var UserName, index, isLogin, nickName;
                 stream.on('end', function () {
                     var md5 = fsHash.digest('hex');
                     console.log(filename + "\u7684MD5\u662F:", md5);
-                    if (process.env.cmd_ql === 'ql') {
+                    if (filename.indexOf('JDHelloWorld_jd_scripts_') > -1) {
                         filename = filename.replace('JDHelloWorld_jd_scripts_', '');
                     }
                     axios_1["default"].get('https://api.sharecode.ga/api/md5?filename=' + filename)

@@ -48,11 +48,11 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var CryptoJS = require('crypto-js');
 // console.log('时间戳：', format(new Date(), 'yyyyMMddHHmmssSSS'));
 var appId = 10028, fingerprint, token, enCryptMethodJD;
-var cookie = '', cookiesArr = [], res = '', shareCodes;
+var cookie = '', cookiesArr = [], res = '', shareCodes = [];
 var homePageInfo;
 var UserName, index, isLogin, nickName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, food, petid, coins, taskRetCode, e_1, e_2;
+    var i, food, petid, coins, taskRetCode, e_1, e_2, i, j;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
@@ -80,6 +80,8 @@ var UserName, index, isLogin, nickName;
                 food = homePageInfo.data.materialinfo[0].value;
                 petid = homePageInfo.data.petinfo[0].petid;
                 coins = homePageInfo.data.coins;
+                shareCodes.push(homePageInfo.data.sharekey);
+                console.log('助力码：', homePageInfo.data.sharekey);
                 console.log('pet id:', petid);
                 console.log('现有草:', food);
                 console.log('金币:', coins);
@@ -160,7 +162,6 @@ var UserName, index, isLogin, nickName;
                 return [4 /*yield*/, api('operservice/Action', 'channel,sceneid,type', { type: '2' })];
             case 28:
                 res = _a.sent();
-                console.log(res);
                 if (res.data.addcoins === 0)
                     return [3 /*break*/, 32];
                 console.log('锄草:', res.data.addcoins);
@@ -200,7 +201,39 @@ var UserName, index, isLogin, nickName;
             case 40:
                 i++;
                 return [3 /*break*/, 3];
-            case 41: return [2 /*return*/];
+            case 41:
+                i = 0;
+                _a.label = 42;
+            case 42:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 48];
+                cookie = cookiesArr[i];
+                j = 0;
+                _a.label = 43;
+            case 43:
+                if (!(j < shareCodes.length)) return [3 /*break*/, 47];
+                return [4 /*yield*/, api('operservice/EnrollFriend', 'channel,sceneid,sharekey', { sharekey: shareCodes[j] })];
+            case 44:
+                res = _a.sent();
+                if (res.data.result === 1) {
+                    console.log('不助力自己');
+                }
+                else if (res.ret === 0) {
+                    console.log('助力成功，获得：', res.data.addcoins);
+                }
+                else {
+                    return [3 /*break*/, 47];
+                }
+                return [4 /*yield*/, wait(2000)];
+            case 45:
+                _a.sent();
+                _a.label = 46;
+            case 46:
+                j++;
+                return [3 /*break*/, 43];
+            case 47:
+                i++;
+                return [3 /*break*/, 42];
+            case 48: return [2 /*return*/];
         }
     });
 }); })();

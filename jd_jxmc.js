@@ -171,7 +171,7 @@ var UserName, index, isLogin, nickName;
             case 30:
                 e_1 = _a.sent();
                 console.log('Error:', e_1);
-                return [3 /*break*/, 31];
+                return [3 /*break*/, 32];
             case 31: return [3 /*break*/, 26];
             case 32: return [4 /*yield*/, wait(2000)];
             case 33:
@@ -195,7 +195,7 @@ var UserName, index, isLogin, nickName;
             case 38:
                 e_2 = _a.sent();
                 console.log('Error:', e_2);
-                return [3 /*break*/, 39];
+                return [3 /*break*/, 40];
             case 39: return [3 /*break*/, 34];
             case 40:
                 i++;

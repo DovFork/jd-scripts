@@ -3,12 +3,14 @@
  * export CFD_LOOP_DELAY=20000  // 捡气球间隔时间，单位毫秒
  */
 
-import {format} from 'date-fns';
-import axios from 'axios';
-import USER_AGENT from './TS_USER_AGENTS';
-import * as dotenv from 'dotenv';
+import {format} from 'date-fns'
+import axios from 'axios'
+import USER_AGENT from './TS_USER_AGENTS'
+import * as dotenv from 'dotenv'
 
 const CryptoJS = require('crypto-js')
+const crypto = require('crypto')
+const fs = require('fs')
 
 dotenv.config()
 
@@ -20,6 +22,19 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
 !(async () => {
   await requestAlgo();
   await requireConfig();
+
+  let filename: string = 'jd_cfd_loop.ts'
+  let stream = fs.createReadStream(filename);
+  let fsHash = crypto.createHash('md5');
+
+  stream.on('data', (d: any) => {
+    fsHash.update(d);
+  });
+
+  stream.on('end', () => {
+    let md5 = fsHash.digest('hex');
+    console.log(`${filename}的MD5是:`, md5);
+  });
 
   while (1) {
     try {
@@ -50,8 +65,7 @@ let UserName: string, index: number, isLogin: boolean, nickName: string
       console.log(e)
       break
     }
-    let t: number = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : getRandomNumberByRange(10, 25)
-    console.log('sleep...', t)
+    let t: number = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : getRandomNumberByRange(10000, 25000)
     await wait(t)
   }
 })()
@@ -172,9 +186,8 @@ function getQueryString(url: string, name: string) {
 function wait(t: number) {
   return new Promise<void>(resolve => {
     setTimeout(() => {
-      console.log('sleep end')
       resolve()
-    }, t * 1000)
+    }, t)
   })
 }
 

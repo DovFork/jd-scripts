@@ -45,13 +45,15 @@ var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var dotenv = require("dotenv");
 var CryptoJS = require('crypto-js');
+var crypto = require('crypto');
+var fs = require('fs');
 dotenv.config();
 var appId = 10028, fingerprint, token, enCryptMethodJD;
 var cookie = '', cookiesArr = [], res = '';
 process.env.CFD_LOOP_DELAY ? console.log('设置延迟:', parseInt(process.env.CFD_LOOP_DELAY)) : console.log('设置延迟:10000~25000随机');
 var UserName, index, isLogin, nickName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, shell, _i, _a, s, j, e_1, t;
+    var filename, stream, fsHash, i, shell, _i, _a, s, j, e_1, t;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
@@ -60,6 +62,16 @@ var UserName, index, isLogin, nickName;
                 return [4 /*yield*/, requireConfig()];
             case 2:
                 _b.sent();
+                filename = 'jd_cfd_loop.ts';
+                stream = fs.createReadStream(filename);
+                fsHash = crypto.createHash('md5');
+                stream.on('data', function (d) {
+                    fsHash.update(d);
+                });
+                stream.on('end', function () {
+                    var md5 = fsHash.digest('hex');
+                    console.log(filename + "\u7684MD5\u662F:", md5);
+                });
                 _b.label = 3;
             case 3:
                 if (!1) return [3 /*break*/, 19];
@@ -119,8 +131,7 @@ var UserName, index, isLogin, nickName;
                 console.log(e_1);
                 return [3 /*break*/, 19];
             case 17:
-                t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : getRandomNumberByRange(10, 25);
-                console.log('sleep...', t);
+                t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : getRandomNumberByRange(10000, 25000);
                 return [4 /*yield*/, wait(t)];
             case 18:
                 _b.sent();
@@ -274,9 +285,8 @@ function getQueryString(url, name) {
 function wait(t) {
     return new Promise(function (resolve) {
         setTimeout(function () {
-            console.log('sleep end');
             resolve();
-        }, t * 1000);
+        }, t);
     });
 }
 function getRandomNumberByRange(start, end) {

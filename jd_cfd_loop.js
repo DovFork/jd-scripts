@@ -47,7 +47,7 @@ var appId = 10028, fingerprint, token, enCryptMethodJD;
 var cookie = '', cookiesArr = [], res = '';
 var UserName, index, isLogin, nickName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, shell, _i, _a, s, j, e_1;
+    var i, shell, _i, _a, s, j, e_1, t;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
@@ -58,14 +58,14 @@ var UserName, index, isLogin, nickName;
                 _b.sent();
                 _b.label = 3;
             case 3:
-                if (!1) return [3 /*break*/, 19];
+                if (!1) return [3 /*break*/, 18];
                 _b.label = 4;
             case 4:
-                _b.trys.push([4, 16, , 17]);
+                _b.trys.push([4, 15, , 16]);
                 i = 0;
                 _b.label = 5;
             case 5:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 15];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 14];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -77,7 +77,7 @@ var UserName, index, isLogin, nickName;
                 res = _b.sent();
                 if (res.iRet !== 0) {
                     console.log('去手动新手教程');
-                    return [3 /*break*/, 14];
+                    return [3 /*break*/, 13];
                 }
                 console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20);
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
@@ -86,38 +86,38 @@ var UserName, index, isLogin, nickName;
                 _i = 0, _a = shell.Data.NormShell;
                 _b.label = 8;
             case 8:
-                if (!(_i < _a.length)) return [3 /*break*/, 14];
+                if (!(_i < _a.length)) return [3 /*break*/, 13];
                 s = _a[_i];
                 j = 0;
                 _b.label = 9;
             case 9:
-                if (!(j < s.dwNum)) return [3 /*break*/, 13];
+                if (!(j < s.dwNum)) return [3 /*break*/, 12];
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)];
             case 10:
                 _b.sent();
-                return [4 /*yield*/, wait(1000)];
+                _b.label = 11;
             case 11:
-                _b.sent();
-                _b.label = 12;
-            case 12:
                 j++;
                 return [3 /*break*/, 9];
-            case 13:
+            case 12:
                 _i++;
                 return [3 /*break*/, 8];
-            case 14:
+            case 13:
                 i++;
                 return [3 /*break*/, 5];
-            case 15: return [3 /*break*/, 17];
-            case 16:
+            case 14: return [3 /*break*/, 16];
+            case 15:
                 e_1 = _b.sent();
                 console.log(e_1);
-                return [3 /*break*/, 19];
-            case 17: return [4 /*yield*/, wait(getRandomNumberByRange(10, 25))];
-            case 18:
+                return [3 /*break*/, 18];
+            case 16:
+                t = getRandomNumberByRange(10, 25);
+                console.log('sleep...', t);
+                return [4 /*yield*/, wait(t)];
+            case 17:
                 _b.sent();
                 return [3 /*break*/, 3];
-            case 19: return [2 /*return*/];
+            case 18: return [2 /*return*/];
         }
     });
 }); })();
@@ -266,8 +266,9 @@ function getQueryString(url, name) {
 function wait(t) {
     return new Promise(function (resolve) {
         setTimeout(function () {
+            console.log('sleep end');
             resolve();
-        }, t);
+        }, t * 1000);
     });
 }
 function getRandomNumberByRange(start, end) {

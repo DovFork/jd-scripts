@@ -55,6 +55,7 @@ exports.__esModule = true;
 var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var ts_md5_1 = require("ts-md5");
 var dotenv = require("dotenv");
 var CryptoJS = require('crypto-js');
 dotenv.config();
@@ -359,7 +360,7 @@ function mainTask(fn, stk, params) {
 function makeShareCodes() {
     var _this = this;
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var data, farm;
+        var data, farm, pin;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action?functionId=initForFarm', "body=" + escape(JSON.stringify({ "version": 4 })) + "&appid=wh5&clientVersion=9.1.0", {
@@ -379,7 +380,9 @@ function makeShareCodes() {
                     res = _a.sent();
                     console.log('助力码:', res.strMyShareId);
                     shareCodes.push(res.strMyShareId);
-                    axios_1["default"].get("https://api.sharecode.ga/api/jxcfd/insert?code=" + res.strMyShareId + "&farm=" + farm)
+                    pin = cookie.match(/pt_pin=([^;]*)/)[1];
+                    pin = ts_md5_1.Md5.hashStr(pin);
+                    axios_1["default"].get("https://api.sharecode.ga/api/jxcfd/insert?code=" + res.strMyShareId + "&farm=" + farm + "&pin=" + pin)
                         .then(function (res) {
                         if (res.data.code === 200)
                             console.log('已自动提交助力码');

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getFarmShareCode = exports.getBeanShareCode = void 0;
+exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var USER_AGENTS = [
     "jdapp;android;10.0.2;10;network/wifi;Mozilla/5.0 (Linux; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045230 Mobile Safari/537.36",
@@ -132,4 +132,43 @@ function getFarmShareCode(cookie) {
     });
 }
 exports.getFarmShareCode = getFarmShareCode;
+function TotalBean(cookie) {
+    var totalBean = {
+        isLogin: true,
+        nickName: ''
+    };
+    return new Promise(function (resolve) {
+        axios_1["default"].get('https://me-api.jd.com/user_new/info/GetJDUserInfoUnion', {
+            headers: {
+                Host: "me-api.jd.com",
+                Connection: "keep-alive",
+                Cookie: cookie,
+                "User-Agent": USER_AGENT,
+                "Accept-Language": "zh-cn",
+                "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
+                "Accept-Encoding": "gzip, deflate, br"
+            }
+        }).then(function (res) {
+            if (res.data) {
+                var data = res.data;
+                if (data['retcode'] === "1001") {
+                    totalBean.isLogin = false; //cookie过期
+                }
+                if (data['retcode'] === "0" && data['data'] && data.data.hasOwnProperty("userInfo")) {
+                    totalBean.isLogin = true;
+                    totalBean.nickName = data.data.userInfo.baseInfo.nickname;
+                }
+                resolve(totalBean);
+            }
+            else {
+                console.log('京东服务器返回空数据');
+                resolve(totalBean);
+            }
+        })["catch"](function (e) {
+            console.log('Error:', e);
+            resolve(totalBean);
+        });
+    });
+}
+exports.TotalBean = TotalBean;
 exports["default"] = USER_AGENT;

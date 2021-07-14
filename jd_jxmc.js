@@ -50,43 +50,45 @@ exports.__esModule = true;
 var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var TS_USER_AGENTS_2 = require("./TS_USER_AGENTS");
 var ts_md5_1 = require("ts-md5");
 var CryptoJS = require('crypto-js');
+var notify = require('./sendNotify');
 var appId = 10028, fingerprint, token, enCryptMethodJD;
 var cookie = '', cookiesArr = [], res = '', shareCodes = [];
 var homePageInfo;
-var UserName, index, isLogin, nickName;
+var UserName, index;
 var HELP_HW = process.env.HELP_HW ? process.env.HELP_HW : "true";
 console.log('帮助HelloWorld:', HELP_HW);
 var HELP_POOL = process.env.HELP_POOL ? process.env.HELP_POOL : "true";
 console.log('帮助助力池:', HELP_POOL);
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, food, petid, coins, e_1, _i, _a, day, taskRetCode, e_2, e_3, data, e_4, i, j;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var i, _a, isLogin, nickName, food, petid, coins, e_1, _i, _b, day, taskRetCode, e_2, e_3, data, e_4, i, j;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
-                _b.sent();
+                _c.sent();
                 return [4 /*yield*/, requireConfig()];
             case 2:
-                _b.sent();
+                _c.sent();
                 i = 0;
-                _b.label = 3;
+                _c.label = 3;
             case 3:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 52];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                isLogin = true;
-                nickName = '';
-                return [4 /*yield*/, TotalBean()];
+                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
             case 4:
-                _b.sent();
+                _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
+                if (!isLogin) {
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    return [3 /*break*/, 51];
+                }
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
                 return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'channel,isgift,sceneid', { isgift: 0 })];
             case 5:
-                homePageInfo = _b.sent();
+                homePageInfo = _c.sent();
                 food = 0;
                 try {
                     food = homePageInfo.data.materialinfo[0].value;
@@ -99,15 +101,15 @@ console.log('帮助助力池:', HELP_POOL);
                 coins = homePageInfo.data.coins;
                 console.log('助力码：', homePageInfo.data.sharekey);
                 shareCodes.push(homePageInfo.data.sharekey);
-                _b.label = 6;
+                _c.label = 6;
             case 6:
-                _b.trys.push([6, 8, , 9]);
+                _c.trys.push([6, 8, , 9]);
                 return [4 /*yield*/, makeShareCodes(homePageInfo.data.sharekey)];
             case 7:
-                _b.sent();
+                _c.sent();
                 return [3 /*break*/, 9];
             case 8:
-                e_1 = _b.sent();
+                e_1 = _c.sent();
                 console.log(e_1);
                 return [3 /*break*/, 9];
             case 9:
@@ -116,17 +118,17 @@ console.log('帮助助力池:', HELP_POOL);
                 return [4 /*yield*/, api('queryservice/GetSignInfo', 'channel,sceneid')];
             case 10:
                 // 签到
-                res = _b.sent();
+                res = _c.sent();
                 if (!res.data.signlist) return [3 /*break*/, 15];
-                _i = 0, _a = res.data.signlist;
-                _b.label = 11;
+                _i = 0, _b = res.data.signlist;
+                _c.label = 11;
             case 11:
-                if (!(_i < _a.length)) return [3 /*break*/, 14];
-                day = _a[_i];
+                if (!(_i < _b.length)) return [3 /*break*/, 14];
+                day = _b[_i];
                 if (!(day.fortoday && !day.hasdone)) return [3 /*break*/, 13];
                 return [4 /*yield*/, api('operservice/GetSignReward', 'channel,currdate,sceneid', { currdate: res.data.currdate })];
             case 12:
-                res = _b.sent();
+                res = _c.sent();
                 if (res.ret === 0) {
                     console.log('签到成功!');
                 }
@@ -140,20 +142,20 @@ console.log('帮助助力池:', HELP_POOL);
             case 14: return [3 /*break*/, 16];
             case 15:
                 console.log('没有获取到签到信息！');
-                _b.label = 16;
+                _c.label = 16;
             case 16:
                 taskRetCode = 0;
-                _b.label = 17;
+                _c.label = 17;
             case 17:
                 if (!(taskRetCode === 0)) return [3 /*break*/, 22];
                 return [4 /*yield*/, getTask()];
             case 18:
-                taskRetCode = _b.sent();
+                taskRetCode = _c.sent();
                 console.log('taskRetCode:', taskRetCode);
                 if (!(taskRetCode === 0)) return [3 /*break*/, 20];
                 return [4 /*yield*/, wait(4000)];
             case 19:
-                _b.sent();
+                _c.sent();
                 return [3 /*break*/, 21];
             case 20: return [3 /*break*/, 22];
             case 21: return [3 /*break*/, 17];
@@ -161,7 +163,7 @@ console.log('帮助助力池:', HELP_POOL);
                 if (!(coins >= 5000 && food <= 500)) return [3 /*break*/, 25];
                 return [4 /*yield*/, api('operservice/Buy', 'channel,sceneid,type', { type: '1' })];
             case 23:
-                res = _b.sent();
+                res = _c.sent();
                 if (res.ret === 0) {
                     console.log('买草成功:', res.data.newnum);
                     coins -= 5000;
@@ -173,17 +175,17 @@ console.log('帮助助力池:', HELP_POOL);
                 }
                 return [4 /*yield*/, wait(1500)];
             case 24:
-                _b.sent();
+                _c.sent();
                 return [3 /*break*/, 22];
             case 25: return [4 /*yield*/, wait(2000)];
             case 26:
-                _b.sent();
-                _b.label = 27;
+                _c.sent();
+                _c.label = 27;
             case 27:
                 if (!(food >= 10)) return [3 /*break*/, 35];
                 return [4 /*yield*/, api('operservice/Feed', 'channel,sceneid')];
             case 28:
-                res = _b.sent();
+                res = _c.sent();
                 if (!(res.ret === 0)) return [3 /*break*/, 29];
                 food -= 10;
                 console.log('剩余草:', res.data.newnum);
@@ -194,64 +196,64 @@ console.log('帮助助力池:', HELP_POOL);
                 console.log('收🥚');
                 return [4 /*yield*/, api('operservice/GetSelfResult', 'channel,itemid,sceneid,type', { petid: petid, type: '11' })];
             case 30:
-                res = _b.sent();
+                res = _c.sent();
                 if (res.ret === 0) {
                     console.log('收🥚成功:', res.data.newnum);
                 }
-                _b.label = 31;
+                _c.label = 31;
             case 31: return [3 /*break*/, 33];
             case 32:
                 console.log(res);
                 return [3 /*break*/, 35];
             case 33: return [4 /*yield*/, wait(4000)];
             case 34:
-                _b.sent();
+                _c.sent();
                 return [3 /*break*/, 27];
             case 35: return [4 /*yield*/, wait(2000)];
             case 36:
-                _b.sent();
-                _b.label = 37;
+                _c.sent();
+                _c.label = 37;
             case 37:
                 if (!1) return [3 /*break*/, 43];
-                _b.label = 38;
+                _c.label = 38;
             case 38:
-                _b.trys.push([38, 41, , 42]);
+                _c.trys.push([38, 41, , 42]);
                 return [4 /*yield*/, api('operservice/Action', 'channel,sceneid,type', { type: '2' })];
             case 39:
-                res = _b.sent();
+                res = _c.sent();
                 if (res.data.addcoins === 0)
                     return [3 /*break*/, 43];
                 console.log('锄草:', res.data.addcoins);
                 return [4 /*yield*/, wait(1500)];
             case 40:
-                _b.sent();
+                _c.sent();
                 return [3 /*break*/, 42];
             case 41:
-                e_2 = _b.sent();
+                e_2 = _c.sent();
                 console.log('Error:', e_2);
                 return [3 /*break*/, 43];
             case 42: return [3 /*break*/, 37];
             case 43: return [4 /*yield*/, wait(2000)];
             case 44:
-                _b.sent();
-                _b.label = 45;
+                _c.sent();
+                _c.label = 45;
             case 45:
                 if (!1) return [3 /*break*/, 51];
-                _b.label = 46;
+                _c.label = 46;
             case 46:
-                _b.trys.push([46, 49, , 50]);
+                _c.trys.push([46, 49, , 50]);
                 return [4 /*yield*/, api('operservice/Action', 'channel,sceneid,type', { type: '1', petid: petid })];
             case 47:
-                res = _b.sent();
+                res = _c.sent();
                 if (res.data.addcoins === 0)
                     return [3 /*break*/, 51];
                 console.log('挑逗:', res.data.addcoins);
                 return [4 /*yield*/, wait(1500)];
             case 48:
-                _b.sent();
+                _c.sent();
                 return [3 /*break*/, 50];
             case 49:
-                e_3 = _b.sent();
+                e_3 = _c.sent();
                 console.log('Error:', e_3);
                 return [3 /*break*/, 51];
             case 50: return [3 /*break*/, 45];
@@ -260,37 +262,37 @@ console.log('帮助助力池:', HELP_POOL);
                 return [3 /*break*/, 3];
             case 52:
                 if (!(HELP_POOL === 'true')) return [3 /*break*/, 57];
-                _b.label = 53;
+                _c.label = 53;
             case 53:
-                _b.trys.push([53, 55, , 56]);
+                _c.trys.push([53, 55, , 56]);
                 return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxmc/6')];
             case 54:
-                data = (_b.sent()).data;
+                data = (_c.sent()).data;
                 console.log('获取到20个随机助力码:', data.data);
                 shareCodes = __spreadArray(__spreadArray([], shareCodes), data.data);
                 return [3 /*break*/, 56];
             case 55:
-                e_4 = _b.sent();
+                e_4 = _c.sent();
                 console.log('获取助力池失败');
                 return [3 /*break*/, 56];
             case 56: return [3 /*break*/, 58];
             case 57:
                 console.log('你的设置是不帮助助力池！');
-                _b.label = 58;
+                _c.label = 58;
             case 58:
                 i = 0;
-                _b.label = 59;
+                _c.label = 59;
             case 59:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 65];
                 cookie = cookiesArr[i];
                 j = 0;
-                _b.label = 60;
+                _c.label = 60;
             case 60:
                 if (!(j < shareCodes.length)) return [3 /*break*/, 64];
                 console.log("\u8D26\u53F7" + (i + 1) + "\u53BB\u52A9\u529B" + shareCodes[j]);
                 return [4 /*yield*/, api('operservice/EnrollFriend', 'channel,sceneid,sharekey', { sharekey: shareCodes[j] })];
             case 61:
-                res = _b.sent();
+                res = _c.sent();
                 if (res.data.result === 1) {
                     console.log('不助力自己');
                 }
@@ -303,8 +305,8 @@ console.log('帮助助力池:', HELP_POOL);
                 }
                 return [4 /*yield*/, wait(1000)];
             case 62:
-                _b.sent();
-                _b.label = 63;
+                _c.sent();
+                _c.label = 63;
             case 63:
                 j++;
                 return [3 /*break*/, 60];
@@ -359,13 +361,13 @@ function api(fn, stk, params) {
 function getTask() {
     var _this = this;
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var tasks, doTaskRes, code, _i, _a, t, awardCoin;
+        var tasks, doTaskRes, _i, _a, t, awardCoin;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, taskAPI('GetUserTaskStatusList', 'bizCode,dateType,source')];
                 case 1:
                     tasks = _b.sent();
-                    doTaskRes = { ret: 1 }, code = 1;
+                    doTaskRes = { ret: 1 };
                     _i = 0, _a = tasks.data.userTaskStatusList;
                     _b.label = 2;
                 case 2:
@@ -455,10 +457,10 @@ function makeShareCodes(code) {
         var bean, farm, pin;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, TS_USER_AGENTS_2.getBeanShareCode(cookie)];
+                case 0: return [4 /*yield*/, TS_USER_AGENTS_1.getBeanShareCode(cookie)];
                 case 1:
                     bean = _a.sent();
-                    return [4 /*yield*/, TS_USER_AGENTS_2.getFarmShareCode(cookie)];
+                    return [4 /*yield*/, TS_USER_AGENTS_1.getFarmShareCode(cookie)];
                 case 2:
                     farm = _a.sent();
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
@@ -470,7 +472,7 @@ function makeShareCodes(code) {
                             else
                                 console.log('提交失败！已提交farm的cookie才可提交cfd');
                             resolve(200);
-                        })["catch"](function (e) {
+                        })["catch"](function () {
                             reject('访问助力池出错');
                         })];
                 case 3:
@@ -569,42 +571,6 @@ function requireConfig() {
         console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
         resolve();
     });
-}
-function TotalBean() {
-    var _this = this;
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            axios_1["default"].get('https://me-api.jd.com/user_new/info/GetJDUserInfoUnion', {
-                headers: {
-                    Host: "me-api.jd.com",
-                    Connection: "keep-alive",
-                    Cookie: cookie,
-                    "User-Agent": TS_USER_AGENTS_1["default"],
-                    "Accept-Language": "zh-cn",
-                    "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
-                    "Accept-Encoding": "gzip, deflate, br"
-                }
-            }).then(function (res) {
-                if (res.data) {
-                    var data = res.data;
-                    if (data['retcode'] === "1001") {
-                        isLogin = false; //cookie过期
-                        return;
-                    }
-                    if (data['retcode'] === "0" && data['data'] && data.data.hasOwnProperty("userInfo")) {
-                        nickName = data.data.userInfo.baseInfo.nickname;
-                    }
-                }
-                else {
-                    console.log('京东服务器返回空数据');
-                }
-            })["catch"](function (e) {
-                console.log('Error:', e);
-            });
-            resolve();
-            return [2 /*return*/];
-        });
-    }); });
 }
 function generateFp() {
     var e = "0123456789";

@@ -54,15 +54,15 @@ var cookie = '', cookiesArr = [], res = '';
 process.env.CFD_LOOP_DELAY ? console.log('设置延迟:', parseInt(process.env.CFD_LOOP_DELAY)) : console.log('设置延迟:10000~25000随机');
 var UserName, index, isLogin, nickName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var filename, stream, fsHash, i, shell, _i, _a, s, j, e_1, t;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var filename, stream, fsHash, i, _a, isLogin_1, nickName_1, shell, _i, _b, s, j, e_1, t;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
-                _b.sent();
+                _c.sent();
                 return [4 /*yield*/, requireConfig()];
             case 2:
-                _b.sent();
+                _c.sent();
                 filename = __filename.split('/').pop();
                 stream = fs.createReadStream(filename);
                 fsHash = crypto.createHash('md5');
@@ -88,76 +88,81 @@ var UserName, index, isLogin, nickName;
                     })["catch"](function (e) {
                     });
                 });
-                _b.label = 3;
+                _c.label = 3;
             case 3:
-                if (!1) return [3 /*break*/, 19];
-                _b.label = 4;
+                if (!1) return [3 /*break*/, 20];
+                _c.label = 4;
             case 4:
-                _b.trys.push([4, 16, , 17]);
+                _c.trys.push([4, 17, , 18]);
                 i = 0;
-                _b.label = 5;
+                _c.label = 5;
             case 5:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 15];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 16];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                isLogin = true;
-                nickName = '';
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
+                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
             case 6:
-                res = _b.sent();
+                _a = _c.sent(), isLogin_1 = _a.isLogin, nickName_1 = _a.nickName;
+                if (!isLogin_1) {
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName_1 || UserName));
+                    return [3 /*break*/, 15];
+                }
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName_1 || UserName) + "\n");
+                return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
+            case 7:
+                res = _c.sent();
                 if (res.iRet !== 0) {
                     console.log('去手动新手教程');
-                    return [3 /*break*/, 14];
+                    return [3 /*break*/, 15];
                 }
                 console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20);
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
-            case 7:
-                shell = _b.sent();
-                if (!shell.Data.hasOwnProperty('NormShell')) return [3 /*break*/, 14];
-                _i = 0, _a = shell.Data.NormShell;
-                _b.label = 8;
             case 8:
-                if (!(_i < _a.length)) return [3 /*break*/, 14];
-                s = _a[_i];
-                j = 0;
-                _b.label = 9;
+                shell = _c.sent();
+                if (!shell.Data.hasOwnProperty('NormShell')) return [3 /*break*/, 15];
+                _i = 0, _b = shell.Data.NormShell;
+                _c.label = 9;
             case 9:
-                if (!(j < s.dwNum)) return [3 /*break*/, 13];
-                return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)];
+                if (!(_i < _b.length)) return [3 /*break*/, 15];
+                s = _b[_i];
+                j = 0;
+                _c.label = 10;
             case 10:
-                res = _b.sent();
+                if (!(j < s.dwNum)) return [3 /*break*/, 14];
+                return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)];
+            case 11:
+                res = _c.sent();
                 if (res.iRet !== 0) {
                     console.log(res);
-                    return [3 /*break*/, 13];
+                    return [3 /*break*/, 14];
                 }
                 console.log('捡贝壳:', res.Data.strFirstDesc);
                 return [4 /*yield*/, wait(500)];
-            case 11:
-                _b.sent();
-                _b.label = 12;
             case 12:
-                j++;
-                return [3 /*break*/, 9];
+                _c.sent();
+                _c.label = 13;
             case 13:
-                _i++;
-                return [3 /*break*/, 8];
+                j++;
+                return [3 /*break*/, 10];
             case 14:
+                _i++;
+                return [3 /*break*/, 9];
+            case 15:
                 i++;
                 return [3 /*break*/, 5];
-            case 15: return [3 /*break*/, 17];
-            case 16:
-                e_1 = _b.sent();
-                console.log(e_1);
-                return [3 /*break*/, 19];
+            case 16: return [3 /*break*/, 18];
             case 17:
+                e_1 = _c.sent();
+                console.log(e_1);
+                return [3 /*break*/, 20];
+            case 18:
                 t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : getRandomNumberByRange(10000, 25000);
                 return [4 /*yield*/, wait(t)];
-            case 18:
-                _b.sent();
+            case 19:
+                _c.sent();
                 return [3 /*break*/, 3];
-            case 19: return [2 /*return*/];
+            case 20: return [2 /*return*/];
         }
     });
 }); })();

@@ -52,9 +52,9 @@ dotenv.config();
 var appId = 10028, fingerprint, token, enCryptMethodJD;
 var cookie = '', cookiesArr = [], res = '';
 process.env.CFD_LOOP_DELAY ? console.log('设置延迟:', parseInt(process.env.CFD_LOOP_DELAY)) : console.log('设置延迟:10000~25000随机');
-var UserName, index, isLogin, nickName;
+var UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var filename, stream, fsHash, i, _a, isLogin_1, nickName_1, shell, _i, _b, s, j, e_1, t;
+    var filename, stream, fsHash, i, _a, isLogin, nickName, shell, _i, _b, s, j, e_1, t;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
@@ -85,36 +85,36 @@ var UserName, index, isLogin, nickName;
                         else {
                             console.log('MD5校验通过！');
                         }
-                    })["catch"](function (e) {
+                    })["catch"](function () {
                     });
                 });
                 _c.label = 3;
             case 3:
                 if (!1) return [3 /*break*/, 20];
+                i = 0;
                 _c.label = 4;
             case 4:
-                _c.trys.push([4, 17, , 18]);
-                i = 0;
-                _c.label = 5;
-            case 5:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 16];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 18];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
-            case 6:
-                _a = _c.sent(), isLogin_1 = _a.isLogin, nickName_1 = _a.nickName;
-                if (!isLogin_1) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName_1 || UserName));
-                    return [3 /*break*/, 15];
+            case 5:
+                _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
+                if (!isLogin) {
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    return [3 /*break*/, 17];
                 }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName_1 || UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                _c.label = 6;
+            case 6:
+                _c.trys.push([6, 16, , 17]);
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
             case 7:
                 res = _c.sent();
                 if (res.iRet !== 0) {
                     console.log('去手动新手教程');
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 17];
                 }
                 console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20);
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
@@ -148,14 +148,14 @@ var UserName, index, isLogin, nickName;
             case 14:
                 _i++;
                 return [3 /*break*/, 9];
-            case 15:
-                i++;
-                return [3 /*break*/, 5];
-            case 16: return [3 /*break*/, 18];
-            case 17:
+            case 15: return [3 /*break*/, 17];
+            case 16:
                 e_1 = _c.sent();
                 console.log(e_1);
-                return [3 /*break*/, 20];
+                return [3 /*break*/, 17];
+            case 17:
+                i++;
+                return [3 /*break*/, 4];
             case 18:
                 t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : getRandomNumberByRange(10000, 25000);
                 return [4 /*yield*/, wait(t)];
@@ -196,7 +196,7 @@ function speedUp(stk, dwType) {
                     return [3 /*break*/, 4];
                 case 3:
                     e_2 = _a.sent();
-                    reject(e_2);
+                    reject(502);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }

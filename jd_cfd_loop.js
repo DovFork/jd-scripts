@@ -128,8 +128,10 @@ var UserName, index, isLogin, nickName;
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)];
             case 10:
                 res = _b.sent();
-                if (res.iRet !== 0)
+                if (res.iRet !== 0) {
+                    console.log(res);
                     return [3 /*break*/, 13];
+                }
                 console.log('捡贝壳:', res.Data.strFirstDesc);
                 return [4 /*yield*/, wait(500)];
             case 11:

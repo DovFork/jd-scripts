@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var USER_AGENTS = [
     "jdapp;android;10.0.2;10;network/wifi;Mozilla/5.0 (Linux; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045230 Mobile Safari/537.36",
@@ -172,4 +172,19 @@ function TotalBean(cookie) {
     });
 }
 exports.TotalBean = TotalBean;
+function requireConfig() {
+    var cookiesArr = [];
+    return new Promise(function (resolve) {
+        console.log('开始获取配置文件\n');
+        var jdCookieNode = require('./jdCookie.js');
+        Object.keys(jdCookieNode).forEach(function (item) {
+            if (jdCookieNode[item]) {
+                cookiesArr.push(jdCookieNode[item]);
+            }
+        });
+        console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
+        resolve(cookiesArr);
+    });
+}
+exports.requireConfig = requireConfig;
 exports["default"] = USER_AGENT;

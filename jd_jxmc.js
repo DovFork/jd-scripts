@@ -265,7 +265,7 @@ console.log('帮助助力池:', HELP_POOL);
                 _c.label = 53;
             case 53:
                 _c.trys.push([53, 55, , 56]);
-                return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxmc/6')];
+                return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxmc/6', { timeout: 3000 })];
             case 54:
                 data = (_c.sent()).data;
                 console.log('获取到20个随机助力码:', data.data);
@@ -465,7 +465,7 @@ function makeShareCodes(code) {
                     farm = _a.sent();
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/autoInsert?db=jxmc&code=" + code + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin)
+                    return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/autoInsert?db=jxmc&code=" + code + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 3000 })
                             .then(function (res) {
                             if (res.data.code === 200)
                                 console.log('已自动提交助力码');

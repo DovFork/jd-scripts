@@ -68,15 +68,15 @@ var HELP_POOL = process.env.HELP_POOL ? process.env.HELP_POOL : "true";
 console.log('帮助助力池:', HELP_POOL);
 var UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, _a, isLogin, nickName, e_1, strDT, strMyShareId, i_1, RealTmReport, j, _i, _b, stage, awardRes, employee, _c, employee_1, emp, empRes, _d, _e, sign, shipRes, bags, _f, _g, s, strTypeCnt, n, tasks, _h, _j, t, _k, _l, e, employ, _m, _o, t, _p, _q, b, data, e_2, data, e_3, i, j;
+    var cookiesArr, i, _a, isLogin, nickName, e_1, strDT, strMyShareId, i_1, RealTmReport, j, _i, _b, stage, awardRes, employee, _c, employee_1, emp, empRes, _d, _e, sign, shipRes, bags, _f, _g, s, strTypeCnt, n, tasks, _h, _j, t, _k, _l, e, employ, _m, _o, t, _p, _q, b, data, e_2, data, e_3, i, j;
     return __generator(this, function (_r) {
         switch (_r.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
                 _r.sent();
-                return [4 /*yield*/, requireConfig()];
+                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
             case 2:
-                _r.sent();
+                cookiesArr = _r.sent();
                 i = 0;
                 _r.label = 3;
             case 3:
@@ -114,7 +114,7 @@ var UserName, index;
             case 10:
                 if (!(i_1 < 8 - res.dwCurProgress)) return [3 /*break*/, 19];
                 console.log('继续合成');
-                RealTmReport = getRandomNumberByRange(10, 20);
+                RealTmReport = TS_USER_AGENTS_1.getRandomNumberByRange(10, 20);
                 console.log('本次合成需要上报：', RealTmReport);
                 j = 0;
                 _r.label = 11;
@@ -125,7 +125,7 @@ var UserName, index;
                 res = _r.sent();
                 if (res.iRet === 0)
                     console.log("\u6E38\u620F\u4E2D\u9014\u4E0A\u62A5" + (j + 1) + "\uFF1AOK");
-                return [4 /*yield*/, wait(5000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(5000)];
             case 13:
                 _r.sent();
                 _r.label = 14;
@@ -137,7 +137,7 @@ var UserName, index;
                 res = _r.sent();
                 console.log('游戏完成，已合成', res.dwCurProgress);
                 console.log('游戏完成，等待3s');
-                return [4 /*yield*/, wait(3000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
             case 17:
                 _r.sent();
                 _r.label = 18;
@@ -157,8 +157,9 @@ var UserName, index;
                 return [4 /*yield*/, api('user/ComposeGameAward', '__t,dwCurStageEndCnt,strZone', { __t: Date.now(), dwCurStageEndCnt: stage.dwCurStageEndCnt })];
             case 22:
                 awardRes = _r.sent();
-                console.log('珍珠领奖：', awardRes.ddwCoin);
-                return [4 /*yield*/, wait(3000)];
+                console.log(awardRes);
+                console.log('珍珠领奖：', awardRes.ddwCoin, awardRes.addMonety);
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
             case 23:
                 _r.sent();
                 _r.label = 24;
@@ -182,7 +183,7 @@ var UserName, index;
                 empRes = _r.sent();
                 if (empRes.iRet === 0)
                     console.log('助力奖励领取成功：', empRes.Data.ddwCoin);
-                return [4 /*yield*/, wait(1000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
             case 29:
                 _r.sent();
                 _r.label = 30;
@@ -219,7 +220,7 @@ var UserName, index;
                 shipRes = _r.sent();
                 console.log(shipRes);
                 console.log('正在下船，等待30s');
-                return [4 /*yield*/, wait(30000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(30000)];
             case 38:
                 _r.sent();
                 return [4 /*yield*/, api('story/SpecialUserOper', '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType', { strStoryId: res.StoryInfo.StoryList[0].strStoryId, dwType: '3', triggerType: 0, ddwTriggerDay: res.StoryInfo.StoryList[0].ddwTriggerDay })];
@@ -246,7 +247,7 @@ var UserName, index;
                     bags.push(s.dwType);
                     bags.push(s.dwCount);
                 }
-                return [4 /*yield*/, wait(1000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
             case 43:
                 _r.sent();
                 strTypeCnt = '';
@@ -288,7 +289,7 @@ var UserName, index;
                 if (res.ret === 0) {
                     console.log(t.strTaskName + "\u9886\u5956\u6210\u529F:", res.data.prizeInfo);
                 }
-                return [4 /*yield*/, wait(1000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
             case 52:
                 _r.sent();
                 _r.label = 53;
@@ -316,7 +317,7 @@ var UserName, index;
                     console.log("\u96C7\u4F63" + e.strBuildIndex + "\u5BFC\u6E38\u6210\u529F");
                 if (employ.iRet === 2003)
                     return [3 /*break*/, 61];
-                return [4 /*yield*/, wait(1000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
             case 59:
                 _r.sent();
                 _r.label = 60;
@@ -342,7 +343,7 @@ var UserName, index;
                 if (res.ret === 0) {
                     console.log(t.taskName + "\u9886\u5956\u6210\u529F:", res.data.prizeInfo);
                 }
-                return [4 /*yield*/, wait(2000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
             case 65:
                 _r.sent();
                 return [3 /*break*/, 69];
@@ -353,7 +354,7 @@ var UserName, index;
             case 67:
                 res = _r.sent();
                 console.log('做任务:', res);
-                return [4 /*yield*/, wait(5000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(5000)];
             case 68:
                 _r.sent();
                 _r.label = 69;
@@ -370,7 +371,7 @@ var UserName, index;
             case 72:
                 res = _r.sent();
                 console.log(b + "\u5347\u7EA7\u9700\u8981:", res.ddwNextLvlCostCoin);
-                return [4 /*yield*/, wait(1000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
             case 73:
                 _r.sent();
                 if (!(res.dwCanLvlUp === 1)) return [3 /*break*/, 76];
@@ -379,7 +380,7 @@ var UserName, index;
                 res = _r.sent();
                 if (!(res.iRet === 0)) return [3 /*break*/, 76];
                 console.log("\u5347\u7EA7\u6210\u529F");
-                return [4 /*yield*/, wait(2000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
             case 75:
                 _r.sent();
                 _r.label = 76;
@@ -387,7 +388,7 @@ var UserName, index;
             case 77:
                 res = _r.sent();
                 console.log(b + "\u6536\u91D1\u5E01:", res.ddwCoin);
-                return [4 /*yield*/, wait(1000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
             case 78:
                 _r.sent();
                 _r.label = 79;
@@ -402,7 +403,7 @@ var UserName, index;
                 _r.label = 82;
             case 82:
                 _r.trys.push([82, 84, , 85]);
-                return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/HW_CODES", { timeout: 3000 })];
+                return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/HW_CODES")];
             case 83:
                 data = (_r.sent()).data;
                 shareCodes = __spreadArray(__spreadArray([], shareCodes), data.jxcfd);
@@ -417,7 +418,7 @@ var UserName, index;
                 _r.label = 86;
             case 86:
                 _r.trys.push([86, 88, , 89]);
-                return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxcfd/20', { timeout: 3000 })];
+                return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxcfd/20')];
             case 87:
                 data = (_r.sent()).data;
                 console.log('获取到20个随机助力码:', data.data);
@@ -449,7 +450,7 @@ var UserName, index;
                 if (res.iRet === 2232 || res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
                     return [3 /*break*/, 97];
                 }
-                return [4 /*yield*/, wait(3000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
             case 95:
                 _r.sent();
                 _r.label = 96;
@@ -553,7 +554,7 @@ function makeShareCodes() {
                     shareCodes.push(res.strMyShareId);
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
-                    axios_1["default"].get("https://api.sharecode.ga/api/autoInsert?db=jxcfd&code=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 3000 })
+                    axios_1["default"].get("https://api.sharecode.ga/api/autoInsert?db=jxcfd&code=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin)
                         .then(function (res) {
                         if (res.data.code === 200)
                             console.log('已自动提交助力码');
@@ -561,7 +562,6 @@ function makeShareCodes() {
                             console.log('提交失败！已提交farm和bean的cookie才可提交cfd');
                         resolve();
                     })["catch"](function (e) {
-                        console.log(e);
                         reject('访问助力池出错');
                     });
                     return [2 /*return*/];
@@ -647,19 +647,6 @@ function decrypt(stk, url) {
     var hash2 = CryptoJS.HmacSHA256(st, hash1.toString()).toString(CryptoJS.enc.Hex);
     return encodeURIComponent(["".concat(timestamp.toString()), "".concat(fingerprint.toString()), "".concat(appId.toString()), "".concat(token), "".concat(hash2)].join(";"));
 }
-function requireConfig() {
-    return new Promise(function (resolve) {
-        console.log('开始获取配置文件\n');
-        var jdCookieNode = require('./jdCookie.js');
-        Object.keys(jdCookieNode).forEach(function (item) {
-            if (jdCookieNode[item]) {
-                cookiesArr.push(jdCookieNode[item]);
-            }
-        });
-        console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
-        resolve();
-    });
-}
 function generateFp() {
     var e = "0123456789";
     var a = 13;
@@ -674,14 +661,4 @@ function getQueryString(url, name) {
     if (r != null)
         return unescape(r[2]);
     return '';
-}
-function wait(t) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            resolve();
-        }, t);
-    });
-}
-function getRandomNumberByRange(start, end) {
-    return Math.floor(Math.random() * (end - start) + start);
 }

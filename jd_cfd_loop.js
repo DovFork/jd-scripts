@@ -50,19 +50,19 @@ var fs = require('fs');
 var notify = require('./sendNotify');
 dotenv.config();
 var appId = 10028, fingerprint, token, enCryptMethodJD;
-var cookie = '', cookiesArr = [], res = '';
+var cookie = '', res = '';
 process.env.CFD_LOOP_DELAY ? console.log('设置延迟:', parseInt(process.env.CFD_LOOP_DELAY)) : console.log('设置延迟:10000~25000随机');
 var UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var filename, stream, fsHash, i, _a, isLogin, nickName, shell, _i, _b, s, j, e_1, t;
+    var cookiesArr, filename, stream, fsHash, i, _a, isLogin, nickName, shell, _i, _b, s, j, e_1, t;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
                 _c.sent();
-                return [4 /*yield*/, requireConfig()];
+                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
             case 2:
-                _c.sent();
+                cookiesArr = _c.sent();
                 filename = __filename.split('/').pop();
                 stream = fs.createReadStream(filename);
                 fsHash = crypto.createHash('md5');
@@ -113,7 +113,7 @@ var UserName, index;
             case 7:
                 res = _c.sent();
                 if (res.iRet !== 0) {
-                    console.log('去手动新手教程');
+                    console.log('手动建造4个房子');
                     return [3 /*break*/, 17];
                 }
                 console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20);
@@ -138,7 +138,7 @@ var UserName, index;
                     return [3 /*break*/, 14];
                 }
                 console.log('捡贝壳:', res.Data.strFirstDesc);
-                return [4 /*yield*/, wait(500)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(500)];
             case 12:
                 _c.sent();
                 _c.label = 13;
@@ -157,8 +157,8 @@ var UserName, index;
                 i++;
                 return [3 /*break*/, 4];
             case 18:
-                t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : getRandomNumberByRange(10000, 25000);
-                return [4 /*yield*/, wait(t)];
+                t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : TS_USER_AGENTS_1.getRandomNumberByRange(1000 * 10, 1000 * 30);
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(t)];
             case 19:
                 _c.sent();
                 return [3 /*break*/, 3];
@@ -280,19 +280,6 @@ function decrypt(stk, url) {
     var hash2 = CryptoJS.HmacSHA256(st, hash1.toString()).toString(CryptoJS.enc.Hex);
     return encodeURIComponent(["".concat(timestamp.toString()), "".concat(fingerprint.toString()), "".concat(appId.toString()), "".concat(token), "".concat(hash2)].join(";"));
 }
-function requireConfig() {
-    return new Promise(function (resolve) {
-        console.log('开始获取配置文件\n');
-        var jdCookieNode = require('./jdCookie.js');
-        Object.keys(jdCookieNode).forEach(function (item) {
-            if (jdCookieNode[item]) {
-                cookiesArr.push(jdCookieNode[item]);
-            }
-        });
-        console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
-        resolve();
-    });
-}
 function generateFp() {
     var e = "0123456789";
     var a = 13;
@@ -307,14 +294,4 @@ function getQueryString(url, name) {
     if (r != null)
         return unescape(r[2]);
     return '';
-}
-function wait(t) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            resolve();
-        }, t);
-    });
-}
-function getRandomNumberByRange(start, end) {
-    return Math.floor(Math.random() * (end - start) + start);
 }

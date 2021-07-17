@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var USER_AGENTS = [
     "jdapp;android;10.0.2;10;network/wifi;Mozilla/5.0 (Linux; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045230 Mobile Safari/537.36",
@@ -79,6 +79,7 @@ var USER_AGENTS = [
 function getRandomNumberByRange(start, end) {
     return Math.floor(Math.random() * (end - start) + start);
 }
+exports.getRandomNumberByRange = getRandomNumberByRange;
 var USER_AGENT = USER_AGENTS[getRandomNumberByRange(0, USER_AGENTS.length)];
 function getBeanShareCode(cookie) {
     var _a, _b;
@@ -187,4 +188,12 @@ function requireConfig() {
     });
 }
 exports.requireConfig = requireConfig;
+function wait(t) {
+    return new Promise(function (resolve) {
+        setTimeout(function () {
+            resolve();
+        }, t);
+    });
+}
+exports.wait = wait;
 exports["default"] = USER_AGENT;

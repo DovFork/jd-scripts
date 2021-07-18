@@ -37,13 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 /**
- *
- * Running time limit:
- * s >= 58 or s <= 30  => exchange()
- * s > 30 and s < 58  =>  wait...
- *
+ * 注意：
+ * 脚本不做等待限制
+ * cron触发后会立刻执行兑换
  */
 var axios_1 = require("axios");
+var date_fns_1 = require("date-fns");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var fs = require("fs");
 var notify = require('./sendNotify');
@@ -142,32 +141,32 @@ function init() {
 }
 function exchange(beanId) {
     var _this = this;
-    console.log('exchange()');
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var s, data;
+        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     if (!1) return [3 /*break*/, 4];
-                    s = new Date().getSeconds();
-                    if (!(s >= 58 || s <= 30)) return [3 /*break*/, 1];
+                    if (!(new Date().getSeconds() < 15)) return [3 /*break*/, 1];
                     return [3 /*break*/, 4];
-                case 1: return [4 /*yield*/, TS_USER_AGENTS_1.wait(500)];
+                case 1: return [4 /*yield*/, $.wait(100)];
                 case 2:
                     _a.sent();
                     _a.label = 3;
                 case 3: return [3 /*break*/, 0];
-                case 4: return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=qRKHmL4sna8ZOP9F&validate=" + validate, JSON.stringify({ "buyParam": { "orderSource": 'pet', "saleInfoId": beanId }, "deviceInfo": {} }), {
-                        headers: {
-                            "Host": "jdjoy.jd.com",
-                            "Accept-Language": "zh-cn",
-                            "Content-Type": "application/json",
-                            "Origin": "https://jdjoy.jd.com",
-                            "User-Agent": TS_USER_AGENTS_1["default"],
-                            "Referer": "https://jdjoy.jd.com/pet/index",
-                            "Cookie": cookie
-                        }
-                    })];
+                case 4:
+                    console.log('exchange()', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
+                    return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=qRKHmL4sna8ZOP9F&validate=" + validate, JSON.stringify({ "buyParam": { "orderSource": 'pet', "saleInfoId": beanId }, "deviceInfo": {} }), {
+                            headers: {
+                                "Host": "jdjoy.jd.com",
+                                "Accept-Language": "zh-cn",
+                                "Content-Type": "application/json",
+                                "Origin": "https://jdjoy.jd.com",
+                                "User-Agent": TS_USER_AGENTS_1["default"],
+                                "Referer": "https://jdjoy.jd.com/pet/index",
+                                "Cookie": cookie
+                            }
+                        })];
                 case 5:
                     data = (_a.sent()).data;
                     console.log(data);

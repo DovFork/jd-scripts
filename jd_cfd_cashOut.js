@@ -47,7 +47,7 @@ exports.__esModule = true;
 var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var jxtoken_1 = require("./tools/jxtoken");
+var jdJxToken_1 = require("./jdJxToken");
 var dotenv = require("dotenv");
 var CryptoJS = require('crypto-js');
 var notify = require('./sendNotify');
@@ -57,7 +57,7 @@ var cookie = '', res = '', UserName, index;
 var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : 10;
 var CFD_CASH_TOKEN = (_a = process.env.CFD_CASH_TOKEN) !== null && _a !== void 0 ? _a : [];
 if (CFD_CASH_TOKEN.length === 0) {
-    jxtoken_1["default"].map(function (value) {
+    jdJxToken_1["default"].map(function (value) {
         value.strPgtimestamp ? CFD_CASH_TOKEN.push(value) : '';
     });
 }

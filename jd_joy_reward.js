@@ -43,7 +43,7 @@ exports.__esModule = true;
  */
 var axios_1 = require("axios");
 var date_fns_1 = require("date-fns");
-var TS_USER_AGENTS_1 = require("./test/TS_USER_AGENTS");
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var fs = require("fs");
 var notify = require('./sendNotify');
 var cookie = '', validate = '', UserName, index;

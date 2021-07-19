@@ -38,15 +38,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 /**
  * 注意：
- * 脚本不做等待限制
- * cron触发后会立刻执行兑换
+ * 0～15秒才会进行兑换
+ * 16～59秒会进入死循环等待
  */
 var axios_1 = require("axios");
 var date_fns_1 = require("date-fns");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var TS_USER_AGENTS_1 = require("./test/TS_USER_AGENTS");
 var fs = require("fs");
 var notify = require('./sendNotify');
-var $ = {};
 var cookie = '', validate = '', UserName, index;
 var target = process.env.JD_JOY_REWARD_NAME ? parseInt(process.env.JD_JOY_REWARD_NAME) : 500;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -76,7 +75,7 @@ var target = process.env.JD_JOY_REWARD_NAME ? parseInt(process.env.JD_JOY_REWARD
                     notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
                     return [3 /*break*/, 8];
                 }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + $.index + "\u3011" + ($.nickName || $.UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
                 if (i < validate_arr.length)
                     validate = validate_arr[i];
                 else {
@@ -149,7 +148,7 @@ function exchange(beanId) {
                     if (!1) return [3 /*break*/, 4];
                     if (!(new Date().getSeconds() < 15)) return [3 /*break*/, 1];
                     return [3 /*break*/, 4];
-                case 1: return [4 /*yield*/, $.wait(100)];
+                case 1: return [4 /*yield*/, TS_USER_AGENTS_1.wait(100)];
                 case 2:
                     _a.sent();
                     _a.label = 3;

@@ -223,7 +223,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
             case 42:
                 res = _j.sent();
                 console.log('提现:', res);
-                return [3 /*break*/, 44];
+                _j.label = 43;
             case 43:
                 i++;
                 return [3 /*break*/, 3];

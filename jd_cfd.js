@@ -80,7 +80,7 @@ var UserName, index;
                 i = 0;
                 _r.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 86];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 82];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -89,7 +89,7 @@ var UserName, index;
                 _a = _r.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
                     notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                    return [3 /*break*/, 85];
+                    return [3 /*break*/, 81];
                 }
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
                 _r.label = 5;
@@ -387,102 +387,100 @@ var UserName, index;
                 _p = 0, _q = ['food', 'fun', 'shop', 'sea'];
                 _r.label = 76;
             case 76:
-                if (!(_p < _q.length)) return [3 /*break*/, 85];
+                if (!(_p < _q.length)) return [3 /*break*/, 81];
                 b = _q[_p];
                 return [4 /*yield*/, api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b })];
             case 77:
                 res = _r.sent();
                 console.log(b + "\u5347\u7EA7\u9700\u8981:", res.ddwNextLvlCostCoin);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, api('user/CollectCoin', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b, dwType: '1' })];
             case 78:
-                _r.sent();
-                if (!(res.dwCanLvlUp === 1)) return [3 /*break*/, 81];
-                return [4 /*yield*/, api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', { ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b })];
-            case 79:
-                res = _r.sent();
-                if (!(res.iRet === 0)) return [3 /*break*/, 81];
-                console.log("\u5347\u7EA7\u6210\u529F");
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
-            case 80:
-                _r.sent();
-                _r.label = 81;
-            case 81: return [4 /*yield*/, api('user/CollectCoin', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b, dwType: '1' })];
-            case 82:
+                /*
+                await wait(1000)
+                // 在提现时升级
+                if (res.dwCanLvlUp === 1) {
+                  res = await api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', {ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b})
+                  if (res.iRet === 0) {
+                    console.log(`升级成功`)
+                    await wait(2000)
+                  }
+                }
+                */
                 res = _r.sent();
                 console.log(b + "\u6536\u91D1\u5E01:", res.ddwCoin);
                 return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
-            case 83:
+            case 79:
                 _r.sent();
-                _r.label = 84;
-            case 84:
+                _r.label = 80;
+            case 80:
                 _p++;
                 return [3 /*break*/, 76];
-            case 85:
+            case 81:
                 i++;
                 return [3 /*break*/, 3];
-            case 86:
-                if (!(HELP_HW === 'true')) return [3 /*break*/, 90];
-                _r.label = 87;
-            case 87:
-                _r.trys.push([87, 89, , 90]);
+            case 82:
+                if (!(HELP_HW === 'true')) return [3 /*break*/, 86];
+                _r.label = 83;
+            case 83:
+                _r.trys.push([83, 85, , 86]);
                 return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/HW_CODES")];
-            case 88:
+            case 84:
                 data = (_r.sent()).data;
                 shareCodes = __spreadArray(__spreadArray([], shareCodes), data.jxcfd);
                 console.log('获取HelloWorld助力码成功');
-                return [3 /*break*/, 90];
-            case 89:
+                return [3 /*break*/, 86];
+            case 85:
                 e_2 = _r.sent();
                 console.log('获取HelloWorld助力码出错');
-                return [3 /*break*/, 90];
-            case 90:
-                if (!(HELP_POOL === 'true')) return [3 /*break*/, 95];
-                _r.label = 91;
-            case 91:
-                _r.trys.push([91, 93, , 94]);
+                return [3 /*break*/, 86];
+            case 86:
+                if (!(HELP_POOL === 'true')) return [3 /*break*/, 91];
+                _r.label = 87;
+            case 87:
+                _r.trys.push([87, 89, , 90]);
                 return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxcfd/20')];
-            case 92:
+            case 88:
                 data = (_r.sent()).data;
                 console.log('获取到20个随机助力码:', data.data);
                 shareCodes = __spreadArray(__spreadArray([], shareCodes), data.data);
-                return [3 /*break*/, 94];
-            case 93:
+                return [3 /*break*/, 90];
+            case 89:
                 e_3 = _r.sent();
                 console.log('获取助力池失败');
-                return [3 /*break*/, 94];
-            case 94: return [3 /*break*/, 96];
-            case 95:
+                return [3 /*break*/, 90];
+            case 90: return [3 /*break*/, 92];
+            case 91:
                 console.log('你的设置是不帮助助力池');
-                _r.label = 96;
-            case 96:
+                _r.label = 92;
+            case 92:
                 i = 0;
-                _r.label = 97;
-            case 97:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 103];
+                _r.label = 93;
+            case 93:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 99];
                 j = 0;
-                _r.label = 98;
-            case 98:
-                if (!(j < shareCodes.length)) return [3 /*break*/, 102];
+                _r.label = 94;
+            case 94:
+                if (!(j < shareCodes.length)) return [3 /*break*/, 98];
                 cookie = cookiesArr[i];
                 console.log("\u8D26\u53F7" + (i + 1) + "\u53BB\u52A9\u529B:", shareCodes[j]);
                 return [4 /*yield*/, api('story/helpbystage', '_cfd_t,bizCode,dwEnv,ptag,source,strShareId,strZone', { strShareId: shareCodes[j] })];
-            case 99:
+            case 95:
                 res = _r.sent();
                 console.log('助力:', res);
                 if (res.iRet === 2232 || res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
-                    return [3 /*break*/, 102];
+                    return [3 /*break*/, 98];
                 }
                 return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
-            case 100:
+            case 96:
                 _r.sent();
-                _r.label = 101;
-            case 101:
+                _r.label = 97;
+            case 97:
                 j++;
-                return [3 /*break*/, 98];
-            case 102:
+                return [3 /*break*/, 94];
+            case 98:
                 i++;
-                return [3 /*break*/, 97];
-            case 103: return [2 /*return*/];
+                return [3 /*break*/, 93];
+            case 99: return [2 /*return*/];
         }
     });
 }); })();

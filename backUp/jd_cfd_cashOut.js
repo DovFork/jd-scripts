@@ -1,8 +1,9 @@
 "use strict";
 /**
- * 0～30秒开始执行，31～59秒死循环等待
- * 提现金额：0.1、0.5、1、2、10
- * 解锁提现方式：升级1个建筑，留金币够升级一个建筑
+ * 提现金额，可选0.1 0.5 1 2 10
+ * export CFD_CASHOUT_MONEY=0.1
+ *
+ * 解锁提现方式二选一：1.升级1个建筑（优先） 2.完成日常任务
  * 自动模拟提现token，不需要抓包
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -52,93 +53,181 @@ var notify = require('./sendNotify');
 dotenv.config();
 var appId = 10028, fingerprint, token = '', enCryptMethodJD;
 var cookie = '', res = '', UserName, index;
+var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : 10;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _i, _a, b, token_1, money;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var cookiesArr, i, _a, isLogin, nickName, finish, _i, _b, b, j, _c, _d, b, strDT, strMyShareId, _e, _f, e, employ, tasks, _g, _h, t, token_1;
+    return __generator(this, function (_j) {
+        switch (_j.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
-                _b.sent();
+                _j.sent();
                 return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
             case 2:
-                cookiesArr = _b.sent();
+                cookiesArr = _j.sent();
                 i = 0;
-                _b.label = 3;
+                _j.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 19];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 44];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
-                _b.label = 4;
+                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
             case 4:
-                if (!1) return [3 /*break*/, 8];
-                if (!(new Date().getSeconds() < 30)) return [3 /*break*/, 5];
-                return [3 /*break*/, 8];
-            case 5: return [4 /*yield*/, TS_USER_AGENTS_1.wait(100)];
-            case 6:
-                _b.sent();
-                _b.label = 7;
-            case 7: return [3 /*break*/, 4];
-            case 8:
-                _i = 0, _a = ['food', 'fun', 'shop', 'sea'];
-                _b.label = 9;
-            case 9:
-                if (!(_i < _a.length)) return [3 /*break*/, 13];
-                b = _a[_i];
+                _a = _j.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
+                if (!isLogin) {
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    return [3 /*break*/, 43];
+                }
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                finish = false;
+                _i = 0, _b = ['food', 'fun', 'shop', 'sea'];
+                _j.label = 5;
+            case 5:
+                if (!(_i < _b.length)) return [3 /*break*/, 9];
+                b = _b[_i];
                 return [4 /*yield*/, api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b })];
-            case 10:
-                res = _b.sent();
-                if (!(res.dwCanLvlUp === 1)) return [3 /*break*/, 12];
+            case 6:
+                res = _j.sent();
+                if (!(res.dwCanLvlUp === 1)) return [3 /*break*/, 8];
                 return [4 /*yield*/, api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', { ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b })];
-            case 11:
-                res = _b.sent();
+            case 7:
+                res = _j.sent();
                 if (res.iRet === 0) {
                     console.log("\u5347\u7EA7\u6210\u529F:", res); // ddwSendRichValue
-                    return [3 /*break*/, 13];
+                    finish = true;
+                    return [3 /*break*/, 9];
                 }
-                _b.label = 12;
-            case 12:
+                _j.label = 8;
+            case 8:
                 _i++;
-                return [3 /*break*/, 9];
+                return [3 /*break*/, 5];
+            case 9:
+                if (!!finish) return [3 /*break*/, 38];
+                j = 0;
+                _j.label = 10;
+            case 10:
+                if (!(j < 2)) return [3 /*break*/, 16];
+                _c = 0, _d = ['food', 'fun', 'shop', 'sea'];
+                _j.label = 11;
+            case 11:
+                if (!(_c < _d.length)) return [3 /*break*/, 15];
+                b = _d[_c];
+                return [4 /*yield*/, api('user/CollectCoin', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b, dwType: '1' })];
+            case 12:
+                res = _j.sent();
+                console.log(b + "\u6536\u91D1\u5E01:", res.ddwCoin);
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(500)];
             case 13:
-                // 提现
-                console.log('解锁：', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
-                return [4 /*yield*/, getJxToken(cookie)];
+                _j.sent();
+                _j.label = 14;
             case 14:
-                token_1 = _b.sent();
-                return [4 /*yield*/, api('user/CashOutQuali', '_cfd_t,bizCode,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { strPgUUNum: token_1.strPgUUNum, strPgtimestamp: token_1.strPgtimestamp, strPhoneID: token_1.strPhoneID })];
+                _c++;
+                return [3 /*break*/, 11];
             case 15:
-                res = _b.sent();
+                j++;
+                return [3 /*break*/, 10];
+            case 16:
+                if (!1) return [3 /*break*/, 19];
+                return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
+            case 17:
+                res = _j.sent();
+                console.log('今日热气球:', res.dwTodaySpeedPeople);
+                if (res.dwTodaySpeedPeople >= 20)
+                    return [3 /*break*/, 19];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(300)];
+            case 18:
+                _j.sent();
+                return [3 /*break*/, 16];
+            case 19: return [4 /*yield*/, api('user/ComposeGameState', '', { dwFirst: 1 })];
+            case 20:
+                res = _j.sent();
+                strDT = res.strDT, strMyShareId = res.strMyShareId;
+                return [4 /*yield*/, api('user/RealTmReport', '', { dwIdentityType: 0, strBussKey: 'composegame', strMyShareId: strMyShareId, ddwCount: 5 })];
+            case 21:
+                res = _j.sent();
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+            case 22:
+                _j.sent();
+                return [4 /*yield*/, api('user/ComposeGameAddProcess', '__t,strBT,strZone', { __t: Date.now(), strBT: strDT })];
+            case 23:
+                res = _j.sent();
+                return [4 /*yield*/, api('user/EmployTourGuideInfo', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
+            case 24:
+                res = _j.sent();
+                if (!!res.TourGuideList) return [3 /*break*/, 25];
+                console.log('手动雇佣4个试用导游');
+                return [3 /*break*/, 30];
+            case 25:
+                _e = 0, _f = res.TourGuideList;
+                _j.label = 26;
+            case 26:
+                if (!(_e < _f.length)) return [3 /*break*/, 30];
+                e = _f[_e];
+                if (!(e.strBuildIndex !== 'food' && e.ddwRemainTm === 0)) return [3 /*break*/, 29];
+                return [4 /*yield*/, api('user/EmployTourGuide', '_cfd_t,bizCode,ddwConsumeCoin,dwEnv,dwIsFree,ptag,source,strBuildIndex,strZone', { ddwConsumeCoin: e.ddwCostCoin, dwIsFree: 0, strBuildIndex: e.strBuildIndex })];
+            case 27:
+                employ = _j.sent();
+                if (employ.iRet === 0)
+                    console.log("\u96C7\u4F63" + e.strBuildIndex + "\u5BFC\u6E38\u6210\u529F");
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(300)];
+            case 28:
+                _j.sent();
+                _j.label = 29;
+            case 29:
+                _e++;
+                return [3 /*break*/, 26];
+            case 30:
+                tasks = void 0;
+                return [4 /*yield*/, api('story/GetActTask', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
+            case 31:
+                tasks = _j.sent();
+                _g = 0, _h = tasks.Data.TaskList;
+                _j.label = 32;
+            case 32:
+                if (!(_g < _h.length)) return [3 /*break*/, 36];
+                t = _h[_g];
+                if (!(t.dwCompleteNum === t.dwTargetNum && t.dwAwardStatus === 2)) return [3 /*break*/, 35];
+                return [4 /*yield*/, api('Award', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', { taskId: t.ddwTaskId })];
+            case 33:
+                res = _j.sent();
+                if (res.ret === 0) {
+                    console.log(t.strTaskName + "\u9886\u5956\u6210\u529F:", res.data.prizeInfo);
+                }
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(300)];
+            case 34:
+                _j.sent();
+                _j.label = 35;
+            case 35:
+                _g++;
+                return [3 /*break*/, 32];
+            case 36: return [4 /*yield*/, api('story/ActTaskAward', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
+            case 37:
+                res = _j.sent();
+                console.log('100财富任务完成：', res);
+                _j.label = 38;
+            case 38:
+                // 提现
+                console.log('开始提现：', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
+                return [4 /*yield*/, getJxToken(cookie)];
+            case 39:
+                token_1 = _j.sent();
+                console.log(token_1);
+                return [4 /*yield*/, api('user/CashOutQuali', '_cfd_t,bizCode,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { strPgUUNum: token_1.strPgUUNum, strPgtimestamp: token_1.strPgtimestamp, strPhoneID: token_1.strPhoneID })];
+            case 40:
+                res = _j.sent();
                 console.log('资格:', res);
                 return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
-            case 16:
-                _b.sent();
-                console.log('提现：', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
-                money = 10;
-                // @github/Aaron-lv
-                switch (new Date().getHours()) {
-                    case 0:
-                        money = 100;
-                        break;
-                    case 12:
-                        money = 50;
-                        break;
-                    default:
-                        money = 10;
-                        break;
-                }
-                money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : money;
-                console.log('本次计划提现：', money);
+            case 41:
+                _j.sent();
                 return [4 /*yield*/, api('user/CashOut', '_cfd_t,bizCode,ddwMoney,ddwPaperMoney,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { ddwMoney: money, ddwPaperMoney: money * 10, strPgUUNum: token_1.strPgUUNum, strPgtimestamp: token_1.strPgtimestamp, strPhoneID: token_1.strPhoneID })];
-            case 17:
-                res = _b.sent();
+            case 42:
+                res = _j.sent();
                 console.log('提现:', res);
-                _b.label = 18;
-            case 18:
+                _j.label = 43;
+            case 43:
                 i++;
                 return [3 /*break*/, 3];
-            case 19: return [2 /*return*/];
+            case 44: return [2 /*return*/];
         }
     });
 }); })();
@@ -200,6 +289,39 @@ function api(fn, stk, params) {
                     data = (_a.sent()).data;
                     resolve(data);
                     return [2 /*return*/];
+            }
+        });
+    }); });
+}
+function speedUp(stk) {
+    var _this = this;
+    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+        var url, data, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    url = "https://m.jingxi.com/jxbfd/user/SpeedUp?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&strBuildIndex=food&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
+                    url += '&h5st=' + decrypt(stk, url);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, axios_1["default"].get(url, {
+                            headers: {
+                                'Host': 'm.jingxi.com',
+                                'Referer': 'https://st.jingxi.com/',
+                                'User-Agent': TS_USER_AGENTS_1["default"],
+                                'Cookie': cookie
+                            }
+                        })];
+                case 2:
+                    data = (_a.sent()).data;
+                    resolve(data);
+                    return [3 /*break*/, 4];
+                case 3:
+                    e_1 = _a.sent();
+                    reject(502);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     }); });

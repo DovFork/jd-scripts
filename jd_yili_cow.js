@@ -45,27 +45,27 @@ var token, token2, actorUuid, shopId, pin, uuid;
 var milk;
 var cookie = '', res = '', UserName, index;
 function main() {
-    var _a;
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function () {
-        var cookiesArr, i, _b, isLogin, nickName, j, taskArr, _i, taskArr_1, t, e_1;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var cookiesArr, i, _c, isLogin, nickName, j, taskArr, _i, taskArr_1, t, e_1;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
                 case 1:
-                    cookiesArr = _c.sent();
+                    cookiesArr = _d.sent();
                     i = 0;
-                    _c.label = 2;
+                    _d.label = 2;
                 case 2:
                     if (!(i < cookiesArr.length)) return [3 /*break*/, 27];
-                    _c.label = 3;
+                    _d.label = 3;
                 case 3:
-                    _c.trys.push([3, 25, , 26]);
+                    _d.trys.push([3, 25, , 26]);
                     cookie = cookiesArr[i];
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     index = i + 1;
                     return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
                 case 4:
-                    _b = _c.sent(), isLogin = _b.isLogin, nickName = _b.nickName;
+                    _c = _d.sent(), isLogin = _c.isLogin, nickName = _c.nickName;
                     if (!isLogin) {
                         notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
                         return [3 /*break*/, 26];
@@ -73,38 +73,43 @@ function main() {
                     console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
                     return [4 /*yield*/, getIsvToken()];
                 case 5:
-                    _c.sent();
+                    _d.sent();
                     return [4 /*yield*/, getIsvToken2()];
                 case 6:
-                    _c.sent();
+                    _d.sent();
                     return [4 /*yield*/, init()];
                 case 7:
-                    _c.sent();
+                    _d.sent();
                     return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/dz/common/getSimpleActInfoVo', 'activityId=dz2103100001340201')];
                 case 8:
-                    res = _c.sent();
+                    res = _d.sent();
                     shopId = res.data.venderId;
                     return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/customer/getMyPing', "userId=" + shopId + "&token=" + token2 + "&fromType=APP")];
                 case 9:
-                    res = _c.sent();
+                    res = _d.sent();
                     pin = res.data.secretPin;
                     return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/wxActionCommon/getUserInfo', "pin=" + encodeURIComponent(pin))];
                 case 10:
-                    res = _c.sent();
-                    uuid = res.data.id;
+                    res = _d.sent();
+                    if ((_a = res.data) === null || _a === void 0 ? void 0 : _a.hasOwnProperty('id')) {
+                        uuid = res.data.id;
+                    }
+                    else {
+                        return [3 /*break*/, 26];
+                    }
                     return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/dingzhi/yili/yangniu/activityContent', "activityId=dz2103100001340201&pin=" + encodeURIComponent(pin) + "&pinImg=null&nick=" + cookie.match(/pt_pin=([^;]*)/)[1] + "&cjyxPin=&cjhyPin=&shareUuid=")];
                 case 11:
-                    res = _c.sent();
+                    res = _d.sent();
                     actorUuid = res.data.actorUuid;
                     console.log('互助码：', actorUuid);
                     milk = res.data.score2 / 10;
                     j = 0;
-                    _c.label = 12;
+                    _d.label = 12;
                 case 12:
                     if (!(j < milk)) return [3 /*break*/, 16];
                     return [4 /*yield*/, api('feedCow', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin))];
                 case 13:
-                    res = _c.sent();
+                    res = _d.sent();
                     if (res.result) {
                         console.log('喂奶成功，剩余：', res.data.score2);
                     }
@@ -114,8 +119,8 @@ function main() {
                     }
                     return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
                 case 14:
-                    _c.sent();
-                    _c.label = 15;
+                    _d.sent();
+                    _d.label = 15;
                 case 15:
                     j++;
                     return [3 /*break*/, 12];
@@ -123,7 +128,7 @@ function main() {
                     if (!1) return [3 /*break*/, 19];
                     return [4 /*yield*/, api('start', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin))];
                 case 17:
-                    res = _c.sent();
+                    res = _d.sent();
                     if (res.result) {
                         console.log('抽奖成功：', res.data.name);
                     }
@@ -137,7 +142,7 @@ function main() {
                     }
                     return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
                 case 18:
-                    _c.sent();
+                    _d.sent();
                     return [3 /*break*/, 16];
                 case 19:
                     taskArr = [
@@ -149,27 +154,29 @@ function main() {
                         { taskType: 21 },
                     ];
                     _i = 0, taskArr_1 = taskArr;
-                    _c.label = 20;
+                    _d.label = 20;
                 case 20:
                     if (!(_i < taskArr_1.length)) return [3 /*break*/, 24];
                     t = taskArr_1[_i];
-                    return [4 /*yield*/, api('saveTask', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin) + "&taskType=" + t.taskType + "&taskValue=" + ((_a = t.taskValue) !== null && _a !== void 0 ? _a : ''))];
+                    return [4 /*yield*/, api('saveTask', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin) + "&taskType=" + t.taskType + "&taskValue=" + ((_b = t.taskValue) !== null && _b !== void 0 ? _b : ''))];
                 case 21:
-                    res = _c.sent();
+                    res = _d.sent();
                     if (res.result)
                         console.log('任务完成：', res.data.milkCount);
-                    else
+                    else {
                         console.log('任务失败：', res);
+                        return [3 /*break*/, 24];
+                    }
                     return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
                 case 22:
-                    _c.sent();
-                    _c.label = 23;
+                    _d.sent();
+                    _d.label = 23;
                 case 23:
                     _i++;
                     return [3 /*break*/, 20];
                 case 24: return [3 /*break*/, 26];
                 case 25:
-                    e_1 = _c.sent();
+                    e_1 = _d.sent();
                     console.log(e_1);
                     return [3 /*break*/, 26];
                 case 26:

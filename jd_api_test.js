@@ -57,7 +57,7 @@ var notify = require('./sendNotify');
                 db = cars[getRandomNumberByRange(0, 5)];
                 num = getRandomNumberByRange(5, 20);
                 console.log("\u672C\u6B21\u968F\u673A\u9009\u62E9" + db + "\u83B7\u53D6" + num + "\u4E2A\u968F\u673A\u52A9\u529B\u7801");
-                return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/" + db + "/" + num, { timeout: 3000 })];
+                return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/" + db + "/" + num, { timeout: 10000 })];
             case 2:
                 data = (_a.sent()).data;
                 console.log(JSON.stringify(data, null, '  '));
@@ -76,7 +76,7 @@ var notify = require('./sendNotify');
                 return [3 /*break*/, 5];
             case 5:
                 _a.trys.push([5, 7, , 9]);
-                return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/version", { timeout: 3000 })];
+                return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/version", { timeout: 10000 })];
             case 6:
                 data = (_a.sent()).data;
                 console.log("\u5F53\u524D\u7248\u672C\uFF1A" + data);

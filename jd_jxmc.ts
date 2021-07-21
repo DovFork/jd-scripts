@@ -12,7 +12,7 @@ import {Md5} from "ts-md5";
 
 const CryptoJS = require('crypto-js')
 const notify = require('./sendNotify')
-const A = require('./jd_jxmcToken')
+const A = require('./tools/jd_jxmcToken')
 
 let appId: number = 10028, fingerprint: string | number, token: string, enCryptMethodJD: any;
 let cookie: string = '', res: any = '', shareCodes: string[] = [];
@@ -40,7 +40,12 @@ console.log('帮助助力池:', HELP_POOL)
     console.log(`\n开始【京东账号${index}】${nickName || UserName}\n`);
 
     homePageInfo = await api('queryservice/GetHomePageInfo', 'channel,isgift,sceneid', {isgift: 0})
-    let lastgettime: number = homePageInfo.data.cow.lastgettime
+    let lastgettime: number
+    if (homePageInfo.data?.cow?.lastgettime) {
+      lastgettime = homePageInfo.data.cow.lastgettime
+    } else {
+      continue
+    }
 
     let food: number = 0
     try {
@@ -174,7 +179,7 @@ console.log('帮助助力池:', HELP_POOL)
    */
   if (HELP_POOL === 'true') {
     try {
-      let {data} = await axios.get('https://api.sharecode.ga/api/jxmc/6')
+      let {data} = await axios.get('https://api.sharecode.ga/api/jxmc/6', {timeout: 10000})
       console.log('获取到20个随机助力码:', data.data)
       shareCodes = [...shareCodes, ...data.data]
     } catch (e) {
@@ -306,7 +311,7 @@ function makeShareCodes(code: string) {
     let farm: string = await getFarmShareCode(cookie)
     let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
     pin = Md5.hashStr(pin)
-    await axios.get(`https://api.sharecode.ga/api/autoInsert?db=jxmc&code=${code}&bean=${bean}&farm=${farm}&pin=${pin}`)
+    await axios.get(`https://api.sharecode.ga/api/autoInsert?db=jxmc&code=${code}&bean=${bean}&farm=${farm}&pin=${pin}`, {timeout: 10000})
       .then(res => {
         if (res.data.code === 200)
           console.log('已自动提交助力码')

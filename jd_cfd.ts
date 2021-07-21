@@ -12,7 +12,14 @@
 
 import {format} from 'date-fns';
 import axios from 'axios';
-import USER_AGENT, {requireConfig, TotalBean, getBeanShareCode, getFarmShareCode, getRandomNumberByRange, wait} from './TS_USER_AGENTS';
+import USER_AGENT, {
+  requireConfig,
+  TotalBean,
+  getBeanShareCode,
+  getFarmShareCode,
+  getRandomNumberByRange,
+  wait
+} from './TS_USER_AGENTS';
 import {Md5} from 'ts-md5'
 import * as dotenv from 'dotenv';
 
@@ -20,7 +27,7 @@ const CryptoJS = require('crypto-js')
 const notify = require('./sendNotify')
 dotenv.config()
 let appId: number = 10028, fingerprint: string | number, token: string = '', enCryptMethodJD: any;
-let cookie: string = '', cookiesArr: string[] = [], res: any = '', shareCodes: string[] = [];
+let cookie: string = '', res: any = '', shareCodes: string[] = [], isCollector: Boolean = false;
 
 let HELP_HW: string = process.env.HELP_HW ? process.env.HELP_HW : "true";
 console.log('帮助HelloWorld:', HELP_HW)
@@ -56,7 +63,9 @@ interface Params {
   ddwCount?: number,
   __t?: number,
   strBT?: string,
-  dwCurStageEndCnt?: number
+  dwCurStageEndCnt?: number,
+  dwRewardType?: number,
+  dwRubbishId?: number
 }
 
 let UserName: string, index: number;
@@ -104,7 +113,10 @@ let UserName: string, index: number;
     res = await api('user/ComposeGameState', '', {dwFirst: 1})
     for (let stage of res.stagelist) {
       if (res.dwCurProgress >= stage.dwCurStageEndCnt && stage.dwIsAward === 0) {
-        let awardRes: any = await api('user/ComposeGameAward', '__t,dwCurStageEndCnt,strZone', {__t: Date.now(), dwCurStageEndCnt: stage.dwCurStageEndCnt})
+        let awardRes: any = await api('user/ComposeGameAward', '__t,dwCurStageEndCnt,strZone', {
+          __t: Date.now(),
+          dwCurStageEndCnt: stage.dwCurStageEndCnt
+        })
         console.log(awardRes)
         console.log('珍珠领奖：', awardRes.ddwCoin, awardRes.addMonety)
         await wait(3000)
@@ -127,7 +139,13 @@ let UserName: string, index: number;
         if (sign.dwDayId === res.Data.Sign.dwTodayId) {
           res = await api('story/RewardSign',
             '_cfd_t,bizCode,ddwCoin,ddwMoney,dwEnv,dwPrizeLv,dwPrizeType,ptag,source,strPrizePool,strZone',
-            {ddwCoin: sign.ddwCoin, ddwMoney: sign.ddwMoney, dwPrizeLv: sign.dwBingoLevel, dwPrizeType: sign.dwPrizeType, strPrizePool: sign.strPrizePool})
+            {
+              ddwCoin: sign.ddwCoin,
+              ddwMoney: sign.ddwMoney,
+              dwPrizeLv: sign.dwBingoLevel,
+              dwPrizeType: sign.dwPrizeType,
+              strPrizePool: sign.strPrizePool
+            })
           if (res.iRet === 0)
             console.log('签到成功：', res.Data.ddwCoin, res.Data.ddwMoney, res.Data.strPrizePool)
           break
@@ -136,16 +154,30 @@ let UserName: string, index: number;
     }
 
     // 船来了
-    res = await api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strShareId,strZone', {ddwTaskId: '', strShareId: '', strMarkList: 'undefined'})
+    res = await api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strShareId,strZone', {
+      ddwTaskId: '',
+      strShareId: '',
+      strMarkList: 'undefined'
+    })
     if (res.StoryInfo.StoryList) {
       console.log(JSON.stringify(res))
       if (res.StoryInfo.StoryList[0].Special) {
         console.log(`船来了，乘客是${res.StoryInfo.StoryList[0].Special.strName}`)
-        let shipRes: any = await api('story/SpecialUserOper', '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType', {strStoryId: res.StoryInfo.StoryList[0].strStoryId, dwType: '2', triggerType: 0, ddwTriggerDay: res.StoryInfo.StoryList[0].ddwTriggerDay})
+        let shipRes: any = await api('story/SpecialUserOper', '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType', {
+          strStoryId: res.StoryInfo.StoryList[0].strStoryId,
+          dwType: '2',
+          triggerType: 0,
+          ddwTriggerDay: res.StoryInfo.StoryList[0].ddwTriggerDay
+        })
         console.log(shipRes)
         console.log('正在下船，等待30s')
         await wait(30000)
-        shipRes = await api('story/SpecialUserOper', '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType', {strStoryId: res.StoryInfo.StoryList[0].strStoryId, dwType: '3', triggerType: 0, ddwTriggerDay: res.StoryInfo.StoryList[0].ddwTriggerDay})
+        shipRes = await api('story/SpecialUserOper', '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType', {
+          strStoryId: res.StoryInfo.StoryList[0].strStoryId,
+          dwType: '3',
+          triggerType: 0,
+          ddwTriggerDay: res.StoryInfo.StoryList[0].ddwTriggerDay
+        })
         if (shipRes.iRet === 0)
           console.log('船客接待成功')
         else
@@ -154,6 +186,11 @@ let UserName: string, index: number;
 
       if (res.StoryInfo.StoryList[0].Collector) {
         console.log('收藏家出现')
+        // TODO 背包满了再卖给收破烂的
+        // res = await api('story/CollectorOper', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,strStoryId,dwType,ddwTriggerDay', {strStoryId: res.StoryInfo.StoryList[0].strStoryId, dwType: '2', ddwTriggerDay: res.StoryInfo.StoryList[0].ddwTriggerDay})
+        // console.log(res)
+        // await wait(1000)
+        // isCollector = true
       }
     }
 
@@ -161,7 +198,6 @@ let UserName: string, index: number;
     res = await api('story/querystorageroom', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
     let bags: number[] = []
     for (let s of res.Data.Office) {
-      console.log(s.dwCount, s.dwType)
       bags.push(s.dwType)
       bags.push(s.dwCount)
     }
@@ -175,14 +211,28 @@ let UserName: string, index: number;
     }
     if (bags.length !== 0) {
       res = await api('story/sellgoods', '_cfd_t,bizCode,dwEnv,dwSceneId,ptag,source,strTypeCnt,strZone',
-        {dwSceneId: '1', strTypeCnt: strTypeCnt})
+        {dwSceneId: isCollector ? '2' : '1', strTypeCnt: strTypeCnt})
       console.log('卖贝壳收入:', res.Data.ddwCoin, res.Data.ddwMoney)
     }
 
     // 垃圾🚮
     res = await api('story/QueryRubbishInfo', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
     if (res.Data.StoryInfo.StoryList.length !== 0) {
-      await api('story/RubbishOper', '')
+      console.log('有垃圾')
+      await api('story/RubbishOper', '_cfd_t,bizCode,dwEnv,dwRewardType,dwType,ptag,source,strZone', {
+        dwType: '1',
+        dwRewardType: 0
+      })
+      await wait(1000)
+      for (let j = 1; j < 9; j++) {
+        res = await api('story/RubbishOper', '_cfd_t,bizCode,dwEnv,dwRewardType,dwRubbishId,dwType,ptag,source,strZone', {
+          dwType: '2',
+          dwRewardType: 0,
+          dwRubbishId: j
+        })
+        console.log('垃圾分类：', res.Data.RubbishGame.AllRubbish.ddwCoin)
+        await wait(1500)
+      }
     }
 
     // 任务➡️
@@ -231,7 +281,10 @@ let UserName: string, index: number;
           await wait(2000)
         } else if (t.awardStatus === 2 && t.completedTimes < t.targetTimes && ([1, 2, 3, 4].includes(t.orderId))) {
           console.log('做任务:', t.taskId, t.taskName, t.completedTimes, t.targetTimes)
-          res = await mainTask('DoTask', '_cfd_t,bizCode,configExtra,dwEnv,ptag,source,strZone,taskId', {taskId: t.taskId, configExtra: ''})
+          res = await mainTask('DoTask', '_cfd_t,bizCode,configExtra,dwEnv,ptag,source,strZone,taskId', {
+            taskId: t.taskId,
+            configExtra: ''
+          })
           console.log('做任务:', res)
           await wait(5000)
         }
@@ -241,7 +294,9 @@ let UserName: string, index: number;
     for (let b of ['food', 'fun', 'shop', 'sea']) {
       res = await api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', {strBuildIndex: b})
       console.log(`${b}升级需要:`, res.ddwNextLvlCostCoin)
+      /*
       await wait(1000)
+      // 在提现时升级
       if (res.dwCanLvlUp === 1) {
         res = await api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', {ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b})
         if (res.iRet === 0) {
@@ -249,7 +304,11 @@ let UserName: string, index: number;
           await wait(2000)
         }
       }
-      res = await api('user/CollectCoin', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', {strBuildIndex: b, dwType: '1'})
+      */
+      res = await api('user/CollectCoin', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', {
+        strBuildIndex: b,
+        dwType: '1'
+      })
       console.log(`${b}收金币:`, res.ddwCoin)
       await wait(1000)
     }
@@ -258,7 +317,7 @@ let UserName: string, index: number;
   // 获取随机助力码
   if (HELP_HW === 'true') {
     try {
-      let {data} = await axios.get("https://api.sharecode.ga/api/HW_CODES")
+      let {data} = await axios.get("https://api.sharecode.ga/api/HW_CODES", {timeout: 10000})
       shareCodes = [
         ...shareCodes,
         ...data.jxcfd
@@ -270,7 +329,7 @@ let UserName: string, index: number;
   }
   if (HELP_POOL === 'true') {
     try {
-      let {data} = await axios.get('https://api.sharecode.ga/api/jxcfd/20')
+      let {data} = await axios.get('https://api.sharecode.ga/api/jxcfd/20', {timeout: 10000})
       console.log('获取到20个随机助力码:', data.data)
       shareCodes = [...shareCodes, ...data.data]
     } catch (e) {
@@ -348,12 +407,16 @@ function makeShareCodes() {
   return new Promise<void>(async (resolve, reject) => {
     let bean: string = await getBeanShareCode(cookie)
     let farm: string = await getFarmShareCode(cookie)
-    res = await api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strShareId,strZone', {ddwTaskId: '', strShareId: '', strMarkList: 'undefined'})
+    res = await api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strShareId,strZone', {
+      ddwTaskId: '',
+      strShareId: '',
+      strMarkList: 'undefined'
+    })
     console.log('助力码:', res.strMyShareId)
     shareCodes.push(res.strMyShareId)
     let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
     pin = Md5.hashStr(pin)
-    axios.get(`https://api.sharecode.ga/api/autoInsert?db=jxcfd&code=${res.strMyShareId}&bean=${bean}&farm=${farm}&pin=${pin}`)
+    axios.get(`https://api.sharecode.ga/api/autoInsert?db=jxcfd&code=${res.strMyShareId}&bean=${bean}&farm=${farm}&pin=${pin}`, {timeout: 10000})
       .then(res => {
         if (res.data.code === 200)
           console.log('已自动提交助力码')

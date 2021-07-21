@@ -1,9 +1,10 @@
 "use strict";
 /**
- * 0～30秒开始执行，31～59秒死循环等待
- * 提现金额：0.1、0.5、1、2、10
- * 解锁提现方式：升级1个建筑，留金币够升级一个建筑
- * 自动模拟提现token，不需要抓包
+ * 提现金额，可选0.1 0.5 1 2 10
+ * export CFD_CASHOUT_MONEY=0.1
+ *
+ * 顺序、数量必须与cookie一致
+ * export CFD_CASH_TOKEN='[{"strPgtimestamp":"你的值","strPhoneID":"你的值","strPgUUNum":"你的值"},{"strPgtimestamp":"你的值","strPhoneID":"你的值","strPgUUNum":"你的值"}]'
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -41,19 +42,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _a;
 exports.__esModule = true;
 var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
-var ts_md5_1 = require("ts-md5");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var jdJxToken_1 = require("./jdJxToken");
 var dotenv = require("dotenv");
 var CryptoJS = require('crypto-js');
 var notify = require('./sendNotify');
 dotenv.config();
 var appId = 10028, fingerprint, token = '', enCryptMethodJD;
 var cookie = '', res = '', UserName, index;
+var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : 10;
+var CFD_CASH_TOKEN = (_a = process.env.CFD_CASH_TOKEN) !== null && _a !== void 0 ? _a : [];
+if (CFD_CASH_TOKEN.length === 0) {
+    jdJxToken_1["default"].map(function (value) {
+        value.strPgtimestamp ? CFD_CASH_TOKEN.push(value) : '';
+    });
+}
+else {
+    CFD_CASH_TOKEN = JSON.parse(CFD_CASH_TOKEN);
+}
+console.log(CFD_CASH_TOKEN);
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _i, _a, b, token_1, money;
+    var cookiesArr, i, _a, isLogin, nickName;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
@@ -65,108 +78,34 @@ var cookie = '', res = '', UserName, index;
                 i = 0;
                 _b.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 19];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 7];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
-                _b.label = 4;
+                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
             case 4:
-                if (!1) return [3 /*break*/, 8];
-                if (!(new Date().getSeconds() < 30)) return [3 /*break*/, 5];
-                return [3 /*break*/, 8];
-            case 5: return [4 /*yield*/, TS_USER_AGENTS_1.wait(100)];
+                _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
+                if (!isLogin) {
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    return [3 /*break*/, 6];
+                }
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                if (!CFD_CASH_TOKEN[i]) {
+                    console.log('token数量不足');
+                    return [3 /*break*/, 7];
+                }
+                return [4 /*yield*/, api('user/CashOut', '_cfd_t,bizCode,ddwMoney,ddwPaperMoney,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { ddwMoney: money, ddwPaperMoney: money * 10, strPgUUNum: CFD_CASH_TOKEN[i].strPgUUNum, strPgtimestamp: CFD_CASH_TOKEN[i].strPgtimestamp, strPhoneID: CFD_CASH_TOKEN[i].strPhoneID })];
+            case 5:
+                res = _b.sent();
+                console.log(res);
+                _b.label = 6;
             case 6:
-                _b.sent();
-                _b.label = 7;
-            case 7: return [3 /*break*/, 4];
-            case 8:
-                _i = 0, _a = ['food', 'fun', 'shop', 'sea'];
-                _b.label = 9;
-            case 9:
-                if (!(_i < _a.length)) return [3 /*break*/, 13];
-                b = _a[_i];
-                return [4 /*yield*/, api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b })];
-            case 10:
-                res = _b.sent();
-                if (!(res.dwCanLvlUp === 1)) return [3 /*break*/, 12];
-                return [4 /*yield*/, api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', { ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b })];
-            case 11:
-                res = _b.sent();
-                if (res.iRet === 0) {
-                    console.log("\u5347\u7EA7\u6210\u529F:", res); // ddwSendRichValue
-                    return [3 /*break*/, 13];
-                }
-                _b.label = 12;
-            case 12:
-                _i++;
-                return [3 /*break*/, 9];
-            case 13:
-                // 提现
-                console.log('解锁：', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
-                return [4 /*yield*/, getJxToken(cookie)];
-            case 14:
-                token_1 = _b.sent();
-                return [4 /*yield*/, api('user/CashOutQuali', '_cfd_t,bizCode,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { strPgUUNum: token_1.strPgUUNum, strPgtimestamp: token_1.strPgtimestamp, strPhoneID: token_1.strPhoneID })];
-            case 15:
-                res = _b.sent();
-                console.log('资格:', res);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
-            case 16:
-                _b.sent();
-                console.log('提现：', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
-                money = 10;
-                // @github/Aaron-lv
-                switch (new Date().getHours()) {
-                    case 0:
-                        money = 100;
-                        break;
-                    case 12:
-                        money = 50;
-                        break;
-                    default:
-                        money = 10;
-                        break;
-                }
-                money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : money;
-                console.log('本次计划提现：', money);
-                return [4 /*yield*/, api('user/CashOut', '_cfd_t,bizCode,ddwMoney,ddwPaperMoney,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { ddwMoney: money, ddwPaperMoney: money * 10, strPgUUNum: token_1.strPgUUNum, strPgtimestamp: token_1.strPgtimestamp, strPhoneID: token_1.strPhoneID })];
-            case 17:
-                res = _b.sent();
-                console.log('提现:', res);
-                _b.label = 18;
-            case 18:
                 i++;
                 return [3 /*break*/, 3];
-            case 19: return [2 /*return*/];
+            case 7: return [2 /*return*/];
         }
     });
 }); })();
-function getJxToken(cookie) {
-    function generateStr(input) {
-        var src = 'abcdefghijklmnopqrstuvwxyz1234567890';
-        var res = '';
-        for (var i = 0; i < input; i++) {
-            res += src[Math.floor(src.length * Math.random())];
-        }
-        return res;
-    }
-    return new Promise(function (resolve) {
-        var phoneId = generateStr(40);
-        var timestamp = Date.now().toString();
-        if (!cookie['match'](/pt_pin=([^; ]+)(?=;?)/)) {
-            console.log('此账号cookie填写不规范,你的pt_pin=xxx后面没分号(;)\n');
-            resolve({});
-        }
-        var nickname = cookie.match(/pt_pin=([^;]*)/)[1];
-        var jstoken = ts_md5_1.Md5.hashStr('' + decodeURIComponent(nickname) + timestamp + phoneId + 'tPOamqCuk9NLgVPAljUyIHcPRmKlVxDy');
-        resolve({
-            'strPgtimestamp': timestamp,
-            'strPhoneID': phoneId,
-            'strPgUUNum': jstoken
-        });
-    });
-}
 function api(fn, stk, params) {
     var _this = this;
     if (params === void 0) { params = {}; }
@@ -175,10 +114,10 @@ function api(fn, stk, params) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "https://m.jingxi.com/jxbfd/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=138631.26.55&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
+                    url = "https://m.jingxi.com/jxbfd/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
                     if (['GetUserTaskStatusList', 'Award', 'DoTask'].includes(fn)) {
                         console.log('api2');
-                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/" + fn + "?strZone=jxbfd&bizCode=jxbfddch&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=138631.26.55&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
+                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/" + fn + "?strZone=jxbfd&bizCode=jxbfddch&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
                     }
                     if (Object.keys(params).length !== 0) {
                         key = void 0;
@@ -190,10 +129,10 @@ function api(fn, stk, params) {
                     url += '&h5st=' + decrypt(stk, url);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
-                                Cookie: cookie,
-                                Referer: "https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
-                                Host: "m.jingxi.com",
-                                "User-Agent": "jdpingou"
+                                'Host': 'm.jingxi.com',
+                                'Referer': 'https://st.jingxi.com/',
+                                'User-Agent': TS_USER_AGENTS_1["default"],
+                                'Cookie': cookie
                             }
                         })];
                 case 1:

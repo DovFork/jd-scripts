@@ -20,7 +20,7 @@ const CryptoJS = require('crypto-js')
 const notify = require('./sendNotify')
 dotenv.config()
 let appId: number = 10028, fingerprint: string | number, token: string = '', enCryptMethodJD: any;
-let cookie: string = '', res: any = '', shareCodes: string[] = [], isCollector: Boolean = false;
+let cookie: string = '', cookiesArr: string[] = [], res: any = '', shareCodes: string[] = [];
 
 let HELP_HW: string = process.env.HELP_HW ? process.env.HELP_HW : "true";
 console.log('帮助HelloWorld:', HELP_HW)
@@ -56,9 +56,7 @@ interface Params {
   ddwCount?: number,
   __t?: number,
   strBT?: string,
-  dwCurStageEndCnt?: number,
-  dwRewardType?: number,
-  dwRubbishId?: number
+  dwCurStageEndCnt?: number
 }
 
 let UserName: string, index: number;
@@ -156,11 +154,6 @@ let UserName: string, index: number;
 
       if (res.StoryInfo.StoryList[0].Collector) {
         console.log('收藏家出现')
-        // TODO 背包满了再卖给收破烂的
-        // res = await api('story/CollectorOper', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,strStoryId,dwType,ddwTriggerDay', {strStoryId: res.StoryInfo.StoryList[0].strStoryId, dwType: '2', ddwTriggerDay: res.StoryInfo.StoryList[0].ddwTriggerDay})
-        // console.log(res)
-        // await wait(1000)
-        // isCollector = true
       }
     }
 
@@ -168,6 +161,7 @@ let UserName: string, index: number;
     res = await api('story/querystorageroom', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
     let bags: number[] = []
     for (let s of res.Data.Office) {
+      console.log(s.dwCount, s.dwType)
       bags.push(s.dwType)
       bags.push(s.dwCount)
     }
@@ -181,21 +175,14 @@ let UserName: string, index: number;
     }
     if (bags.length !== 0) {
       res = await api('story/sellgoods', '_cfd_t,bizCode,dwEnv,dwSceneId,ptag,source,strTypeCnt,strZone',
-        {dwSceneId: isCollector ? '2' : '1', strTypeCnt: strTypeCnt})
+        {dwSceneId: '1', strTypeCnt: strTypeCnt})
       console.log('卖贝壳收入:', res.Data.ddwCoin, res.Data.ddwMoney)
     }
 
     // 垃圾🚮
     res = await api('story/QueryRubbishInfo', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
     if (res.Data.StoryInfo.StoryList.length !== 0) {
-      console.log('有垃圾')
-      await api('story/RubbishOper', '_cfd_t,bizCode,dwEnv,dwRewardType,dwType,ptag,source,strZone', {dwType: '1', dwRewardType: 0})
-      await wait(1000)
-      for (let j = 1; j < 9; j++) {
-        res = await api('story/RubbishOper', '_cfd_t,bizCode,dwEnv,dwRewardType,dwRubbishId,dwType,ptag,source,strZone', {dwType: '2', dwRewardType: 0, dwRubbishId: j})
-        console.log('垃圾分类：', res.Data.RubbishGame.AllRubbish.ddwCoin)
-        await wait(1500)
-      }
+      await api('story/RubbishOper', '')
     }
 
     // 任务➡️
@@ -254,9 +241,7 @@ let UserName: string, index: number;
     for (let b of ['food', 'fun', 'shop', 'sea']) {
       res = await api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', {strBuildIndex: b})
       console.log(`${b}升级需要:`, res.ddwNextLvlCostCoin)
-      /*
       await wait(1000)
-      // 在提现时升级
       if (res.dwCanLvlUp === 1) {
         res = await api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', {ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b})
         if (res.iRet === 0) {
@@ -264,7 +249,6 @@ let UserName: string, index: number;
           await wait(2000)
         }
       }
-      */
       res = await api('user/CollectCoin', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', {strBuildIndex: b, dwType: '1'})
       console.log(`${b}收金币:`, res.ddwCoin)
       await wait(1000)

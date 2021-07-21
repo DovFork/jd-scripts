@@ -1,14 +1,15 @@
 /**
- * 0～30秒开始执行，31～59秒死循环等待
- * 提现金额：0.1、0.5、1、2、10
- * 解锁提现方式：升级1个建筑，留金币够升级一个建筑
- * 自动模拟提现token，不需要抓包
+ * 提现金额，可选0.1 0.5 1 2 10
+ * export CFD_CASHOUT_MONEY=0.1
+ *
+ * 顺序、数量必须与cookie一致
+ * export CFD_CASH_TOKEN='[{"strPgtimestamp":"你的值","strPhoneID":"你的值","strPgUUNum":"你的值"},{"strPgtimestamp":"你的值","strPhoneID":"你的值","strPgUUNum":"你的值"}]'
  */
 
 import {format} from 'date-fns';
 import axios from 'axios';
-import {Md5} from 'ts-md5'
-import USER_AGENT, {requireConfig, wait} from './TS_USER_AGENTS';
+import USER_AGENT, {requireConfig, TotalBean} from './TS_USER_AGENTS';
+import jxtoken from './jdJxToken'
 import * as dotenv from 'dotenv';
 
 const CryptoJS = require('crypto-js')
@@ -17,14 +18,25 @@ dotenv.config()
 let appId: number = 10028, fingerprint: string | number, token: string = '', enCryptMethodJD: any;
 let cookie: string = '', res: any = '', UserName: string, index: number;
 
+let money: number = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : 10
+let CFD_CASH_TOKEN: any = process.env.CFD_CASH_TOKEN ?? []
+
+if (CFD_CASH_TOKEN.length === 0) {
+  jxtoken.map((value) => {
+    value.strPgtimestamp ? CFD_CASH_TOKEN.push(value) : ''
+  })
+} else {
+  CFD_CASH_TOKEN = JSON.parse(CFD_CASH_TOKEN)
+}
+
+console.log(CFD_CASH_TOKEN)
+
 interface Params {
   ddwMoney?: number,
   ddwPaperMoney?: number,
   strPgtimestamp?: string,
   strPgUUNum?: string,
-  strPhoneID?: string,
-  strBuildIndex?: string,
-  ddwCostCoin?: number,
+  strPhoneID?: string
 }
 
 !(async () => {
@@ -34,93 +46,29 @@ interface Params {
     cookie = cookiesArr[i];
     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)![1])
     index = i + 1;
-    console.log(`\n开始【京东账号${index}】${UserName}\n`);
-
-    while (1) {
-      if (new Date().getSeconds() < 30) {
-        break
-      } else {
-        await wait(100)
-      }
+    let {isLogin, nickName}: any = await TotalBean(cookie)
+    if (!isLogin) {
+      notify.sendNotify(__filename.split('/').pop(), `cookie已失效\n京东账号${index}：${nickName || UserName}`)
+      continue
     }
-
-    for (let b of ['food', 'fun', 'shop', 'sea']) {
-      res = await api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', {strBuildIndex: b})
-      if (res.dwCanLvlUp === 1) {
-        res = await api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', {ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b})
-        if (res.iRet === 0) {
-          console.log(`升级成功:`, res) // ddwSendRichValue
-          break
-        }
-      }
+    console.log(`\n开始【京东账号${index}】${nickName || UserName}\n`);
+    if (!CFD_CASH_TOKEN[i]) {
+      console.log('token数量不足')
+      break
     }
-
-    // 提现
-    console.log('解锁：', format(new Date(), 'hh:mm:ss:SSS'))
-    let token: any = await getJxToken(cookie)
-    res = await api('user/CashOutQuali',
-      '_cfd_t,bizCode,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone',
-      {strPgUUNum: token.strPgUUNum, strPgtimestamp: token.strPgtimestamp, strPhoneID: token.strPhoneID})
-    console.log('资格:', res)
-    await wait(2000)
-
-    console.log('提现：', format(new Date(), 'hh:mm:ss:SSS'))
-    let money: number = 10
-    // @github/Aaron-lv
-    switch (new Date().getHours()) {
-      case 0:
-        money = 100
-        break
-      case 12:
-        money = 50
-        break
-      default:
-        money = 10
-        break
-    }
-
-    money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : money
-    console.log('本次计划提现：', money)
     res = await api('user/CashOut',
       '_cfd_t,bizCode,ddwMoney,ddwPaperMoney,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone',
-      {ddwMoney: money, ddwPaperMoney: money * 10, strPgUUNum: token.strPgUUNum, strPgtimestamp: token.strPgtimestamp, strPhoneID: token.strPhoneID})
-    console.log('提现:', res)
+      {ddwMoney: money, ddwPaperMoney: money * 10, strPgUUNum: CFD_CASH_TOKEN[i].strPgUUNum, strPgtimestamp: CFD_CASH_TOKEN[i].strPgtimestamp, strPhoneID: CFD_CASH_TOKEN[i].strPhoneID})
+    console.log(res)
   }
 })()
 
-function getJxToken(cookie: string) {
-  function generateStr(input: number) {
-    let src = 'abcdefghijklmnopqrstuvwxyz1234567890';
-    let res = '';
-    for (let i = 0; i < input; i++) {
-      res += src[Math.floor(src.length * Math.random())];
-    }
-    return res;
-  }
-
-  return new Promise(resolve => {
-    let phoneId = generateStr(40);
-    let timestamp = Date.now().toString();
-    if (!cookie['match'](/pt_pin=([^; ]+)(?=;?)/)) {
-      console.log('此账号cookie填写不规范,你的pt_pin=xxx后面没分号(;)\n');
-      resolve({});
-    }
-    let nickname = cookie.match(/pt_pin=([^;]*)/)![1];
-    let jstoken = Md5.hashStr('' + decodeURIComponent(nickname) + timestamp + phoneId + 'tPOamqCuk9NLgVPAljUyIHcPRmKlVxDy');
-    resolve({
-      'strPgtimestamp': timestamp,
-      'strPhoneID': phoneId,
-      'strPgUUNum': jstoken
-    })
-  });
-}
-
 function api(fn: string, stk: string, params: Params = {}) {
   return new Promise(async resolve => {
-    let url = `https://m.jingxi.com/jxbfd/${fn}?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=138631.26.55&_ste=1&_=${Date.now()}&sceneval=2&_stk=${encodeURIComponent(stk)}`
+    let url = `https://m.jingxi.com/jxbfd/${fn}?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=&_ste=1&_=${Date.now()}&sceneval=2&_stk=${encodeURIComponent(stk)}`
     if (['GetUserTaskStatusList', 'Award', 'DoTask'].includes(fn)) {
       console.log('api2')
-      url = `https://m.jingxi.com/newtasksys/newtasksys_front/${fn}?strZone=jxbfd&bizCode=jxbfddch&source=jxbfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=138631.26.55&_stk=${encodeURIComponent(stk)}&_ste=1&_=${Date.now()}&sceneval=2`
+      url = `https://m.jingxi.com/newtasksys/newtasksys_front/${fn}?strZone=jxbfd&bizCode=jxbfddch&source=jxbfd&dwEnv=7&_cfd_t=${Date.now()}&ptag=&_stk=${encodeURIComponent(stk)}&_ste=1&_=${Date.now()}&sceneval=2`
     }
     if (Object.keys(params).length !== 0) {
       let key: (keyof Params)
@@ -132,10 +80,10 @@ function api(fn: string, stk: string, params: Params = {}) {
     url += '&h5st=' + decrypt(stk, url)
     let {data} = await axios.get(url, {
       headers: {
-        Cookie: cookie,
-        Referer: "https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
-        Host: "m.jingxi.com",
-        "User-Agent": `jdpingou`,
+        'Host': 'm.jingxi.com',
+        'Referer': 'https://st.jingxi.com/',
+        'User-Agent': USER_AGENT,
+        'Cookie': cookie
       }
     })
     resolve(data)

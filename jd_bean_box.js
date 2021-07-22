@@ -43,7 +43,7 @@ var notify = require('./sendNotify');
 dotenv.config();
 var cookie = '', res = '', UserName, index, id = randomString(40);
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _a, isLogin, nickName, j, _i, _b, t;
+    var cookiesArr, i, _a, isLogin, nickName, j, _i, _b, t, e_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
@@ -52,7 +52,7 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                 i = 0;
                 _c.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 18];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 21];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -61,7 +61,7 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                 _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
                     notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                    return [3 /*break*/, 17];
+                    return [3 /*break*/, 20];
                 }
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
                 return [4 /*yield*/, api('beanTaskList', { "viewChannel": "AppHome" })];
@@ -70,19 +70,22 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                 j = 0;
                 _c.label = 5;
             case 5:
-                if (!(j < 3)) return [3 /*break*/, 17];
-                _i = 0, _b = res.data.taskInfos;
+                if (!(j < 3)) return [3 /*break*/, 20];
                 _c.label = 6;
             case 6:
-                if (!(_i < _b.length)) return [3 /*break*/, 14];
+                _c.trys.push([6, 16, 17, 19]);
+                _i = 0, _b = res.data.taskInfos;
+                _c.label = 7;
+            case 7:
+                if (!(_i < _b.length)) return [3 /*break*/, 15];
                 t = _b[_i];
-                if (!(t.status === 1)) return [3 /*break*/, 13];
+                if (!(t.status === 1)) return [3 /*break*/, 14];
                 console.log(t.taskName);
                 return [4 /*yield*/, api('beanDoTask', {
                         "actionType": t.taskType === 3 ? 0 : 1,
                         "taskToken": t.subTaskVOS[0].taskToken
                     })];
-            case 7:
+            case 8:
                 res = _c.sent();
                 if (res.data.bizMsg)
                     console.log(res.data.bizMsg);
@@ -90,36 +93,40 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                     console.log(res);
                 }
                 return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
-            case 8:
-                _c.sent();
-                if (!(t.taskType !== 3)) return [3 /*break*/, 11];
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1500)];
             case 9:
                 _c.sent();
-                return [4 /*yield*/, api('beanDoTask', { "actionType": 0, "taskToken": t.subTaskVOS[0].taskToken })];
+                if (!(t.taskType !== 3)) return [3 /*break*/, 12];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1500)];
             case 10:
+                _c.sent();
+                return [4 /*yield*/, api('beanDoTask', { "actionType": 0, "taskToken": t.subTaskVOS[0].taskToken })];
+            case 11:
                 res = _c.sent();
                 if (res.data.bizMsg)
                     console.log(res.data.bizMsg);
-                _c.label = 11;
-            case 11: return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
-            case 12:
-                _c.sent();
-                _c.label = 13;
+                _c.label = 12;
+            case 12: return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
             case 13:
-                _i++;
-                return [3 /*break*/, 6];
-            case 14: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
-            case 15:
                 _c.sent();
-                _c.label = 16;
+                _c.label = 14;
+            case 14:
+                _i++;
+                return [3 /*break*/, 7];
+            case 15: return [3 /*break*/, 19];
             case 16:
+                e_1 = _c.sent();
+                return [3 /*break*/, 19];
+            case 17: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 18:
+                _c.sent();
+                return [7 /*endfinally*/];
+            case 19:
                 j++;
                 return [3 /*break*/, 5];
-            case 17:
+            case 20:
                 i++;
                 return [3 /*break*/, 2];
-            case 18: return [2 /*return*/];
+            case 21: return [2 /*return*/];
         }
     });
 }); })();

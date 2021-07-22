@@ -55,14 +55,15 @@ process.env.CFD_LOOP_DELAY ? console.log('设置延迟:', parseInt(process.env.C
 var UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, filename, stream, fsHash, i, _a, isLogin, nickName, shell, _i, _b, s, j, e_1, t;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
-                _c.sent();
+                _d.sent();
                 return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
             case 2:
-                cookiesArr = _c.sent();
+                cookiesArr = _d.sent();
                 filename = __filename.split('/').pop();
                 stream = fs.createReadStream(filename);
                 fsHash = crypto.createHash('md5');
@@ -88,11 +89,11 @@ var UserName, index;
                     })["catch"](function () {
                     });
                 });
-                _c.label = 3;
+                _d.label = 3;
             case 3:
                 if (!1) return [3 /*break*/, 20];
                 i = 0;
-                _c.label = 4;
+                _d.label = 4;
             case 4:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 18];
                 cookie = cookiesArr[i];
@@ -100,39 +101,38 @@ var UserName, index;
                 index = i + 1;
                 return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
             case 5:
-                _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
+                _a = _d.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
                     notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
                     return [3 /*break*/, 17];
                 }
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                _c.label = 6;
+                _d.label = 6;
             case 6:
-                _c.trys.push([6, 16, , 17]);
+                _d.trys.push([6, 16, , 17]);
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
             case 7:
-                res = _c.sent();
-                if (res.iRet !== 0) {
-                    console.log('手动建造4个房子');
-                    return [3 /*break*/, 17];
-                }
-                console.log('今日热气球:', res.dwTodaySpeedPeople, '/', 20);
+                res = _d.sent();
+                if (res.iRet === 0)
+                    console.log('今日热气球:', (_c = res.dwTodaySpeedPeople) !== null && _c !== void 0 ? _c : 500);
+                else
+                    console.log(res);
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
             case 8:
-                shell = _c.sent();
+                shell = _d.sent();
                 if (!shell.Data.hasOwnProperty('NormShell')) return [3 /*break*/, 15];
                 _i = 0, _b = shell.Data.NormShell;
-                _c.label = 9;
+                _d.label = 9;
             case 9:
                 if (!(_i < _b.length)) return [3 /*break*/, 15];
                 s = _b[_i];
                 j = 0;
-                _c.label = 10;
+                _d.label = 10;
             case 10:
                 if (!(j < s.dwNum)) return [3 /*break*/, 14];
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)];
             case 11:
-                res = _c.sent();
+                res = _d.sent();
                 if (res.iRet !== 0) {
                     console.log(res);
                     return [3 /*break*/, 14];
@@ -140,8 +140,8 @@ var UserName, index;
                 console.log('捡贝壳:', res.Data.strFirstDesc);
                 return [4 /*yield*/, TS_USER_AGENTS_1.wait(500)];
             case 12:
-                _c.sent();
-                _c.label = 13;
+                _d.sent();
+                _d.label = 13;
             case 13:
                 j++;
                 return [3 /*break*/, 10];
@@ -150,7 +150,7 @@ var UserName, index;
                 return [3 /*break*/, 9];
             case 15: return [3 /*break*/, 17];
             case 16:
-                e_1 = _c.sent();
+                e_1 = _d.sent();
                 console.log(e_1);
                 return [3 /*break*/, 17];
             case 17:
@@ -160,7 +160,7 @@ var UserName, index;
                 t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : TS_USER_AGENTS_1.getRandomNumberByRange(1000 * 10, 1000 * 30);
                 return [4 /*yield*/, TS_USER_AGENTS_1.wait(t)];
             case 19:
-                _c.sent();
+                _d.sent();
                 return [3 /*break*/, 3];
             case 20: return [2 /*return*/];
         }

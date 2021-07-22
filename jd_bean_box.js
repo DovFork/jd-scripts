@@ -43,7 +43,7 @@ var notify = require('./sendNotify');
 dotenv.config();
 var cookie = '', res = '', UserName, index, id = randomString(40);
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _a, isLogin, nickName, j, _i, _b, t, e_1;
+    var cookiesArr, i, _a, isLogin, nickName, j, homeRes, homeRes, _i, _b, t, e_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
@@ -52,7 +52,7 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                 i = 0;
                 _c.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 21];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 25];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -61,31 +61,46 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                 _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
                     notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                    return [3 /*break*/, 20];
+                    return [3 /*break*/, 24];
                 }
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                return [4 /*yield*/, api('beanTaskList', { "viewChannel": "AppHome" })];
-            case 4:
-                res = _c.sent();
                 j = 0;
-                _c.label = 5;
+                _c.label = 4;
+            case 4:
+                if (!(j < 3)) return [3 /*break*/, 24];
+                console.log("Round:" + (j + 1));
+                return [4 /*yield*/, api('beanTaskList', { "viewChannel": "AppHome" })];
             case 5:
-                if (!(j < 3)) return [3 /*break*/, 20];
+                res = _c.sent();
                 _c.label = 6;
             case 6:
-                _c.trys.push([6, 16, 17, 19]);
-                _i = 0, _b = res.data.taskInfos;
-                _c.label = 7;
+                _c.trys.push([6, 20, 21, 23]);
+                if (!!res.data.viewAppHome.takenTask) return [3 /*break*/, 8];
+                return [4 /*yield*/, api('beanHomeIconDoTask', { "flag": "0", "viewChannel": "AppHome" })];
             case 7:
-                if (!(_i < _b.length)) return [3 /*break*/, 15];
+                homeRes = _c.sent();
+                console.log(homeRes.data.remindMsg);
+                _c.label = 8;
+            case 8:
+                if (!!res.data.viewAppHome.doneTask) return [3 /*break*/, 10];
+                return [4 /*yield*/, api('beanHomeIconDoTask', { "flag": "1", "viewChannel": "AppHome" })];
+            case 9:
+                homeRes = _c.sent();
+                console.log(homeRes.data.remindMsg);
+                _c.label = 10;
+            case 10:
+                _i = 0, _b = res.data.taskInfos;
+                _c.label = 11;
+            case 11:
+                if (!(_i < _b.length)) return [3 /*break*/, 19];
                 t = _b[_i];
-                if (!(t.status === 1)) return [3 /*break*/, 14];
+                if (!(t.status === 1)) return [3 /*break*/, 18];
                 console.log(t.taskName);
                 return [4 /*yield*/, api('beanDoTask', {
                         "actionType": t.taskType === 3 ? 0 : 1,
                         "taskToken": t.subTaskVOS[0].taskToken
                     })];
-            case 8:
+            case 12:
                 res = _c.sent();
                 if (res.data.bizMsg)
                     console.log(res.data.bizMsg);
@@ -93,40 +108,40 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                     console.log(res);
                 }
                 return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
-            case 9:
+            case 13:
                 _c.sent();
-                if (!(t.taskType !== 3)) return [3 /*break*/, 12];
+                if (!(t.taskType !== 3)) return [3 /*break*/, 16];
                 return [4 /*yield*/, TS_USER_AGENTS_1.wait(1500)];
-            case 10:
+            case 14:
                 _c.sent();
                 return [4 /*yield*/, api('beanDoTask', { "actionType": 0, "taskToken": t.subTaskVOS[0].taskToken })];
-            case 11:
+            case 15:
                 res = _c.sent();
                 if (res.data.bizMsg)
                     console.log(res.data.bizMsg);
-                _c.label = 12;
-            case 12: return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
-            case 13:
+                _c.label = 16;
+            case 16: return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+            case 17:
                 _c.sent();
-                _c.label = 14;
-            case 14:
-                _i++;
-                return [3 /*break*/, 7];
-            case 15: return [3 /*break*/, 19];
-            case 16:
-                e_1 = _c.sent();
-                return [3 /*break*/, 19];
-            case 17: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                _c.label = 18;
             case 18:
+                _i++;
+                return [3 /*break*/, 11];
+            case 19: return [3 /*break*/, 23];
+            case 20:
+                e_1 = _c.sent();
+                return [3 /*break*/, 23];
+            case 21: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 22:
                 _c.sent();
                 return [7 /*endfinally*/];
-            case 19:
+            case 23:
                 j++;
-                return [3 /*break*/, 5];
-            case 20:
+                return [3 /*break*/, 4];
+            case 24:
                 i++;
                 return [3 /*break*/, 2];
-            case 21: return [2 /*return*/];
+            case 25: return [2 /*return*/];
         }
     });
 }); })();

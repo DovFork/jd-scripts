@@ -35,22 +35,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _a;
 exports.__esModule = true;
+/**
+ * 推送CK，默认否
+ * export PUSH_COOKIE=true
+ */
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+// import USER_AGENT from './TS_USER_AGENTS'
+var USER_AGENT = 'jdapp;android;10.0.5;11;0393465333165363-5333430323261366;network/wifi;model/M2102K1C;osVer/30;appBuild/88681;partner/lc001;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; M2102K1C Build/RKQ1.201112.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045534 Mobile Safari/537.36';
 var qrcode = require('qrcode-terminal');
+var notify = require('./sendNotify');
+var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a : false;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var config, _a, headers, data, s_token, setCookie, _i, _b, h, guid, lsid, lstoken, cookies, body, res, token, okl_token, url, code, _c, _d, h;
     return __generator(this, function (_e) {
         switch (_e.label) {
             case 0:
-                console.log('支持异网');
+                console.log('可异地');
                 config = {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'Accept': 'application/json, text/plain, */*',
                         'Referer': 'https://plogin.m.jd.com/login/login?appid=300&returnurl=https://wq.jd.com/passport/LoginRedirect?state=${Date.now()}&returnurl=https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action&source=wq_passport',
-                        'User-Agent': TS_USER_AGENTS_1["default"],
+                        'User-Agent': USER_AGENT,
                         'Host': 'plogin.m.jd.com'
                     }
                 };
@@ -87,7 +95,7 @@ var qrcode = require('qrcode-terminal');
                 qrcode.generate(url, { small: true });
                 _e.label = 3;
             case 3:
-                if (!1) return [3 /*break*/, 6];
+                if (!1) return [3 /*break*/, 10];
                 return [4 /*yield*/, axios_1["default"].post("https://plogin.m.jd.com/cgi-bin/m/tmauthchecktoken?&token=" + token + "&ou_state=0&okl_token=" + okl_token, "lang=chs&appid=300&source=wq_passport&returnurl=https://wqlogin2.jd.com/passport/LoginRedirect?state=" + Date.now() + "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action", {
                         headers: {
                             'Referer': "https://plogin.m.jd.com/login/login?appid=300&returnurl=https://wqlogin2.jd.com/passport/LoginRedirect?state=" + Date.now() + "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action&source=wq_passport",
@@ -95,7 +103,7 @@ var qrcode = require('qrcode-terminal');
                             'Connection': 'Keep-Alive',
                             'Content-Type': 'application/x-www-form-urlencoded; Charset=UTF-8',
                             'Accept': 'application/json, text/plain, */*',
-                            'User-Agent': TS_USER_AGENTS_1["default"]
+                            'User-Agent': USER_AGENT
                         }
                     })
                         .then(function (res) {
@@ -105,32 +113,38 @@ var qrcode = require('qrcode-terminal');
                 res = _e.sent();
                 console.log(JSON.stringify(res.data));
                 code = res.data.errcode;
-                if (code === 0) {
-                    console.log('Cookie获取成功\n');
-                    for (_c = 0, _d = res.headers['set-cookie']; _c < _d.length; _c++) {
-                        h = _d[_c];
-                        setCookie += h + ';';
-                    }
-                    cookies = setCookie.match(/(pt_key=\S*)/)[1] + setCookie.match(/(pt_pin=\S*)/)[1];
-                    console.log(cookies);
-                    console.log('\n哪个死妈东西说扫了此脚本被偷ck的？100行不到的代码你告诉我哪里是泄漏你ck的？');
-                    return [3 /*break*/, 6];
+                if (!(code === 0)) return [3 /*break*/, 7];
+                console.log('Cookie获取成功\n');
+                for (_c = 0, _d = res.headers['set-cookie']; _c < _d.length; _c++) {
+                    h = _d[_c];
+                    setCookie += h + ';';
                 }
-                else if (code === 21) {
+                cookies = setCookie.match(/(pt_key=\S*)/)[1] + setCookie.match(/(pt_pin=\S*)/)[1];
+                console.log(cookies);
+                console.log('\n哪个死妈东西说扫了此脚本被偷ck的？100行不到的代码你告诉我哪里是泄漏你ck的？');
+                if (!PUSH_COOKIE) return [3 /*break*/, 6];
+                return [4 /*yield*/, notify.sendNotify('Cookie', cookies + '\n\n哪个死妈东西说扫了此脚本被偷ck的？100行不到的代码你告诉我哪里是泄漏你ck的？', '', '\n\n你好，世界！')];
+            case 5:
+                _e.sent();
+                _e.label = 6;
+            case 6: return [3 /*break*/, 10];
+            case 7:
+                if (code === 21) {
                     console.log('二维码失效');
-                    return [3 /*break*/, 6];
+                    return [3 /*break*/, 10];
                 }
                 else if (code === 176) {
                 }
                 else {
                     console.log('Error:', JSON.stringify(res.data));
-                    return [3 /*break*/, 6];
+                    return [3 /*break*/, 10];
                 }
-                return [4 /*yield*/, wait(1000)];
-            case 5:
+                _e.label = 8;
+            case 8: return [4 /*yield*/, wait(1000)];
+            case 9:
                 _e.sent();
                 return [3 /*break*/, 3];
-            case 6: return [2 /*return*/];
+            case 10: return [2 /*return*/];
         }
     });
 }); })();

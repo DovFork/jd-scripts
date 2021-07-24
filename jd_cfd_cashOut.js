@@ -48,7 +48,6 @@ var ts_md5_1 = require("ts-md5");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var dotenv = require("dotenv");
 var CryptoJS = require('crypto-js');
-var notify = require('./sendNotify');
 dotenv.config();
 var appId = 10028, fingerprint, token = '', enCryptMethodJD;
 var cookie = '', res = '', UserName, index;
@@ -81,6 +80,7 @@ var cookie = '', res = '', UserName, index;
                 _b.label = 7;
             case 7: return [3 /*break*/, 4];
             case 8:
+                if (!((new Date().getHours() === 0 && (new Date().getMinutes() === 0)) || (new Date().getHours() === 12 && new Date().getMinutes() === 0))) return [3 /*break*/, 13];
                 _i = 0, _a = ['food', 'fun', 'shop', 'sea'];
                 _b.label = 9;
             case 9:
@@ -94,7 +94,7 @@ var cookie = '', res = '', UserName, index;
             case 11:
                 res = _b.sent();
                 if (res.iRet === 0) {
-                    console.log("\u5347\u7EA7\u6210\u529F:", res); // ddwSendRichValue
+                    console.log("\u5347\u7EA7\u6210\u529F:", res);
                     return [3 /*break*/, 13];
                 }
                 _b.label = 12;
@@ -111,25 +111,14 @@ var cookie = '', res = '', UserName, index;
             case 15:
                 res = _b.sent();
                 console.log('资格:', res);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(4000)];
             case 16:
                 _b.sent();
                 console.log('提现：', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
-                money = 10;
-                // @github/Aaron-lv
-                switch (new Date().getHours()) {
-                    case 0:
-                        money = 100;
-                        break;
-                    case 12:
-                        money = 50;
-                        break;
-                    default:
-                        money = 10;
-                        break;
-                }
+                money = 100;
                 money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : money;
-                console.log('本次计划提现：', money);
+                money = new Date().getHours() >= 12 ? 50 : money;
+                console.log('本次计划提现：', money / 100);
                 return [4 /*yield*/, api('user/CashOut', '_cfd_t,bizCode,ddwMoney,ddwPaperMoney,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { ddwMoney: money, ddwPaperMoney: money * 10, strPgUUNum: token_1.strPgUUNum, strPgtimestamp: token_1.strPgtimestamp, strPhoneID: token_1.strPhoneID })];
             case 17:
                 res = _b.sent();

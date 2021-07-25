@@ -186,7 +186,8 @@ async function sendNotify(text, desp, params = {}, author = '\n\n仅供用于学
   if (remarks) {
     for (let account of remarks) {
       if (account['pt_pin'] && account['remarks']){
-        desp = desp.replace(new RegExp(account['pt_pin'], 'g'), account['remarks'])
+        text = text.replace(new RegExp(account['pt_pin'], 'gm'), account['remarks'])
+        desp = desp.replace(new RegExp(account['pt_pin'], 'gm'), account['remarks'])
       }
     }
   }

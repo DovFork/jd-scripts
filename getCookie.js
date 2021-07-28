@@ -42,8 +42,8 @@ exports.__esModule = true;
  * export PUSH_COOKIE=true
  */
 var axios_1 = require("axios");
-// import USER_AGENT from './TS_USER_AGENTS'
-var USER_AGENT = 'jdapp;android;10.0.5;11;0393465333165363-5333430323261366;network/wifi;model/M2102K1C;osVer/30;appBuild/88681;partner/lc001;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; M2102K1C Build/RKQ1.201112.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045534 Mobile Safari/537.36';
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+// const USER_AGENT = 'jdapp;android;10.0.5;11;0393465333165363-5333430323261366;network/wifi;model/M2102K1C;osVer/30;appBuild/88681;partner/lc001;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; M2102K1C Build/RKQ1.201112.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045534 Mobile Safari/537.36'
 var qrcode = require('qrcode-terminal');
 var notify = require('./sendNotify');
 var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a : false;
@@ -58,7 +58,7 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'Accept': 'application/json, text/plain, */*',
                         'Referer': 'https://plogin.m.jd.com/login/login?appid=300&returnurl=https://wq.jd.com/passport/LoginRedirect?state=${Date.now()}&returnurl=https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action&source=wq_passport',
-                        'User-Agent': USER_AGENT,
+                        'User-Agent': TS_USER_AGENTS_1["default"],
                         'Host': 'plogin.m.jd.com'
                     }
                 };
@@ -103,7 +103,7 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
                             'Connection': 'Keep-Alive',
                             'Content-Type': 'application/x-www-form-urlencoded; Charset=UTF-8',
                             'Accept': 'application/json, text/plain, */*',
-                            'User-Agent': USER_AGENT
+                            'User-Agent': TS_USER_AGENTS_1["default"]
                         }
                     })
                         .then(function (res) {

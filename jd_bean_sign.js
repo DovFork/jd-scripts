@@ -37,16 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var tunnel_1 = require("tunnel");
 var fs_1 = require("fs");
 var child_process_1 = require("child_process");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var TS_USER_AGENTS_2 = require("./TS_USER_AGENTS");
 var notify = require('./sendNotify');
-var cookie = '', UserName, index;
+var cookie = '', UserName, index, message = '';
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var cookiesArr, i, _a, isLogin, nickName, tunnelProxy, data, e_1, e_2, msg;
+        var cookiesArr, i, _a, isLogin, nickName, data, e_1, e_2;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
@@ -55,7 +54,7 @@ function main() {
                     i = 0;
                     _b.label = 2;
                 case 2:
-                    if (!(i < cookiesArr.length)) return [3 /*break*/, 16];
+                    if (!(i < cookiesArr.length)) return [3 /*break*/, 15];
                     cookie = cookiesArr[i];
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     index = i + 1;
@@ -64,15 +63,9 @@ function main() {
                     _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                     if (!isLogin) {
                         notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                        return [3 /*break*/, 15];
+                        return [3 /*break*/, 14];
                     }
                     console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                    tunnelProxy = tunnel_1.httpsOverHttp({
-                        proxy: {
-                            host: '127.0.0.1',
-                            port: parseInt('1080')
-                        }
-                    });
                     data = void 0;
                     _b.label = 4;
                 case 4:
@@ -98,26 +91,26 @@ function main() {
                     return [3 /*break*/, 10];
                 case 10: return [3 /*break*/, 11];
                 case 11:
-                    console.log(data);
-                    if (!(data.indexOf('京东多合一签到脚本') > -1)) return [3 /*break*/, 13];
+                    if (!(data.indexOf('京东多合一签到脚本') > -1)) return [3 /*break*/, 12];
                     data = data.replace("var Key = ''", "var Key = '" + cookie + "'");
-                    fs_1.writeFileSync('./sign.js', data);
+                    fs_1.writeFileSync('./sign.js', data, 'utf-8');
                     child_process_1.execSync('node ./sign.js>>./sign.log');
-                    msg = fs_1.readFileSync('./sign.log');
+                    data = fs_1.readFileSync('./sign.log', 'utf-8');
+                    message += data.replace(/(\n京东现金[\S|\s]*^)【签到/mg, '【签到');
                     fs_1.unlinkSync('./sign.js');
                     fs_1.unlinkSync('./sign.log');
-                    return [4 /*yield*/, notify.sendNotify("\u591A\u5408\u4E00\u7B7E\u5230  " + UserName, msg, '', '\n\n你好，世界！')];
-                case 12:
+                    return [3 /*break*/, 14];
+                case 12: return [4 /*yield*/, notify.sendNotify("\u591A\u5408\u4E00\u7B7E\u5230  " + UserName, data, '', '\n\n你好，世界！')];
+                case 13:
                     _b.sent();
-                    return [3 /*break*/, 15];
-                case 13: return [4 /*yield*/, notify.sendNotify("\u591A\u5408\u4E00\u7B7E\u5230  " + UserName, data, '', '\n\n你好，世界！')];
+                    _b.label = 14;
                 case 14:
-                    _b.sent();
-                    _b.label = 15;
-                case 15:
                     i++;
                     return [3 /*break*/, 2];
-                case 16: return [2 /*return*/];
+                case 15: return [4 /*yield*/, notify.sendNotify('JD签到All in One', message, '', '\n\n你好，世界！')];
+                case 16:
+                    _b.sent();
+                    return [2 /*return*/];
             }
         });
     });

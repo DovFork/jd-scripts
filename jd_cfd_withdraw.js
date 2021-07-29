@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 /**
+ * 必须编译成js再运行
  * 可在31~59秒启动，0~30秒自动放行
  * 只在00:00:xx和12:00:xx升级建筑
  * 默认：0点1元，12点0.5，其他0.1

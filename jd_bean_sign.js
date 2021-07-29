@@ -41,7 +41,7 @@ var tunnel_1 = require("tunnel");
 var fs_1 = require("fs");
 var child_process_1 = require("child_process");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var TS_USER_AGENTS_2 = require("../TS_USER_AGENTS");
+var TS_USER_AGENTS_2 = require("./TS_USER_AGENTS");
 var notify = require('./sendNotify');
 var cookie = '', UserName, index;
 function main() {

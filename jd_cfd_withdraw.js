@@ -45,9 +45,9 @@ exports.__esModule = true;
  */
 var worker_threads_1 = require("worker_threads");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var _ts_md5_1_2_9_ts_md5_1 = require("_ts-md5@1.2.9@ts-md5");
-var _axios_0_21_1_axios_1 = require("_axios@0.21.1@axios");
-var TS_USER_AGENTS_2 = require("../TS_USER_AGENTS");
+var ts_md5_1 = require("ts-md5");
+var axios_1 = require("axios");
+var TS_USER_AGENTS_2 = require("./TS_USER_AGENTS");
 var date_fns_1 = require("date-fns");
 var dotenv = require("dotenv");
 var CryptoJS = require('crypto-js');
@@ -65,9 +65,9 @@ function f1(cookies) {
                     _b.label = 1;
                 case 1:
                     if (!1) return [3 /*break*/, 3];
-                    if (new Date().getSeconds() < 59)
+                    if (new Date().getSeconds() < 30)
                         return [3 /*break*/, 3];
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(100)];
                 case 2:
                     _b.sent();
                     return [3 /*break*/, 1];
@@ -170,7 +170,7 @@ function getJxToken(cookie) {
         return {};
     }
     var nickname = cookie.match(/pt_pin=([^;]*)/)[1];
-    var jstoken = _ts_md5_1_2_9_ts_md5_1.Md5.hashStr('' + decodeURIComponent(nickname) + timestamp + phoneId + 'tPOamqCuk9NLgVPAljUyIHcPRmKlVxDy');
+    var jstoken = ts_md5_1.Md5.hashStr('' + decodeURIComponent(nickname) + timestamp + phoneId + 'tPOamqCuk9NLgVPAljUyIHcPRmKlVxDy');
     return {
         'strPgtimestamp': timestamp,
         'strPhoneID': phoneId,
@@ -197,8 +197,9 @@ function api(fn, stk, params) {
                                 url += "&" + key + "=" + params[key];
                         }
                     }
+                    console.log(cookie);
                     url += '&h5st=' + decrypt(stk, url);
-                    return [4 /*yield*/, _axios_0_21_1_axios_1["default"].get(url, {
+                    return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 Cookie: cookie,
                                 Referer: "https://st.jingxi.com/fortune_island/index.html?ptag=138631.26.55",
@@ -226,7 +227,7 @@ function requestAlgo() {
                             var data, enCryptMethodJDString;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
-                                    case 0: return [4 /*yield*/, _axios_0_21_1_axios_1["default"].post('https://cactus.jd.com/request_algo?g_ty=ajax', {
+                                    case 0: return [4 /*yield*/, axios_1["default"].post('https://cactus.jd.com/request_algo?g_ty=ajax', {
                                             "version": "1.0",
                                             "fp": fingerprint,
                                             "appId": appId,

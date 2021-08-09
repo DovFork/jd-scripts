@@ -60,7 +60,7 @@ var cookie = '', res = '', UserName, index;
                 return [4 /*yield*/, api()];
             case 4:
                 res = _b.sent();
-                console.log('互助码：', res.data.shareId);
+                console.log('carnivalcity:', res.data.shareId);
                 _b.label = 5;
             case 5:
                 i++;

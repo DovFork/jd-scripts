@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * cron: 0 23 * * *
+ * 查看助力码和助力次数
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,7 +41,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
+var notify = require('../sendNotify');
 var cookie = '', res = '', UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, _a, isLogin, nickName;
@@ -56,11 +61,14 @@ var cookie = '', res = '', UserName, index;
                 return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
             case 3:
                 _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
+                if (!isLogin) {
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    return [3 /*break*/, 5];
+                }
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                return [4 /*yield*/, api()];
+                return [4 /*yield*/, carnivalcity()];
             case 4:
-                res = _b.sent();
-                console.log('carnivalcity:', res.data.shareId);
+                _b.sent();
                 _b.label = 5;
             case 5:
                 i++;
@@ -69,9 +77,8 @@ var cookie = '', res = '', UserName, index;
         }
     });
 }); })();
-function api() {
+function carnivalcity() {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/api', "appid=guardian-starjd&functionId=carnivalcity_jd_prod&body=" + escape(JSON.stringify({ apiMapping: "/khc/task/getSupport" })) + "&t=" + Date.now() + "&loginType=2", {
@@ -88,8 +95,25 @@ function api() {
                         }
                     })];
                 case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
+                    res = _a.sent();
+                    console.log('carnivalcity:', res.data.data.shareId);
+                    return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/api', "appid=guardian-starjd&functionId=carnivalcity_jd_prod&body=" + escape(JSON.stringify({ apiMapping: "/khc/index/supportList" })) + "&t=" + Date.now() + "&loginType=2", {
+                            headers: {
+                                "Accept": "application/json, text/plain, */*",
+                                "Accept-Encoding": "gzip, deflate, br",
+                                "Accept-Language": "zh-cn",
+                                "Connection": "keep-alive",
+                                "Content-Type": "application/x-www-form-urlencoded",
+                                "Origin": "https://carnivalcity.m.jd.com",
+                                "Referer": "https://carnivalcity.m.jd.com/",
+                                "Cookie": cookie,
+                                "User-Agent": TS_USER_AGENTS_1["default"]
+                            }
+                        })];
+                case 2:
+                    res = _a.sent();
+                    console.log('被助力：', res.data.data.supportedNums, '/', res.data.data.supportNeedNums);
+                    return [2 /*return*/];
             }
         });
     });

@@ -92,7 +92,7 @@ function main() {
                 case 10: return [3 /*break*/, 11];
                 case 11:
                     if (!(data.indexOf('京东多合一签到脚本') > -1)) return [3 /*break*/, 12];
-                    data = data.replace("var Key = ''", "var Key = '" + cookie + "'");
+                    data = data.replace("var Key = ''", "var Key = '" + cookie + "'").replace(/qRKHmL4sna8ZOP9F/g, "ztmFUCxcPMNyUq0P");
                     fs_1.writeFileSync('./sign.js', data, 'utf-8');
                     child_process_1.execSync('node ./sign.js>>./sign.log');
                     data = fs_1.readFileSync('./sign.log', 'utf-8');

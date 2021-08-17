@@ -40,100 +40,88 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var CryptoJS = require('crypto-js');
-var notify = require('./sendNotify');
-var appId = 10028, fingerprint, token, enCryptMethodJD;
-var cookie = '', res = '', shareCodes = [];
-var UserName, index;
-var HELP_HW = process.env.HELP_HW ? process.env.HELP_HW : "true";
-console.log('帮助HelloWorld:', HELP_HW);
-var HELP_POOL = process.env.HELP_POOL ? process.env.HELP_POOL : "true";
-console.log('帮助助力池:', HELP_POOL);
-function main() {
-    return __awaiter(this, void 0, void 0, function () {
-        var cookiesArr, i, _a, isLogin, nickName, _i, _b, t, _c, _d, t;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
-                case 0: return [4 /*yield*/, requestAlgo()];
-                case 1:
-                    _e.sent();
-                    return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
-                case 2:
-                    cookiesArr = _e.sent();
-                    i = 0;
-                    _e.label = 3;
-                case 3:
-                    if (!(i < cookiesArr.length)) return [3 /*break*/, 17];
-                    cookie = cookiesArr[i];
-                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    index = i + 1;
-                    return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
-                case 4:
-                    _a = _e.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
-                    if (!isLogin) {
-                        notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                        return [3 /*break*/, 16];
-                    }
-                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                    return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
-                case 5:
-                    res = _e.sent();
-                    _i = 0, _b = res.commontask;
-                    _e.label = 6;
-                case 6:
-                    if (!(_i < _b.length)) return [3 /*break*/, 10];
-                    t = _b[_i];
-                    if (!(t.browsetime === '0' && t.status === 1)) return [3 /*break*/, 9];
-                    console.log(t.browsetime, t.status, t.taskname);
-                    return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/dotask?task=" + t.task + "&signhb_source=5&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBKB&g_ty=ls", '')];
-                case 7:
-                    res = _e.sent();
-                    if (res.ret === 0) {
-                        console.log('任务完成，获得：', res.sendhb);
-                    }
-                    else {
-                        console.log('任务失败：', res.errmsg);
-                    }
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
-                case 8:
-                    _e.sent();
-                    _e.label = 9;
-                case 9:
-                    _i++;
-                    return [3 /*break*/, 6];
-                case 10: return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
-                case 11:
-                    res = _e.sent();
-                    if (!(res.baoxiang_left != 0)) return [3 /*break*/, 16];
-                    _c = 0, _d = res.baoxiang_stage;
-                    _e.label = 12;
-                case 12:
-                    if (!(_c < _d.length)) return [3 /*break*/, 16];
-                    t = _d[_c];
-                    if (!(t.status === 1)) return [3 /*break*/, 15];
-                    return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/bxdraw?_=" + Date.now() + "&sceneval=2", '')];
-                case 13:
-                    res = _e.sent();
-                    console.log('开宝箱，获得：', res.sendhb);
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
-                case 14:
-                    _e.sent();
-                    _e.label = 15;
-                case 15:
-                    _c++;
-                    return [3 /*break*/, 12];
-                case 16:
-                    i++;
-                    return [3 /*break*/, 3];
-                case 17: return [2 /*return*/];
-            }
-        });
+var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNotify'), UserName, index;
+!(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var cookiesArr, i, _a, isLogin, nickName, _i, _b, t, _c, _d, t;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
+            case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requestAlgo()];
+            case 1:
+                _e.sent();
+                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+            case 2:
+                cookiesArr = _e.sent();
+                i = 0;
+                _e.label = 3;
+            case 3:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 17];
+                cookie = cookiesArr[i];
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                index = i + 1;
+                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+            case 4:
+                _a = _e.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
+                if (!isLogin) {
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    return [3 /*break*/, 16];
+                }
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
+            case 5:
+                res = _e.sent();
+                _i = 0, _b = res.commontask;
+                _e.label = 6;
+            case 6:
+                if (!(_i < _b.length)) return [3 /*break*/, 10];
+                t = _b[_i];
+                if (!(t.status === 1)) return [3 /*break*/, 9];
+                console.log(t.taskname);
+                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/dotask?task=" + t.task + "&signhb_source=5&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBKB&g_ty=ls", '')];
+            case 7:
+                res = _e.sent();
+                if (res.ret === 0) {
+                    console.log('任务完成，获得：', res.sendhb);
+                }
+                else {
+                    console.log('任务失败：', res.errmsg);
+                }
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 8:
+                _e.sent();
+                _e.label = 9;
+            case 9:
+                _i++;
+                return [3 /*break*/, 6];
+            case 10: return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
+            case 11:
+                res = _e.sent();
+                if (!(res.baoxiang_left != 0)) return [3 /*break*/, 16];
+                _c = 0, _d = res.baoxiang_stage;
+                _e.label = 12;
+            case 12:
+                if (!(_c < _d.length)) return [3 /*break*/, 16];
+                t = _d[_c];
+                if (!(t.status === 1)) return [3 /*break*/, 15];
+                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/bxdraw?_=" + Date.now() + "&sceneval=2", '')];
+            case 13:
+                res = _e.sent();
+                console.log('开宝箱，获得：', res.sendhb);
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 14:
+                _e.sent();
+                _e.label = 15;
+            case 15:
+                _c++;
+                return [3 /*break*/, 12];
+            case 16:
+                i++;
+                return [3 /*break*/, 3];
+            case 17: return [2 /*return*/];
+        }
     });
-}
-main().then();
+}); })();
 function api(fn, stk, params) {
     var _this = this;
     if (params === void 0) { params = {}; }
@@ -150,7 +138,7 @@ function api(fn, stk, params) {
                                 url += "&" + key + "=" + params[key];
                         }
                     }
-                    url += '&h5st=' + decrypt(stk, url);
+                    url += '&h5st=' + TS_USER_AGENTS_1.decrypt(stk, url);
                     if (fn.match(/(dotask|bxdraw)/)) {
                         url = fn;
                     }
@@ -160,7 +148,7 @@ function api(fn, stk, params) {
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'm.jingxi.com',
-                                'User-Agent': 'jdpingou;',
+                                'User-Agent': USER_AGENT,
                                 'Referer': 'https://st.jingxi.com/',
                                 'X-Requested-With': 'com.jd.pingou',
                                 'Cookie': cookie
@@ -184,96 +172,4 @@ function api(fn, stk, params) {
             }
         });
     }); });
-}
-function requestAlgo() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, generateFp()];
-                case 1:
-                    fingerprint = _a.sent();
-                    return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                            var data, enCryptMethodJDString;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, axios_1["default"].post('https://cactus.jd.com/request_algo?g_ty=ajax', {
-                                            "version": "1.0",
-                                            "fp": fingerprint,
-                                            "appId": appId,
-                                            "timestamp": Date.now(),
-                                            "platform": "web",
-                                            "expandParams": ""
-                                        }, {
-                                            "headers": {
-                                                'Authority': 'cactus.jd.com',
-                                                'Pragma': 'no-cache',
-                                                'Cache-Control': 'no-cache',
-                                                'Accept': 'application/json',
-                                                'User-Agent': TS_USER_AGENTS_1["default"],
-                                                'Content-Type': 'application/json',
-                                                'Origin': 'https://st.jingxi.com',
-                                                'Sec-Fetch-Site': 'cross-site',
-                                                'Sec-Fetch-Mode': 'cors',
-                                                'Sec-Fetch-Dest': 'empty',
-                                                'Referer': 'https://st.jingxi.com/',
-                                                'Accept-Language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7'
-                                            }
-                                        })];
-                                    case 1:
-                                        data = (_a.sent()).data;
-                                        if (data['status'] === 200) {
-                                            token = data.data.result.tk;
-                                            enCryptMethodJDString = data.data.result.algo;
-                                            if (enCryptMethodJDString)
-                                                enCryptMethodJD = new Function("return " + enCryptMethodJDString)();
-                                        }
-                                        else {
-                                            console.log("fp: " + fingerprint);
-                                            console.log('request_algo 签名参数API请求失败:');
-                                        }
-                                        resolve(200);
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); })];
-            }
-        });
-    });
-}
-function decrypt(stk, url) {
-    var timestamp = (date_fns_1.format(new Date(), 'yyyyMMddhhmmssSSS'));
-    var hash1;
-    if (fingerprint && token && enCryptMethodJD) {
-        hash1 = enCryptMethodJD(token, fingerprint.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);
-    }
-    else {
-        var random = '5gkjB6SpmC9s';
-        token = "tk01wcdf61cb3a8nYUtHcmhSUFFCfddDPRvKvYaMjHkxo6Aj7dhzO+GXGFa9nPXfcgT+mULoF1b1YIS1ghvSlbwhE0Xc";
-        fingerprint = 9686767825751161;
-        // $.fingerprint = 7811850938414161;
-        var str = "" + token + fingerprint + timestamp + appId + random;
-        hash1 = CryptoJS.SHA512(str, token).toString(CryptoJS.enc.Hex);
-    }
-    var st = '';
-    stk.split(',').map(function (item, index) {
-        st += item + ":" + getQueryString(url, item) + (index === stk.split(',').length - 1 ? '' : '&');
-    });
-    var hash2 = CryptoJS.HmacSHA256(st, hash1.toString()).toString(CryptoJS.enc.Hex);
-    return encodeURIComponent(["".concat(timestamp.toString()), "".concat(fingerprint.toString()), "".concat(appId.toString()), "".concat(token), "".concat(hash2)].join(";"));
-}
-function generateFp() {
-    var e = "0123456789";
-    var a = 13;
-    var i = '';
-    for (; a--;)
-        i += e[Math.random() * e.length | 0];
-    return (i + Date.now()).slice(0, 16);
-}
-function getQueryString(url, name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var r = url.split('?')[1].match(reg);
-    if (r != null)
-        return unescape(r[2]);
-    return '';
 }

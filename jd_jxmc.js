@@ -41,13 +41,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
 exports.__esModule = true;
-var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var ts_md5_1 = require("ts-md5");
@@ -63,11 +57,11 @@ console.log('帮助HelloWorld:', HELP_HW);
 var HELP_POOL = process.env.HELP_POOL ? process.env.HELP_POOL : "true";
 console.log('帮助助力池:', HELP_POOL);
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _a, isLogin, nickName, lastgettime, food, petid, coins, e_1, _i, _b, day, taskRetCode, e_2, e_3, e_4, data, e_5, i, j;
+    var cookiesArr, i, _a, isLogin, nickName, lastgettime, food, petid, coins, e_1, _i, _b, day, taskRetCode, e_2, e_3, e_4;
     var _c, _d;
     return __generator(this, function (_e) {
         switch (_e.label) {
-            case 0: return [4 /*yield*/, requestAlgo()];
+            case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requestAlgo()];
             case 1:
                 _e.sent();
                 return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
@@ -282,60 +276,7 @@ console.log('帮助助力池:', HELP_POOL);
             case 55:
                 i++;
                 return [3 /*break*/, 3];
-            case 56:
-                if (!(HELP_POOL === 'true')) return [3 /*break*/, 61];
-                _e.label = 57;
-            case 57:
-                _e.trys.push([57, 59, , 60]);
-                return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxmc/6', { timeout: 10000 })];
-            case 58:
-                data = (_e.sent()).data;
-                console.log('获取到20个随机助力码:', data.data);
-                shareCodes = __spreadArray(__spreadArray([], shareCodes), data.data);
-                return [3 /*break*/, 60];
-            case 59:
-                e_5 = _e.sent();
-                console.log('获取助力池失败');
-                return [3 /*break*/, 60];
-            case 60: return [3 /*break*/, 62];
-            case 61:
-                console.log('你的设置是不帮助助力池！');
-                _e.label = 62;
-            case 62:
-                i = 0;
-                _e.label = 63;
-            case 63:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 69];
-                cookie = cookiesArr[i];
-                j = 0;
-                _e.label = 64;
-            case 64:
-                if (!(j < shareCodes.length)) return [3 /*break*/, 68];
-                console.log("\u8D26\u53F7" + (i + 1) + "\u53BB\u52A9\u529B" + shareCodes[j]);
-                return [4 /*yield*/, api('operservice/EnrollFriend', 'channel,sceneid,sharekey', { sharekey: shareCodes[j] })];
-            case 65:
-                res = _e.sent();
-                if (res.data.result === 1) {
-                    console.log('不助力自己');
-                }
-                else if (res.ret === 0) {
-                    console.log('助力结果：', res);
-                    console.log('助力成功，获得：', res.data.addcoins);
-                }
-                else {
-                    console.log(res);
-                }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(4000)];
-            case 66:
-                _e.sent();
-                _e.label = 67;
-            case 67:
-                j++;
-                return [3 /*break*/, 64];
-            case 68:
-                i++;
-                return [3 /*break*/, 63];
-            case 69: return [2 /*return*/];
+            case 56: return [2 /*return*/];
         }
     });
 }); })();
@@ -343,7 +284,7 @@ function api(fn, stk, params) {
     var _this = this;
     if (params === void 0) { params = {}; }
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var url, key, data, e_6;
+        var url, key, data, e_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -355,7 +296,7 @@ function api(fn, stk, params) {
                                 url += "&" + key + "=" + params[key];
                         }
                     }
-                    url += '&h5st=' + decrypt(stk, url);
+                    url += '&h5st=' + TS_USER_AGENTS_1.decrypt(stk, url);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -372,7 +313,7 @@ function api(fn, stk, params) {
                     resolve(data);
                     return [3 /*break*/, 4];
                 case 3:
-                    e_6 = _a.sent();
+                    e_5 = _a.sent();
                     reject(401);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
@@ -451,7 +392,7 @@ function taskAPI(fn, stk, params) {
                                 url += "&" + key + "=" + params[key];
                         }
                     }
-                    url += '&h5st=' + decrypt(stk, url);
+                    url += '&h5st=' + TS_USER_AGENTS_1.decrypt(stk, url);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Origin': 'https://st.jingxi.com',
@@ -502,96 +443,4 @@ function makeShareCodes(code) {
             }
         });
     }); });
-}
-function requestAlgo() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, generateFp()];
-                case 1:
-                    fingerprint = _a.sent();
-                    return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                            var data, enCryptMethodJDString;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, axios_1["default"].post('https://cactus.jd.com/request_algo?g_ty=ajax', {
-                                            "version": "1.0",
-                                            "fp": fingerprint,
-                                            "appId": appId,
-                                            "timestamp": Date.now(),
-                                            "platform": "web",
-                                            "expandParams": ""
-                                        }, {
-                                            "headers": {
-                                                'Authority': 'cactus.jd.com',
-                                                'Pragma': 'no-cache',
-                                                'Cache-Control': 'no-cache',
-                                                'Accept': 'application/json',
-                                                'User-Agent': TS_USER_AGENTS_1["default"],
-                                                'Content-Type': 'application/json',
-                                                'Origin': 'https://st.jingxi.com',
-                                                'Sec-Fetch-Site': 'cross-site',
-                                                'Sec-Fetch-Mode': 'cors',
-                                                'Sec-Fetch-Dest': 'empty',
-                                                'Referer': 'https://st.jingxi.com/',
-                                                'Accept-Language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7'
-                                            }
-                                        })];
-                                    case 1:
-                                        data = (_a.sent()).data;
-                                        if (data['status'] === 200) {
-                                            token = data.data.result.tk;
-                                            enCryptMethodJDString = data.data.result.algo;
-                                            if (enCryptMethodJDString)
-                                                enCryptMethodJD = new Function("return " + enCryptMethodJDString)();
-                                        }
-                                        else {
-                                            console.log("fp: " + fingerprint);
-                                            console.log('request_algo 签名参数API请求失败:');
-                                        }
-                                        resolve(200);
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); })];
-            }
-        });
-    });
-}
-function decrypt(stk, url) {
-    var timestamp = (date_fns_1.format(new Date(), 'yyyyMMddhhmmssSSS'));
-    var hash1;
-    if (fingerprint && token && enCryptMethodJD) {
-        hash1 = enCryptMethodJD(token, fingerprint.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);
-    }
-    else {
-        var random = '5gkjB6SpmC9s';
-        token = "tk01wcdf61cb3a8nYUtHcmhSUFFCfddDPRvKvYaMjHkxo6Aj7dhzO+GXGFa9nPXfcgT+mULoF1b1YIS1ghvSlbwhE0Xc";
-        fingerprint = 9686767825751161;
-        // $.fingerprint = 7811850938414161;
-        var str = "" + token + fingerprint + timestamp + appId + random;
-        hash1 = CryptoJS.SHA512(str, token).toString(CryptoJS.enc.Hex);
-    }
-    var st = '';
-    stk.split(',').map(function (item, index) {
-        st += item + ":" + getQueryString(url, item) + (index === stk.split(',').length - 1 ? '' : '&');
-    });
-    var hash2 = CryptoJS.HmacSHA256(st, hash1.toString()).toString(CryptoJS.enc.Hex);
-    return encodeURIComponent(["".concat(timestamp.toString()), "".concat(fingerprint.toString()), "".concat(appId.toString()), "".concat(token), "".concat(hash2)].join(";"));
-}
-function generateFp() {
-    var e = "0123456789";
-    var a = 13;
-    var i = '';
-    for (; a--;)
-        i += e[Math.random() * e.length | 0];
-    return (i + Date.now()).slice(0, 16);
-}
-function getQueryString(url, name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var r = url.split('?')[1].match(reg);
-    if (r != null)
-        return unescape(r[2]);
-    return '';
 }

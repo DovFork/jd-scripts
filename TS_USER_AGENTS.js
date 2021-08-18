@@ -36,10 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.decrypt = exports.requestAlgo = exports.jd_joy_invokeKey = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.jd_joy_invokeKey = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var date_fns_1 = require("date-fns");
 var dotenv = require("dotenv");
+var ts_md5_1 = require("ts-md5");
 var CryptoJS = require('crypto-js');
 dotenv.config();
 var appId = 10028, fingerprint, token = '', enCryptMethodJD;
@@ -297,4 +298,24 @@ function decrypt(stk, url) {
     return encodeURIComponent(["".concat(timestamp.toString()), "".concat(fingerprint.toString()), "".concat(appId.toString()), "".concat(token), "".concat(hash2)].join(";"));
 }
 exports.decrypt = decrypt;
+function getJxToken(cookie) {
+    function generateStr(input) {
+        var src = 'abcdefghijklmnopqrstuvwxyz1234567890';
+        var res = '';
+        for (var i = 0; i < input; i++) {
+            res += src[Math.floor(src.length * Math.random())];
+        }
+        return res;
+    }
+    var phoneId = generateStr(40);
+    var timestamp = Date.now().toString();
+    var nickname = cookie.match(/pt_pin=([^;]*)/)[1];
+    var jstoken = ts_md5_1.Md5.hashStr('' + decodeURIComponent(nickname) + timestamp + phoneId + 'tPOamqCuk9NLgVPAljUyIHcPRmKlVxDy');
+    return {
+        'strPgtimestamp': timestamp,
+        'strPhoneID': phoneId,
+        'strPgUUNum': jstoken
+    };
+}
+exports.getJxToken = getJxToken;
 exports["default"] = USER_AGENT;

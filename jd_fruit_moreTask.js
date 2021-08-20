@@ -36,6 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+/**
+ * 农场补充任务
+ * cron: 0 11,12 * * *
+ */
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var dotenv = require("dotenv");

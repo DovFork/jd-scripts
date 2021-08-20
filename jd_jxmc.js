@@ -193,7 +193,7 @@ console.log('帮助助力池:', HELP_POOL);
                     console.log(res);
                     return [3 /*break*/, 26];
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(4000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(5000)];
             case 25:
                 _e.sent();
                 return [3 /*break*/, 23];
@@ -251,7 +251,7 @@ console.log('帮助助力池:', HELP_POOL);
                 if (res.data.addcoins === 0 || JSON.stringify(res.data) === '{}')
                     return [3 /*break*/, 50];
                 console.log('锄草:', res.data.addcoins);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2500)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
             case 44:
                 _e.sent();
                 if (!res.data.surprise) return [3 /*break*/, 47];
@@ -259,7 +259,7 @@ console.log('帮助助力池:', HELP_POOL);
             case 45:
                 res = _e.sent();
                 console.log('锄草奖励:', res.data.prizepool);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
             case 46:
                 _e.sent();
                 _e.label = 47;
@@ -284,7 +284,7 @@ console.log('帮助助力池:', HELP_POOL);
                 if (res.data.addcoins === 0 || JSON.stringify(res.data) === '{}')
                     return [3 /*break*/, 58];
                 console.log('挑逗:', res.data.addcoins);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2500)];
+                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
             case 55:
                 _e.sent();
                 return [3 /*break*/, 57];
@@ -325,19 +325,16 @@ console.log('帮助助力池:', HELP_POOL);
                 _e.label = 67;
             case 67:
                 if (!(j < shareCodes.length)) return [3 /*break*/, 71];
+                if (!(i !== j)) return [3 /*break*/, 70];
                 console.log("\u8D26\u53F7" + (i + 1) + "\u53BB\u52A9\u529B" + shareCodes[j]);
                 return [4 /*yield*/, api('operservice/EnrollFriend', 'channel,sceneid,sharekey', { sharekey: shareCodes[j] })];
             case 68:
                 res = _e.sent();
-                if (res.data.result === 1) {
-                    console.log('不助力自己');
-                }
-                else if (res.ret === 0) {
-                    console.log('助力结果:', res);
+                if (res.ret === 0) {
                     console.log('助力成功，获得:', res.data.addcoins);
                 }
                 else {
-                    console.log(res);
+                    console.log('助力失败：', res);
                 }
                 return [4 /*yield*/, TS_USER_AGENTS_1.wait(4000)];
             case 69:

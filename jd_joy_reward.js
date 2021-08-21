@@ -45,7 +45,7 @@ var axios_1 = require("axios");
 var date_fns_1 = require("date-fns");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var fs = require("fs");
-var notify = require('./sendNotify');
+var notify = require('./sendNotify'), md5 = require('md5');
 var cookie = '', validate = '', UserName, index;
 var target = process.env.JD_JOY_REWARD_NAME ? parseInt(process.env.JD_JOY_REWARD_NAME) : 500;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -117,19 +117,24 @@ var target = process.env.JD_JOY_REWARD_NAME ? parseInt(process.env.JD_JOY_REWARD
 function init() {
     var _this = this;
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var data;
+        var lkt, lks, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://jdjoy.jd.com/common/gift/getBeanConfigs?reqSource=h5&invokeKey=ztmFUCxcPMNyUq0P&validate=" + validate, {
-                        headers: {
-                            'Host': 'jdjoy.jd.com',
-                            'content-type': 'application/json',
-                            'origin': 'https://h5.m.jd.com',
-                            "User-Agent": TS_USER_AGENTS_1["default"],
-                            'referer': 'https://jdjoy.jd.com/',
-                            'cookie': cookie
-                        }
-                    })];
+                case 0:
+                    lkt = new Date().getTime();
+                    lks = md5('' + 'ztmFUCxcPMNyUq0P' + lkt).toString();
+                    return [4 /*yield*/, axios_1["default"].get("https://jdjoy.jd.com/common/gift/getBeanConfigs?reqSource=h5&invokeKey=ztmFUCxcPMNyUq0P&validate=" + validate, {
+                            headers: {
+                                'lkt': lkt,
+                                'lks': lks,
+                                'Host': 'jdjoy.jd.com',
+                                'content-type': 'application/json',
+                                'origin': 'https://h5.m.jd.com',
+                                "User-Agent": TS_USER_AGENTS_1["default"],
+                                'referer': 'https://jdjoy.jd.com/',
+                                'cookie': cookie
+                            }
+                        })];
                 case 1:
                     data = (_a.sent()).data;
                     resolve(data);
@@ -141,7 +146,7 @@ function init() {
 function exchange(beanId) {
     var _this = this;
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var data;
+        var lkt, lks, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -155,8 +160,12 @@ function exchange(beanId) {
                 case 3: return [3 /*break*/, 0];
                 case 4:
                     console.log('exchange()', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
+                    lkt = new Date().getTime();
+                    lks = md5('' + 'ztmFUCxcPMNyUq0P' + lkt).toString();
                     return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=ztmFUCxcPMNyUq0P&validate=" + validate, JSON.stringify({ "buyParam": { "orderSource": 'pet', "saleInfoId": beanId }, "deviceInfo": {} }), {
                             headers: {
+                                'lkt': lkt,
+                                'lks': lks,
                                 "Host": "jdjoy.jd.com",
                                 "Accept-Language": "zh-cn",
                                 "Content-Type": "application/json",

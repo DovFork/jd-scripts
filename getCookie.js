@@ -43,22 +43,21 @@ exports.__esModule = true;
  */
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-// const USER_AGENT = 'jdapp;android;10.0.5;11;0393465333165363-5333430323261366;network/wifi;model/M2102K1C;osVer/30;appBuild/88681;partner/lc001;eufv/1;jdSupportDarkMode/0;Mozilla/5.0 (Linux; Android 11; M2102K1C Build/RKQ1.201112.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045534 Mobile Safari/537.36'
 var qrcode = require('qrcode-terminal');
 var notify = require('./sendNotify');
-var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a : false;
+var USER_AGENT = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 SP-engine/2.14.0 main%2F1.0 baiduboxapp/11.18.0.16 (Baidu; P2 13.3.1) NABar/0.0';
+var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a : "false";
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var config, _a, headers, data, s_token, setCookie, _i, _b, h, guid, lsid, lstoken, cookies, body, res, token, okl_token, url, code, _c, _d, h;
     return __generator(this, function (_e) {
         switch (_e.label) {
             case 0:
-                console.log('可异地');
                 config = {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'Accept': 'application/json, text/plain, */*',
                         'Referer': 'https://plogin.m.jd.com/login/login?appid=300&returnurl=https://wq.jd.com/passport/LoginRedirect?state=${Date.now()}&returnurl=https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action&source=wq_passport',
-                        'User-Agent': TS_USER_AGENTS_1["default"],
+                        'User-Agent': USER_AGENT,
                         'Host': 'plogin.m.jd.com'
                     }
                 };
@@ -76,14 +75,8 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
                 lstoken = setCookie.match(/lstoken=([^;]*)/)[1];
                 cookies = "guid=" + guid + ";lang=chs;lsid=" + lsid + ";lstoken=" + lstoken + ";";
                 config.headers.cookie = cookies;
-                body = {
-                    'lang': 'chs',
-                    'appid': '300',
-                    'returnurl': "https://wqlogin2.jd.com/passport/LoginRedirect?state=" + Date.now() + "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action",
-                    'source': 'wq_passport'
-                };
-                return [4 /*yield*/, axios_1["default"].post("https://plogin.m.jd.com/cgi-bin/m/tmauthreflogurl?s_token=" + s_token + "&v=" + Date.now() + "&remember=true", encodeURIComponent(JSON.stringify(body)), config)
-                        .then(function (res) {
+                body = { 'lang': 'chs', 'appid': '300', 'returnurl': "https://wqlogin2.jd.com/passport/LoginRedirect?state=" + Date.now() + "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action", 'source': 'wq_passport' };
+                return [4 /*yield*/, axios_1["default"].post("https://plogin.m.jd.com/cgi-bin/m/tmauthreflogurl?s_token=" + s_token + "&v=" + Date.now() + "&remember=true", encodeURIComponent(JSON.stringify(body)), config).then(function (res) {
                         return res;
                     })];
             case 2:
@@ -103,10 +96,9 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
                             'Connection': 'Keep-Alive',
                             'Content-Type': 'application/x-www-form-urlencoded; Charset=UTF-8',
                             'Accept': 'application/json, text/plain, */*',
-                            'User-Agent': TS_USER_AGENTS_1["default"]
+                            'User-Agent': USER_AGENT
                         }
-                    })
-                        .then(function (res) {
+                    }).then(function (res) {
                         return res;
                     })];
             case 4:
@@ -122,7 +114,7 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
                 cookies = setCookie.match(/(pt_key=\S*)/)[1] + setCookie.match(/(pt_pin=\S*)/)[1];
                 console.log(cookies);
                 console.log('\n哪个死妈东西说扫了此脚本被偷ck的？100行不到的代码你告诉我哪里是泄漏你ck的？');
-                if (!PUSH_COOKIE) return [3 /*break*/, 6];
+                if (!(PUSH_COOKIE === "true")) return [3 /*break*/, 6];
                 return [4 /*yield*/, notify.sendNotify('Cookie', cookies + '\n\n哪个死妈东西说扫了此脚本被偷ck的？100行不到的代码你告诉我哪里是泄漏你ck的？', '', '\n\n你好，世界！')];
             case 5:
                 _e.sent();
@@ -140,7 +132,7 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
                     return [3 /*break*/, 10];
                 }
                 _e.label = 8;
-            case 8: return [4 /*yield*/, wait(1000)];
+            case 8: return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
             case 9:
                 _e.sent();
                 return [3 /*break*/, 3];
@@ -148,10 +140,3 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
         }
     });
 }); })();
-function wait(t) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            resolve();
-        }, t);
-    });
-}

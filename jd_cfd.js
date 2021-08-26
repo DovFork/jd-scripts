@@ -46,10 +46,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
 var date_fns_1 = require("date-fns");
@@ -74,7 +78,7 @@ var UserName, index;
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
                 _t.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _t.sent();
                 i = 0;
@@ -84,7 +88,7 @@ var UserName, index;
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 4:
                 _a = _t.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
@@ -117,7 +121,7 @@ var UserName, index;
                 // 离线
                 res = _t.sent();
                 console.log('离线收益：', res.Business.ddwCoin);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
                     // 珍珠
                 ];
             case 10:
@@ -133,7 +137,7 @@ var UserName, index;
             case 12:
                 if (!(i_1 < 8 - res.dwCurProgress)) return [3 /*break*/, 21];
                 console.log('继续合成');
-                RealTmReport = TS_USER_AGENTS_1.getRandomNumberByRange(10, 20);
+                RealTmReport = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(10, 20);
                 console.log('本次合成需要上报：', RealTmReport);
                 j = 0;
                 _t.label = 13;
@@ -144,7 +148,7 @@ var UserName, index;
                 res = _t.sent();
                 if (res.iRet === 0)
                     console.log("\u6E38\u620F\u4E2D\u9014\u4E0A\u62A5" + (j + 1) + "\uFF1AOK");
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(5000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 15:
                 _t.sent();
                 _t.label = 16;
@@ -156,14 +160,14 @@ var UserName, index;
                 res = _t.sent();
                 console.log('游戏完成，已合成', res.dwCurProgress);
                 console.log('游戏完成，等待3s');
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 19:
                 _t.sent();
                 _t.label = 20;
             case 20:
                 i_1++;
                 return [3 /*break*/, 12];
-            case 21: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)
+            case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
                 // 珍珠领奖
             ];
             case 22:
@@ -185,14 +189,14 @@ var UserName, index;
             case 25:
                 awardRes = _t.sent();
                 console.log('珍珠领奖：', awardRes.ddwCoin, awardRes.addMonety);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 26:
                 _t.sent();
                 _t.label = 27;
             case 27:
                 _i++;
                 return [3 /*break*/, 24];
-            case 28: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)
+            case 28: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
                 // 签到 助力奖励
             ];
             case 29:
@@ -214,7 +218,7 @@ var UserName, index;
                 empRes = _t.sent();
                 if (empRes.iRet === 0)
                     console.log('助力奖励领取成功：', empRes.Data.ddwCoin);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 33:
                 _t.sent();
                 _t.label = 34;
@@ -244,7 +248,7 @@ var UserName, index;
             case 38:
                 _d++;
                 return [3 /*break*/, 36];
-            case 39: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)
+            case 39: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
                 // 船来了
             ];
             case 40:
@@ -269,7 +273,7 @@ var UserName, index;
             case 42:
                 shipRes = _t.sent();
                 console.log('正在下船，等待30s');
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(30000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(30000)];
             case 43:
                 _t.sent();
                 return [4 /*yield*/, api('story/SpecialUserOper', '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType', {
@@ -294,7 +298,7 @@ var UserName, index;
                 // TODO 背包满了再卖给收破烂的
                 res = _t.sent();
                 console.log(res);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 47:
                 _t.sent();
                 isCollector = true;
@@ -308,7 +312,7 @@ var UserName, index;
                     bags_1.push(s.dwType);
                     bags_1.push(s.dwCount);
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 49:
                 _t.sent();
                 strTypeCnt_1 = '';
@@ -324,7 +328,7 @@ var UserName, index;
                 res = _t.sent();
                 console.log('卖贝壳收入:', res.Data.ddwCoin, res.Data.ddwMoney);
                 _t.label = 51;
-            case 51: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 51: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 52:
                 _t.sent();
                 _t.label = 53;
@@ -338,7 +342,7 @@ var UserName, index;
                     bags.push(s.dwType);
                     bags.push(s.dwCount);
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 55:
                 _t.sent();
                 strTypeCnt = '';
@@ -366,7 +370,7 @@ var UserName, index;
                     })];
             case 59:
                 _t.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 60:
                 _t.sent();
                 j = 1;
@@ -380,14 +384,14 @@ var UserName, index;
                     })];
             case 62:
                 res = _t.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1500)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1500)];
             case 63:
                 _t.sent();
                 _t.label = 64;
             case 64:
                 j++;
                 return [3 /*break*/, 61];
-            case 65: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)
+            case 65: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
                 // 任务➡️
             ];
             case 66:
@@ -420,14 +424,14 @@ var UserName, index;
                 if (res.ret === 0) {
                     console.log(t.strTaskName + "\u9886\u5956\u6210\u529F:", res.data.prizeInfo);
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 73:
                 _t.sent();
                 _t.label = 74;
             case 74:
                 _k++;
                 return [3 /*break*/, 71];
-            case 75: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 75: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 76:
                 _t.sent();
                 return [4 /*yield*/, api('story/GetActTask', '_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
@@ -438,7 +442,7 @@ var UserName, index;
             case 78:
                 res = _t.sent();
                 console.log('100财富任务完成：', res);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 79:
                 _t.sent();
                 _t.label = 80;
@@ -463,14 +467,14 @@ var UserName, index;
                     console.log("\u96C7\u4F63" + e.strBuildIndex + "\u5BFC\u6E38\u6210\u529F");
                 if (employ.iRet === 2003)
                     return [3 /*break*/, 87];
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 85:
                 _t.sent();
                 _t.label = 86;
             case 86:
                 _m++;
                 return [3 /*break*/, 83];
-            case 87: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)
+            case 87: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
                 // 任务⬇️
             ];
             case 88:
@@ -494,7 +498,7 @@ var UserName, index;
                 if (res.ret === 0) {
                     console.log(t.taskName + "\u9886\u5956\u6210\u529F:", res.data.prizeInfo);
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 92:
                 _t.sent();
                 return [3 /*break*/, 96];
@@ -508,14 +512,14 @@ var UserName, index;
             case 94:
                 res = _t.sent();
                 console.log('做任务:', res);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(5000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 95:
                 _t.sent();
                 _t.label = 96;
             case 96:
                 _p++;
                 return [3 /*break*/, 90];
-            case 97: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 97: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 98:
                 _t.sent();
                 _r = 0, _s = ['fun', 'shop', 'sea', 'food'];
@@ -527,7 +531,7 @@ var UserName, index;
             case 100:
                 res = _t.sent();
                 console.log(b + "\u6536\u91D1\u5E01:", res.ddwCoin);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 101:
                 _t.sent();
                 _t.label = 102;
@@ -545,7 +549,7 @@ var UserName, index;
                 return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/HW_CODES", { timeout: 10000 })];
             case 106:
                 data = (_t.sent()).data;
-                shareCodes = __spreadArray(__spreadArray([], shareCodes), data.jxcfd);
+                shareCodes = __spreadArray(__spreadArray([], shareCodes, true), data.jxcfd, true);
                 console.log('获取HelloWorld助力码成功');
                 return [3 /*break*/, 108];
             case 107:
@@ -561,7 +565,7 @@ var UserName, index;
             case 110:
                 data = (_t.sent()).data;
                 console.log('获取到20个随机助力码:', data.data);
-                shareCodes = __spreadArray(__spreadArray([], shareCodes), data.data);
+                shareCodes = __spreadArray(__spreadArray([], shareCodes, true), data.data, true);
                 return [3 /*break*/, 112];
             case 111:
                 e_3 = _t.sent();
@@ -589,7 +593,7 @@ var UserName, index;
                 if (res.iRet === 2232 || res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
                     return [3 /*break*/, 120];
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 118:
                 _t.sent();
                 _t.label = 119;
@@ -680,10 +684,10 @@ function makeShareCodes() {
         var bean, farm, pin;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, TS_USER_AGENTS_1.getBeanShareCode(cookie)];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getBeanShareCode)(cookie)];
                 case 1:
                     bean = _a.sent();
-                    return [4 /*yield*/, TS_USER_AGENTS_1.getFarmShareCode(cookie)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.getFarmShareCode)(cookie)];
                 case 2:
                     farm = _a.sent();
                     return [4 /*yield*/, api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strShareId,strZone', {
@@ -770,7 +774,7 @@ function requestAlgo() {
     });
 }
 function decrypt(stk, url) {
-    var timestamp = (date_fns_1.format(new Date(), 'yyyyMMddhhmmssSSS'));
+    var timestamp = ((0, date_fns_1.format)(new Date(), 'yyyyMMddhhmmssSSS'));
     var hash1;
     if (fingerprint && token && enCryptMethodJD) {
         hash1 = enCryptMethodJD(token, fingerprint.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);

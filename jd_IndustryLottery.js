@@ -48,7 +48,7 @@ var UserName, index;
     var cookiesArr, i, _a, isLogin, nickName, k, _i, _b, t, body, j;
     return __generator(this, function (_c) {
         switch (_c.label) {
-            case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _c.sent();
                 i = 0;
@@ -58,7 +58,7 @@ var UserName, index;
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 3:
                 _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
@@ -88,21 +88,21 @@ var UserName, index;
             case 7:
                 res = _c.sent();
                 console.log(res);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 8:
                 _c.sent();
                 return [4 /*yield*/, api("getReward", body)];
             case 9:
                 res = _c.sent();
                 console.log(res);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(t.viewTime * 1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.viewTime * 1000)];
             case 10:
                 _c.sent();
                 return [3 /*break*/, 12];
             case 11:
                 _i++;
                 return [3 /*break*/, 6];
-            case 12: return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
+            case 12: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 13:
                 _c.sent();
                 _c.label = 14;
@@ -120,7 +120,7 @@ var UserName, index;
                 return [4 /*yield*/, join()];
             case 18:
                 _c.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(5000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 19:
                 _c.sent();
                 _c.label = 20;

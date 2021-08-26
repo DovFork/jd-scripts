@@ -58,7 +58,7 @@ var target = process.env.JD_JOY_REWARD_NAME ? parseInt(process.env.JD_JOY_REWARD
                     validate_arr = validate_arr.split('\n');
                     validate_arr.pop();
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _b.sent();
                 i = 0;
@@ -68,7 +68,7 @@ var target = process.env.JD_JOY_REWARD_NAME ? parseInt(process.env.JD_JOY_REWARD
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 3:
                 _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
@@ -153,13 +153,13 @@ function exchange(beanId) {
                     if (!1) return [3 /*break*/, 4];
                     if (!(new Date().getSeconds() < 15)) return [3 /*break*/, 1];
                     return [3 /*break*/, 4];
-                case 1: return [4 /*yield*/, TS_USER_AGENTS_1.wait(100)];
+                case 1: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(100)];
                 case 2:
                     _a.sent();
                     _a.label = 3;
                 case 3: return [3 /*break*/, 0];
                 case 4:
-                    console.log('exchange()', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
+                    console.log('exchange()', (0, date_fns_1.format)(new Date(), 'hh:mm:ss:SSS'));
                     lkt = new Date().getTime();
                     lks = md5('' + 'ztmFUCxcPMNyUq0P' + lkt).toString();
                     return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/common/gift/new/exchange?reqSource=h5&invokeKey=ztmFUCxcPMNyUq0P&validate=" + validate, JSON.stringify({ "buyParam": { "orderSource": 'pet', "saleInfoId": beanId }, "deviceInfo": {} }), {

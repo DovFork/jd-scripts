@@ -47,10 +47,10 @@ var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNoti
     var cookiesArr, i, _a, isLogin, nickName, _i, _b, t, _c, _d, t;
     return __generator(this, function (_e) {
         switch (_e.label) {
-            case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requestAlgo()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
             case 1:
                 _e.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _e.sent();
                 i = 0;
@@ -60,7 +60,7 @@ var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNoti
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 4:
                 _a = _e.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
@@ -87,7 +87,7 @@ var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNoti
                 else {
                     console.log('任务失败：', res.errmsg);
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 8:
                 _e.sent();
                 _e.label = 9;
@@ -108,7 +108,7 @@ var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNoti
             case 13:
                 res = _e.sent();
                 console.log('开宝箱，获得：', res.sendhb);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 14:
                 _e.sent();
                 _e.label = 15;
@@ -138,7 +138,7 @@ function api(fn, stk, params) {
                                 url += "&" + key + "=" + params[key];
                         }
                     }
-                    url += '&h5st=' + TS_USER_AGENTS_1.decrypt(stk, url);
+                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
                     if (fn.match(/(dotask|bxdraw)/)) {
                         url = fn;
                     }

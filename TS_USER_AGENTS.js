@@ -278,7 +278,7 @@ function getQueryString(url, name) {
     return '';
 }
 function decrypt(stk, url) {
-    var timestamp = (date_fns_1.format(new Date(), 'yyyyMMddhhmmssSSS'));
+    var timestamp = ((0, date_fns_1.format)(new Date(), 'yyyyMMddhhmmssSSS'));
     var hash1;
     if (fingerprint && token && enCryptMethodJD) {
         hash1 = enCryptMethodJD(token, fingerprint.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);

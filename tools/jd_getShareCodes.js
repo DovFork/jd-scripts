@@ -48,7 +48,7 @@ var cookie = '', res = '', UserName, index;
     var cookiesArr, i, _a, isLogin, nickName;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _b.sent();
                 i = 0;
@@ -58,7 +58,7 @@ var cookie = '', res = '', UserName, index;
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 3:
                 _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {

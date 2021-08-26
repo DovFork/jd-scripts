@@ -48,7 +48,7 @@ function main() {
         var cookiesArr, i, _a, isLogin, nickName, data, e_1, e_2;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
                 case 1:
                     cookiesArr = _b.sent();
                     i = 0;
@@ -58,7 +58,7 @@ function main() {
                     cookie = cookiesArr[i];
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     index = i + 1;
-                    return [4 /*yield*/, TS_USER_AGENTS_2.TotalBean(cookie)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_2.TotalBean)(cookie)];
                 case 3:
                     _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                     if (!isLogin) {
@@ -93,12 +93,12 @@ function main() {
                 case 11:
                     if (!(data.indexOf('京东多合一签到脚本') > -1)) return [3 /*break*/, 12];
                     data = data.replace("var Key = ''", "var Key = '" + cookie + "'").replace(/qRKHmL4sna8ZOP9F/g, "ztmFUCxcPMNyUq0P");
-                    fs_1.writeFileSync('./sign.js', data, 'utf-8');
-                    child_process_1.execSync('node ./sign.js>>./sign.log');
-                    data = fs_1.readFileSync('./sign.log', 'utf-8');
+                    (0, fs_1.writeFileSync)('./sign.js', data, 'utf-8');
+                    (0, child_process_1.execSync)('node ./sign.js>>./sign.log');
+                    data = (0, fs_1.readFileSync)('./sign.log', 'utf-8');
                     message += data.replace(/(\n京东现金[\S|\s]*^)【签到/mg, '【签到');
-                    fs_1.unlinkSync('./sign.js');
-                    fs_1.unlinkSync('./sign.log');
+                    (0, fs_1.unlinkSync)('./sign.js');
+                    (0, fs_1.unlinkSync)('./sign.log');
                     return [3 /*break*/, 14];
                 case 12: return [4 /*yield*/, notify.sendNotify("\u591A\u5408\u4E00\u7B7E\u5230  " + UserName, data, '', '\n\n你好，世界！')];
                 case 13:

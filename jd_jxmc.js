@@ -41,10 +41,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
@@ -54,7 +58,7 @@ var fs_1 = require("fs");
 var notify = require('./sendNotify');
 var A;
 try {
-    fs_1.accessSync('./tools/jd_jxmcToken.js');
+    (0, fs_1.accessSync)('./tools/jd_jxmcToken.js');
     A = require('./tools/jd_jxmcToken');
 }
 catch (e) {
@@ -70,10 +74,10 @@ console.log('帮助助力池:', HELP_POOL);
     var _c, _d;
     return __generator(this, function (_e) {
         switch (_e.label) {
-            case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requestAlgo()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
             case 1:
                 _e.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _e.sent();
                 i = 0;
@@ -83,7 +87,7 @@ console.log('帮助助力池:', HELP_POOL);
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 4:
                 _a = _e.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
@@ -91,7 +95,7 @@ console.log('帮助助力池:', HELP_POOL);
                     return [3 /*break*/, 58];
                 }
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                jxToken = TS_USER_AGENTS_1.getJxToken(cookie);
+                jxToken = (0, TS_USER_AGENTS_1.getJxToken)(cookie);
                 return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'activeid,activekey,channel,isgift,isquerypicksite,sceneid', { isgift: 0, isquerypicksite: 0 })];
             case 5:
                 homePageInfo = _e.sent();
@@ -173,7 +177,7 @@ console.log('帮助助力池:', HELP_POOL);
                 taskRetCode = _e.sent();
                 console.log('taskRetCode:', taskRetCode);
                 if (!(taskRetCode === 0)) return [3 /*break*/, 21];
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(4000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 20:
                 _e.sent();
                 return [3 /*break*/, 22];
@@ -193,11 +197,11 @@ console.log('帮助助力池:', HELP_POOL);
                     console.log(res);
                     return [3 /*break*/, 26];
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(5000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 25:
                 _e.sent();
                 return [3 /*break*/, 23];
-            case 26: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 26: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 27:
                 _e.sent();
                 _e.label = 28;
@@ -228,7 +232,7 @@ console.log('帮助助力池:', HELP_POOL);
             case 34:
                 console.log(res);
                 return [3 /*break*/, 39];
-            case 35: return [4 /*yield*/, TS_USER_AGENTS_1.wait(5000)];
+            case 35: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 36:
                 _e.sent();
                 return [3 /*break*/, 38];
@@ -236,7 +240,7 @@ console.log('帮助助力池:', HELP_POOL);
                 e_2 = _e.sent();
                 return [3 /*break*/, 39];
             case 38: return [3 /*break*/, 28];
-            case 39: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 39: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 40:
                 _e.sent();
                 _e.label = 41;
@@ -251,7 +255,7 @@ console.log('帮助助力池:', HELP_POOL);
                 if (res.data.addcoins === 0 || JSON.stringify(res.data) === '{}')
                     return [3 /*break*/, 50];
                 console.log('锄草:', res.data.addcoins);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 44:
                 _e.sent();
                 if (!res.data.surprise) return [3 /*break*/, 47];
@@ -259,7 +263,7 @@ console.log('帮助助力池:', HELP_POOL);
             case 45:
                 res = _e.sent();
                 console.log('锄草奖励:', res.data.prizepool);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 46:
                 _e.sent();
                 _e.label = 47;
@@ -269,7 +273,7 @@ console.log('帮助助力池:', HELP_POOL);
                 console.log('Error:', e_3);
                 return [3 /*break*/, 50];
             case 49: return [3 /*break*/, 41];
-            case 50: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 50: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 51:
                 _e.sent();
                 _e.label = 52;
@@ -284,7 +288,7 @@ console.log('帮助助力池:', HELP_POOL);
                 if (res.data.addcoins === 0 || JSON.stringify(res.data) === '{}')
                     return [3 /*break*/, 58];
                 console.log('挑逗:', res.data.addcoins);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 55:
                 _e.sent();
                 return [3 /*break*/, 57];
@@ -305,7 +309,7 @@ console.log('帮助助力池:', HELP_POOL);
             case 61:
                 data = (_e.sent()).data;
                 console.log('获取到20个随机助力码:', data.data);
-                shareCodes = __spreadArray(__spreadArray([], shareCodes), data.data);
+                shareCodes = __spreadArray(__spreadArray([], shareCodes, true), data.data, true);
                 return [3 /*break*/, 63];
             case 62:
                 e_5 = _e.sent();
@@ -336,7 +340,7 @@ console.log('帮助助力池:', HELP_POOL);
                 else {
                     console.log('助力失败：', res);
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(4000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 69:
                 _e.sent();
                 _e.label = 70;
@@ -366,7 +370,7 @@ function api(fn, stk, params) {
                                 url += "&" + key + "=" + params[key];
                         }
                     }
-                    url += '&h5st=' + TS_USER_AGENTS_1.decrypt(stk, url);
+                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -416,7 +420,7 @@ function getTask() {
                     return [4 /*yield*/, taskAPI('Award', 'bizCode,source,taskId', { taskId: t.taskId })];
                 case 3:
                     doTaskRes = _b.sent();
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(4000)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
                 case 4:
                     _b.sent();
                     if (doTaskRes.ret === 0) {
@@ -432,7 +436,7 @@ function getTask() {
                     doTaskRes = _b.sent();
                     if (!(doTaskRes.ret === 0)) return [3 /*break*/, 8];
                     console.log('任务完成');
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(5000)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
                 case 7:
                     _b.sent();
                     _b.label = 8;
@@ -462,7 +466,7 @@ function taskAPI(fn, stk, params) {
                                 url += "&" + key + "=" + params[key];
                         }
                     }
-                    url += '&h5st=' + TS_USER_AGENTS_1.decrypt(stk, url);
+                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Origin': 'https://st.jingxi.com',
@@ -489,10 +493,10 @@ function makeShareCodes(code) {
         var bean, farm, pin;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, TS_USER_AGENTS_1.getBeanShareCode(cookie)];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getBeanShareCode)(cookie)];
                 case 1:
                     bean = _a.sent();
-                    return [4 /*yield*/, TS_USER_AGENTS_1.getFarmShareCode(cookie)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.getFarmShareCode)(cookie)];
                 case 2:
                     farm = _a.sent();
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];

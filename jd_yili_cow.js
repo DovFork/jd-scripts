@@ -50,7 +50,7 @@ function main() {
         var cookiesArr, i, _c, isLogin, nickName, j, taskArr, _i, taskArr_1, t, e_1;
         return __generator(this, function (_d) {
             switch (_d.label) {
-                case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
                 case 1:
                     cookiesArr = _d.sent();
                     i = 0;
@@ -63,7 +63,7 @@ function main() {
                     cookie = cookiesArr[i];
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     index = i + 1;
-                    return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
                 case 4:
                     _c = _d.sent(), isLogin = _c.isLogin, nickName = _c.nickName;
                     if (!isLogin) {
@@ -120,7 +120,7 @@ function main() {
                         console.log('喂奶失败：', res);
                         return [3 /*break*/, 17];
                     }
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
                 case 15:
                     _d.sent();
                     _d.label = 16;
@@ -143,7 +143,7 @@ function main() {
                         console.log('抽奖失败：', res);
                         return [3 /*break*/, 20];
                     }
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
                 case 19:
                     _d.sent();
                     return [3 /*break*/, 17];
@@ -170,7 +170,7 @@ function main() {
                         console.log('任务失败：', res);
                         return [3 /*break*/, 25];
                     }
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
                 case 23:
                     _d.sent();
                     _d.label = 24;

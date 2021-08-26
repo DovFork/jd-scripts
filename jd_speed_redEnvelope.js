@@ -66,7 +66,7 @@ var shareCodes = [];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 3:
                 _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {

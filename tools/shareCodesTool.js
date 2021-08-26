@@ -177,7 +177,7 @@ function jxfactory(cookie) {
             switch (_c.label) {
                 case 0:
                     url = "https://m.jingxi.com/newtasksys/newtasksys_front/GetUserTaskStatusList?source=dreamfactory&bizCode=dream_factory&_time=" + Date.now() + "&_stk=" + encodeURIComponent('_time,bizCode,source') + "&_ste=1&_=" + Date.now() + "&sceneval=2";
-                    url += '&h5st=' + TS_USER_AGENTS_1.decrypt('_time,bizCode,source', url);
+                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)('_time,bizCode,source', url);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Referer': 'https://actst.jingxi.com/pingou/dream_factory/index.html',

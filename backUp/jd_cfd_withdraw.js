@@ -67,7 +67,7 @@ function f1(cookies) {
                     if (!1) return [3 /*break*/, 3];
                     if (new Date().getSeconds() < 30)
                         return [3 /*break*/, 3];
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(100)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(100)];
                 case 2:
                     _b.sent();
                     return [3 /*break*/, 1];
@@ -95,7 +95,7 @@ function f1(cookies) {
                     return [3 /*break*/, 4];
                 case 8:
                     // 提现
-                    console.log('解锁：', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
+                    console.log('解锁：', (0, date_fns_1.format)(new Date(), 'hh:mm:ss:SSS'));
                     return [4 /*yield*/, getJxToken(cookie)];
                 case 9:
                     token = _b.sent();
@@ -103,10 +103,10 @@ function f1(cookies) {
                 case 10:
                     res = _b.sent();
                     console.log('资格:', res);
-                    return [4 /*yield*/, TS_USER_AGENTS_1.wait(4000)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
                 case 11:
                     _b.sent();
-                    console.log('提现：', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
+                    console.log('提现：', (0, date_fns_1.format)(new Date(), 'hh:mm:ss:SSS'));
                     h = new Date().getHours();
                     if (h === 0)
                         money = 100;
@@ -135,7 +135,7 @@ function f1(cookies) {
                 return [4 /*yield*/, requestAlgo()];
             case 1:
                 _a.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _a.sent();
                 for (i = 0; i < cookiesArr.length; i++) {
@@ -273,7 +273,7 @@ function requestAlgo() {
     });
 }
 function decrypt(stk, url) {
-    var timestamp = (date_fns_1.format(new Date(), 'yyyyMMddhhmmssSSS'));
+    var timestamp = ((0, date_fns_1.format)(new Date(), 'yyyyMMddhhmmssSSS'));
     var hash1;
     if (fingerprint && token && enCryptMethodJD) {
         hash1 = enCryptMethodJD(token, fingerprint.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);

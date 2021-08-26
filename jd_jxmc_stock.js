@@ -56,18 +56,18 @@ var cookie = '', res = '', UserName, index;
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
                 _f.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _f.sent();
                 cookie = cookiesArr[0];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 try {
-                    fs_1.accessSync('./jxmc_stock.json');
+                    (0, fs_1.accessSync)('./jxmc_stock.json');
                 }
                 catch (e) {
-                    fs_1.writeFileSync('./jxmc_stock.json', '{}', 'utf-8');
+                    (0, fs_1.writeFileSync)('./jxmc_stock.json', '{}', 'utf-8');
                 }
-                exist = JSON.parse(fs_1.readFileSync('./jxmc_stock.json', 'utf-8'));
+                exist = JSON.parse((0, fs_1.readFileSync)('./jxmc_stock.json', 'utf-8'));
                 items = '', message = '';
                 return [4 /*yield*/, api('queryservice/GetGoodsListV2', 'channel,sceneid')];
             case 3:
@@ -92,7 +92,7 @@ var cookie = '', res = '', UserName, index;
                 }
                 _f.label = 5;
             case 5:
-                fs_1.writeFileSync('./jxmc_stock.json', JSON.stringify(exist, null, 2), 'utf-8');
+                (0, fs_1.writeFileSync)('./jxmc_stock.json', JSON.stringify(exist, null, 2), 'utf-8');
                 for (_d = 0, _e = Object.keys(exist); _d < _e.length; _d++) {
                     j = _e[_d];
                     if (items.indexOf(j) > -1) {
@@ -231,7 +231,7 @@ function requestAlgo() {
     });
 }
 function decrypt(stk, url) {
-    var timestamp = (date_fns_1.format(new Date(), 'yyyyMMddhhmmssSSS'));
+    var timestamp = ((0, date_fns_1.format)(new Date(), 'yyyyMMddhhmmssSSS'));
     var hash1;
     if (fingerprint && token && enCryptMethodJD) {
         hash1 = enCryptMethodJD(token, fingerprint.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);

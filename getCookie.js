@@ -132,7 +132,7 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
                     return [3 /*break*/, 10];
                 }
                 _e.label = 8;
-            case 8: return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+            case 8: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 9:
                 _e.sent();
                 return [3 /*break*/, 3];

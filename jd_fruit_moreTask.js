@@ -51,7 +51,7 @@ var UserName, index;
     var cookiesArr, i, _a, isLogin, nickName, k, _i, _b, t;
     return __generator(this, function (_c) {
         switch (_c.label) {
-            case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _c.sent();
                 i = 0;
@@ -61,7 +61,7 @@ var UserName, index;
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 3:
                 _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
@@ -99,14 +99,14 @@ var UserName, index;
                 else
                     console.log(t.mainTitle + "\uFF1A\u4EFB\u52A1\u5931\u8D25-" + res.code);
                 _c.label = 10;
-            case 10: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 11:
                 _c.sent();
                 _c.label = 12;
             case 12:
                 _i++;
                 return [3 /*break*/, 6];
-            case 13: return [4 /*yield*/, TS_USER_AGENTS_1.wait(3000)];
+            case 13: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 14:
                 _c.sent();
                 _c.label = 15;

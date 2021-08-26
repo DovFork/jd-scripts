@@ -60,7 +60,7 @@ var UserName, index;
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
                 _c.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _c.sent();
                 filename = __filename.split('/').pop();
@@ -98,7 +98,7 @@ var UserName, index;
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 5:
                 _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
@@ -143,7 +143,7 @@ var UserName, index;
                     return [3 /*break*/, 15];
                 }
                 console.log('捡贝壳:', res.Data.strFirstDesc);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(500)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(500)];
             case 13:
                 _c.sent();
                 _c.label = 14;
@@ -162,8 +162,8 @@ var UserName, index;
                 i++;
                 return [3 /*break*/, 4];
             case 19:
-                t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : TS_USER_AGENTS_1.getRandomNumberByRange(1000 * 30, 1000 * 60);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(t)];
+                t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : (0, TS_USER_AGENTS_1.getRandomNumberByRange)(1000 * 30, 1000 * 60);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t)];
             case 20:
                 _c.sent();
                 return [3 /*break*/, 3];
@@ -265,7 +265,7 @@ function requestAlgo() {
     });
 }
 function decrypt(stk, url) {
-    var timestamp = (date_fns_1.format(new Date(), 'yyyyMMddhhmmssSSS'));
+    var timestamp = ((0, date_fns_1.format)(new Date(), 'yyyyMMddhhmmssSSS'));
     var hash1;
     if (fingerprint && token && enCryptMethodJD) {
         hash1 = enCryptMethodJD(token, fingerprint.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);

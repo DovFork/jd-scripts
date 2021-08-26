@@ -50,10 +50,10 @@ var cookie = '', cookiesArr, res = '';
     var _i, _a, t;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requestAlgo()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
             case 1:
                 _b.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _b.sent();
                 cookie = cookiesArr[0];
@@ -84,7 +84,7 @@ function api(fn, stk, params) {
                                 url += "&" + key + "=" + params[key];
                         }
                     }
-                    url += '&h5st=' + TS_USER_AGENTS_1.decrypt(stk, url);
+                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'm.jingxi.com',

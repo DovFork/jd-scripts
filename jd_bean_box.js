@@ -49,7 +49,7 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
     var cookiesArr, i, _a, isLogin, nickName, j, homeRes, homeRes, _i, _b, t, e_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
-            case 0: return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _c.sent();
                 i = 0;
@@ -59,7 +59,7 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 3:
                 _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
@@ -110,11 +110,11 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                 else {
                     console.log(res);
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 13:
                 _c.sent();
                 if (!(t.taskType !== 3)) return [3 /*break*/, 16];
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1500)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1500)];
             case 14:
                 _c.sent();
                 return [4 /*yield*/, api('beanDoTask', { "actionType": 0, "taskToken": t.subTaskVOS[0].taskToken })];
@@ -123,7 +123,7 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
                 if (res.data.bizMsg)
                     console.log(res.data.bizMsg);
                 _c.label = 16;
-            case 16: return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+            case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 17:
                 _c.sent();
                 _c.label = 18;
@@ -134,7 +134,7 @@ var cookie = '', res = '', UserName, index, id = randomString(40);
             case 20:
                 e_1 = _c.sent();
                 return [3 /*break*/, 23];
-            case 21: return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+            case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 22:
                 _c.sent();
                 return [7 /*endfinally*/];

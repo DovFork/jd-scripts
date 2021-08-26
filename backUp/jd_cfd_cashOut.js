@@ -61,7 +61,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
             case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
                 _j.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.requireConfig()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _j.sent();
                 i = 0;
@@ -71,7 +71,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, TS_USER_AGENTS_1.TotalBean(cookie)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
             case 4:
                 _a = _j.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
@@ -116,7 +116,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
             case 12:
                 res = _j.sent();
                 console.log(b + "\u6536\u91D1\u5E01:", res.ddwCoin);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(500)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(500)];
             case 13:
                 _j.sent();
                 _j.label = 14;
@@ -134,7 +134,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
                 console.log('今日热气球:', res.dwTodaySpeedPeople);
                 if (res.dwTodaySpeedPeople >= 20)
                     return [3 /*break*/, 19];
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(300)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(300)];
             case 18:
                 _j.sent();
                 return [3 /*break*/, 16];
@@ -145,7 +145,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
                 return [4 /*yield*/, api('user/RealTmReport', '', { dwIdentityType: 0, strBussKey: 'composegame', strMyShareId: strMyShareId, ddwCount: 5 })];
             case 21:
                 res = _j.sent();
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 22:
                 _j.sent();
                 return [4 /*yield*/, api('user/ComposeGameAddProcess', '__t,strBT,strZone', { __t: Date.now(), strBT: strDT })];
@@ -169,7 +169,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
                 employ = _j.sent();
                 if (employ.iRet === 0)
                     console.log("\u96C7\u4F63" + e.strBuildIndex + "\u5BFC\u6E38\u6210\u529F");
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(300)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(300)];
             case 28:
                 _j.sent();
                 _j.label = 29;
@@ -193,7 +193,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
                 if (res.ret === 0) {
                     console.log(t.strTaskName + "\u9886\u5956\u6210\u529F:", res.data.prizeInfo);
                 }
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(300)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(300)];
             case 34:
                 _j.sent();
                 _j.label = 35;
@@ -207,7 +207,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
                 _j.label = 38;
             case 38:
                 // 提现
-                console.log('开始提现：', date_fns_1.format(new Date(), 'hh:mm:ss:SSS'));
+                console.log('开始提现：', (0, date_fns_1.format)(new Date(), 'hh:mm:ss:SSS'));
                 return [4 /*yield*/, getJxToken(cookie)];
             case 39:
                 token_1 = _j.sent();
@@ -216,7 +216,7 @@ var money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_M
             case 40:
                 res = _j.sent();
                 console.log('资格:', res);
-                return [4 /*yield*/, TS_USER_AGENTS_1.wait(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 41:
                 _j.sent();
                 return [4 /*yield*/, api('user/CashOut', '_cfd_t,bizCode,ddwMoney,ddwPaperMoney,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { ddwMoney: money, ddwPaperMoney: money * 10, strPgUUNum: token_1.strPgUUNum, strPgtimestamp: token_1.strPgtimestamp, strPhoneID: token_1.strPhoneID })];
@@ -384,7 +384,7 @@ function requestAlgo() {
     });
 }
 function decrypt(stk, url) {
-    var timestamp = (date_fns_1.format(new Date(), 'yyyyMMddhhmmssSSS'));
+    var timestamp = ((0, date_fns_1.format)(new Date(), 'yyyyMMddhhmmssSSS'));
     var hash1;
     if (fingerprint && token && enCryptMethodJD) {
         hash1 = enCryptMethodJD(token, fingerprint.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);

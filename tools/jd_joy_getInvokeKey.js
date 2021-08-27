@@ -52,7 +52,7 @@ var axios_1 = require("axios");
                 return [4 /*yield*/, api(file)];
             case 3:
                 res = _a.sent();
-                file = res.match(/h=n\(90\),v="([^"]*)/)[1];
+                file = res.match(/h=n\(\d+\),v="([^"]*)/)[1];
                 console.log('invokeKey:', file);
                 return [2 /*return*/];
         }

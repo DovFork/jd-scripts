@@ -52,100 +52,97 @@ var joyId1;
                 i = 0;
                 _b.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 22];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 21];
                 cookie = cookiesArr[i];
                 $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 $.index = i + 1;
                 $.isLogin = true;
                 $.nickName = '';
-                return [4 /*yield*/, TotalBean()];
-            case 3:
-                _b.sent();
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + $.index + "\u3011" + ($.nickName || $.UserName) + "\n");
                 return [4 /*yield*/, api('apTaskList', { "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
-            case 4:
+            case 3:
                 taskVos = _b.sent();
                 tasks = taskVos.data;
                 _i = 0, tasks_1 = tasks;
-                _b.label = 5;
-            case 5:
-                if (!(_i < tasks_1.length)) return [3 /*break*/, 21];
+                _b.label = 4;
+            case 4:
+                if (!(_i < tasks_1.length)) return [3 /*break*/, 20];
                 t = tasks_1[_i];
-                if (!(t.taskTitle === '汪汪乐园签到')) return [3 /*break*/, 10];
-                if (!(t.taskDoTimes === 0)) return [3 /*break*/, 9];
+                if (!(t.taskTitle === '汪汪乐园签到')) return [3 /*break*/, 9];
+                if (!(t.taskDoTimes === 0)) return [3 /*break*/, 8];
                 return [4 /*yield*/, api('apDoTask', { "taskType": t.taskType, "taskId": t.id, "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
-            case 6:
+            case 5:
                 res = _b.sent();
                 console.log('签到:', res);
                 return [4 /*yield*/, wait(1000)];
-            case 7:
+            case 6:
                 _b.sent();
                 return [4 /*yield*/, api('apTaskDrawAward', { "taskType": t.taskType, "taskId": t.id, "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
-            case 8:
+            case 7:
                 _b.sent();
-                _b.label = 9;
-            case 9: return [3 /*break*/, 20];
-            case 10:
-                if (!(t.taskTitle === '汪汪乐园浏览会场' || t.taskTitle === '汪汪乐园浏览商品')) return [3 /*break*/, 20];
+                _b.label = 8;
+            case 8: return [3 /*break*/, 19];
+            case 9:
+                if (!(t.taskTitle === '汪汪乐园浏览会场' || t.taskTitle === '汪汪乐园浏览商品')) return [3 /*break*/, 19];
                 arr = ['汪汪乐园浏览会场', '汪汪乐园浏览商品'];
                 _a = 0, arr_1 = arr;
-                _b.label = 11;
-            case 11:
-                if (!(_a < arr_1.length)) return [3 /*break*/, 20];
+                _b.label = 10;
+            case 10:
+                if (!(_a < arr_1.length)) return [3 /*break*/, 19];
                 name_1 = arr_1[_a];
                 if (t.taskDoTimes + 1 === t.taskLimitTimes || t.taskDoTimes === t.taskLimitTimes)
-                    return [3 /*break*/, 19];
+                    return [3 /*break*/, 18];
                 times = name_1 === '汪汪乐园浏览会场' ? 5 : 10;
                 return [4 /*yield*/, api('apTaskDetail', { "taskType": t.taskType, "taskId": t.id, "channel": 4, "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
-            case 12:
+            case 11:
                 res = _b.sent();
                 apTaskDetail = void 0, taskResult = void 0, awardRes = void 0;
                 console.log(res.data);
                 i_1 = 0;
-                _b.label = 13;
-            case 13:
-                if (!(i_1 < times)) return [3 /*break*/, 19];
+                _b.label = 12;
+            case 12:
+                if (!(i_1 < times)) return [3 /*break*/, 18];
                 try {
                     apTaskDetail = res.data.taskItemList[i_1];
                 }
                 catch (e) {
-                    return [3 /*break*/, 19];
+                    return [3 /*break*/, 18];
                 }
                 console.log('apTaskDetail:', apTaskDetail);
                 return [4 /*yield*/, api('apDoTask', { "taskType": t.taskType, "taskId": t.id, "channel": 4, "linkId": "LsQNxL7iWDlXUs6cFl-AAg", "itemId": encodeURIComponent(apTaskDetail.itemId) })];
-            case 14:
+            case 13:
                 taskResult = _b.sent();
                 console.log('doTask: ', JSON.stringify(taskResult));
                 if (taskResult.errMsg === '任务已完成')
-                    return [3 /*break*/, 19];
+                    return [3 /*break*/, 18];
                 console.log('等待中...');
                 return [4 /*yield*/, wait(10000)];
-            case 15:
+            case 14:
                 _b.sent();
                 return [4 /*yield*/, api('apTaskDrawAward', { "taskType": t.taskType, "taskId": t.id, "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
-            case 16:
+            case 15:
                 awardRes = _b.sent();
                 if (awardRes.success && awardRes.code === 0)
                     console.log(awardRes.data[0].awardGivenNumber);
                 else
                     console.log('领取奖励出错:', JSON.stringify(awardRes));
                 return [4 /*yield*/, wait(1000)];
-            case 17:
+            case 16:
                 _b.sent();
-                _b.label = 18;
-            case 18:
+                _b.label = 17;
+            case 17:
                 i_1++;
-                return [3 /*break*/, 13];
-            case 19:
+                return [3 /*break*/, 12];
+            case 18:
                 _a++;
-                return [3 /*break*/, 11];
-            case 20:
+                return [3 /*break*/, 10];
+            case 19:
                 _i++;
-                return [3 /*break*/, 5];
-            case 21:
+                return [3 /*break*/, 4];
+            case 20:
                 i++;
                 return [3 /*break*/, 2];
-            case 22: return [2 /*return*/];
+            case 21: return [2 /*return*/];
         }
     });
 }); })();
@@ -212,40 +209,4 @@ function requireConfig() {
         console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
         resolve(0);
     });
-}
-function TotalBean() {
-    var _this = this;
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            axios_1["default"].get('https://me-api.jd.com/user_new/info/GetJDUserInfoUnion', {
-                headers: {
-                    Host: "me-api.jd.com",
-                    Connection: "keep-alive",
-                    Cookie: cookie,
-                    "User-Agent": TS_USER_AGENTS_1["default"],
-                    "Accept-Language": "zh-cn",
-                    "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
-                    "Accept-Encoding": "gzip, deflate, br"
-                }
-            }).then(function (res) {
-                if (res.data) {
-                    var data = res.data;
-                    if (data['retcode'] === "1001") {
-                        $.isLogin = false; //cookie过期
-                        return;
-                    }
-                    if (data['retcode'] === "0" && data['data'] && data.data.hasOwnProperty("userInfo")) {
-                        $.nickName = data.data.userInfo.baseInfo.nickname;
-                    }
-                }
-                else {
-                    console.log('京东服务器返回空数据');
-                }
-            })["catch"](function (e) {
-                console.log('Error:', e);
-            });
-            resolve();
-            return [2 /*return*/];
-        });
-    }); });
 }

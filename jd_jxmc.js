@@ -177,7 +177,7 @@ console.log('帮助助力池:', HELP_POOL);
                 taskRetCode = _e.sent();
                 console.log('taskRetCode:', taskRetCode);
                 if (!(taskRetCode === 0)) return [3 /*break*/, 21];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 20:
                 _e.sent();
                 return [3 /*break*/, 22];
@@ -201,7 +201,7 @@ console.log('帮助助力池:', HELP_POOL);
             case 25:
                 _e.sent();
                 return [3 /*break*/, 23];
-            case 26: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 26: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 27:
                 _e.sent();
                 _e.label = 28;
@@ -232,7 +232,7 @@ console.log('帮助助力池:', HELP_POOL);
             case 34:
                 console.log(res);
                 return [3 /*break*/, 39];
-            case 35: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 35: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 36:
                 _e.sent();
                 return [3 /*break*/, 38];
@@ -240,7 +240,7 @@ console.log('帮助助力池:', HELP_POOL);
                 e_2 = _e.sent();
                 return [3 /*break*/, 39];
             case 38: return [3 /*break*/, 28];
-            case 39: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 39: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 40:
                 _e.sent();
                 _e.label = 41;
@@ -255,7 +255,7 @@ console.log('帮助助力池:', HELP_POOL);
                 if (res.data.addcoins === 0 || JSON.stringify(res.data) === '{}')
                     return [3 /*break*/, 50];
                 console.log('锄草:', res.data.addcoins);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 44:
                 _e.sent();
                 if (!res.data.surprise) return [3 /*break*/, 47];
@@ -263,7 +263,7 @@ console.log('帮助助力池:', HELP_POOL);
             case 45:
                 res = _e.sent();
                 console.log('锄草奖励:', res.data.prizepool);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 46:
                 _e.sent();
                 _e.label = 47;
@@ -273,7 +273,7 @@ console.log('帮助助力池:', HELP_POOL);
                 console.log('Error:', e_3);
                 return [3 /*break*/, 50];
             case 49: return [3 /*break*/, 41];
-            case 50: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 50: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 51:
                 _e.sent();
                 _e.label = 52;
@@ -288,7 +288,7 @@ console.log('帮助助力池:', HELP_POOL);
                 if (res.data.addcoins === 0 || JSON.stringify(res.data) === '{}')
                     return [3 /*break*/, 58];
                 console.log('挑逗:', res.data.addcoins);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 55:
                 _e.sent();
                 return [3 /*break*/, 57];

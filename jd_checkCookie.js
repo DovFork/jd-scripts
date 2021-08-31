@@ -80,18 +80,20 @@ function api(index, cookie, username) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://wq.jd.com/user/info/QueryJDUserInfo?sceneid=80027&_=" + Date.now() + "&sceneval=2", {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://me-api.jd.com/user_new/info/GetJDUserInfoUnion", {
                         headers: {
-                            "Accept": "application/json,text/plain, */*",
-                            "Content-Type": "application/x-www-form-urlencoded",
-                            "Cookie": cookie,
-                            "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-                            "User-Agent": TS_USER_AGENTS_1["default"]
+                            Host: "me-api.jd.com",
+                            Connection: "keep-alive",
+                            Cookie: cookie,
+                            "User-Agent": TS_USER_AGENTS_1["default"],
+                            "Accept-Language": "zh-cn",
+                            "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
+                            "Accept-Encoding": "gzip, deflate, br"
                         }
                     })];
                 case 1:
                     data = (_a.sent()).data;
-                    if (data.retcode === 0) {
+                    if (data.retcode === '0') {
                         console.log(index, '✅', username);
                     }
                     else {

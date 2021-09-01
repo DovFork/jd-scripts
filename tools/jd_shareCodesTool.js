@@ -38,7 +38,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.carnivalcity = exports.cash = exports.jxfactory = exports.sgmh = exports.factory = exports.pet = exports.farm = exports.bean = void 0;
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
+var USER_AGENT = '', decrypt = '';
+try {
+    USER_AGENT = require('../TS_USER_AGENTS').USER_AGENT;
+    decrypt = require('../TS_USER_AGENTS').decrypt;
+}
+catch (e) {
+    USER_AGENT = require('./TS_USER_AGENTS').USER_AGENT;
+    decrypt = require('./TS_USER_AGENTS').decrypt;
+}
 function bean(cookie) {
     var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function () {
@@ -49,7 +57,7 @@ function bean(cookie) {
                         headers: {
                             Cookie: cookie,
                             Host: "api.m.jd.com",
-                            "User-Agent": TS_USER_AGENTS_1["default"]
+                            "User-Agent": USER_AGENT
                         }
                     })];
                 case 1:
@@ -75,7 +83,7 @@ function farm(cookie) {
                             "cookie": cookie,
                             "origin": "https://home.m.jd.com",
                             "referer": "https://home.m.jd.com/myJd/newhome.action",
-                            "User-Agent": TS_USER_AGENTS_1["default"],
+                            "User-Agent": USER_AGENT,
                             "Content-Type": "application/x-www-form-urlencoded"
                         }
                     })];
@@ -96,7 +104,7 @@ function pet(cookie) {
                 case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=initPetTown", "body=" + escape(JSON.stringify({ version: 2, channel: "app" })) + "&appid=wh5&loginWQBiz=pet-town&clientVersion=9.0.4", {
                         headers: {
                             'Cookie': cookie,
-                            "User-Agent": TS_USER_AGENTS_1["default"],
+                            "User-Agent": USER_AGENT,
                             'Host': "api.m.jd.com",
                             "Content-Type": "application/x-www-form-urlencoded"
                         }
@@ -121,7 +129,7 @@ function factory(cookie) {
                             origin: "https://h5.m.jd.com",
                             referer: "https://h5.m.jd.com/",
                             "Content-Type": "application/x-www-form-urlencoded",
-                            'User-Agent': TS_USER_AGENTS_1["default"]
+                            'User-Agent': USER_AGENT
                         }
                     })];
                 case 1:
@@ -177,11 +185,11 @@ function jxfactory(cookie) {
             switch (_c.label) {
                 case 0:
                     url = "https://m.jingxi.com/newtasksys/newtasksys_front/GetUserTaskStatusList?source=dreamfactory&bizCode=dream_factory&_time=" + Date.now() + "&_stk=" + encodeURIComponent('_time,bizCode,source') + "&_ste=1&_=" + Date.now() + "&sceneval=2";
-                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)('_time,bizCode,source', url);
+                    url += '&h5st=' + decrypt('_time,bizCode,source', url);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Referer': 'https://actst.jingxi.com/pingou/dream_factory/index.html',
-                                'User-Agent': TS_USER_AGENTS_1["default"],
+                                'User-Agent': USER_AGENT,
                                 'Host': 'm.jingxi.com',
                                 'Cookie': cookie
                             }
@@ -206,7 +214,7 @@ function cash(cookie) {
                             'Host': 'api.m.jd.com',
                             'Content-Type': 'application/json',
                             'Referer': 'http://wq.jd.com/wxapp/pages/hd-interaction/index/index',
-                            'User-Agent': TS_USER_AGENTS_1["default"]
+                            'User-Agent': USER_AGENT
                         }
                     })];
                 case 1:
@@ -229,7 +237,7 @@ function carnivalcity(cookie) {
                             "Origin": "https://carnivalcity.m.jd.com",
                             "Referer": "https://carnivalcity.m.jd.com/",
                             "Cookie": cookie,
-                            "User-Agent": TS_USER_AGENTS_1["default"]
+                            "User-Agent": USER_AGENT
                         }
                     })];
                 case 1:

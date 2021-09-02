@@ -57,7 +57,7 @@ var shopId = '';
                 $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 $.index = i + 1;
                 $.isLogin = true;
-                $.nickName = '';
+                $.nickName = $.UserName;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + $.index + "\u3011" + ($.nickName || $.UserName) + "\n");
                 return [4 /*yield*/, getIsvToken()];
             case 3:

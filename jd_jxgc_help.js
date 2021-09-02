@@ -52,13 +52,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var jxfactory;
-try {
-    jxfactory = require('../tools/jd_shareCodesTool').jxfactory;
-}
-catch (e) {
-    jxfactory = require('./JDHelloWorld_jd_scripts_jd_shareCodesTool').jxfactory;
-}
+var shareCodesTool_1 = require("./utils/shareCodesTool");
 var cookie = '', res = '', UserName, index;
 var shareCodes = [], shareCodesInternal = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -79,7 +73,7 @@ var shareCodes = [], shareCodesInternal = [];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
-                return [4 /*yield*/, jxfactory(cookie)];
+                return [4 /*yield*/, (0, shareCodesTool_1.jxfactory)(cookie)];
             case 4:
                 sharecode = _b.sent();
                 console.log('助力码:', sharecode);
@@ -101,7 +95,7 @@ var shareCodes = [], shareCodesInternal = [];
                 emp = cookiesArr_1[_i];
                 cookie = emp;
                 empName = decodeURIComponent(emp.match(/pt_pin=([^;]*)/)[1]);
-                return [4 /*yield*/, jxfactory(emp)];
+                return [4 /*yield*/, (0, shareCodesTool_1.jxfactory)(emp)];
             case 9:
                 sharecode = _b.sent();
                 return [4 /*yield*/, getShareCodes()];

@@ -54,16 +54,8 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var ts_md5_1 = require("ts-md5");
-var fs_1 = require("fs");
 var notify = require('./sendNotify');
-var A;
-try {
-    (0, fs_1.accessSync)('./tools/jd_jxmcToken.js');
-    A = require('./tools/jd_jxmcToken');
-}
-catch (e) {
-    A = require('./jd_jxmcToken');
-}
+var A = require('./utils/jd_jxmcToken');
 var cookie = '', res = '', shareCodes = [], homePageInfo, activeid = '', jxToken, UserName, index;
 var HELP_HW = process.env.HELP_HW ? process.env.HELP_HW : "true";
 console.log('帮助HelloWorld:', HELP_HW);

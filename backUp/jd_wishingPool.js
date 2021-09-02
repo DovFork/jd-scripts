@@ -56,7 +56,7 @@ var balance;
                 $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 $.index = i + 1;
                 $.isLogin = true;
-                $.nickName = '';
+                $.nickName = $.UserName;
                 return [4 /*yield*/, TotalBean()];
             case 3:
                 _g.sent();

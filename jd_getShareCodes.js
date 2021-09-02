@@ -40,76 +40,63 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var shareCodesTool_1 = require("./tools/shareCodesTool");
-var notify = require('./sendNotify');
+var shareCodesTool_1 = require("./utils/shareCodesTool");
 var cookie = '', UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _a, isLogin, nickName, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
-    return __generator(this, function (_1) {
-        switch (_1.label) {
+    var cookiesArr, i, _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w;
+    return __generator(this, function (_x) {
+        switch (_x.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _1.sent();
+                cookiesArr = _x.sent();
                 i = 0;
-                _1.label = 2;
+                _x.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 13];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 11];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
-            case 3:
-                _a = _1.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
-                if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                    return [3 /*break*/, 12];
-                }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                _c = (_b = console).log;
-                _d = ['种豆得豆:'];
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                _b = (_a = console).log;
+                _c = ['种豆得豆:'];
                 return [4 /*yield*/, (0, shareCodesTool_1.bean)(cookie)];
-            case 4:
-                _c.apply(_b, _d.concat([_1.sent()]));
-                _f = (_e = console).log;
-                _g = ['东东农场:'];
+            case 3:
+                _b.apply(_a, _c.concat([_x.sent()]));
+                _e = (_d = console).log;
+                _f = ['东东农场:'];
                 return [4 /*yield*/, (0, shareCodesTool_1.farm)(cookie)];
-            case 5:
-                _f.apply(_e, _g.concat([_1.sent()]));
-                _j = (_h = console).log;
-                _k = ['东东萌宠:'];
+            case 4:
+                _e.apply(_d, _f.concat([_x.sent()]));
+                _h = (_g = console).log;
+                _j = ['东东萌宠:'];
                 return [4 /*yield*/, (0, shareCodesTool_1.pet)(cookie)];
-            case 6:
-                _j.apply(_h, _k.concat([_1.sent()]));
-                _m = (_l = console).log;
-                _o = ['东东工厂:'];
+            case 5:
+                _h.apply(_g, _j.concat([_x.sent()]));
+                _l = (_k = console).log;
+                _m = ['东东工厂:'];
                 return [4 /*yield*/, (0, shareCodesTool_1.factory)(cookie)];
-            case 7:
-                _m.apply(_l, _o.concat([_1.sent()]));
-                _q = (_p = console).log;
-                _r = ['京喜工厂:'];
+            case 6:
+                _l.apply(_k, _m.concat([_x.sent()]));
+                _p = (_o = console).log;
+                _q = ['京喜工厂:'];
                 return [4 /*yield*/, (0, shareCodesTool_1.jxfactory)(cookie)];
-            case 8:
-                _q.apply(_p, _r.concat([_1.sent()]));
-                _t = (_s = console).log;
-                _u = ['闪购盲盒:'];
+            case 7:
+                _p.apply(_o, _q.concat([_x.sent()]));
+                _s = (_r = console).log;
+                _t = ['闪购盲盒:'];
                 return [4 /*yield*/, (0, shareCodesTool_1.sgmh)(cookie)];
-            case 9:
-                _t.apply(_s, _u.concat([_1.sent()]));
-                _w = (_v = console).log;
-                _x = ['领现金呀:'];
+            case 8:
+                _s.apply(_r, _t.concat([_x.sent()]));
+                _v = (_u = console).log;
+                _w = ['领现金呀:'];
                 return [4 /*yield*/, (0, shareCodesTool_1.cash)(cookie)];
+            case 9:
+                _v.apply(_u, _w.concat([_x.sent()]));
+                _x.label = 10;
             case 10:
-                _w.apply(_v, _x.concat([_1.sent()]));
-                _z = (_y = console).log;
-                _0 = ['狂欢城呀:'];
-                return [4 /*yield*/, (0, shareCodesTool_1.carnivalcity)(cookie)];
-            case 11:
-                _z.apply(_y, _0.concat([_1.sent()]));
-                _1.label = 12;
-            case 12:
                 i++;
                 return [3 /*break*/, 2];
-            case 13: return [2 /*return*/];
+            case 11: return [2 /*return*/];
         }
     });
 }); })();

@@ -40,29 +40,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var dotenv = require("dotenv");
-var CryptoJS = require('crypto-js');
 var crypto = require('crypto');
 var fs = require('fs');
 var notify = require('./sendNotify');
 dotenv.config();
-var appId = 10028, fingerprint, token, enCryptMethodJD;
-var cookie = '', res = '', balloon = false;
+var cookie = '', res = '', balloon = 1;
 process.env.CFD_LOOP_DELAY ? console.log('设置延迟:', parseInt(process.env.CFD_LOOP_DELAY)) : console.log('设置延迟:10000~25000随机');
 var UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, filename, stream, fsHash, i, _a, isLogin, nickName, shell, _i, _b, s, j, e_1, t;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0: return [4 /*yield*/, requestAlgo()];
+    var cookiesArr, filename, stream, fsHash, i, shell, _i, _a, s, j, e_1, t;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
             case 1:
-                _c.sent();
+                _b.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
-                cookiesArr = _c.sent();
+                cookiesArr = _b.sent();
                 filename = __filename.split('/').pop();
                 stream = fs.createReadStream(filename);
                 fsHash = crypto.createHash('md5');
@@ -88,86 +85,79 @@ var UserName, index;
                     })["catch"](function () {
                     });
                 });
-                _c.label = 3;
+                _b.label = 3;
             case 3:
-                if (!1) return [3 /*break*/, 21];
+                if (!1) return [3 /*break*/, 20];
                 i = 0;
-                _c.label = 4;
+                _b.label = 4;
             case 4:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 19];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 18];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                _b.label = 5;
             case 5:
-                _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
-                if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                    return [3 /*break*/, 18];
-                }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                _c.label = 6;
-            case 6:
-                _c.trys.push([6, 17, , 18]);
-                if (!!balloon) return [3 /*break*/, 8];
+                _b.trys.push([5, 16, , 17]);
+                if (!(balloon !== 500)) return [3 /*break*/, 7];
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strBuildIndex,strZone')];
-            case 7:
-                res = _c.sent();
+            case 6:
+                res = _b.sent();
                 if (res.iRet !== 0) {
                     console.log('手动建造4个房子');
-                    return [3 /*break*/, 18];
+                    return [3 /*break*/, 17];
                 }
                 console.log('今日热气球:', res.dwTodaySpeedPeople);
                 if (res.dwTodaySpeedPeople === 500) {
-                    balloon = true;
+                    balloon = 500;
                 }
-                _c.label = 8;
-            case 8: return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
+                _b.label = 7;
+            case 7: return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,ptag,source,strZone')];
+            case 8:
+                shell = _b.sent();
+                if (!shell.Data.hasOwnProperty('NormShell')) return [3 /*break*/, 15];
+                _i = 0, _a = shell.Data.NormShell;
+                _b.label = 9;
             case 9:
-                shell = _c.sent();
-                if (!shell.Data.hasOwnProperty('NormShell')) return [3 /*break*/, 16];
-                _i = 0, _b = shell.Data.NormShell;
-                _c.label = 10;
-            case 10:
-                if (!(_i < _b.length)) return [3 /*break*/, 16];
-                s = _b[_i];
+                if (!(_i < _a.length)) return [3 /*break*/, 15];
+                s = _a[_i];
                 j = 0;
-                _c.label = 11;
-            case 11:
-                if (!(j < s.dwNum)) return [3 /*break*/, 15];
+                _b.label = 10;
+            case 10:
+                if (!(j < s.dwNum)) return [3 /*break*/, 14];
                 return [4 /*yield*/, speedUp('_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', s.dwType)];
-            case 12:
-                res = _c.sent();
+            case 11:
+                res = _b.sent();
                 if (res.iRet !== 0) {
                     console.log(res);
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 14];
                 }
                 console.log('捡贝壳:', res.Data.strFirstDesc);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(500)];
+            case 12:
+                _b.sent();
+                _b.label = 13;
             case 13:
-                _c.sent();
-                _c.label = 14;
-            case 14:
                 j++;
-                return [3 /*break*/, 11];
-            case 15:
-                _i++;
                 return [3 /*break*/, 10];
-            case 16: return [3 /*break*/, 18];
-            case 17:
-                e_1 = _c.sent();
+            case 14:
+                _i++;
+                return [3 /*break*/, 9];
+            case 15: return [3 /*break*/, 17];
+            case 16:
+                e_1 = _b.sent();
                 console.log(e_1);
-                return [3 /*break*/, 18];
-            case 18:
+                return [3 /*break*/, 17];
+            case 17:
                 i++;
                 return [3 /*break*/, 4];
-            case 19:
+            case 18:
                 t = process.env.CFD_LOOP_DELAY ? parseInt(process.env.CFD_LOOP_DELAY) : (0, TS_USER_AGENTS_1.getRandomNumberByRange)(1000 * 30, 1000 * 60);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t)];
-            case 20:
-                _c.sent();
+            case 19:
+                _b.sent();
                 return [3 /*break*/, 3];
-            case 21: return [2 /*return*/];
+            case 20: return [2 /*return*/];
         }
     });
 }); })();
@@ -183,7 +173,7 @@ function speedUp(stk, dwType) {
                         url = "https://m.jingxi.com/jxbfd/story/queryshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=_cfd_t%2CbizCode%2CdwEnv%2Cptag%2Csource%2CstrZone&_ste=1&_=" + Date.now() + "&sceneval=2";
                     if (stk === '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone')
                         url = "https://m.jingxi.com/jxbfd/story/pickshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&dwType=" + dwType + "&_stk=_cfd_t%2CbizCode%2CdwEnv%2CdwType%2Cptag%2Csource%2CstrZone&_ste=1&_=" + Date.now() + "&sceneval=2";
-                    url += '&h5st=' + decrypt(stk, url);
+                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -207,96 +197,4 @@ function speedUp(stk, dwType) {
             }
         });
     }); });
-}
-function requestAlgo() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, generateFp()];
-                case 1:
-                    fingerprint = _a.sent();
-                    return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                            var data, enCryptMethodJDString;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, axios_1["default"].post('https://cactus.jd.com/request_algo?g_ty=ajax', {
-                                            "version": "1.0",
-                                            "fp": fingerprint,
-                                            "appId": appId,
-                                            "timestamp": Date.now(),
-                                            "platform": "web",
-                                            "expandParams": ""
-                                        }, {
-                                            "headers": {
-                                                'Authority': 'cactus.jd.com',
-                                                'Pragma': 'no-cache',
-                                                'Cache-Control': 'no-cache',
-                                                'Accept': 'application/json',
-                                                'User-Agent': TS_USER_AGENTS_1["default"],
-                                                'Content-Type': 'application/json',
-                                                'Origin': 'https://st.jingxi.com',
-                                                'Sec-Fetch-Site': 'cross-site',
-                                                'Sec-Fetch-Mode': 'cors',
-                                                'Sec-Fetch-Dest': 'empty',
-                                                'Referer': 'https://st.jingxi.com/',
-                                                'Accept-Language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7'
-                                            }
-                                        })];
-                                    case 1:
-                                        data = (_a.sent()).data;
-                                        if (data['status'] === 200) {
-                                            token = data.data.result.tk;
-                                            enCryptMethodJDString = data.data.result.algo;
-                                            if (enCryptMethodJDString)
-                                                enCryptMethodJD = new Function("return " + enCryptMethodJDString)();
-                                        }
-                                        else {
-                                            console.log("fp: " + fingerprint);
-                                            console.log('request_algo 签名参数API请求失败:');
-                                        }
-                                        resolve(200);
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); })];
-            }
-        });
-    });
-}
-function decrypt(stk, url) {
-    var timestamp = ((0, date_fns_1.format)(new Date(), 'yyyyMMddhhmmssSSS'));
-    var hash1;
-    if (fingerprint && token && enCryptMethodJD) {
-        hash1 = enCryptMethodJD(token, fingerprint.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);
-    }
-    else {
-        var random = '5gkjB6SpmC9s';
-        token = "tk01wcdf61cb3a8nYUtHcmhSUFFCfddDPRvKvYaMjHkxo6Aj7dhzO+GXGFa9nPXfcgT+mULoF1b1YIS1ghvSlbwhE0Xc";
-        fingerprint = 9686767825751161;
-        // $.fingerprint = 7811850938414161;
-        var str = "" + token + fingerprint + timestamp + appId + random;
-        hash1 = CryptoJS.SHA512(str, token).toString(CryptoJS.enc.Hex);
-    }
-    var st = '';
-    stk.split(',').map(function (item, index) {
-        st += item + ":" + getQueryString(url, item) + (index === stk.split(',').length - 1 ? '' : '&');
-    });
-    var hash2 = CryptoJS.HmacSHA256(st, hash1.toString()).toString(CryptoJS.enc.Hex);
-    return encodeURIComponent(["".concat(timestamp.toString()), "".concat(fingerprint.toString()), "".concat(appId.toString()), "".concat(token), "".concat(hash2)].join(";"));
-}
-function generateFp() {
-    var e = "0123456789";
-    var a = 13;
-    var i = '';
-    for (; a--;)
-        i += e[Math.random() * e.length | 0];
-    return (i + Date.now()).slice(0, 16);
-}
-function getQueryString(url, name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var r = url.split('?')[1].match(reg);
-    if (r != null)
-        return unescape(r[2]);
-    return '';
 }

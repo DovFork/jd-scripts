@@ -36,17 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.cash = exports.jxfactory = exports.sgmh = exports.factory = exports.pet = exports.farm = exports.bean = void 0;
+exports.cash = exports.jxfactory = exports.sgmh = exports.factory = exports.pet = exports.health = exports.farm = exports.bean = void 0;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
-// let USER_AGENT:string = '', decrypt:any ='';
-// try{
-//   USER_AGENT = require('../TS_USER_AGENTS').USER_AGENT
-//   decrypt = require('../TS_USER_AGENTS').decrypt
-// }catch (e) {
-//   USER_AGENT = require('./TS_USER_AGENTS').USER_AGENT
-//   decrypt = require('./TS_USER_AGENTS').decrypt
-// }
 function bean(cookie) {
     var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function () {
@@ -95,6 +87,29 @@ function farm(cookie) {
     });
 }
 exports.farm = farm;
+function health(cookie) {
+    var _a, _b, _c;
+    return __awaiter(this, void 0, void 0, function () {
+        var data;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action/client.action?functionId=jdhealth_getTaskDetail&body=" + escape(JSON.stringify({ "buildingId": "", taskId: 6, "channelId": 1 })) + "&client=wh5&clientVersion=1.0.0", {
+                        headers: {
+                            "Cookie": cookie,
+                            "origin": "https://h5.m.jd.com",
+                            "referer": "https://h5.m.jd.com/",
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            "User-Agent": TS_USER_AGENTS_1["default"]
+                        }
+                    })];
+                case 1:
+                    data = (_d.sent()).data;
+                    return [2 /*return*/, (_c = (_b = (_a = data.data) === null || _a === void 0 ? void 0 : _a.result) === null || _b === void 0 ? void 0 : _b.taskVos[0].assistTaskDetailVo.taskToken) !== null && _c !== void 0 ? _c : 'null'];
+            }
+        });
+    });
+}
+exports.health = health;
 function pet(cookie) {
     var _a, _b;
     return __awaiter(this, void 0, void 0, function () {

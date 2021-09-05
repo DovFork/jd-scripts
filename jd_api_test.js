@@ -43,55 +43,86 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var notify = require('./sendNotify');
+var date_fns_1 = require("date-fns");
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cars, db, num, data, e_1, data, e_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var cars, db, num, times, i, _a, _b, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0:
-                console.log("==================\u811A\u672C\u6267\u884C- \u5317\u4EAC\u65F6\u95F4(UTC+8)\uFF1A" + new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000).toLocaleString() + "=====================\n");
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 5]);
+                console.log("\n==================\u811A\u672C\u6267\u884C- \u5317\u4EAC\u65F6\u95F4(UTC+8)\uFF1A" + (0, date_fns_1.format)(Date.now(), 'yyyy-MM-dd HH:mm:ss') + "\n\n");
                 cars = ['bean', 'farm', 'health', 'jxfactory', 'pet'];
                 db = cars[getRandomNumberByRange(0, 5)];
                 num = getRandomNumberByRange(5, 20);
                 console.log("\u672C\u6B21\u968F\u673A\u9009\u62E9" + db + "\u83B7\u53D6" + num + "\u4E2A\u968F\u673A\u52A9\u529B\u7801");
-                return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/" + db + "/" + num, { timeout: 10000 })];
+                return [4 /*yield*/, car(db, num)];
+            case 1:
+                _d.sent();
+                times = getRandomNumberByRange(3, 6);
+                console.log("\u5F00\u59CB\u6D4B\u8BD5" + times + "\u6B21\u4E0A\u62A5");
+                i = 0;
+                _d.label = 2;
             case 2:
-                data = (_a.sent()).data;
-                console.log(JSON.stringify(data, null, '  '));
-                if (data.code === 200) {
-                    if (data.data.length === num) {
-                        console.log("\u6210\u529F\u83B7\u53D6" + num + "\u4E2A");
-                    }
-                }
-                return [3 /*break*/, 5];
+                if (!(i < times)) return [3 /*break*/, 6];
+                _b = (_a = console).log;
+                _c = ["\u7B2C" + (i + 1) + "\u6B21:"];
+                return [4 /*yield*/, runTimes()];
             case 3:
-                e_1 = _a.sent();
-                console.log('测试失败，请重试，或更换设备dns。');
-                return [4 /*yield*/, notify.sendNotify("API访问失败！\n请检查网络或更换DNS", "手动测试：\nhttps://api.sharecode.ga/api/bean/10", "", "你好，世界！")];
+                _b.apply(_a, _c.concat([_d.sent()]));
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(Math.floor(getRandomNumberByRange(1, 5)) * 1000)];
             case 4:
-                _a.sent();
-                return [3 /*break*/, 5];
+                _d.sent();
+                _d.label = 5;
             case 5:
-                _a.trys.push([5, 7, , 9]);
-                return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/version", { timeout: 10000 })];
-            case 6:
-                data = (_a.sent()).data;
-                console.log("\u5F53\u524D\u7248\u672C\uFF1A" + data);
-                return [3 /*break*/, 9];
-            case 7:
-                e_2 = _a.sent();
-                console.log('测试失败，请重试，或更换设备dns。');
-                return [4 /*yield*/, notify.sendNotify("API访问失败！\n请检查网络或更换DNS", "手动测试：\nhttps://api.sharecode.ga/api/version", "", "你好，世界！")];
-            case 8:
-                _a.sent();
-                return [3 /*break*/, 9];
-            case 9: return [2 /*return*/];
+                i++;
+                return [3 /*break*/, 2];
+            case 6: return [2 /*return*/];
         }
     });
 }); })();
 function getRandomNumberByRange(start, end) {
     return Math.floor(Math.random() * (end - start) + start);
+}
+function car(db, num) {
+    return __awaiter(this, void 0, void 0, function () {
+        var data, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/" + db + "/" + num, {
+                            timeout: 3000
+                        })];
+                case 1:
+                    data = (_a.sent()).data;
+                    console.log('获取助力池成功');
+                    console.log(data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_1 = _a.sent();
+                    console.log("\u83B7\u53D6\u52A9\u529B\u6C60\u5931\u8D25: " + e_1.response.status + " " + e_1.response.statusText);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+function runTimes() {
+    return __awaiter(this, void 0, void 0, function () {
+        var data, e_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/runTimes?activityId=bean&sharecode=123", { timeout: 3000 })];
+                case 1:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, '成功'];
+                case 2:
+                    e_2 = _a.sent();
+                    return [2 /*return*/, e_2.response.status + " " + e_2.response.statusText];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
 }

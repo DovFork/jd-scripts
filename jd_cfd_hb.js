@@ -60,6 +60,17 @@ var cookie = '', cookiesArr, res = '';
                 return [4 /*yield*/, api('user/ExchangeState', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone', { dwType: '2' })];
             case 3:
                 res = _b.sent();
+                _b.label = 4;
+            case 4:
+                if (!1) return [3 /*break*/, 8];
+                if (!(new Date().getSeconds() < 15)) return [3 /*break*/, 5];
+                return [3 /*break*/, 8];
+            case 5: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(50)];
+            case 6:
+                _b.sent();
+                _b.label = 7;
+            case 7: return [3 /*break*/, 4];
+            case 8:
                 for (_i = 0, _a = res.hongbao; _i < _a.length; _i++) {
                     t = _a[_i];
                     console.log(t.strPrizeName, 'state:', t.dwState, 'num:', t.dwStockNum);

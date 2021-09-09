@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.jd_joy_invokeKey = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.getJxToken = exports.decrypt = exports.h5st = exports.requestAlgo = exports.jd_joy_invokeKey = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var date_fns_1 = require("date-fns");
 var dotenv = require("dotenv");
@@ -246,6 +246,15 @@ function getQueryString(url, name) {
         return unescape(r[2]);
     return '';
 }
+function h5st(url, stk, params) {
+    for (var _i = 0, _a = Object.entries(params); _i < _a.length; _i++) {
+        var _b = _a[_i], key = _b[0], val = _b[1];
+        url += "&" + key + "=" + val;
+    }
+    url += '&h5st=' + decrypt(stk, url);
+    return url;
+}
+exports.h5st = h5st;
 function decrypt(stk, url) {
     var timestamp = ((0, date_fns_1.format)(new Date(), 'yyyyMMddhhmmssSSS'));
     var hash1;

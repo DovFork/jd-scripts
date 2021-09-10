@@ -36,12 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getJxToken = exports.decrypt = exports.h5st = exports.requestAlgo = exports.jd_joy_invokeKey = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.h5st = exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.jd_joy_invokeKey = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var date_fns_1 = require("date-fns");
 var dotenv = require("dotenv");
 var ts_md5_1 = require("ts-md5");
 var CryptoJS = require('crypto-js');
+var util = require('util');
 dotenv.config();
 var appId = 10028, fingerprint, token = '', enCryptMethodJD;
 var USER_AGENTS = [
@@ -165,13 +166,7 @@ function requireConfig() {
     });
 }
 exports.requireConfig = requireConfig;
-function wait(t) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            resolve();
-        }, t);
-    });
-}
+var wait = util.promisify(setTimeout);
 exports.wait = wait;
 function requestAlgo() {
     return __awaiter(this, void 0, void 0, function () {
@@ -246,15 +241,6 @@ function getQueryString(url, name) {
         return unescape(r[2]);
     return '';
 }
-function h5st(url, stk, params) {
-    for (var _i = 0, _a = Object.entries(params); _i < _a.length; _i++) {
-        var _b = _a[_i], key = _b[0], val = _b[1];
-        url += "&" + key + "=" + val;
-    }
-    url += '&h5st=' + decrypt(stk, url);
-    return url;
-}
-exports.h5st = h5st;
 function decrypt(stk, url) {
     var timestamp = ((0, date_fns_1.format)(new Date(), 'yyyyMMddhhmmssSSS'));
     var hash1;
@@ -276,6 +262,15 @@ function decrypt(stk, url) {
     return encodeURIComponent(["".concat(timestamp.toString()), "".concat(fingerprint.toString()), "".concat(appId.toString()), "".concat(token), "".concat(hash2)].join(";"));
 }
 exports.decrypt = decrypt;
+function h5st(url, stk, params) {
+    for (var _i = 0, _a = Object.entries(params); _i < _a.length; _i++) {
+        var _b = _a[_i], key = _b[0], val = _b[1];
+        url += "&" + key + "=" + val;
+    }
+    url += '&h5st=' + decrypt(stk, url);
+    return url;
+}
+exports.h5st = h5st;
 function getJxToken(cookie) {
     function generateStr(input) {
         var src = 'abcdefghijklmnopqrstuvwxyz1234567890';

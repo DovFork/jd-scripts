@@ -164,37 +164,27 @@ var UserName, index;
 function speedUp(stk, dwType) {
     var _this = this;
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var url, data, e_2;
+        var url;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    url = "https://m.jingxi.com/jxbfd/user/SpeedUp?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&strBuildIndex=food&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
-                    if (stk === '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
-                        url = "https://m.jingxi.com/jxbfd/story/queryshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=_cfd_t%2CbizCode%2CdwEnv%2Cptag%2Csource%2CstrZone&_ste=1&_=" + Date.now() + "&sceneval=2";
-                    if (stk === '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone')
-                        url = "https://m.jingxi.com/jxbfd/story/pickshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&dwType=" + dwType + "&_stk=_cfd_t%2CbizCode%2CdwEnv%2CdwType%2Cptag%2Csource%2CstrZone&_ste=1&_=" + Date.now() + "&sceneval=2";
-                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, axios_1["default"].get(url, {
-                            headers: {
-                                'Host': 'm.jingxi.com',
-                                'Referer': 'https://st.jingxi.com/',
-                                'User-Agent': TS_USER_AGENTS_1["default"],
-                                'Cookie': cookie
-                            }
-                        })];
-                case 2:
-                    data = (_a.sent()).data;
-                    resolve(data);
-                    return [3 /*break*/, 4];
-                case 3:
-                    e_2 = _a.sent();
-                    reject(502);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
-            }
+            url = "https://m.jingxi.com/jxbfd/user/SpeedUp?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&strBuildIndex=food&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
+            if (stk === '_cfd_t,bizCode,dwEnv,ptag,source,strZone')
+                url = "https://m.jingxi.com/jxbfd/story/queryshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=_cfd_t%2CbizCode%2CdwEnv%2Cptag%2Csource%2CstrZone&_ste=1&_=" + Date.now() + "&sceneval=2";
+            if (stk === '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strZone')
+                url = "https://m.jingxi.com/jxbfd/story/pickshell?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&dwType=" + dwType + "&_stk=_cfd_t%2CbizCode%2CdwEnv%2CdwType%2Cptag%2Csource%2CstrZone&_ste=1&_=" + Date.now() + "&sceneval=2";
+            url = (0, TS_USER_AGENTS_1.h5st)(url, stk, {});
+            axios_1["default"].get(url, {
+                headers: {
+                    'Host': 'm.jingxi.com',
+                    'Referer': 'https://st.jingxi.com/',
+                    'User-Agent': TS_USER_AGENTS_1["default"],
+                    'Cookie': cookie
+                }
+            }).then(function (res) {
+                resolve(res.data);
+            })["catch"](function (e) {
+                reject(e.data);
+            });
+            return [2 /*return*/];
         });
     }); });
 }

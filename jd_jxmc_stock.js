@@ -145,19 +145,12 @@ function api(fn, stk, params) {
     var _this = this;
     if (params === void 0) { params = {}; }
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var url, key, data, e_1;
+        var url, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     url = "https://m.jingxi.com/jxmc/" + fn + "?channel=7&sceneid=1001&_stk=" + encodeURIComponent(stk) + "&_ste=1&sceneval=2";
-                    if (Object.keys(params).length !== 0) {
-                        key = void 0;
-                        for (key in params) {
-                            if (params.hasOwnProperty(key))
-                                url += "&" + key + "=" + params[key];
-                        }
-                    }
-                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
+                    url = (0, TS_USER_AGENTS_1.h5st)(url, stk, {});
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

@@ -159,8 +159,7 @@ var cookie = '', res = '', shareCodes = [], homePageInfo, activeid = '', jxToken
                 if ((_d.sent()) === 0) {
                     return [3 /*break*/, 21];
                 }
-                console.log('wait...');
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 19:
                 _d.sent();
                 _d.label = 20;
@@ -206,7 +205,7 @@ var cookie = '', res = '', shareCodes = [], homePageInfo, activeid = '', jxToken
                 return [3 /*break*/, 34];
             case 30:
                 if (!(res.ret === 2020)) return [3 /*break*/, 33];
-                if (!(res.data.maintaskId === 'pause')) return [3 /*break*/, 32];
+                if (!(res.data.maintaskId === 'pause' || res.data.maintaskId === 'E-1')) return [3 /*break*/, 32];
                 console.log('收🥚');
                 return [4 /*yield*/, api('operservice/GetSelfResult', 'channel,itemid,sceneid,type', { petid: petid, type: '11' })];
             case 31:
@@ -214,11 +213,21 @@ var cookie = '', res = '', shareCodes = [], homePageInfo, activeid = '', jxToken
                 if (res.ret === 0) {
                     console.log('收🥚成功:', res.data.newnum);
                 }
+                else {
+                    console.log('收🥚失败:', res);
+                }
                 _d.label = 32;
             case 32: return [3 /*break*/, 34];
             case 33:
-                console.log(res);
-                return [3 /*break*/, 38];
+                if (res.ret === 2005) {
+                    console.log('今天吃撑了');
+                    return [3 /*break*/, 38];
+                }
+                else {
+                    console.log('Feed未知错误:', res);
+                    return [3 /*break*/, 38];
+                }
+                _d.label = 34;
             case 34: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 35:
                 _d.sent();
@@ -292,7 +301,7 @@ var cookie = '', res = '', shareCodes = [], homePageInfo, activeid = '', jxToken
                 return [3 /*break*/, 3];
             case 58:
                 _d.trys.push([58, 60, , 61]);
-                return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxmc/30', { timeout: 10000 })];
+                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/jxmc/30', { timeout: 10000 })];
             case 59:
                 data = (_d.sent()).data;
                 console.log('获取到30个随机助力码:', data.data);
@@ -318,6 +327,7 @@ var cookie = '', res = '', shareCodes = [], homePageInfo, activeid = '', jxToken
             case 64:
                 res = _d.sent();
                 if (res.ret === 0) {
+                    console.log(res);
                     console.log('助力成功，获得:', res.data.addcoins);
                 }
                 else {
@@ -437,7 +447,7 @@ function makeShareCodes(code) {
                     farm = _a.sent();
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/autoInsert?db=jxmc&code=" + code + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert?db=jxmc&code=" + code + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })
                             .then(function (res) {
                             if (res.data.code === 200)
                                 console.log('已自动提交助力码');

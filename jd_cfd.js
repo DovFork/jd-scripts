@@ -528,7 +528,7 @@ var UserName, index;
             case 91:
                 _s.sent();
                 if (res.ret === 0) {
-                    console.log("\u9886\u5956\u6210\u529F:", JSON.parse(res.data.prizeInfo.trim()).ddwCoin);
+                    console.log("\u9886\u5956\u6210\u529F:", res);
                 }
                 else {
                     console.log('领奖失败', res);
@@ -608,7 +608,7 @@ var UserName, index;
                 return [3 /*break*/, 3];
             case 112:
                 _s.trys.push([112, 114, , 115]);
-                return [4 /*yield*/, axios_1["default"].get('https://api.sharecode.ga/api/jxcfd/20', { timeout: 10000 })];
+                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/jxcfd/20', { timeout: 10000 })];
             case 113:
                 data = (_s.sent()).data;
                 console.log('获取到20个随机助力码:', data.data);
@@ -632,8 +632,14 @@ var UserName, index;
                 return [4 /*yield*/, api('story/helpbystage', '_cfd_t,bizCode,dwEnv,ptag,source,strShareId,strZone', { strShareId: shareCodes[j] })];
             case 118:
                 res = _s.sent();
-                console.log('助力:', res);
-                if (res.iRet === 2232 || res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
+                if (res.iRet === 0) {
+                    console.log('助力成功:', res.Data.GuestPrizeInfo.strPrizeName);
+                }
+                else if (res.iRet === 2232 || res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
+                    return [3 /*break*/, 121];
+                }
+                else {
+                    console.log('助力未知错误：', res);
                     return [3 /*break*/, 121];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
@@ -762,7 +768,7 @@ function makeShareCodes() {
                     shareCodes.push(res.strMyShareId);
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
-                    axios_1["default"].get("https://api.sharecode.ga/api/autoInsert?db=jxcfd&code=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })
+                    axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert?db=jxcfd&code=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })
                         .then(function (res) {
                         if (res.data.code === 200)
                             console.log('已自动提交助力码');

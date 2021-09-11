@@ -72,7 +72,7 @@ var UserName, index;
                     if (filename.indexOf('JDHelloWorld_jd_scripts_') > -1) {
                         filename = filename.replace('JDHelloWorld_jd_scripts_', '');
                     }
-                    axios_1["default"].get('https://api.sharecode.ga/api/md5?filename=' + filename, { timeout: 10000 })
+                    axios_1["default"].get('https://api.jdsharecode.xyz/api/md5?filename=' + filename, { timeout: 10000 })
                         .then(function (res) {
                         console.log('local: ', md5);
                         console.log('remote:', res.data);

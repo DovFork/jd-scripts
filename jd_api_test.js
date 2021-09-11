@@ -90,8 +90,8 @@ function car(db, num) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/" + db + "/" + num, {
-                            timeout: 3000
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/" + db + "/" + num, {
+                            timeout: 10000
                         })];
                 case 1:
                     data = (_a.sent()).data;
@@ -100,7 +100,7 @@ function car(db, num) {
                     return [3 /*break*/, 3];
                 case 2:
                     e_1 = _a.sent();
-                    console.log("\u83B7\u53D6\u52A9\u529B\u6C60\u5931\u8D25: " + e_1.response.status + " " + e_1.response.statusText);
+                    console.log("\u83B7\u53D6\u52A9\u529B\u6C60\u5931\u8D25:", e_1);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
@@ -114,13 +114,13 @@ function runTimes() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/runTimes?activityId=bean&sharecode=123", { timeout: 3000 })];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/runTimes?activityId=bean&sharecode=123", { timeout: 10000 })];
                 case 1:
                     data = (_a.sent()).data;
                     return [2 /*return*/, '成功'];
                 case 2:
                     e_2 = _a.sent();
-                    return [2 /*return*/, e_2.response.status + " " + e_2.response.statusText];
+                    return [2 /*return*/, "" + e_2];
                 case 3: return [2 /*return*/];
             }
         });

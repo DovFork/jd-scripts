@@ -146,19 +146,12 @@ function api(fn, stk, params) {
     var _this = this;
     if (params === void 0) { params = {}; }
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var url, key, data, e_1;
+        var url, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     url = "https://m.jingxi.com/dreamfactory/" + fn + "?zone=dream_factory&_time=" + Date.now() + "&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
-                    if (Object.keys(params).length !== 0) {
-                        key = void 0;
-                        for (key in params) {
-                            if (params.hasOwnProperty(key))
-                                url += "&" + key + "=" + params[key];
-                        }
-                    }
-                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
+                    url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
@@ -190,7 +183,7 @@ function getShareCodes() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.sharecode.ga/api/jxfactory/30")];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/jxfactory/30")];
                 case 1:
                     data = (_a.sent()).data;
                     console.log("\u4ECE\u52A9\u529B\u6C60\u83B7\u53D6\u523030\u4E2A:" + JSON.stringify(data.data));

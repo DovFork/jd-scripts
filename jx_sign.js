@@ -126,19 +126,12 @@ function api(fn, stk, params) {
     var _this = this;
     if (params === void 0) { params = {}; }
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var url, key, data, e_1;
+        var url, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     url = "https://m.jingxi.com/fanxiantask/signhb/" + fn + "?_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBKB&g_ty=ls";
-                    if (Object.keys(params).length !== 0) {
-                        key = void 0;
-                        for (key in params) {
-                            if (params.hasOwnProperty(key))
-                                url += "&" + key + "=" + params[key];
-                        }
-                    }
-                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
+                    url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10038);
                     if (fn.match(/(dotask|bxdraw)/)) {
                         url = fn;
                     }

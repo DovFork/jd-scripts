@@ -1,9 +1,4 @@
 "use strict";
-/**
- * 这是一个只会助力的脚本，因为没打工仔了。
- * 先内部，再助力池。
- * cron: 0,30 21-23 * * *
- */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -50,6 +45,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
+/**
+* cron: 30 * * * *
+*/
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var shareCodesTool_1 = require("./utils/shareCodesTool");
@@ -151,7 +149,7 @@ function api(fn, stk, params) {
             switch (_a.label) {
                 case 0:
                     url = "https://m.jingxi.com/dreamfactory/" + fn + "?zone=dream_factory&_time=" + Date.now() + "&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
-                    url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params);
+                    url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10001);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * cron: 5 * * * *
+ * 是否帮助HW.TS，默认true
+ * export HELP_HW=false
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -44,17 +49,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+var _a;
 exports.__esModule = true;
-/**
-* cron: 30 * * * *
-*/
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var shareCodesTool_1 = require("./utils/shareCodesTool");
 var cookie = '', res = '', UserName, index;
-var shareCodes = [], shareCodesInternal = [];
+var shareCodes = [], shareCodesInternal = [], empCookie = [], HELP_HW = (_a = process.env.HELP_HW) !== null && _a !== void 0 ? _a : "true";
+var HW_CODE = ['INcGtFWIUwvLFFvpQtKFCQ==', 'AZV37CNsgm_Q9Xid7tt-eA==', 'K6AGuw2dq_U2kEpg4mTmHQ==', 'c3anbYUBmLe9Qh1TIM4dEg==', 'zfzxrqaM7n3s4FhUZQmA8Q=='];
+console.log('帮助HelloWorld:', HELP_HW);
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, sharecode, _i, cookiesArr_1, emp, empName, sharecode, _a, shareCodes_1, boss;
+    var cookiesArr, i, sharecode, _i, empCookie_1, emp, empName, sharecode, _a, shareCodes_1, boss;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
@@ -80,17 +85,21 @@ var shareCodes = [], shareCodesInternal = [];
             case 5:
                 res = _b.sent();
                 console.log('收到助力:', res.data.hireListToday.length, '/', res.data.hireNumMax);
+                if (res.data.assistListToday.length !== 3) {
+                    // 只要有剩余助力的
+                    empCookie.push(cookie);
+                }
                 _b.label = 6;
             case 6:
                 i++;
                 return [3 /*break*/, 3];
             case 7:
-                console.log('内部助力码:', shareCodesInternal);
-                _i = 0, cookiesArr_1 = cookiesArr;
+                console.log('\n内部助力码:', shareCodesInternal, '\n');
+                _i = 0, empCookie_1 = empCookie;
                 _b.label = 8;
             case 8:
-                if (!(_i < cookiesArr_1.length)) return [3 /*break*/, 18];
-                emp = cookiesArr_1[_i];
+                if (!(_i < empCookie_1.length)) return [3 /*break*/, 18];
+                emp = empCookie_1[_i];
                 cookie = emp;
                 empName = decodeURIComponent(emp.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, (0, shareCodesTool_1.jxfactory)(emp)];
@@ -185,11 +194,15 @@ function getShareCodes() {
                 case 1:
                     data = (_a.sent()).data;
                     console.log("\u4ECE\u52A9\u529B\u6C60\u83B7\u53D6\u523030\u4E2A:" + JSON.stringify(data.data));
-                    shareCodes = __spreadArray(__spreadArray([], shareCodesInternal, true), data.data, true);
+                    HELP_HW === 'true'
+                        ? shareCodes = __spreadArray(__spreadArray(__spreadArray([], shareCodesInternal, true), HW_CODE, true), data.data, true)
+                        : shareCodes = __spreadArray(__spreadArray([], shareCodesInternal, true), data.data, true);
                     return [3 /*break*/, 3];
                 case 2:
                     e_2 = _a.sent();
-                    shareCodes = __spreadArray([], shareCodesInternal, true);
+                    HELP_HW === 'true'
+                        ? shareCodes = __spreadArray(__spreadArray([], shareCodesInternal, true), HW_CODE, true)
+                        : shareCodes = __spreadArray([], shareCodesInternal, true);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }

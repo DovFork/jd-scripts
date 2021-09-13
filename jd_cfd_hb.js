@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * 我就是看看，不抢
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,18 +39,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-/**
- * export jd_cfd_hb=100
- *
- * 我就是看看，不抢
- */
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var dotenv = require("dotenv");
-dotenv.config();
 var cookie = '', cookiesArr, res = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _i, _a, t;
+    var PrettyTable, pt, title, datas, _i, _a, t;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
@@ -63,52 +59,44 @@ var cookie = '', cookiesArr, res = '';
                 _b.label = 4;
             case 4:
                 if (!1) return [3 /*break*/, 8];
-                if (!(new Date().getSeconds() < 15)) return [3 /*break*/, 5];
+                if (!(new Date().getSeconds() < 61)) return [3 /*break*/, 5];
                 return [3 /*break*/, 8];
-            case 5: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(50)];
+            case 5: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 6:
                 _b.sent();
                 _b.label = 7;
             case 7: return [3 /*break*/, 4];
             case 8:
+                PrettyTable = require('prettytable');
+                pt = new PrettyTable();
+                title = ['Value', 'Status', 'Stock'];
+                datas = [];
                 for (_i = 0, _a = res.hongbao; _i < _a.length; _i++) {
                     t = _a[_i];
-                    console.log(t.strPrizeName, 'state:', t.dwState, 'num:', t.dwStockNum);
+                    datas.push([t.strPrizeName.replace('元', ''), t.dwState ? 'True' : 'False', t.dwStockNum]);
                 }
+                pt.create(title, datas);
+                pt.print();
                 return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, stk, params) {
-    var _this = this;
     if (params === void 0) { params = {}; }
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var url, key, data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    url = "https://m.jingxi.com/jxbfd/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
-                    if (Object.keys(params).length !== 0) {
-                        key = void 0;
-                        for (key in params) {
-                            if (params.hasOwnProperty(key))
-                                url += "&" + key + "=" + params[key];
-                        }
-                    }
-                    url += '&h5st=' + (0, TS_USER_AGENTS_1.decrypt)(stk, url);
-                    return [4 /*yield*/, axios_1["default"].get(url, {
-                            headers: {
-                                'Host': 'm.jingxi.com',
-                                'Referer': 'https://st.jingxi.com/',
-                                'User-Agent': TS_USER_AGENTS_1["default"],
-                                'Cookie': cookie
-                            }
-                        })];
-                case 1:
-                    data = (_a.sent()).data;
-                    resolve(data);
-                    return [2 /*return*/];
+    return new Promise(function (resolve, reject) {
+        var url = "https://m.jingxi.com/jxbfd/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
+        url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10032);
+        axios_1["default"].get(url, {
+            headers: {
+                'Host': 'm.jingxi.com',
+                'Referer': 'https://st.jingxi.com/',
+                'User-Agent': TS_USER_AGENTS_1["default"],
+                'Cookie': cookie
             }
+        }).then(function (res) {
+            resolve(res.data);
+        })["catch"](function (e) {
+            reject(e);
         });
-    }); });
+    });
 }

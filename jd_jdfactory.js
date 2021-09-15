@@ -435,9 +435,11 @@ function jdfactory_getTaskDetail() {
             data = JSON.parse(data);
             if (data.data.bizCode === 0) {
               $.taskVos = data.data.result.taskVos;//任务列表
-              $.taskVos.map(item => {
+              $.taskVos.map(async item => {
                 if (item.taskType === 14) {
                   console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${item.assistTaskDetailVo.taskToken}\n`)
+                  $.sharecode_auto = item.assistTaskDetailVo.taskToken
+                  $.isNode() ? await autoInsert() : '';
                 }
               })
             }
@@ -451,6 +453,31 @@ function jdfactory_getTaskDetail() {
     })
   })
 }
+
+function autoInsert() {
+  return new Promise((resolve) => {
+    $.get({
+      url: `https://api.jdsharecode.xyz/api/autoInsert/ddfactory?uid=${process.env.TG_USER_ID ?? ''}&token=${encodeURIComponent(process.env.TG_USER_TOKEN_HW) ?? ''}&sharecode=${$.sharecode_auto}`
+    }, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log('自动提交失败', err)
+        } else {
+          if (data === '1' || data === '0') {
+            console.log('自动提交成功')
+          } else {
+            console.log('ID:TOKEN校验失败')
+          }
+        }
+      } catch (e) {
+        console.log(e)
+      } finally {
+        resolve(data)
+      }
+    })
+  })
+}
+
 //选择一件商品，只能在 $.newUser !== 1 && $.haveProduct === 2 并且 sellOut === 0的时候可用
 function jdfactory_makeProduct(skuId) {
   return new Promise(resolve => {

@@ -92,11 +92,13 @@ let UserName: string, index: number;
 
     // 寻宝
     for (let xb of res.XbStatus.XBDetail) {
-      res = await api('user/TreasureHunt', '_cfd_t,bizCode,dwEnv,ptag,source,strIndex,strZone', {strIndex: xb.strIndex})
-      if (res.iRet === 0) {
-        console.log('发现宝物:', res.AwardInfo.ddwValue)
-      } else {
-        console.log('寻宝失败:', res)
+      if (xb.dwRemainCnt !== 0) {
+        res = await api('user/TreasureHunt', '_cfd_t,bizCode,dwEnv,ptag,source,strIndex,strZone', {strIndex: xb.strIndex})
+        if (res.iRet === 0) {
+          console.log('发现宝物:', res.AwardInfo.ddwValue)
+        } else {
+          console.log('寻宝失败:', res)
+        }
       }
       await wait(2000)
     }
@@ -532,7 +534,7 @@ function makeShareCodes() {
     shareCodes.push(res.strMyShareId)
     let pin: string = cookie.match(/pt_pin=([^;]*)/)![1]
     pin = Md5.hashStr(pin)
-    axios.get(`https://api.jdsharecode.xyz/api/autoInsert?db=jxcfd&code=${res.strMyShareId}&bean=${bean}&farm=${farm}&pin=${pin}`, {timeout: 10000})
+    axios.get(`https://api.jdsharecode.xyz/api/autoInsert/jxcfd?sharecode=${res.strMyShareId}&bean=${bean}&farm=${farm}&pin=${pin}`, {timeout: 10000})
       .then(res => {
         if (res.data.code === 200)
           console.log('已自动提交助力码')

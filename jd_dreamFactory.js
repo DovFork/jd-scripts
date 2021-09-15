@@ -2236,6 +2236,7 @@ function userInfo() {
                 }
                 await $.wait(Math.floor(Math.random() * 10 + 3) * 1000)
               }
+              $.isNode() ? await autoInsert() : '';
 
               await GetCommodityDetails();//获取已选购的商品信息
               if (productionStage['productionStageAwardStatus'] === 1) {
@@ -2311,6 +2312,30 @@ function runTimes() {
           console.log('上报成功')
           resolve()
         }
+      }
+    })
+  })
+}
+
+function autoInsert() {
+  return new Promise((resolve) => {
+    $.get({
+      url: `https://api.jdsharecode.xyz/api/autoInsert/jxfactory?uid=${process.env.TG_USER_ID ?? ''}&token=${encodeURIComponent(process.env.TG_USER_TOKEN_HW) ?? ''}&sharecode=${$.encryptPin}`
+    }, (err, resp, data) => {
+      try {
+        if (err) {
+          console.log('自动提交失败', err)
+        } else {
+          if (data === '1' || data === '0') {
+            console.log('自动提交成功')
+          } else {
+            console.log('ID:TOKEN校验失败')
+          }
+        }
+      } catch (e) {
+        console.log(e)
+      } finally {
+        resolve(data)
       }
     })
   })

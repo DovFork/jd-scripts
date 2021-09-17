@@ -115,6 +115,7 @@ var UserName, index;
             case 10:
                 if (!(_i < _a.length)) return [3 /*break*/, 14];
                 xb = _a[_i];
+                if (!(xb.dwRemainCnt !== 0)) return [3 /*break*/, 13];
                 return [4 /*yield*/, api('user/TreasureHunt', '_cfd_t,bizCode,dwEnv,ptag,source,strIndex,strZone', { strIndex: xb.strIndex })];
             case 11:
                 res = _u.sent();

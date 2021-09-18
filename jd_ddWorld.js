@@ -182,7 +182,7 @@ var tokenKey = '', token = '', bearer = '';
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 30:
                 _f.sent();
-                console.log('助力结果：', 2);
+                console.log('助力结果：', res);
                 _f.label = 31;
             case 31:
                 _e++;

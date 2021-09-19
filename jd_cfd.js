@@ -790,7 +790,7 @@ function makeShareCodes() {
                     shareCodes.push(res.strMyShareId);
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
-                    axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert?db=jxcfd&code=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })
+                    axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })
                         .then(function (res) {
                         if (res.data.code === 200)
                             console.log('已自动提交助力码');

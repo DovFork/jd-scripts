@@ -134,7 +134,7 @@ var shareCodesHbInterval = [], shareCodesHb = [];
             case 13:
                 e_2 = _d.sent();
                 return [3 /*break*/, 14];
-            case 14: return [3 /*break*/, 67];
+            case 14: return [4 /*yield*/, api('operservice/GetCoin', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,token', { token: A(lastgettime) })];
             case 15:
                 // 收牛牛
                 res = _d.sent();

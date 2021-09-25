@@ -50,7 +50,7 @@ var cookie = '', res = '', UserName, index;
                 i = 0;
                 _k.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 38];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 37];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -77,7 +77,7 @@ var cookie = '', res = '', UserName, index;
                 user = res.resultData.data;
                 if (!user.realName) {
                     console.log(UserName + "\u672A\u5F00\u901A\u6E38\u620F");
-                    return [3 /*break*/, 37];
+                    return [3 /*break*/, 36];
                 }
                 console.log('助力码:', user.sharePin);
                 // 收果子
@@ -253,11 +253,10 @@ var cookie = '', res = '', UserName, index;
             case 35:
                 k++;
                 return [3 /*break*/, 15];
-            case 36: return [3 /*break*/, 38];
-            case 37:
+            case 36:
                 i++;
                 return [3 /*break*/, 2];
-            case 38: return [2 /*return*/];
+            case 37: return [2 /*return*/];
         }
     });
 }); })();

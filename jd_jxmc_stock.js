@@ -44,7 +44,7 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var fs_1 = require("fs");
-var notify = require('./sendNotify');
+var notify = require('./sendNotify'), jxmcToken = require('./utils/jd_jxmc.js').getToken;
 var cookie = '', res = '', UserName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, exist, items, message, token, _i, _a, good, allItems, arr, result, i, len, _b, result_1, group, _c, group_1, id, _d, _e, t, _f, _g, j;
@@ -64,19 +64,28 @@ var cookie = '', res = '', UserName;
                 catch (e) {
                     (0, fs_1.writeFileSync)('./jxmc_stock.json', '{}', 'utf-8');
                 }
-                exist = JSON.parse((0, fs_1.readFileSync)('./jxmc_stock.json', 'utf-8'));
-                items = '', message = '', token = (0, TS_USER_AGENTS_1.getJxToken)(cookie);
+                exist = (0, fs_1.readFileSync)('./jxmc_stock.json', 'utf-8');
+                try {
+                    exist = JSON.parse(exist);
+                }
+                catch (e) {
+                    exist = {};
+                }
+                items = '', message = '';
+                return [4 /*yield*/, jxmcToken(cookie)];
+            case 3:
+                token = _h.sent();
                 return [4 /*yield*/, api('queryservice/GetGoodsListV2', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp', {
                         activeid: 'jxmc_active_0001',
                         activekey: 'null',
-                        jxmc_jstoken: token.strPgUUNum,
-                        timestamp: token.strPgtimestamp,
-                        phoneid: token.strPhoneID
+                        jxmc_jstoken: token.farm_jstoken,
+                        timestamp: token.timestamp,
+                        phoneid: token.phoneid
                     })];
-            case 3:
+            case 4:
                 res = _h.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 4:
+            case 5:
                 _h.sent();
                 for (_i = 0, _a = res.data.goodslist; _i < _a.length; _i++) {
                     good = _a[_i];
@@ -89,7 +98,7 @@ var cookie = '', res = '', UserName;
                     }
                 }
                 allItems = items;
-                if (!items) return [3 /*break*/, 9];
+                if (!items) return [3 /*break*/, 10];
                 arr = items.split(',');
                 arr.pop();
                 items = '';
@@ -98,31 +107,30 @@ var cookie = '', res = '', UserName;
                     result.push(arr.slice(i, i + 30));
                 }
                 _b = 0, result_1 = result;
-                _h.label = 5;
-            case 5:
-                if (!(_b < result_1.length)) return [3 /*break*/, 9];
+                _h.label = 6;
+            case 6:
+                if (!(_b < result_1.length)) return [3 /*break*/, 10];
                 group = result_1[_b];
                 for (_c = 0, group_1 = group; _c < group_1.length; _c++) {
                     id = group_1[_c];
                     items += id + ',';
                 }
                 return [4 /*yield*/, getEgg(items)];
-            case 6:
+            case 7:
                 res = _h.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 7:
+            case 8:
                 _h.sent();
                 for (_d = 0, _e = res.result; _d < _e.length; _d++) {
                     t = _e[_d];
-                    console.log(t.prizes[0].Name);
                     exist[t.active].name = t.prizes[0].Name;
                 }
                 items = '';
-                _h.label = 8;
-            case 8:
-                _b++;
-                return [3 /*break*/, 5];
+                _h.label = 9;
             case 9:
+                _b++;
+                return [3 /*break*/, 6];
+            case 10:
                 (0, fs_1.writeFileSync)('./jxmc_stock.json', JSON.stringify(exist, null, 2), 'utf-8');
                 for (_f = 0, _g = Object.keys(exist); _f < _g.length; _f++) {
                     j = _g[_f];
@@ -130,14 +138,13 @@ var cookie = '', res = '', UserName;
                         message += exist[j].name + '\t' + exist[j].egg + '\n';
                     }
                 }
-                if (!message) return [3 /*break*/, 11];
+                console.log(message);
+                if (!message) return [3 /*break*/, 12];
                 return [4 /*yield*/, notify.sendNotify('京喜牧场兑换', message)];
-            case 10:
-                _h.sent();
-                _h.label = 11;
             case 11:
-                console.log(exist);
-                return [2 /*return*/];
+                _h.sent();
+                _h.label = 12;
+            case 12: return [2 /*return*/];
         }
     });
 }); })();
@@ -150,7 +157,7 @@ function api(fn, stk, params) {
             switch (_a.label) {
                 case 0:
                     url = "https://m.jingxi.com/jxmc/" + fn + "?channel=7&sceneid=1001&_stk=" + encodeURIComponent(stk) + "&_ste=1&sceneval=2";
-                    url = (0, TS_USER_AGENTS_1.h5st)(url, stk, {});
+                    url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10028);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);

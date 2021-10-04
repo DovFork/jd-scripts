@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 /**
- * 检测cookie是否有效
- * cron: 0 * * * *
+ * 每天检测cookie是否有效
+ * cron: 10 * * * *
  */
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");

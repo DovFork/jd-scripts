@@ -61,10 +61,10 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var ts_md5_1 = require("ts-md5");
 var dotenv = require("dotenv");
 dotenv.config();
-var cookie = '', res = '', shareCodes = [], isCollector = false, USER_AGENT = 'jdpingou;android;4.13.0;10;b21fede89fb4bc77;network/wifi;model/M2004J7AC;appBuild/17690;partner/xiaomi;;session/704;aid/b21fede89fb4bc77;oaid/dcb5f3e835497cc3;pap/JA2019_3111789;brand/Xiaomi;eu/8313831616035373;fv/7333732616631643;Mozilla/5.0 (Linux; Android 10; M2004J7AC Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/91.0.4472.120 Mobile Safari/537.36', token = {};
+var cookie = '', res = '', shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false, USER_AGENT = 'jdpingou;android;4.13.0;10;b21fede89fb4bc77;network/wifi;model/M2004J7AC;appBuild/17690;partner/xiaomi;;session/704;aid/b21fede89fb4bc77;oaid/dcb5f3e835497cc3;pap/JA2019_3111789;brand/Xiaomi;eu/8313831616035373;fv/7333732616631643;Mozilla/5.0 (Linux; Android 10; M2004J7AC Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/91.0.4472.120 Mobile Safari/537.36', token = {};
 var UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, e_1, _i, _a, xb, j, wallet, build, minLV, _b, _c, b, dwCurProgress, strDT, strMyShareId, ddwSeasonStartTm, strLT, RealTmReport, j, employee, _d, employee_1, emp, empRes, _e, _f, sign, MermaidRes, shipRes, bags_1, _g, _h, s, strTypeCnt_1, n, bags, _j, _k, s, strTypeCnt, n, j, tasks, _l, _m, t, _o, _p, t, _q, _r, e, employ, _s, _t, b, data, e_2, i, j;
+    var cookiesArr, i, e_1, _i, _a, xb, j, wallet, build, minLV, _b, _c, b, dwCurProgress, strDT, strMyShareId, ddwSeasonStartTm, strLT, RealTmReport, j, employee, _d, employee_1, emp, empRes, _e, _f, sign, MermaidRes, shipRes, bags_1, _g, _h, s, strTypeCnt_1, n, bags, _j, _k, s, strTypeCnt, n, j, tasks, _l, _m, t, _o, _p, t, _q, _r, e, employ, _s, _t, b, data, e_2, i, data, e_3, j;
     return __generator(this, function (_u) {
         switch (_u.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
@@ -661,50 +661,63 @@ var UserName, index;
                 return [3 /*break*/, 3];
             case 130:
                 _u.trys.push([130, 132, , 133]);
-                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/jxcfd/20', { timeout: 10000 })];
+                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/HW_CODES', { timeout: 10000 })];
             case 131:
                 data = (_u.sent()).data;
-                console.log('获取到20个随机助力码:', data.data);
-                shareCodes = __spreadArray(__spreadArray([], shareCodes, true), data.data, true);
+                shareCodesHW = data['jxcfd'] || [];
                 return [3 /*break*/, 133];
             case 132:
                 e_2 = _u.sent();
-                console.log('获取助力池失败');
                 return [3 /*break*/, 133];
             case 133:
                 i = 0;
                 _u.label = 134;
             case 134:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 140];
-                j = 0;
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 144];
                 _u.label = 135;
             case 135:
-                if (!(j < shareCodes.length)) return [3 /*break*/, 139];
+                _u.trys.push([135, 137, , 138]);
+                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/jxcfd/20', { timeout: 10000 })];
+            case 136:
+                data = (_u.sent()).data;
+                console.log('获取到20个随机助力码:', data.data);
+                shareCodes = __spreadArray(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true), data.data, true);
+                return [3 /*break*/, 138];
+            case 137:
+                e_3 = _u.sent();
+                console.log('获取助力池失败');
+                shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
+                return [3 /*break*/, 138];
+            case 138:
+                j = 0;
+                _u.label = 139;
+            case 139:
+                if (!(j < shareCodes.length)) return [3 /*break*/, 143];
                 cookie = cookiesArr[i];
                 console.log("\u8D26\u53F7" + (i + 1) + "\u53BB\u52A9\u529B:", shareCodes[j]);
                 return [4 /*yield*/, api('story/helpbystage', '_cfd_t,bizCode,dwEnv,ptag,source,strShareId,strZone', { strShareId: shareCodes[j] })];
-            case 136:
+            case 140:
                 res = _u.sent();
                 if (res.iRet === 0) {
                     console.log('助力成功:', res.Data.GuestPrizeInfo.strPrizeName);
                 }
                 else if (res.iRet === 2232 || res.sErrMsg === '今日助力次数达到上限，明天再来帮忙吧~') {
-                    return [3 /*break*/, 139];
+                    return [3 /*break*/, 143];
                 }
                 else if (res.iRet === 2191) {
                     console.log('已助力');
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 137:
+            case 141:
                 _u.sent();
-                _u.label = 138;
-            case 138:
+                _u.label = 142;
+            case 142:
                 j++;
-                return [3 /*break*/, 135];
-            case 139:
+                return [3 /*break*/, 139];
+            case 143:
                 i++;
                 return [3 /*break*/, 134];
-            case 140: return [2 /*return*/];
+            case 144: return [2 /*return*/];
         }
     });
 }); })();
@@ -821,7 +834,7 @@ function makeShareCodes() {
                 case 3:
                     res = _a.sent();
                     console.log('助力码:', res.strMyShareId);
-                    shareCodes.push(res.strMyShareId);
+                    shareCodesSelf.push(res.strMyShareId);
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
                     axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })

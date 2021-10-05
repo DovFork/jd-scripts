@@ -58,7 +58,7 @@ var UA = "jdpingou;iPhone;4.13.0;14.4.2;" + randomString(40) + ";network/wifi;mo
 var cookie = '', res = '', shareCodes = [], homePageInfo, activeid = 'null', activekey = 'null', jxToken, UserName, index;
 var shareCodesHbInterval = [], shareCodesHb = [], shareCodesHb_HW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, lastgettime, food, petid, coins, e_1, e_2, cowToken, _i, _a, day, j, e_3, e_4, e_5, data, e_6, i, j, data, e_7, i, j;
+    var cookiesArr, i, lastgettime, food, petid, coins, e_1, e_2, cowToken, _i, _a, day, j, e_3, e_4, e_5, data, e_6, i, data, e_7, j, i, data, e_8, j;
     var _b, _c;
     return __generator(this, function (_d) {
         switch (_d.label) {
@@ -351,34 +351,46 @@ var shareCodesHbInterval = [], shareCodesHb = [], shareCodesHb_HW = [];
                 return [3 /*break*/, 3];
             case 69:
                 _d.trys.push([69, 71, , 72]);
-                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/jxmchb/30', { timeout: 10000 })];
+                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/HW_CODES', { timeout: 10000 })];
             case 70:
                 data = (_d.sent()).data;
-                console.log('获取到30个随机红包码:', data.data);
-                shareCodesHb = __spreadArray(__spreadArray(__spreadArray([], shareCodesHbInterval, true), shareCodesHb_HW, true), data.data, true);
+                shareCodesHb_HW = data['jxmchb'] || [];
                 return [3 /*break*/, 72];
             case 71:
                 e_6 = _d.sent();
-                console.log('获取助力池失败');
-                shareCodesHb = __spreadArray(__spreadArray([], shareCodesHbInterval, true), shareCodesHb_HW, true);
                 return [3 /*break*/, 72];
             case 72:
                 i = 0;
                 _d.label = 73;
             case 73:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 80];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 84];
+                _d.label = 74;
+            case 74:
+                _d.trys.push([74, 76, , 77]);
+                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/jxmchb/20', { timeout: 10000 })];
+            case 75:
+                data = (_d.sent()).data;
+                console.log('获取到20个随机红包码:', data.data);
+                shareCodesHb = __spreadArray(__spreadArray(__spreadArray([], shareCodesHbInterval, true), shareCodesHb_HW, true), data.data, true);
+                return [3 /*break*/, 77];
+            case 76:
+                e_7 = _d.sent();
+                console.log('获取助力池失败');
+                shareCodesHb = __spreadArray(__spreadArray([], shareCodesHbInterval, true), shareCodesHb_HW, true);
+                return [3 /*break*/, 77];
+            case 77:
                 cookie = cookiesArr[i];
                 return [4 /*yield*/, token(cookie)];
-            case 74:
+            case 78:
                 jxToken = _d.sent();
                 j = 0;
-                _d.label = 75;
-            case 75:
-                if (!(j < shareCodesHb.length)) return [3 /*break*/, 79];
-                if (!(i !== j)) return [3 /*break*/, 78];
+                _d.label = 79;
+            case 79:
+                if (!(j < shareCodesHb.length)) return [3 /*break*/, 83];
+                if (!(i !== j)) return [3 /*break*/, 82];
                 console.log("\u8D26\u53F7" + (i + 1) + "\u53BB\u52A9\u529B" + shareCodesHb[j]);
                 return [4 /*yield*/, api('operservice/InviteEnroll', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,sharekey,timestamp', { sharekey: shareCodesHb[j] })];
-            case 76:
+            case 80:
                 res = _d.sent();
                 if (res.ret === 0) {
                     console.log(res);
@@ -388,44 +400,46 @@ var shareCodesHbInterval = [], shareCodesHb = [], shareCodesHb_HW = [];
                     console.log('助力失败：', JSON.stringify(res));
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
-            case 77:
+            case 81:
                 _d.sent();
-                _d.label = 78;
-            case 78:
+                _d.label = 82;
+            case 82:
                 j++;
-                return [3 /*break*/, 75];
-            case 79:
+                return [3 /*break*/, 79];
+            case 83:
                 i++;
                 return [3 /*break*/, 73];
-            case 80:
-                _d.trys.push([80, 82, , 83]);
+            case 84:
+                i = 0;
+                _d.label = 85;
+            case 85:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 96];
+                _d.label = 86;
+            case 86:
+                _d.trys.push([86, 88, , 89]);
                 return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/jxmc/30', { timeout: 10000 })];
-            case 81:
+            case 87:
                 data = (_d.sent()).data;
                 console.log('获取到30个随机助力码:', data.data);
                 shareCodes = __spreadArray(__spreadArray([], shareCodes, true), data.data, true);
-                return [3 /*break*/, 83];
-            case 82:
-                e_7 = _d.sent();
+                return [3 /*break*/, 89];
+            case 88:
+                e_8 = _d.sent();
                 console.log('获取助力池失败');
-                return [3 /*break*/, 83];
-            case 83:
-                i = 0;
-                _d.label = 84;
-            case 84:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 91];
+                return [3 /*break*/, 89];
+            case 89:
                 cookie = cookiesArr[i];
                 return [4 /*yield*/, token(cookie)];
-            case 85:
+            case 90:
                 jxToken = _d.sent();
                 j = 0;
-                _d.label = 86;
-            case 86:
-                if (!(j < shareCodes.length)) return [3 /*break*/, 90];
-                if (!(i !== j)) return [3 /*break*/, 89];
+                _d.label = 91;
+            case 91:
+                if (!(j < shareCodes.length)) return [3 /*break*/, 95];
+                if (!(i !== j)) return [3 /*break*/, 94];
                 console.log("\u8D26\u53F7" + (i + 1) + "\u53BB\u52A9\u529B" + shareCodes[j]);
                 return [4 /*yield*/, api('operservice/EnrollFriend', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,sharekey,timestamp', { sharekey: shareCodes[j] })];
-            case 87:
+            case 92:
                 res = _d.sent();
                 if (res.ret === 0) {
                     console.log(res);
@@ -435,16 +449,16 @@ var shareCodesHbInterval = [], shareCodesHb = [], shareCodesHb_HW = [];
                     console.log('助力失败：', res);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
-            case 88:
+            case 93:
                 _d.sent();
-                _d.label = 89;
-            case 89:
+                _d.label = 94;
+            case 94:
                 j++;
-                return [3 /*break*/, 86];
-            case 90:
+                return [3 /*break*/, 91];
+            case 95:
                 i++;
-                return [3 /*break*/, 84];
-            case 91: return [2 /*return*/];
+                return [3 /*break*/, 85];
+            case 96: return [2 /*return*/];
         }
     });
 }); })();
@@ -502,7 +516,7 @@ function getTask() {
 function api(fn, stk, params) {
     if (params === void 0) { params = {}; }
     return __awaiter(this, void 0, void 0, function () {
-        var url, data, e_8;
+        var url, data, e_9;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -532,15 +546,12 @@ function api(fn, stk, params) {
                         return [2 /*return*/, JSON.parse(data.replace(/jsonpCBK.?\(/, '').split('\n')[0])];
                     return [2 /*return*/, data];
                 case 3:
-                    e_8 = _a.sent();
+                    e_9 = _a.sent();
                     return [2 /*return*/, {}];
                 case 4: return [2 /*return*/];
             }
         });
     });
-}
-function randomWord() {
-    return String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0));
 }
 function makeShareCodes(code) {
     var _this = this;

@@ -40,76 +40,59 @@ var axios_1 = require("axios");
 var fs_1 = require("fs");
 var child_process_1 = require("child_process");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var TS_USER_AGENTS_2 = require("./TS_USER_AGENTS");
-var notify = require('./sendNotify');
-var cookie = '', UserName, index, message = '';
+var notify = require('./sendNotify'), message = '';
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var cookiesArr, i, _a, isLogin, nickName, data, e_1, e_2;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var cookiesArr, cookiesNobyDa, i, data, e_1, e_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
                 case 1:
-                    cookiesArr = _b.sent();
-                    i = 0;
-                    _b.label = 2;
-                case 2:
-                    if (!(i < cookiesArr.length)) return [3 /*break*/, 15];
-                    cookie = cookiesArr[i];
-                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    index = i + 1;
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_2.TotalBean)(cookie)];
-                case 3:
-                    _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
-                    if (!isLogin) {
-                        notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                        return [3 /*break*/, 14];
+                    cookiesArr = _a.sent();
+                    cookiesNobyDa = [];
+                    for (i = 0; i < cookiesArr.length; i++) {
+                        cookiesNobyDa.push({ cookie: cookiesArr[i] });
                     }
-                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                    data = void 0;
-                    _b.label = 4;
-                case 4:
-                    _b.trys.push([4, 6, , 11]);
+                    data = '';
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 4, , 9]);
                     return [4 /*yield*/, axios_1["default"].get('https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js', { timeout: 5000 })];
+                case 3:
+                    data = _a.sent();
+                    data = data.data;
+                    console.log('raw');
+                    return [3 /*break*/, 9];
+                case 4:
+                    e_1 = _a.sent();
+                    _a.label = 5;
                 case 5:
-                    data = _b.sent();
-                    data = data.data;
-                    return [3 /*break*/, 11];
-                case 6:
-                    e_1 = _b.sent();
-                    _b.label = 7;
-                case 7:
-                    _b.trys.push([7, 9, , 10]);
+                    _a.trys.push([5, 7, , 8]);
                     return [4 /*yield*/, axios_1["default"].get('https://ghproxy.com/https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js', { timeout: 10000 })];
-                case 8:
-                    data = _b.sent();
+                case 6:
+                    data = _a.sent();
                     data = data.data;
-                    return [3 /*break*/, 10];
-                case 9:
-                    e_2 = _b.sent();
+                    console.log('ghproxy');
+                    return [3 /*break*/, 8];
+                case 7:
+                    e_2 = _a.sent();
                     data = '非脚本问题！网络错误，访问github失败';
-                    return [3 /*break*/, 10];
-                case 10: return [3 /*break*/, 11];
-                case 11:
-                    if (!(data.indexOf('京东多合一签到脚本') > -1)) return [3 /*break*/, 12];
-                    data = data.replace("var Key = ''", "var Key = '" + cookie + "'").replace(/qRKHmL4sna8ZOP9F/g, "RtKLB8euDo7KwsO0");
-                    (0, fs_1.writeFileSync)('./sign.js', data, 'utf-8');
-                    (0, child_process_1.execSync)('node ./sign.js>>./sign.log');
-                    data = (0, fs_1.readFileSync)('./sign.log', 'utf-8');
-                    message += data.replace(/(\n京东现金[\S|\s]*^)【签到/mg, '【签到');
-                    (0, fs_1.unlinkSync)('./sign.js');
-                    (0, fs_1.unlinkSync)('./sign.log');
-                    return [3 /*break*/, 14];
-                case 12: return [4 /*yield*/, notify.sendNotify("\u591A\u5408\u4E00\u7B7E\u5230  " + UserName, data, '', '\n\n你好，世界！')];
-                case 13:
-                    _b.sent();
-                    _b.label = 14;
-                case 14:
-                    i++;
-                    return [3 /*break*/, 2];
-                case 15: return [4 /*yield*/, notify.sendNotify('JD签到All in One', message, '', '\n\n你好，世界！')];
-                case 16:
-                    _b.sent();
+                    return [3 /*break*/, 8];
+                case 8: return [3 /*break*/, 9];
+                case 9:
+                    if (data.indexOf('京东多合一签到脚本') > -1) {
+                        data = data.replace('var OtherKey = ``;', "var OtherKey = `" + JSON.stringify(cookiesNobyDa) + "`;");
+                        (0, fs_1.writeFileSync)('./sign.js', data, 'utf-8');
+                        (0, child_process_1.execSync)('node ./sign.js >> ./sign.log');
+                        data = (0, fs_1.readFileSync)('./sign.log', 'utf-8');
+                        data = data.match(/【.*/gm);
+                        message += data.join('\n').replace(/红包/g, '红包\n\n');
+                        (0, fs_1.unlinkSync)('./sign.js');
+                        (0, fs_1.unlinkSync)('./sign.log');
+                    }
+                    return [4 /*yield*/, notify.sendNotify('京东多合一签到脚本 via NobyDa@Github', message)];
+                case 10:
+                    _a.sent();
                     return [2 /*return*/];
             }
         });

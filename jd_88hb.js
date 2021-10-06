@@ -2,9 +2,7 @@
 /**
  * 京喜app->领88元红包
  * 先内部，后助力HW.ts
- * cron: 0 0,6,10 * * *
- * TODO
- * 拆
+ * cron: 5 0,6,20 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -57,33 +55,36 @@ var axios_1 = require("axios");
 var cookie = '', res = '', UserName, index, UA = '';
 var shareCodesInternal = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, strUserPin, i, j;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var cookiesArr, i, strUserPin, i, j, i, strUserPin, dwHelpedTimes, _i, _a, t;
+    var _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _a.sent();
+                cookiesArr = _c.sent();
                 i = 0;
-                _a.label = 2;
+                _c.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 8];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 9];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                 return [4 /*yield*/, api('GetUserInfo', 'activeId,channel,phoneid,publishFlag,stepreward_jstoken,timestamp,userDraw', { userDraw: 1 })];
             case 3:
-                res = _a.sent();
-                console.log(JSON.stringify(res));
+                res = _c.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10000)];
+            case 4:
+                _c.sent();
                 strUserPin = res.Data.strUserPin;
                 console.log('助力码：', strUserPin);
                 shareCodesInternal.push(strUserPin);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 4:
-                _a.sent();
-                return [4 /*yield*/, api('JoinActive', 'activeId,channel,phoneid,publishFlag,stepreward_jstoken,timestamp')];
             case 5:
-                res = _a.sent();
+                _c.sent();
+                return [4 /*yield*/, api('JoinActive', 'activeId,channel,phoneid,publishFlag,stepreward_jstoken,timestamp')];
+            case 6:
+                res = _c.sent();
                 if (res.iRet === 0) {
                     console.log('JoinActive: 成功');
                 }
@@ -91,64 +92,109 @@ var shareCodesInternal = [];
                     console.log(JSON.stringify(res));
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 6:
-                _a.sent();
-                _a.label = 7;
             case 7:
+                _c.sent();
+                _c.label = 8;
+            case 8:
                 i++;
                 return [3 /*break*/, 2];
-            case 8:
+            case 9:
                 console.log('内部助力码：', shareCodesInternal);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 9:
-                _a.sent();
-                return [4 /*yield*/, getCodes()];
             case 10:
-                res = _a.sent();
+                _c.sent();
+                return [4 /*yield*/, getCodes()];
+            case 11:
+                res = _c.sent();
                 if (res.length !== 0) {
                     console.log('追加HW.ts助力码');
                     shareCodesInternal = __spreadArray(__spreadArray([], shareCodesInternal, true), res, true);
                     console.log('助力排队：', shareCodesInternal);
                 }
                 i = 0;
-                _a.label = 11;
-            case 11:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 17];
+                _c.label = 12;
+            case 12:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 18];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 j = 0;
-                _a.label = 12;
-            case 12:
-                if (!(j < shareCodesInternal.length)) return [3 /*break*/, 16];
+                _c.label = 13;
+            case 13:
+                if (!(j < shareCodesInternal.length)) return [3 /*break*/, 17];
                 console.log("\u8D26\u53F7" + (i + 1) + " " + UserName + " \u53BB\u52A9\u529B " + shareCodesInternal[j]);
                 return [4 /*yield*/, api('EnrollFriend', 'activeId,channel,joinDate,phoneid,publishFlag,stepreward_jstoken,strPin,timestamp', { joinDate: '20211004', strPin: shareCodesInternal[j] })];
-            case 13:
-                res = _a.sent();
+            case 14:
+                res = _c.sent();
                 if (res.iRet === 0) {
                     console.log('成功');
                 }
                 else if (res.iRet === 2015) {
                     console.log('上限');
-                    return [3 /*break*/, 16];
+                    return [3 /*break*/, 17];
                 }
                 else if (res.iRet === 2016) {
                     console.log('火爆');
-                    return [3 /*break*/, 16];
+                    return [3 /*break*/, 17];
                 }
                 else {
                     console.log('其他错误:', res);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 14:
-                _a.sent();
-                _a.label = 15;
             case 15:
-                j++;
-                return [3 /*break*/, 12];
+                _c.sent();
+                _c.label = 16;
             case 16:
+                j++;
+                return [3 /*break*/, 13];
+            case 17:
                 i++;
-                return [3 /*break*/, 11];
-            case 17: return [2 /*return*/];
+                return [3 /*break*/, 12];
+            case 18:
+                i = 0;
+                _c.label = 19;
+            case 19:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 28];
+                cookie = cookiesArr[i];
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                index = i + 1;
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + " \u62C6\u7EA2\u5305\n");
+                return [4 /*yield*/, api('GetUserInfo', 'activeId,channel,phoneid,publishFlag,stepreward_jstoken,timestamp,userDraw', { userDraw: 1 })];
+            case 20:
+                res = _c.sent();
+                strUserPin = res.Data.strUserPin, dwHelpedTimes = res.Data.dwHelpedTimes;
+                console.log('收到助力:', dwHelpedTimes);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 21:
+                _c.sent();
+                _i = 0, _a = res.Data.gradeConfig;
+                _c.label = 22;
+            case 22:
+                if (!(_i < _a.length)) return [3 /*break*/, 27];
+                t = _a[_i];
+                if (!(dwHelpedTimes >= t.dwHelpTimes)) return [3 /*break*/, 25];
+                return [4 /*yield*/, api('DoGradeDraw', 'activeId,channel,grade,phoneid,publishFlag,stepreward_jstoken,strPin,timestamp', { grade: t.dwGrade, strPin: strUserPin })];
+            case 23:
+                res = _c.sent();
+                if (res.iRet === 2018)
+                    console.log("\u7B49\u7EA7" + t.dwGrade + "\u7EA2\u5305\u5DF2\u6253\u5F00\u8FC7");
+                else if (res.iRet === 0)
+                    console.log("\u7B49\u7EA7" + t.dwGrade + "\u7EA2\u5305\u6253\u5F00\u6210\u529F");
+                else {
+                    console.log('其他错误', (_b = res.sErrMsg) !== null && _b !== void 0 ? _b : JSON.stringify(res));
+                    return [3 /*break*/, 27];
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(15000)];
+            case 24:
+                _c.sent();
+                return [3 /*break*/, 26];
+            case 25: return [3 /*break*/, 27];
+            case 26:
+                _i++;
+                return [3 /*break*/, 22];
+            case 27:
+                i++;
+                return [3 /*break*/, 19];
+            case 28: return [2 /*return*/];
         }
     });
 }); })();
@@ -160,7 +206,6 @@ function api(fn, stk, params) {
             switch (_a.label) {
                 case 0:
                     url = "https://m.jingxi.com/cubeactive/steprewardv3/" + fn + "?activeId=489177&publishFlag=1&channel=7&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
-                    // &g_login_type=1&callback=jsonpCBKB&g_ty=ls
                     UA = "jdpingou;iPhone;4.13.0;14.4.2;" + randomString(40) + ";network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/" + (Math.random() * 98 + 1) + ";pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148";
                     phoneid = UA.split(';') && UA.split(';')[4] || '';
                     url += "&phoneid=" + phoneid;

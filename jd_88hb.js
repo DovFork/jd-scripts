@@ -52,14 +52,24 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var axios_1 = require("axios");
+var path = require("path");
+var fs_1 = require("fs");
 var cookie = '', res = '', UserName, index, UA = '';
 var shareCodesInternal = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, strUserPin, i, j, i, strUserPin, dwHelpedTimes, _i, _a, t;
+    var except, cookiesArr, i, strUserPin, i, j, i, strUserPin, dwHelpedTimes, _i, _a, t;
     var _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0:
+                try {
+                    (0, fs_1.accessSync)('./utils/exceptCookie.json');
+                    except = JSON.parse((0, fs_1.readFileSync)('./utils/exceptCookie.json').toString())[path.basename(__filename)];
+                }
+                catch (e) {
+                    except = [];
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _c.sent();
                 i = 0;
@@ -70,6 +80,10 @@ var shareCodesInternal = [];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                if (except.includes(encodeURIComponent(UserName))) {
+                    console.log('已设置跳过');
+                    return [3 /*break*/, 8];
+                }
                 return [4 /*yield*/, api('GetUserInfo', 'activeId,channel,phoneid,publishFlag,stepreward_jstoken,timestamp,userDraw', { userDraw: 1 })];
             case 3:
                 res = _c.sent();

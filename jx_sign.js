@@ -41,10 +41,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
+var path = require("path");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNotify'), UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _a, isLogin, nickName, _i, _b, t, _c, _d, t;
+    var cookiesArr, except, i, _a, isLogin, nickName, _i, _b, t, _c, _d, t, e_1;
     return __generator(this, function (_e) {
         switch (_e.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
@@ -53,10 +54,11 @@ var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNoti
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _e.sent();
+                except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 i = 0;
                 _e.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 17];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 20];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -65,21 +67,28 @@ var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNoti
                 _a = _e.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
                     notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                    return [3 /*break*/, 16];
+                    return [3 /*break*/, 19];
                 }
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
+                if (except.includes(encodeURIComponent(UserName))) {
+                    console.log('已设置跳过');
+                    return [3 /*break*/, 19];
+                }
+                _e.label = 5;
             case 5:
+                _e.trys.push([5, 18, , 19]);
+                return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
+            case 6:
                 res = _e.sent();
                 _i = 0, _b = res.commontask;
-                _e.label = 6;
-            case 6:
-                if (!(_i < _b.length)) return [3 /*break*/, 10];
+                _e.label = 7;
+            case 7:
+                if (!(_i < _b.length)) return [3 /*break*/, 11];
                 t = _b[_i];
-                if (!(t.status === 1)) return [3 /*break*/, 9];
+                if (!(t.status === 1)) return [3 /*break*/, 10];
                 console.log(t.taskname);
                 return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/dotask?task=" + t.task + "&signhb_source=5&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBKB&g_ty=ls", '')];
-            case 7:
+            case 8:
                 res = _e.sent();
                 if (res.ret === 0) {
                     console.log('任务完成，获得：', res.sendhb);
@@ -88,37 +97,42 @@ var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNoti
                     console.log('任务失败：', res.errmsg);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 8:
-                _e.sent();
-                _e.label = 9;
             case 9:
+                _e.sent();
+                _e.label = 10;
+            case 10:
                 _i++;
-                return [3 /*break*/, 6];
-            case 10: return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
-            case 11:
-                res = _e.sent();
-                if (!(res.baoxiang_left != 0)) return [3 /*break*/, 16];
-                _c = 0, _d = res.baoxiang_stage;
-                _e.label = 12;
+                return [3 /*break*/, 7];
+            case 11: return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
             case 12:
-                if (!(_c < _d.length)) return [3 /*break*/, 16];
-                t = _d[_c];
-                if (!(t.status === 1)) return [3 /*break*/, 15];
-                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/bxdraw?_=" + Date.now() + "&sceneval=2", '')];
+                res = _e.sent();
+                if (!(res.baoxiang_left != 0)) return [3 /*break*/, 17];
+                _c = 0, _d = res.baoxiang_stage;
+                _e.label = 13;
             case 13:
+                if (!(_c < _d.length)) return [3 /*break*/, 17];
+                t = _d[_c];
+                if (!(t.status === 1)) return [3 /*break*/, 16];
+                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/bxdraw?_=" + Date.now() + "&sceneval=2", '')];
+            case 14:
                 res = _e.sent();
                 console.log('开宝箱，获得：', res.sendhb);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 14:
-                _e.sent();
-                _e.label = 15;
             case 15:
-                _c++;
-                return [3 /*break*/, 12];
+                _e.sent();
+                _e.label = 16;
             case 16:
+                _c++;
+                return [3 /*break*/, 13];
+            case 17: return [3 /*break*/, 19];
+            case 18:
+                e_1 = _e.sent();
+                console.log(e_1);
+                return [3 /*break*/, 19];
+            case 19:
                 i++;
                 return [3 /*break*/, 3];
-            case 17: return [2 /*return*/];
+            case 20: return [2 /*return*/];
         }
     });
 }); })();
@@ -126,7 +140,7 @@ function api(fn, stk, params) {
     var _this = this;
     if (params === void 0) { params = {}; }
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var url, data, e_1;
+        var url, data, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -158,7 +172,7 @@ function api(fn, stk, params) {
                     }
                     return [3 /*break*/, 4];
                 case 3:
-                    e_1 = _a.sent();
+                    e_2 = _a.sent();
                     reject(401);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];

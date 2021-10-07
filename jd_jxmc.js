@@ -50,15 +50,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var ts_md5_1 = require("ts-md5");
+var path = require("path");
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cow = require('./utils/jd_jxmc.js').cow;
 var token = require('./utils/jd_jxmc.js').token;
 var UA = "jdpingou;iPhone;4.13.0;14.4.2;" + randomString(40) + ";network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/" + (Math.random() * 98 + 1) + ";pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148";
 var cookie = '', res = '', shareCodes = [], homePageInfo, activeid = 'null', activekey = 'null', jxToken, UserName, index;
 var shareCodesHbInterval = [], shareCodesHb = [], shareCodesHb_HW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, lastgettime, food, petid, coins, e_1, e_2, cowToken, _i, _a, day, j, e_3, e_4, e_5, data, e_6, i, data, e_7, j, i, data, e_8, j;
+    var cookiesArr, except, i, lastgettime, food, petid, coins, e_1, e_2, cowToken, _i, _a, day, j, e_3, e_4, e_5, data, e_6, i, data, e_7, j, i, data, e_8, j;
     var _b, _c;
     return __generator(this, function (_d) {
         switch (_d.label) {
@@ -72,6 +73,7 @@ var shareCodesHbInterval = [], shareCodesHb = [], shareCodesHb_HW = [];
                     console.log('收到命令行cookie');
                     cookiesArr = [unescape(process.argv[2])];
                 }
+                except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 i = 0;
                 _d.label = 3;
             case 3:
@@ -80,6 +82,10 @@ var shareCodesHbInterval = [], shareCodesHb = [], shareCodesHb_HW = [];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                if (except.includes(encodeURIComponent(UserName))) {
+                    console.log('已设置跳过');
+                    return [3 /*break*/, 68];
+                }
                 return [4 /*yield*/, token(cookie)];
             case 4:
                 jxToken = _d.sent();

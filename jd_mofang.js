@@ -38,17 +38,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', UserName, index, shareCodes = [], shareCodesHbInterval = [];
+var cookie = '', res = '', UserName, index;
+var shareCodeSelf = [];
+var DEBUG = false;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, sign, _i, _a, t, _b, _c, proInfo, _d, _e, proInfo, _f, _g, proInfo, _h, _j, proInfo;
-    var _k, _l, _m, _o;
-    return __generator(this, function (_p) {
-        switch (_p.label) {
+    var cookiesArr, i, sign, _i, _a, t, signDay, type, _b, _c, proInfo, _d, _e, proInfo, _f, _g, proInfo, _h, _j, proInfo, _k, shareCodeSelf_1, code_1, code;
+    var _l, _m, _o, _p, _q;
+    return __generator(this, function (_r) {
+        switch (_r.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _p.sent();
+                cookiesArr = _r.sent();
                 i = 0;
-                _p.label = 2;
+                _r.label = 2;
             case 2:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 28];
                 cookie = cookiesArr[i];
@@ -57,21 +59,36 @@ var cookie = '', res = '', UserName, index, shareCodes = [], shareCodesHbInterva
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                 return [4 /*yield*/, api("functionId=getInteractionHomeInfo&body=%7B%22sign%22%3A%22u6vtLQ7ztxgykLEr%22%7D&appid=content_ecology&client=wh5&clientVersion=1.0.0")];
             case 3:
-                res = _p.sent();
+                res = _r.sent();
                 sign = res.result.taskConfig.projectId;
+                DEBUG ? console.log(JSON.stringify(res)) : '';
                 console.log('sing:', sign);
                 return [4 /*yield*/, api("functionId=queryInteractiveInfo&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
             case 4:
-                res = _p.sent();
+                res = _r.sent();
+                DEBUG ? console.log(JSON.stringify(res)) : '';
                 _i = 0, _a = res.assignmentList;
-                _p.label = 5;
+                _r.label = 5;
             case 5:
                 if (!(_i < _a.length)) return [3 /*break*/, 27];
                 t = _a[_i];
                 if (!(t.completionCnt < t.assignmentTimesLimit)) return [3 /*break*/, 26];
                 if (!t.ext) return [3 /*break*/, 26];
-                _b = 0, _c = (_k = t.ext.productsInfo) !== null && _k !== void 0 ? _k : [];
-                _p.label = 6;
+                if (t.ext.extraType === 'assistTaskDetail') {
+                    console.log('助力码:', t.ext.assistTaskDetail.itemId);
+                    shareCodeSelf.push({
+                        encryptProjectId: sign,
+                        encryptAssignmentId: t.encryptAssignmentId,
+                        itemId: t.ext.assistTaskDetail.itemId
+                    });
+                }
+                if (t.assignmentName === '每日签到') {
+                    signDay = ((_l = t.ext.sign1.signList) === null || _l === void 0 ? void 0 : _l.length) || 0, type = t.rewards[signDay].rewardType;
+                    console.log(signDay, type);
+                    // TODO 签到
+                }
+                _b = 0, _c = (_m = t.ext.productsInfo) !== null && _m !== void 0 ? _m : [];
+                _r.label = 6;
             case 6:
                 if (!(_b < _c.length)) return [3 /*break*/, 9];
                 proInfo = _c[_b];
@@ -79,15 +96,15 @@ var cookie = '', res = '', UserName, index, shareCodes = [], shareCodesHbInterva
                 console.log(t.assignmentName);
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.itemId + "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
             case 7:
-                res = _p.sent();
+                res = _r.sent();
                 console.log(res);
-                _p.label = 8;
+                _r.label = 8;
             case 8:
                 _b++;
                 return [3 /*break*/, 6];
             case 9:
-                _d = 0, _e = (_l = t.ext.shoppingActivity) !== null && _l !== void 0 ? _l : [];
-                _p.label = 10;
+                _d = 0, _e = (_o = t.ext.shoppingActivity) !== null && _o !== void 0 ? _o : [];
+                _r.label = 10;
             case 10:
                 if (!(_d < _e.length)) return [3 /*break*/, 15];
                 proInfo = _e[_d];
@@ -95,22 +112,22 @@ var cookie = '', res = '', UserName, index, shareCodes = [], shareCodesHbInterva
                 console.log(t.assignmentName);
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.advId + "%22%2C%22actionType%22%3A1%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
             case 11:
-                res = _p.sent();
+                res = _r.sent();
                 console.log(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.ext.waitDuration * 1000)];
             case 12:
-                _p.sent();
+                _r.sent();
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.advId + "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
             case 13:
-                res = _p.sent();
+                res = _r.sent();
                 console.log(res);
-                _p.label = 14;
+                _r.label = 14;
             case 14:
                 _d++;
                 return [3 /*break*/, 10];
             case 15:
-                _f = 0, _g = (_m = t.ext.browseShop) !== null && _m !== void 0 ? _m : [];
-                _p.label = 16;
+                _f = 0, _g = (_p = t.ext.browseShop) !== null && _p !== void 0 ? _p : [];
+                _r.label = 16;
             case 16:
                 if (!(_f < _g.length)) return [3 /*break*/, 21];
                 proInfo = _g[_f];
@@ -118,22 +135,22 @@ var cookie = '', res = '', UserName, index, shareCodes = [], shareCodesHbInterva
                 console.log(t.assignmentName);
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.itemId + "%22%2C%22actionType%22%3A1%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
             case 17:
-                res = _p.sent();
+                res = _r.sent();
                 console.log(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.ext.waitDuration * 1000)];
             case 18:
-                _p.sent();
+                _r.sent();
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.itemId + "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
             case 19:
-                res = _p.sent();
+                res = _r.sent();
                 console.log(res);
-                _p.label = 20;
+                _r.label = 20;
             case 20:
                 _f++;
                 return [3 /*break*/, 16];
             case 21:
-                _h = 0, _j = (_o = t.ext.addCart) !== null && _o !== void 0 ? _o : [];
-                _p.label = 22;
+                _h = 0, _j = (_q = t.ext.addCart) !== null && _q !== void 0 ? _q : [];
+                _r.label = 22;
             case 22:
                 if (!(_h < _j.length)) return [3 /*break*/, 26];
                 proInfo = _j[_h];
@@ -141,17 +158,14 @@ var cookie = '', res = '', UserName, index, shareCodes = [], shareCodesHbInterva
                 console.log(t.assignmentName);
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.itemId + "%22%2C%22actionType%22%3A1%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
             case 23:
-                res = _p.sent();
-                console.log(res);
+                res = _r.sent();
+                console.log('加购:', res);
                 if (res.msg === '任务已完成')
                     return [3 /*break*/, 26];
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.itemId + "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 24:
-                res = _p.sent();
-                console.log(res);
-                if (res.msg === '任务已完成')
-                    return [3 /*break*/, 26];
-                _p.label = 25;
+                _r.sent();
+                _r.label = 25;
             case 25:
                 _h++;
                 return [3 /*break*/, 22];
@@ -161,7 +175,37 @@ var cookie = '', res = '', UserName, index, shareCodes = [], shareCodesHbInterva
             case 27:
                 i++;
                 return [3 /*break*/, 2];
-            case 28: return [2 /*return*/];
+            case 28:
+                console.log('助力排队:', shareCodeSelf);
+                cookie = cookiesArr[0];
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                _k = 0, shareCodeSelf_1 = shareCodeSelf;
+                _r.label = 29;
+            case 29:
+                if (!(_k < shareCodeSelf_1.length)) return [3 /*break*/, 33];
+                code_1 = shareCodeSelf_1[_k];
+                console.log("\u8D26\u53F71 " + UserName + " \u53BB\u52A9\u529B " + code_1.itemId);
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + code_1.encryptProjectId + "%22%2C%22encryptAssignmentId%22%3A%22" + code_1.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + code_1.itemId + "%22%2C%22actionType%22%3A%22%22%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+            case 30:
+                res = _r.sent();
+                console.log('助力结果:', res);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 31:
+                _r.sent();
+                _r.label = 32;
+            case 32:
+                _k++;
+                return [3 /*break*/, 29];
+            case 33:
+                cookie = cookiesArr[1];
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                code = shareCodeSelf[0];
+                console.log("\u8D26\u53F72 " + UserName + " \u53BB\u52A9\u529B " + code.itemId);
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + code.encryptProjectId + "%22%2C%22encryptAssignmentId%22%3A%22" + code.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + code.itemId + "%22%2C%22actionType%22%3A%22%22%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+            case 34:
+                res = _r.sent();
+                console.log('助力结果:', res);
+                return [2 /*return*/];
         }
     });
 }); })();

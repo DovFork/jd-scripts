@@ -1,5 +1,8 @@
 "use strict";
-// TODO 更新时推送
+/**
+ * 京东快递更新通知
+ * cron: 0-23/2 * * * *
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,54 +41,100 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var path = require("path");
-var cookie = '', UserName, index;
+var sendNotify_1 = require("./sendNotify");
+var fs_1 = require("fs");
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var cookie = '', UserName, index, allMessage = '', message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, i, t;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var cookiesArr, except, orders, i, res, message_1, _i, _a, order, orderId, title, t, status_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _a.sent();
+                cookiesArr = _b.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
+                try {
+                    (0, fs_1.accessSync)('./jd_track.json');
+                    orders = JSON.parse((0, fs_1.readFileSync)('./jd_track.json').toString() || '{}');
+                }
+                catch (e) {
+                    orders = {};
+                }
                 i = 0;
-                _a.label = 2;
+                _b.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 5];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 6];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                 if (except.includes(encodeURIComponent(UserName))) {
                     console.log('已设置跳过');
-                    return [3 /*break*/, 4];
+                    return [3 /*break*/, 5];
                 }
-                t = Date.now();
-                axios_1["default"].get("https://wq.jd.com/bases/orderlist/list?order_type=2&start_page=1&last_page=0&page_size=10&callersource=mainorder&t=" + t + "&sceneval=2&_=" + (t + 1) + "&sceneval=2", {
-                    headers: {
-                        'authority': 'wq.jd.com',
-                        'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
-                        'referer': 'https://wqs.jd.com/',
-                        'cookie': cookie
-                    }
-                }).then(function (res) {
-                    for (var _i = 0, _a = res['data']['orderList']; _i < _a.length; _i++) {
-                        var order = _a[_i];
-                        var title = order['productList'][0]['title'], t_1 = order['progressInfo']['tip'], status_1 = order['progressInfo']['content'];
-                        console.log(title);
-                        console.log('\t', t_1, status_1);
-                        console.log();
-                    }
-                });
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                return [4 /*yield*/, getOrderList()];
             case 3:
-                _a.sent();
-                _a.label = 4;
+                res = _b.sent(), message_1 = '';
+                for (_i = 0, _a = res.orderList; _i < _a.length; _i++) {
+                    order = _a[_i];
+                    orderId = order['orderId'], title = order['productList'][0]['title'], t = order['progressInfo']['tip'], status_1 = order['progressInfo']['content'];
+                    if (status_1.match(/(?=已签收|已取走)/))
+                        continue;
+                    console.log(title);
+                    console.log('\t', t, status_1);
+                    console.log();
+                    if (Object.keys(orders).indexOf(orderId) > -1 && orders[orderId]['status'] !== status_1) {
+                        console.log(orderId, '状态更新');
+                        message_1 += title + "\n" + t + "  " + status_1 + "\n\n";
+                    }
+                    orders[orderId] = {
+                        title: title,
+                        t: t,
+                        status: status_1
+                    };
+                }
+                if (message_1) {
+                    message_1 = "<\u4EAC\u4E1C\u8D26\u53F7" + (i + 1) + ">  " + UserName + "\n\n" + message_1;
+                    allMessage += message_1;
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 4:
+                _b.sent();
+                _b.label = 5;
+            case 5:
                 i++;
                 return [3 /*break*/, 2];
-            case 5: return [2 /*return*/];
+            case 6:
+                (0, fs_1.writeFileSync)('./jd_track.json', JSON.stringify(orders));
+                if (!allMessage) return [3 /*break*/, 8];
+                return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东快递更新', allMessage)];
+            case 7:
+                _b.sent();
+                _b.label = 8;
+            case 8: return [2 /*return*/];
         }
     });
 }); })();
+function getOrderList() {
+    return __awaiter(this, void 0, void 0, function () {
+        var t, data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    t = Date.now();
+                    return [4 /*yield*/, axios_1["default"].get("https://wq.jd.com/bases/orderlist/list?order_type=2&start_page=1&last_page=0&page_size=10&callersource=mainorder&t=" + t + "&sceneval=2&_=" + (t + 1) + "&sceneval=2", {
+                            headers: {
+                                'authority': 'wq.jd.com',
+                                'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
+                                'referer': 'https://wqs.jd.com/',
+                                'cookie': cookie
+                            }
+                        })];
+                case 1:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, data];
+            }
+        });
+    });
+}

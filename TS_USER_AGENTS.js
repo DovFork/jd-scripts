@@ -293,10 +293,10 @@ function getJxToken(cookie) {
 exports.getJxToken = getJxToken;
 function exceptCookie(filename) {
     if (filename === void 0) { filename = 'x.ts'; }
-    var except;
+    var except = [];
     try {
         (0, fs_1.accessSync)('./utils/exceptCookie.json');
-        except = JSON.parse((0, fs_1.readFileSync)('./utils/exceptCookie.json').toString())[filename];
+        except = JSON.parse((0, fs_1.readFileSync)('./utils/exceptCookie.json').toString() || '{}')[filename];
     }
     catch (e) {
         except = [];

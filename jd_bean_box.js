@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * 领京豆-任务
+ * cron: 0 9,12 * * *
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,146 +40,138 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-/**
- * cron: 0 9,12 * * *
- */
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var dotenv = require("dotenv");
-var notify = require('./sendNotify');
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 dotenv.config();
-var cookie = '', res = '', UserName, index, id = randomString(40);
+var cookie = '', res = '', UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _a, isLogin, nickName, j, homeRes, homeRes, _i, _b, t, e_1;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var cookiesArr, i, j, _i, _a, t, e_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _c.sent();
+                cookiesArr = _b.sent();
                 i = 0;
-                _c.label = 2;
+                _b.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 25];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 20];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
-            case 3:
-                _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
-                if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                    return [3 /*break*/, 24];
-                }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                 j = 0;
-                _c.label = 4;
-            case 4:
-                if (!(j < 3)) return [3 /*break*/, 24];
+                _b.label = 3;
+            case 3:
+                if (!(j < 4)) return [3 /*break*/, 19];
                 console.log("Round:" + (j + 1));
                 return [4 /*yield*/, api('beanTaskList', { "viewChannel": "AppHome" })];
+            case 4:
+                res = _b.sent();
+                _b.label = 5;
             case 5:
-                res = _c.sent();
-                _c.label = 6;
+                _b.trys.push([5, 15, , 16]);
+                _i = 0, _a = res.data.taskInfos;
+                _b.label = 6;
             case 6:
-                _c.trys.push([6, 20, 21, 23]);
-                if (!!res.data.viewAppHome.takenTask) return [3 /*break*/, 8];
-                return [4 /*yield*/, api('beanHomeIconDoTask', { "flag": "0", "viewChannel": "AppHome" })];
-            case 7:
-                homeRes = _c.sent();
-                console.log(homeRes.data.remindMsg);
-                _c.label = 8;
-            case 8:
-                if (!!res.data.viewAppHome.doneTask) return [3 /*break*/, 10];
-                return [4 /*yield*/, api('beanHomeIconDoTask', { "flag": "1", "viewChannel": "AppHome" })];
-            case 9:
-                homeRes = _c.sent();
-                console.log(homeRes.data.remindMsg);
-                _c.label = 10;
-            case 10:
-                _i = 0, _b = res.data.taskInfos;
-                _c.label = 11;
-            case 11:
-                if (!(_i < _b.length)) return [3 /*break*/, 19];
-                t = _b[_i];
-                if (!(t.status === 1)) return [3 /*break*/, 18];
+                if (!(_i < _a.length)) return [3 /*break*/, 14];
+                t = _a[_i];
+                if (!(t.status === 1)) return [3 /*break*/, 13];
                 console.log(t.taskName);
                 return [4 /*yield*/, api('beanDoTask', {
                         "actionType": t.taskType === 3 ? 0 : 1,
                         "taskToken": t.subTaskVOS[0].taskToken
                     })];
-            case 12:
-                res = _c.sent();
+            case 7:
+                res = _b.sent();
                 if (res.data.bizMsg)
                     console.log(res.data.bizMsg);
                 else {
                     console.log(res);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 13:
-                _c.sent();
-                if (!(t.taskType !== 3)) return [3 /*break*/, 16];
+            case 8:
+                _b.sent();
+                if (!(t.taskType !== 3)) return [3 /*break*/, 11];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1500)];
-            case 14:
-                _c.sent();
+            case 9:
+                _b.sent();
                 return [4 /*yield*/, api('beanDoTask', { "actionType": 0, "taskToken": t.subTaskVOS[0].taskToken })];
-            case 15:
-                res = _c.sent();
+            case 10:
+                res = _b.sent();
                 if (res.data.bizMsg)
                     console.log(res.data.bizMsg);
-                _c.label = 16;
-            case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 17:
-                _c.sent();
-                _c.label = 18;
-            case 18:
+                _b.label = 11;
+            case 11: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 12:
+                _b.sent();
+                _b.label = 13;
+            case 13:
                 _i++;
-                return [3 /*break*/, 11];
-            case 19: return [3 /*break*/, 23];
-            case 20:
-                e_1 = _c.sent();
-                return [3 /*break*/, 23];
-            case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 22:
-                _c.sent();
-                return [7 /*endfinally*/];
-            case 23:
+                return [3 /*break*/, 6];
+            case 14: return [3 /*break*/, 16];
+            case 15:
+                e_1 = _b.sent();
+                console.log('Error!');
+                return [3 /*break*/, 16];
+            case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 17:
+                _b.sent();
+                _b.label = 18;
+            case 18:
                 j++;
-                return [3 /*break*/, 4];
-            case 24:
+                return [3 /*break*/, 3];
+            case 19:
                 i++;
                 return [3 /*break*/, 2];
-            case 25: return [2 /*return*/];
+            case 20: return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, body) {
-    var _this = this;
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var sign, data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, getSign(fn, body)];
+                case 1:
+                    sign = _a.sent();
+                    return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=" + fn + "&" + sign.data.sign, {
+                            headers: {
+                                'Host': 'api.m.jd.com',
+                                'content-type': 'application/x-www-form-urlencoded',
+                                'j-e-c': '',
+                                'accept': '*/*',
+                                'j-e-h': '',
+                                'accept-language': 'zh-Hans-CN;q=1',
+                                'referer': '',
+                                'user-agent': 'JD4iPhone/167841 (iPhone; iOS; Scale/3.00)',
+                                'Cookie': cookie
+                            }
+                        })];
+                case 2:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, data];
+            }
+        });
+    });
+}
+function getSign(fn, body) {
+    return __awaiter(this, void 0, void 0, function () {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=" + fn + "&body=" + encodeURIComponent(JSON.stringify(body)) + "&appid=ld&client=m&uuid=" + id + "&openudid=" + id, {
-                        headers: {
-                            'User-Agent': TS_USER_AGENTS_1["default"],
-                            'Host': 'api.m.jd.com',
-                            'Connection': 'keep-alive',
-                            'Accept-Language': 'zh-cn',
-                            'Referer': 'https://h5.m.jd.com/rn/42yjy8na6pFsq1cx9MJQ5aTgu3kX/index.html',
-                            'Cookie': cookie
-                        }
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.jds.codes/sign', {
+                        "fn": fn, "body": body
                     })];
                 case 1:
                     data = (_a.sent()).data;
-                    resolve(data);
+                    if (data.code === 200)
+                        return [2 /*return*/, data];
+                    else
+                        return [2 /*return*/, { code: 500, data: { sign: '' } }];
                     return [2 /*return*/];
             }
         });
-    }); });
-}
-function randomString(e) {
-    e = e || 32;
-    var t = "abcdefhijkmnprstwxyz123456789", a = t.length, n = "";
-    for (var i = 0; i < e; i++)
-        n += t.charAt(Math.floor(Math.random() * a));
-    return n;
+    });
 }

@@ -1,8 +1,6 @@
 "use strict";
 /**
  * cron: 5 * * * *
- * 是否帮助HW.TS，默认true
- * export HELP_HW=false
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -52,8 +50,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 var _a;
 exports.__esModule = true;
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var shareCodesTool_1 = require("./utils/shareCodesTool");
+var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
+var shareCodesTool_1 = require("../utils/shareCodesTool");
 var cookie = '', res = '', UserName, index;
 var shareCodes = [], shareCodesInternal = [], empCookie = [], HELP_HW = (_a = process.env.HELP_HW) !== null && _a !== void 0 ? _a : "true";
 var HW_CODE = ['INcGtFWIUwvLFFvpQtKFCQ==', 'AZV37CNsgm_Q9Xid7tt-eA==', 'K6AGuw2dq_U2kEpg4mTmHQ==', 'c3anbYUBmLe9Qh1TIM4dEg==', 'zfzxrqaM7n3s4FhUZQmA8Q=='];

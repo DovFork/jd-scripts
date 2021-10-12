@@ -45,9 +45,9 @@ var path = require("path");
 var sendNotify_1 = require("./sendNotify");
 var fs_1 = require("fs");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', UserName, index, allMessage = '', message = '';
+var cookie = '', UserName, index, allMessage = '', res = '', message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, orders, i, res, message_1, _i, _a, order, orderId, title, t, status_1;
+    var cookiesArr, except, orders, i, _i, _a, order, orderId, title, t, status_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -73,20 +73,20 @@ var cookie = '', UserName, index, allMessage = '', message = '';
                     console.log('已设置跳过');
                     return [3 /*break*/, 5];
                 }
+                message = '';
                 return [4 /*yield*/, getOrderList()];
             case 3:
-                res = _b.sent(), message_1 = '';
+                res = _b.sent();
                 for (_i = 0, _a = res.orderList; _i < _a.length; _i++) {
                     order = _a[_i];
                     orderId = order['orderId'], title = order['productList'][0]['title'], t = order['progressInfo']['tip'], status_1 = order['progressInfo']['content'];
-                    if (status_1.match(/(?=已签收|已取走)/))
+                    if (status_1.match(/(?=签收|已取走|已暂存)/))
                         continue;
                     console.log(title);
                     console.log('\t', t, status_1);
                     console.log();
                     if (Object.keys(orders).indexOf(orderId) > -1 && orders[orderId]['status'] !== status_1) {
-                        console.log(orderId, '状态更新');
-                        message_1 += title + "\n" + t + "  " + status_1 + "\n\n";
+                        message += title + "\n" + t + "  " + status_1 + "\n\n";
                     }
                     orders[orderId] = {
                         title: title,
@@ -94,9 +94,9 @@ var cookie = '', UserName, index, allMessage = '', message = '';
                         status: status_1
                     };
                 }
-                if (message_1) {
-                    message_1 = "<\u4EAC\u4E1C\u8D26\u53F7" + (i + 1) + ">  " + UserName + "\n\n" + message_1;
-                    allMessage += message_1;
+                if (message) {
+                    message = "<\u4EAC\u4E1C\u8D26\u53F7" + (i + 1) + ">  " + UserName + "\n\n" + message;
+                    allMessage += message;
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 4:

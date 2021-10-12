@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * cron: 0 0 * * *
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,6 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
+var sendNotify_1 = require("../sendNotify");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var res, file;
     return __generator(this, function (_a) {
@@ -54,7 +58,12 @@ var axios_1 = require("axios");
                 res = _a.sent();
                 file = res.match(/h=n\(\d+\),v="([^"]*)/)[1];
                 console.log('invokeKey:', file);
-                return [2 /*return*/];
+                if (!(file !== 'JL1VTNRadM68cIMQ')) return [3 /*break*/, 5];
+                return [4 /*yield*/, (0, sendNotify_1.sendNotify)('invokeKey Update', file)];
+            case 4:
+                _a.sent();
+                _a.label = 5;
+            case 5: return [2 /*return*/];
         }
     });
 }); })();

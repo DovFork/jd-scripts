@@ -1,5 +1,5 @@
 "use strict";
-/*
+/**
  * 当脚本内更新cron时，面板不需要删除已有cron，就能同步更新
  * cron: 0 0-23/2 * * *
  */
@@ -43,7 +43,8 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var fs_1 = require("fs");
 var child_process_1 = require("child_process");
-var server = '';
+var sendNotify_1 = require("./sendNotify");
+var server = '', message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var auth, bearer, netstat, port, taskName, cron, task;
     return __generator(this, function (_a) {
@@ -54,7 +55,7 @@ var server = '';
                 netstat = (0, child_process_1.execSync)("netstat -tnlp").toString();
                 port = netstat.match(/.*0\.0\.0\.0:(\d+).*nginx\.conf/)[1];
                 server = "127.0.0.1:" + port;
-                taskName = "jd_jxmc.ts", cron = '0 */8 * * *';
+                taskName = "jd_88hb.ts", cron = '5 0,6,18 * * *';
                 return [4 /*yield*/, get(taskName, bearer)];
             case 1:
                 task = _a.sent();
@@ -62,6 +63,7 @@ var server = '';
                 console.log("\u5F00\u59CB\u66F4\u65B0" + task.name + "\u7684cron");
                 console.log('旧', task.schedule);
                 console.log('新', cron);
+                message = "\u65E7  " + task.schedule + "\n\u65B0  " + cron + "\n\u66F4\u65B0\u6210\u529F";
                 return [4 /*yield*/, set(task, bearer, cron)];
             case 2:
                 _a.sent();
@@ -89,13 +91,19 @@ function set(task, bearer, cron) {
                     })];
                 case 1:
                     data = (_a.sent()).data;
-                    if (data.code === 200) {
-                        console.log(task.name + "\u7684cron\u66F4\u65B0\u6210\u529F");
-                    }
-                    else {
-                        console.log('更新失败：', data);
-                    }
-                    return [2 /*return*/];
+                    if (!(data.code === 200)) return [3 /*break*/, 3];
+                    console.log(task.name + "\u7684cron\u66F4\u65B0\u6210\u529F");
+                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('强制更新cron', message)];
+                case 2:
+                    _a.sent();
+                    return [3 /*break*/, 5];
+                case 3:
+                    console.log('更新失败：', data);
+                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('强制更新cron', "\u66F4\u65B0\u5931\u8D25\n" + JSON.stringify(data))];
+                case 4:
+                    _a.sent();
+                    _a.label = 5;
+                case 5: return [2 /*return*/];
             }
         });
     });

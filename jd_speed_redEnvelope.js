@@ -1,12 +1,8 @@
 "use strict";
 /**
  * 极速版-发财大赢家
- *
- * 要先手动开红包
- *
- * 只有内部互助
- *
- * 其他功能下次
+ * 助力顺序: 内部 -> HW.ts
+ * cron : 0 0,8,20 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -44,145 +40,172 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var dotenv = require("dotenv");
-var notify = require('./sendNotify');
-dotenv.config();
-var UserName, index, cookie = '', cookiesArr = [], res = '';
-var shareCodes = [];
+var cookie, res, UserName, index;
+var shareCodesSelf = [], shareCodes = [], shareCodesHW;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, _a, isLogin, nickName, i, _i, shareCodes_1, share;
+    var cookiesArr, i, i, _i, shareCodes_1, boss;
+    var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, requireConfig()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
             case 1:
                 _b.sent();
-                i = 0;
-                _b.label = 2;
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 7];
+                cookiesArr = _b.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10 * 1000)];
+            case 3:
+                _b.sent();
+                i = 0;
+                _b.label = 4;
+            case 4:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 11];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
-            case 3:
-                _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
-                if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                    return [3 /*break*/, 6];
-                }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
-                return [4 /*yield*/, makeShareCodes()];
-            case 4:
-                _b.sent();
-                return [4 /*yield*/, wait(2000)];
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                return [4 /*yield*/, api('openRedEnvelopeInteract', { "linkId": "yMVR-_QKRd2Mq27xguJG-w" })];
             case 5:
-                _b.sent();
-                _b.label = 6;
+                res = _b.sent();
+                if (!(res.code === 0)) return [3 /*break*/, 9];
+                console.log('当前进度:', res.data.amount * 1, ' 还需要:', (_a = res.data.needAmount * 1) !== null && _a !== void 0 ? _a : (10 - res.data.needAmount * 1).toFixed(2));
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 6:
-                i++;
-                return [3 /*break*/, 2];
+                _b.sent();
+                return [4 /*yield*/, api('redEnvelopeInteractHome', { "linkId": "yMVR-_QKRd2Mq27xguJG-w", "redEnvelopeId": "", "inviter": "", "helpType": "" })];
             case 7:
-                console.log(shareCodes);
-                i = 0;
-                _b.label = 8;
+                res = _b.sent();
+                shareCodesSelf.push({
+                    redEnvelopeId: res.data.redEnvelopeId,
+                    inviter: res.data.markedPin
+                });
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 8:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 14];
-                cookie = cookiesArr[i];
-                _i = 0, shareCodes_1 = shareCodes;
-                _b.label = 9;
+                _b.sent();
+                return [3 /*break*/, 10];
             case 9:
-                if (!(_i < shareCodes_1.length)) return [3 /*break*/, 13];
-                share = shareCodes_1[_i];
-                return [4 /*yield*/, help(share.redEnvelopeId, share.markedPin)];
+                console.log('火爆？');
+                _b.label = 10;
             case 10:
-                _b.sent();
-                return [4 /*yield*/, wait(2000)];
-            case 11:
-                _b.sent();
-                _b.label = 12;
-            case 12:
-                _i++;
-                return [3 /*break*/, 9];
-            case 13:
                 i++;
-                return [3 /*break*/, 8];
-            case 14: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 11:
+                console.log('内部助力码:', shareCodesSelf);
+                return [4 /*yield*/, getCodesHW()];
+            case 12:
+                _b.sent();
+                shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
+                // shareCodes = [...shareCodesSelf]
+                console.log('助力排队:', shareCodes);
+                i = 0;
+                _b.label = 13;
+            case 13:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 19];
+                cookie = cookiesArr[i];
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                _i = 0, shareCodes_1 = shareCodes;
+                _b.label = 14;
+            case 14:
+                if (!(_i < shareCodes_1.length)) return [3 /*break*/, 18];
+                boss = shareCodes_1[_i];
+                console.log("\u8D26\u53F7" + (i + 1) + " " + UserName + " \u53BB\u52A9\u529B ", boss.redEnvelopeId);
+                return [4 /*yield*/, api('openRedEnvelopeInteract', { "linkId": "yMVR-_QKRd2Mq27xguJG-w", "redEnvelopeId": boss.redEnvelopeId, "inviter": boss.inviter, "helpType": "1" })];
+            case 15:
+                res = _b.sent();
+                res = res.data.helpResult;
+                if (res.code === 16013) {
+                    console.log('上限');
+                    return [3 /*break*/, 18];
+                }
+                else if (res.code === 16012) {
+                    console.log('已助力过');
+                }
+                else if (res.code === 0) {
+                    console.log('成功', res.data.amount);
+                }
+                else if (res.code === 16004) {
+                    console.log('不助力自己');
+                }
+                else {
+                    console.log('其他错误:', JSON.stringify(res.data.helpResult));
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 16:
+                _b.sent();
+                _b.label = 17;
+            case 17:
+                _i++;
+                return [3 /*break*/, 14];
+            case 18:
+                i++;
+                return [3 /*break*/, 13];
+            case 19: return [2 /*return*/];
         }
     });
 }); })();
-function makeShareCodes() {
-    var _this = this;
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var data, userInfo;
+function api(fn, params, stk) {
+    if (stk === void 0) { stk = ''; }
+    return __awaiter(this, void 0, void 0, function () {
+        var t, url, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/?functionId=redEnvelopeInteractHome&body={%22linkId%22:%22yMVR-_QKRd2Mq27xguJG-w%22,%22redEnvelopeId%22:%22%22,%22inviter%22:%22%22,%22helpType%22:%22%22}&t=" + Date.now() + "&appid=activities_platform&clientVersion=3.5.8", {
-                        headers: {
-                            'host': 'api.m.jd.com',
-                            'Origin': 'https://618redpacket.jd.com',
-                            'Cookie': cookie,
-                            'User-Agent': TS_USER_AGENTS_1["default"],
-                            'Referer': 'https://618redpacket.jd.com/'
-                        }
-                    })];
+                case 0:
+                    t = Date.now();
+                    url = "https://api.m.jd.com/?functionId=" + fn + "&t=" + t + "&appid=activities_platform&client=H5&clientVersion=1.0.0&body=" + encodeURIComponent(JSON.stringify(params));
+                    _a.label = 1;
                 case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, axios_1["default"].get(url, {
+                            headers: {
+                                Host: 'api.m.jd.com',
+                                Origin: 'https://618redpacket.jd.com',
+                                Cookie: cookie,
+                                'User-Agent': 'jdltapp;',
+                                Referer: 'https://618redpacket.jd.com/'
+                            }
+                        })];
+                case 2:
                     data = (_a.sent()).data;
-                    userInfo = {
-                        redEnvelopeId: data.data.redEnvelopeId,
-                        markedPin: data.data.markedPin
-                    };
-                    console.log(userInfo);
-                    shareCodes.push(userInfo);
-                    resolve();
-                    return [2 /*return*/];
+                    return [2 /*return*/, data];
+                case 3:
+                    e_1 = _a.sent();
+                    return [2 /*return*/, { code: -1 }];
+                case 4: return [2 /*return*/];
             }
         });
-    }); });
-}
-function help(redEnvelopeId, inviter) {
-    var _this = this;
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/?functionId=redEnvelopeInteractHome&body={%22linkId%22:%22yMVR-_QKRd2Mq27xguJG-w%22,%22redEnvelopeId%22:%22" + redEnvelopeId + "%22,%22inviter%22:%22" + inviter + "%22,%22helpType%22:%221%22}&t=" + Date.now() + "&appid=activities_platform&clientVersion=3.5.8", {
-                        headers: {
-                            'host': 'api.m.jd.com',
-                            'Origin': 'https://618redpacket.jd.com',
-                            'Cookie': cookie,
-                            'User-Agent': TS_USER_AGENTS_1["default"],
-                            'Referer': 'https://618redpacket.jd.com/'
-                        }
-                    })];
-                case 1:
-                    data = (_a.sent()).data;
-                    console.log(data);
-                    resolve();
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-}
-function requireConfig() {
-    return new Promise(function (resolve) {
-        console.log('开始获取配置文件\n');
-        var jdCookieNode = require('./jdCookie.js');
-        Object.keys(jdCookieNode).forEach(function (item) {
-            if (jdCookieNode[item]) {
-                cookiesArr.push(jdCookieNode[item]);
-            }
-        });
-        console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
-        resolve();
     });
 }
-function wait(t) {
-    return new Promise(function (resolve) {
-        setTimeout(function () {
-            resolve();
-        }, t);
+function getCodesHW() {
+    return __awaiter(this, void 0, void 0, function () {
+        var data, e_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/HW_CODES', { timeout: 10000 })];
+                case 1:
+                    data = (_a.sent()).data;
+                    console.log('获取HW_CODES成功(api)');
+                    shareCodesHW = data['fcdyj'];
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_2 = _a.sent();
+                    console.log('获取HW_CODES失败(api)');
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
     });
 }

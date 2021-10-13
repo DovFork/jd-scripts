@@ -1,7 +1,6 @@
 "use strict";
 /**
  * 极速版-发财大赢家
- * 助力顺序: 内部 -> HW.ts
  * cron : 0 0,8,20 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -65,8 +64,7 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _b.sent();
-                console.log('延迟10秒...');
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10 * 1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(30 * 1000)];
             case 3:
                 _b.sent();
                 i = 0;
@@ -104,18 +102,19 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW;
                 return [3 /*break*/, 4];
             case 11:
                 console.log('内部助力码:', shareCodesSelf);
-                return [4 /*yield*/, getCodesHW()];
-            case 12:
-                _b.sent();
-                shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
-                // shareCodes = [...shareCodesSelf]
-                console.log('助力排队:', shareCodes);
                 i = 0;
-                _b.label = 13;
-            case 13:
+                _b.label = 12;
+            case 12:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 19];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                return [4 /*yield*/, getCodesHW()];
+            case 13:
+                _b.sent();
+                if (i === 0)
+                    shareCodes = __spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true);
+                else
+                    shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
                 _i = 0, shareCodes_1 = shareCodes;
                 _b.label = 14;
             case 14:
@@ -151,7 +150,7 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW;
                 return [3 /*break*/, 14];
             case 18:
                 i++;
-                return [3 /*break*/, 13];
+                return [3 /*break*/, 12];
             case 19: return [2 /*return*/];
         }
     });

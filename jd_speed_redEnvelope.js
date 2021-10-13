@@ -65,6 +65,7 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _b.sent();
+                console.log('延迟10秒...');
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10 * 1000)];
             case 3:
                 _b.sent();

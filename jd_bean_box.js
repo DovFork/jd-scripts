@@ -41,12 +41,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var dotenv = require("dotenv");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-dotenv.config();
 var cookie = '', res = '', UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, j, _i, _a, t, e_1;
+    var cookiesArr, i, times, j, j, _i, _a, t, e_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -55,34 +53,66 @@ var cookie = '', res = '', UserName, index;
                 i = 0;
                 _b.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 20];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 26];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
-                j = 0;
-                _b.label = 3;
+                return [4 /*yield*/, initForTurntableFarm()];
             case 3:
-                if (!(j < 4)) return [3 /*break*/, 19];
+                res = _b.sent();
+                times = res.remainLotteryTimes;
+                console.log('剩余抽奖机会:', times);
+                j = 0;
+                _b.label = 4;
+            case 4:
+                if (!(j < times)) return [3 /*break*/, 8];
+                console.log('开始抽奖...');
+                return [4 /*yield*/, initForTurntableFarm(1)];
+            case 5:
+                res = _b.sent();
+                if (res.code === '0') {
+                    if (res.type === 'thanks') {
+                        console.log('抽奖成功，获得：狗屁');
+                    }
+                    else {
+                        console.log('抽奖成功，获得:', res.type);
+                    }
+                }
+                else {
+                    console.log('抽奖失败', res);
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 6:
+                _b.sent();
+                _b.label = 7;
+            case 7:
+                j++;
+                return [3 /*break*/, 4];
+            case 8:
+                j = 0;
+                _b.label = 9;
+            case 9:
+                if (!(j < 4)) return [3 /*break*/, 25];
                 console.log("Round:" + (j + 1));
                 return [4 /*yield*/, api('beanTaskList', { "viewChannel": "AppHome" })];
-            case 4:
+            case 10:
                 res = _b.sent();
-                _b.label = 5;
-            case 5:
-                _b.trys.push([5, 15, , 16]);
+                _b.label = 11;
+            case 11:
+                _b.trys.push([11, 21, , 22]);
                 _i = 0, _a = res.data.taskInfos;
-                _b.label = 6;
-            case 6:
-                if (!(_i < _a.length)) return [3 /*break*/, 14];
+                _b.label = 12;
+            case 12:
+                if (!(_i < _a.length)) return [3 /*break*/, 20];
                 t = _a[_i];
-                if (!(t.status === 1)) return [3 /*break*/, 13];
+                if (!(t.status === 1)) return [3 /*break*/, 19];
                 console.log(t.taskName);
                 return [4 /*yield*/, api('beanDoTask', {
                         "actionType": t.taskType === 3 ? 0 : 1,
                         "taskToken": t.subTaskVOS[0].taskToken
                     })];
-            case 7:
+            case 13:
                 res = _b.sent();
                 if (res.data.bizMsg)
                     console.log(res.data.bizMsg);
@@ -90,41 +120,41 @@ var cookie = '', res = '', UserName, index;
                     console.log(res);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 8:
+            case 14:
                 _b.sent();
-                if (!(t.taskType !== 3)) return [3 /*break*/, 11];
+                if (!(t.taskType !== 3)) return [3 /*break*/, 17];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1500)];
-            case 9:
+            case 15:
                 _b.sent();
                 return [4 /*yield*/, api('beanDoTask', { "actionType": 0, "taskToken": t.subTaskVOS[0].taskToken })];
-            case 10:
+            case 16:
                 res = _b.sent();
                 if (res.data.bizMsg)
                     console.log(res.data.bizMsg);
-                _b.label = 11;
-            case 11: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 12:
+                _b.label = 17;
+            case 17: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 18:
                 _b.sent();
-                _b.label = 13;
-            case 13:
+                _b.label = 19;
+            case 19:
                 _i++;
-                return [3 /*break*/, 6];
-            case 14: return [3 /*break*/, 16];
-            case 15:
+                return [3 /*break*/, 12];
+            case 20: return [3 /*break*/, 22];
+            case 21:
                 e_1 = _b.sent();
                 console.log('Error!');
-                return [3 /*break*/, 16];
-            case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 17:
+                return [3 /*break*/, 22];
+            case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 23:
                 _b.sent();
-                _b.label = 18;
-            case 18:
+                _b.label = 24;
+            case 24:
                 j++;
-                return [3 /*break*/, 3];
-            case 19:
+                return [3 /*break*/, 9];
+            case 25:
                 i++;
                 return [3 /*break*/, 2];
-            case 20: return [2 /*return*/];
+            case 26: return [2 /*return*/];
         }
     });
 }); })();
@@ -171,6 +201,32 @@ function getSign(fn, body) {
                     else
                         return [2 /*return*/, { code: 500, data: { sign: '' } }];
                     return [2 /*return*/];
+            }
+        });
+    });
+}
+function initForTurntableFarm(type) {
+    if (type === void 0) { type = 0; }
+    return __awaiter(this, void 0, void 0, function () {
+        var url, data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    url = type === 0
+                        ? 'https://api.m.jd.com/client.action?functionId=initForTurntableFarm&body=%7B%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5'
+                        : 'https://api.m.jd.com/client.action?functionId=lotteryForTurntableFarm&body=%7B%22type%22%3A1%2C%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5';
+                    return [4 /*yield*/, axios_1["default"].get(url, {
+                            headers: {
+                                'Host': 'api.m.jd.com',
+                                'Origin': 'https://h5.m.jd.com',
+                                'User-Agent': TS_USER_AGENTS_1["default"],
+                                'Referer': 'https://h5.m.jd.com/',
+                                'Cookie': cookie
+                            }
+                        })];
+                case 1:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, data];
             }
         });
     });

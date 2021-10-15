@@ -689,7 +689,7 @@ var UserName, index;
                 return [3 /*break*/, 3];
             case 135:
                 _w.trys.push([135, 137, , 138]);
-                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/HW_CODES', { timeout: 10000 })];
+                return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "HW_CODES", { timeout: 10000 })];
             case 136:
                 data = (_w.sent()).data;
                 shareCodesHW = data['jxcfd'] || [];
@@ -705,7 +705,7 @@ var UserName, index;
                 _w.label = 140;
             case 140:
                 _w.trys.push([140, 142, , 143]);
-                return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/jxcfd/20', { timeout: 10000 })];
+                return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "jxcfd/20", { timeout: 10000 })];
             case 141:
                 data = (_w.sent()).data;
                 console.log('获取到20个随机助力码:', data.data);
@@ -865,7 +865,7 @@ function makeShareCodes() {
                     shareCodesSelf.push(res.strMyShareId);
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
-                    axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })
+                    axios_1["default"].get(require('./USER_AGENTS').hwApi + "autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })
                         .then(function (res) {
                         if (res.data.code === 200)
                             console.log('已自动提交助力码');

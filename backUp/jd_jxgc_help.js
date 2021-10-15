@@ -188,7 +188,7 @@ function getShareCodes() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/jxfactory/30")];
+                    return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "jxfactory/30")];
                 case 1:
                     data = (_a.sent()).data;
                     console.log("\u4ECE\u52A9\u529B\u6C60\u83B7\u53D6\u523030\u4E2A:" + JSON.stringify(data.data));

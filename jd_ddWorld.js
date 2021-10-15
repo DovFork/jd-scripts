@@ -116,10 +116,8 @@ var tokenKey = '', token = '', bearer = '';
                 _c.label = 17;
             case 17:
                 _c.trys.push([17, 19, , 20]);
-                // await axios.get('https://api.jdsharecode.xyz/api/autoInsert/ddworld?sharecode=' + encodeURIComponent(t.assistTaskDetailVo.taskToken + ',' + res.openid))
-                return [4 /*yield*/, axios_1["default"].get('http://127.0.0.1:10001/api/autoInsert/ddworld?sharecode=' + encodeURIComponent(t.assistTaskDetailVo.taskToken + ',' + res.openid))];
+                return [4 /*yield*/, axios_1["default"].get("http://127.0.0.1:10001/api/autoInsert/ddworld?sharecode=" + encodeURIComponent(t.assistTaskDetailVo.taskToken + ',' + res.openid))];
             case 18:
-                // await axios.get('https://api.jdsharecode.xyz/api/autoInsert/ddworld?sharecode=' + encodeURIComponent(t.assistTaskDetailVo.taskToken + ',' + res.openid))
                 _c.sent();
                 return [3 /*break*/, 20];
             case 19:

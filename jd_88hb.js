@@ -257,7 +257,7 @@ function getCodesHW() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/HW_CODES', { timeout: 10000 })];
+                    return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "HW_CODES", { timeout: 10000 })];
                 case 1:
                     data = (_a.sent()).data;
                     console.log('获取HW_CODES成功(api)');
@@ -279,7 +279,7 @@ function getCodesPool() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/hb88/30', { timeout: 10000 })];
+                    return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "hb88/30", { timeout: 10000 })];
                 case 1:
                     data = (_a.sent()).data;
                     return [2 /*return*/, data.data];
@@ -308,7 +308,7 @@ function makeShareCodes(code) {
                     _a.label = 3;
                 case 3:
                     _a.trys.push([3, 5, , 6]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/hb88?sharecode=" + code + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })];
+                    return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "autoInsert/hb88?sharecode=" + code + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })];
                 case 4:
                     data = (_a.sent()).data;
                     if (data.code === 200)

@@ -797,7 +797,7 @@ function task() {
                     t = _a[_i];
                     if (!(t.awardStatus === 2 && t.completedTimes === t.targetTimes)) return [3 /*break*/, 8];
                     console.log('可领奖:', t.taskName);
-                    return [4 /*yield*/, api('Award', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', { taskId: t.taskId })];
+                    return [4 /*yield*/, api('Award', '_cfd_t,bizCode,dwEnv,ptag,source,strZone,taskId', { taskId: t.taskId, bizCode: t.bizCode })];
                 case 4:
                     res = _b.sent();
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];

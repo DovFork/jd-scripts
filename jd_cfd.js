@@ -845,50 +845,48 @@ function task() {
     });
 }
 function makeShareCodes() {
-    var _this = this;
-    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var bean, farm, pin;
+    return __awaiter(this, void 0, void 0, function () {
+        var pin, data, e_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getBeanShareCode)(cookie)];
+                case 0: return [4 /*yield*/, api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strShareId,strVersion,strZone', {
+                        ddwTaskId: '',
+                        strShareId: '',
+                        strMarkList: 'undefined',
+                        strPgUUNum: token.strPgUUNum,
+                        strPgtimestamp: token.strPgtimestamp,
+                        strPhoneID: token.strPhoneID,
+                        strVersion: '1.0.1'
+                    })];
                 case 1:
-                    bean = _a.sent();
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.getFarmShareCode)(cookie)];
-                case 2:
-                    farm = _a.sent();
-                    return [4 /*yield*/, api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strShareId,strVersion,strZone', {
-                            ddwTaskId: '',
-                            strShareId: '',
-                            strMarkList: 'undefined',
-                            strPgUUNum: token.strPgUUNum,
-                            strPgtimestamp: token.strPgtimestamp,
-                            strPhoneID: token.strPhoneID,
-                            strVersion: '1.0.1'
-                        })];
-                case 3:
                     res = _a.sent();
                     console.log('助力码:', res.strMyShareId);
                     shareCodesSelf.push(res.strMyShareId);
                     pin = cookie.match(/pt_pin=([^;]*)/)[1];
                     pin = ts_md5_1.Md5.hashStr(pin);
-                    axi.get(require('./USER_AGENTS').hwApi + "autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })
-                        .then(function (res) {
-                        if (res.data.code === 200)
-                            console.log('已自动提交助力码');
-                        else
-                            console.log('提交失败！已提交farm和bean的cookie才可提交cfd');
-                        resolve();
-                    })["catch"](function (e) {
-                        reject('访问助力池出错');
-                    });
-                    return [2 /*return*/];
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 4, , 5]);
+                    return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&pin=" + pin, { timeout: 10000 })];
+                case 3:
+                    data = (_a.sent()).data;
+                    if (data.code === 200)
+                        console.log('已自动提交助力码');
+                    else
+                        console.log('提交失败！');
+                    return [3 /*break*/, 5];
+                case 4:
+                    e_3 = _a.sent();
+                    console.log('自动提交助力码出错');
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
         });
-    }); });
+    });
 }
 function getCodesHW() {
     return __awaiter(this, void 0, void 0, function () {
-        var data, e_3;
+        var data, e_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -899,7 +897,7 @@ function getCodesHW() {
                     shareCodesHW = data['jxcfd'] || [];
                     return [3 /*break*/, 3];
                 case 2:
-                    e_3 = _a.sent();
+                    e_4 = _a.sent();
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }

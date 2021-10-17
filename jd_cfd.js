@@ -697,7 +697,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 _w.label = 138;
             case 138:
                 _w.trys.push([138, 140, , 141]);
-                return [4 /*yield*/, axi.get(require('./USER_AGENTS').hwApi + "jxcfd/30", { timeout: 10000 })];
+                return [4 /*yield*/, axi.get("https://api.jdsharecode.xyz/api/jxcfd/30", { timeout: 10000 })];
             case 139:
                 data = (_w.sent()).data;
                 console.log('获取到30个随机助力码:', data.data);
@@ -867,7 +867,7 @@ function makeShareCodes() {
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&pin=" + pin, { timeout: 10000 })];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&pin=" + pin, { timeout: 10000 })];
                 case 3:
                     data = (_a.sent()).data;
                     if (data.code === 200)
@@ -891,7 +891,7 @@ function getCodesHW() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axi.get(require('./USER_AGENTS').hwApi + "HW_CODES", { timeout: 10000 })];
+                    return [4 /*yield*/, axi.get("https://api.jdsharecode.xyz/api/HW_CODES", { timeout: 10000 })];
                 case 1:
                     data = (_a.sent()).data;
                     shareCodesHW = data['jxcfd'] || [];

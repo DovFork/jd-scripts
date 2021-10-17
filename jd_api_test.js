@@ -90,7 +90,7 @@ function car(db, num) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("" + require('./USER_AGENTS').hwApi + db + "/" + num, {
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/" + db + "/" + num, {
                             timeout: 10000
                         })];
                 case 1:
@@ -114,7 +114,7 @@ function runTimes() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "runTimes?activityId=bean&sharecode=123", { timeout: 10000 })];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/runTimes?activityId=bean&sharecode=123", { timeout: 10000 })];
                 case 1:
                     data = (_a.sent()).data;
                     return [2 /*return*/, '成功'];

@@ -43,96 +43,93 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var path = require("path");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', USER_AGENT = "jdpingou", notify = require('./sendNotify'), UserName, index;
+var cookie = '', res = '', USER_AGENT = "jdpingou;", UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, i, _a, isLogin, nickName, _i, _b, t, _c, _d, t, e_1;
-    return __generator(this, function (_e) {
-        switch (_e.label) {
+    var cookiesArr, except, i, _i, _a, t, _b, _c, t, e_1;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
             case 1:
-                _e.sent();
+                _d.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
-                cookiesArr = _e.sent();
+                cookiesArr = _d.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 i = 0;
-                _e.label = 3;
+                _d.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 20];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 21];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
-            case 4:
-                _a = _e.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
-                if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                    return [3 /*break*/, 19];
-                }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                 if (except.includes(encodeURIComponent(UserName))) {
                     console.log('已设置跳过');
-                    return [3 /*break*/, 19];
+                    return [3 /*break*/, 20];
                 }
-                _e.label = 5;
-            case 5:
-                _e.trys.push([5, 18, , 19]);
+                _d.label = 4;
+            case 4:
+                _d.trys.push([4, 17, , 18]);
                 return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
+            case 5:
+                res = _d.sent();
+                _i = 0, _a = res.commontask;
+                _d.label = 6;
             case 6:
-                res = _e.sent();
-                _i = 0, _b = res.commontask;
-                _e.label = 7;
-            case 7:
-                if (!(_i < _b.length)) return [3 /*break*/, 11];
-                t = _b[_i];
-                if (!(t.status === 1)) return [3 /*break*/, 10];
+                if (!(_i < _a.length)) return [3 /*break*/, 10];
+                t = _a[_i];
+                if (!(t.status === 1)) return [3 /*break*/, 9];
                 console.log(t.taskname);
                 return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/dotask?task=" + t.task + "&signhb_source=5&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBKB&g_ty=ls", '')];
-            case 8:
-                res = _e.sent();
+            case 7:
+                res = _d.sent();
                 if (res.ret === 0) {
                     console.log('任务完成，获得：', res.sendhb);
                 }
                 else {
                     console.log('任务失败：', res.errmsg);
                 }
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 8:
+                _d.sent();
+                _d.label = 9;
             case 9:
-                _e.sent();
-                _e.label = 10;
-            case 10:
                 _i++;
-                return [3 /*break*/, 7];
-            case 11: return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
+                return [3 /*break*/, 6];
+            case 10: return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
+            case 11:
+                res = _d.sent();
+                if (!(res.baoxiang_left != 0)) return [3 /*break*/, 16];
+                _b = 0, _c = res.baoxiang_stage;
+                _d.label = 12;
             case 12:
-                res = _e.sent();
-                if (!(res.baoxiang_left != 0)) return [3 /*break*/, 17];
-                _c = 0, _d = res.baoxiang_stage;
-                _e.label = 13;
-            case 13:
-                if (!(_c < _d.length)) return [3 /*break*/, 17];
-                t = _d[_c];
-                if (!(t.status === 1)) return [3 /*break*/, 16];
+                if (!(_b < _c.length)) return [3 /*break*/, 16];
+                t = _c[_b];
+                if (!(t.status === 1)) return [3 /*break*/, 15];
                 return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/bxdraw?_=" + Date.now() + "&sceneval=2", '')];
-            case 14:
-                res = _e.sent();
+            case 13:
+                res = _d.sent();
                 console.log('开宝箱，获得：', res.sendhb);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 14:
+                _d.sent();
+                _d.label = 15;
             case 15:
-                _e.sent();
-                _e.label = 16;
-            case 16:
-                _c++;
-                return [3 /*break*/, 13];
-            case 17: return [3 /*break*/, 19];
-            case 18:
-                e_1 = _e.sent();
+                _b++;
+                return [3 /*break*/, 12];
+            case 16: return [3 /*break*/, 18];
+            case 17:
+                e_1 = _d.sent();
                 console.log(e_1);
-                return [3 /*break*/, 19];
+                return [3 /*break*/, 18];
+            case 18: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 19:
+                _d.sent();
+                _d.label = 20;
+            case 20:
                 i++;
                 return [3 /*break*/, 3];
-            case 20: return [2 /*return*/];
+            case 21: return [2 /*return*/];
         }
     });
 }); })();

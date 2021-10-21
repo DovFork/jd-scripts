@@ -75,7 +75,7 @@ var UserName, index;
                 res = _a.sent();
                 if (res.iRet !== 0) {
                     console.log('手动建造4个房子');
-                    return [3 /*break*/, 10];
+                    flag = false;
                 }
                 console.log('今日热气球:', res.dwTodaySpeedPeople);
                 if (res.dwTodaySpeedPeople === 500) {
@@ -85,6 +85,7 @@ var UserName, index;
             case 7:
                 e_1 = _a.sent();
                 console.log(e_1);
+                flag = false;
                 return [3 /*break*/, 8];
             case 8: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 9:

@@ -1,7 +1,7 @@
 "use strict";
 /**
  * 极速版-发财大赢家
- * cron : 0 0,8,20 * * *
+ * cron : 1 0,8,18 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -58,76 +58,80 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)('c8bce')];
             case 1:
                 _b.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _b.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(30 * 1000)];
-            case 3:
-                _b.sent();
                 i = 0;
-                _b.label = 4;
-            case 4:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 11];
+                _b.label = 3;
+            case 3:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 12];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
-                return [4 /*yield*/, api('openRedEnvelopeInteract', { "linkId": "yMVR-_QKRd2Mq27xguJG-w" })];
-            case 5:
+                return [4 /*yield*/, api('openRedEnvelopeInteract', { "linkId": "PFbUR7wtwUcQ860Sn8WRfw" })];
+            case 4:
                 res = _b.sent();
-                if (!(res.code === 0)) return [3 /*break*/, 9];
+                if (!(res.code === 0)) return [3 /*break*/, 8];
                 console.log('当前进度:', res.data.amount * 1, ' 还需要:', (_a = res.data.needAmount * 1) !== null && _a !== void 0 ? _a : (10 - res.data.needAmount * 1).toFixed(2));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 6:
+            case 5:
                 _b.sent();
-                return [4 /*yield*/, api('redEnvelopeInteractHome', { "linkId": "yMVR-_QKRd2Mq27xguJG-w", "redEnvelopeId": "", "inviter": "", "helpType": "" })];
-            case 7:
+                return [4 /*yield*/, api('redEnvelopeInteractHome', { "linkId": "PFbUR7wtwUcQ860Sn8WRfw", "redEnvelopeId": "", "inviter": "", "helpType": "" })];
+            case 6:
                 res = _b.sent();
                 shareCodesSelf.push({
                     redEnvelopeId: res.data.redEnvelopeId,
                     inviter: res.data.markedPin
                 });
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 8:
+            case 7:
                 _b.sent();
-                return [3 /*break*/, 10];
-            case 9:
+                return [3 /*break*/, 9];
+            case 8:
+                console.log(res);
                 console.log('火爆？');
-                _b.label = 10;
+                _b.label = 9;
+            case 9: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 10:
-                i++;
-                return [3 /*break*/, 4];
+                _b.sent();
+                _b.label = 11;
             case 11:
+                i++;
+                return [3 /*break*/, 3];
+            case 12:
                 console.log('内部助力码:', shareCodesSelf);
                 i = 0;
-                _b.label = 12;
-            case 12:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 19];
+                _b.label = 13;
+            case 13:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 20];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, getCodesHW()];
-            case 13:
+            case 14:
                 _b.sent();
                 if (i === 0)
                     shareCodes = __spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true);
                 else
                     shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
                 _i = 0, shareCodes_1 = shareCodes;
-                _b.label = 14;
-            case 14:
-                if (!(_i < shareCodes_1.length)) return [3 /*break*/, 18];
+                _b.label = 15;
+            case 15:
+                if (!(_i < shareCodes_1.length)) return [3 /*break*/, 19];
                 boss = shareCodes_1[_i];
                 console.log("\u8D26\u53F7" + (i + 1) + " " + UserName + " \u53BB\u52A9\u529B ", boss.redEnvelopeId);
-                return [4 /*yield*/, api('openRedEnvelopeInteract', { "linkId": "yMVR-_QKRd2Mq27xguJG-w", "redEnvelopeId": boss.redEnvelopeId, "inviter": boss.inviter, "helpType": "1" })];
-            case 15:
+                return [4 /*yield*/, api('openRedEnvelopeInteract', { "linkId": "PFbUR7wtwUcQ860Sn8WRfw", "redEnvelopeId": boss.redEnvelopeId, "inviter": boss.inviter, "helpType": "1" })];
+            case 16:
                 res = _b.sent();
+                if (res.code === 16020)
+                    return [3 /*break*/, 18];
                 res = res.data.helpResult;
                 if (res.code === 16013) {
                     console.log('上限');
-                    return [3 /*break*/, 18];
+                    return [3 /*break*/, 19];
                 }
                 else if (res.code === 16012) {
                     console.log('已助力过');
@@ -139,24 +143,23 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW;
                     console.log('不助力自己');
                 }
                 else {
-                    console.log('其他错误:', JSON.stringify(res.data.helpResult));
+                    console.log('其他错误', res.errMsg);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 16:
-                _b.sent();
-                _b.label = 17;
             case 17:
-                _i++;
-                return [3 /*break*/, 14];
+                _b.sent();
+                _b.label = 18;
             case 18:
+                _i++;
+                return [3 /*break*/, 15];
+            case 19:
                 i++;
-                return [3 /*break*/, 12];
-            case 19: return [2 /*return*/];
+                return [3 /*break*/, 13];
+            case 20: return [2 /*return*/];
         }
     });
 }); })();
-function api(fn, params, stk) {
-    if (stk === void 0) { stk = ''; }
+function api(fn, params) {
     return __awaiter(this, void 0, void 0, function () {
         var t, url, data, e_1;
         return __generator(this, function (_a) {
@@ -169,11 +172,12 @@ function api(fn, params, stk) {
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
-                                Host: 'api.m.jd.com',
-                                Origin: 'https://618redpacket.jd.com',
-                                Cookie: cookie,
+                                'Host': 'api.m.jd.com',
+                                'Origin': 'https://618redpacket.jd.com',
+                                'Accept': 'application/json, text/plain, */*',
                                 'User-Agent': 'jdltapp;',
-                                Referer: 'https://618redpacket.jd.com/'
+                                'Referer': 'https://618redpacket.jd.com/?activityId=PFbUR7wtwUcQ860Sn8WRfw',
+                                'Cookie': cookie
                             }
                         })];
                 case 2:
@@ -194,11 +198,11 @@ function getCodesHW() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get(require('./USER_AGENTS').hwApi + "HW_CODES", { timeout: 10000 })];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/HW_CODES", { timeout: 10000 })];
                 case 1:
                     data = (_a.sent()).data;
                     console.log('获取HW_CODES成功(api)');
-                    shareCodesHW = data['fcdyj'];
+                    shareCodesHW = data['fcdyj'] || [];
                     return [3 /*break*/, 3];
                 case 2:
                     e_2 = _a.sent();

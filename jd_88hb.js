@@ -132,6 +132,9 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], jxToken;
                 return [4 /*yield*/, api('EnrollFriend', 'activeId,channel,joinDate,phoneid,publishFlag,strPin,timestamp', { joinDate: (0, date_fns_1.format)(Date.now(), 'yyyyMMdd'), strPin: shareCodes[j] })];
             case 17:
                 res = _c.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 18:
+                _c.sent();
                 if (res.iRet === 0) {
                     console.log('成功');
                 }
@@ -146,9 +149,6 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], jxToken;
                 else {
                     console.log('其他错误:', res);
                 }
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 18:
-                _c.sent();
                 _c.label = 19;
             case 19:
                 j++;

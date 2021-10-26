@@ -52,86 +52,85 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie, res, UserName, index;
-var shareCodesSelf = [], shareCodes = [], shareCodesHW;
+var shareCodesSelf = [], shareCodes = [], shareCodesHW, id = 'PFbUR7wtwUcQ860Sn8WRfw';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, i, _i, shareCodes_1, boss;
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)('c8bce')];
             case 1:
-                _b.sent();
+                _a.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
-                cookiesArr = _b.sent();
+                cookiesArr = _a.sent();
                 i = 0;
-                _b.label = 3;
+                _a.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 12];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 7];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
-                return [4 /*yield*/, api('openRedEnvelopeInteract', { "linkId": "PFbUR7wtwUcQ860Sn8WRfw" })];
+                return [4 /*yield*/, api('redEnvelopeInteractHome', "{%22linkId%22:%22" + id + "%22,%22redEnvelopeId%22:%22%22,%22inviter%22:%22%22,%22helpType%22:%22%22}")];
             case 4:
-                res = _b.sent();
-                if (!(res.code === 0)) return [3 /*break*/, 8];
-                console.log('当前进度:', res.data.amount * 1, ' 还需要:', (_a = res.data.needAmount * 1) !== null && _a !== void 0 ? _a : (10 - res.data.needAmount * 1).toFixed(2));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                // res = await api('openRedEnvelopeInteract', `{%22linkId%22:%22PFbUR7wtwUcQ860Sn8WRfw%22}`);
+                //
+                // if (res.code === 0) {
+                //   console.log('当前进度:', res.data.amount * 1, ' 还需要:', res.data.needAmount * 1 ?? (10 - res.data.needAmount * 1).toFixed(2))
+                //   await wait(1000)
+                // } else {
+                //   console.log('火爆？')
+                // }
+                res = _a.sent();
+                if (res.data) {
+                    shareCodesSelf.push({
+                        redEnvelopeId: res.data.redEnvelopeId,
+                        inviter: res.data.markedPin
+                    });
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 5:
-                _b.sent();
-                return [4 /*yield*/, api('redEnvelopeInteractHome', { "linkId": "PFbUR7wtwUcQ860Sn8WRfw", "redEnvelopeId": "", "inviter": "", "helpType": "" })];
+                _a.sent();
+                _a.label = 6;
             case 6:
-                res = _b.sent();
-                shareCodesSelf.push({
-                    redEnvelopeId: res.data.redEnvelopeId,
-                    inviter: res.data.markedPin
-                });
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 7:
-                _b.sent();
-                return [3 /*break*/, 9];
-            case 8:
-                console.log(res);
-                console.log('火爆？');
-                _b.label = 9;
-            case 9: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
-            case 10:
-                _b.sent();
-                _b.label = 11;
-            case 11:
                 i++;
                 return [3 /*break*/, 3];
-            case 12:
+            case 7:
                 console.log('内部助力码:', shareCodesSelf);
                 i = 0;
-                _b.label = 13;
-            case 13:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 20];
+                _a.label = 8;
+            case 8:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 17];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, getCodesHW()];
-            case 14:
-                _b.sent();
+            case 9:
+                _a.sent();
                 if (i === 0)
                     shareCodes = __spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true);
                 else
                     shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
                 _i = 0, shareCodes_1 = shareCodes;
-                _b.label = 15;
-            case 15:
-                if (!(_i < shareCodes_1.length)) return [3 /*break*/, 19];
+                _a.label = 10;
+            case 10:
+                if (!(_i < shareCodes_1.length)) return [3 /*break*/, 16];
                 boss = shareCodes_1[_i];
+                if (!(boss.redEnvelopeId && boss.inviter)) return [3 /*break*/, 15];
                 console.log("\u8D26\u53F7" + (i + 1) + " " + UserName + " \u53BB\u52A9\u529B ", boss.redEnvelopeId);
-                return [4 /*yield*/, api('openRedEnvelopeInteract', { "linkId": "PFbUR7wtwUcQ860Sn8WRfw", "redEnvelopeId": boss.redEnvelopeId, "inviter": boss.inviter, "helpType": "1" })];
-            case 16:
-                res = _b.sent();
-                if (res.code === 16020)
-                    return [3 /*break*/, 18];
+                return [4 /*yield*/, api('openRedEnvelopeInteract', "{%22linkId%22:%22" + id + "%22,%22redEnvelopeId%22:%22" + boss.redEnvelopeId + "%22,%22inviter%22:%22" + boss.inviter + "%22,%22helpType%22:%222%22}")];
+            case 11:
+                res = _a.sent();
+                console.log(JSON.stringify(res));
+                if (!(res.code === 16020)) return [3 /*break*/, 13];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 12:
+                _a.sent();
+                return [3 /*break*/, 16];
+            case 13:
                 res = res.data.helpResult;
                 if (res.code === 16013) {
                     console.log('上限');
-                    return [3 /*break*/, 19];
+                    return [3 /*break*/, 16];
                 }
                 else if (res.code === 16012) {
                     console.log('已助力过');
@@ -146,37 +145,40 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW;
                     console.log('其他错误', res.errMsg);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 17:
-                _b.sent();
-                _b.label = 18;
-            case 18:
+            case 14:
+                _a.sent();
+                _a.label = 15;
+            case 15:
                 _i++;
-                return [3 /*break*/, 15];
-            case 19:
+                return [3 /*break*/, 10];
+            case 16:
                 i++;
-                return [3 /*break*/, 13];
-            case 20: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 17: return [2 /*return*/];
         }
     });
 }); })();
-function api(fn, params) {
+function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
         var t, url, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     t = Date.now();
-                    url = "https://api.m.jd.com/?functionId=" + fn + "&t=" + t + "&appid=activities_platform&client=H5&clientVersion=1.0.0&body=" + encodeURIComponent(JSON.stringify(params));
+                    url = "https://api.m.jd.com/?functionId=" + fn + "&body=" + body + "&t=" + t + "&appid=activities_platform&client=H5&clientVersion=1.0.0";
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'api.m.jd.com',
-                                'Origin': 'https://618redpacket.jd.com',
+                                'Connection': 'keep-alive',
                                 'Accept': 'application/json, text/plain, */*',
+                                'Origin': 'https://618redpacket.jd.com',
                                 'User-Agent': 'jdltapp;',
                                 'Referer': 'https://618redpacket.jd.com/?activityId=PFbUR7wtwUcQ860Sn8WRfw',
+                                'Accept-Language': 'zh-CN,en-US;q=0.9',
+                                'X-Requested-With': 'com.jd.jdlite',
                                 'Cookie': cookie
                             }
                         })];
@@ -212,4 +214,11 @@ function getCodesHW() {
             }
         });
     });
+}
+function randomString(e) {
+    e = e || 32;
+    var t = "0123456789", a = t.length, n = "";
+    for (var i = 0; i < e; i++)
+        n += t.charAt(Math.floor(Math.random() * a));
+    return n;
 }

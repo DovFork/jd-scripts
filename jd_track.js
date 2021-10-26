@@ -55,8 +55,8 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                 cookiesArr = _b.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 try {
-                    (0, fs_1.accessSync)('./jd_track.json');
-                    orders = JSON.parse((0, fs_1.readFileSync)('./jd_track.json').toString() || '{}');
+                    (0, fs_1.accessSync)('./json/jd_track.json');
+                    orders = JSON.parse((0, fs_1.readFileSync)('./json/jd_track.json').toString() || '{}');
                 }
                 catch (e) {
                     orders = {};
@@ -106,7 +106,7 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                 i++;
                 return [3 /*break*/, 2];
             case 6:
-                (0, fs_1.writeFileSync)('./jd_track.json', JSON.stringify(orders));
+                (0, fs_1.writeFileSync)('./json/jd_track.json', JSON.stringify(orders));
                 if (!allMessage) return [3 /*break*/, 8];
                 return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东快递更新', allMessage)];
             case 7:

@@ -59,12 +59,12 @@ var cookie = '', res = '', UserName;
                 cookie = cookiesArr[(0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, cookiesArr.length)];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 try {
-                    (0, fs_1.accessSync)('./jxmc_stock.json');
+                    (0, fs_1.accessSync)('./json/jxmc_stock.json');
                 }
                 catch (e) {
-                    (0, fs_1.writeFileSync)('./jxmc_stock.json', '{}', 'utf-8');
+                    (0, fs_1.writeFileSync)('./json/jxmc_stock.json', '{}', 'utf-8');
                 }
-                exist = (0, fs_1.readFileSync)('./jxmc_stock.json', 'utf-8');
+                exist = (0, fs_1.readFileSync)('./json/jxmc_stock.json', 'utf-8');
                 try {
                     exist = JSON.parse(exist);
                 }
@@ -75,17 +75,27 @@ var cookie = '', res = '', UserName;
                 return [4 /*yield*/, jxmcToken(cookie)];
             case 3:
                 token = _h.sent();
-                return [4 /*yield*/, api('queryservice/GetGoodsListV2', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp', {
-                        activeid: 'jxmc_active_0001',
-                        activekey: 'null',
-                        jxmc_jstoken: token.farm_jstoken,
-                        timestamp: token.timestamp,
-                        phoneid: token.phoneid
-                    })];
+                _h.label = 4;
             case 4:
-                res = _h.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                if (!1) return [3 /*break*/, 6];
+                if (new Date().getSeconds() === 0)
+                    return [3 /*break*/, 6];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(100)];
             case 5:
+                _h.sent();
+                return [3 /*break*/, 4];
+            case 6: return [4 /*yield*/, api('queryservice/GetGoodsListV2', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp', {
+                    activeid: 'jxmc_active_0001',
+                    activekey: 'null',
+                    jxmc_jstoken: token.farm_jstoken,
+                    timestamp: token.timestamp,
+                    phoneid: token.phoneid
+                })];
+            case 7:
+                res = _h.sent();
+                console.log(JSON.stringify(res));
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 8:
                 _h.sent();
                 for (_i = 0, _a = res.data.goodslist; _i < _a.length; _i++) {
                     good = _a[_i];
@@ -98,7 +108,7 @@ var cookie = '', res = '', UserName;
                     }
                 }
                 allItems = items;
-                if (!items) return [3 /*break*/, 10];
+                if (!items) return [3 /*break*/, 13];
                 arr = items.split(',');
                 arr.pop();
                 items = '';
@@ -107,31 +117,31 @@ var cookie = '', res = '', UserName;
                     result.push(arr.slice(i, i + 30));
                 }
                 _b = 0, result_1 = result;
-                _h.label = 6;
-            case 6:
-                if (!(_b < result_1.length)) return [3 /*break*/, 10];
+                _h.label = 9;
+            case 9:
+                if (!(_b < result_1.length)) return [3 /*break*/, 13];
                 group = result_1[_b];
                 for (_c = 0, group_1 = group; _c < group_1.length; _c++) {
                     id = group_1[_c];
                     items += id + ',';
                 }
                 return [4 /*yield*/, getEgg(items)];
-            case 7:
+            case 10:
                 res = _h.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 8:
+            case 11:
                 _h.sent();
                 for (_d = 0, _e = res.result; _d < _e.length; _d++) {
                     t = _e[_d];
                     exist[t.active].name = t.prizes[0].Name;
                 }
                 items = '';
-                _h.label = 9;
-            case 9:
+                _h.label = 12;
+            case 12:
                 _b++;
-                return [3 /*break*/, 6];
-            case 10:
-                (0, fs_1.writeFileSync)('./jxmc_stock.json', JSON.stringify(exist, null, 2), 'utf-8');
+                return [3 /*break*/, 9];
+            case 13:
+                (0, fs_1.writeFileSync)('./json/jxmc_stock.json', JSON.stringify(exist, null, 2), 'utf-8');
                 for (_f = 0, _g = Object.keys(exist); _f < _g.length; _f++) {
                     j = _g[_f];
                     if (allItems.indexOf(j) > -1) {
@@ -139,12 +149,12 @@ var cookie = '', res = '', UserName;
                     }
                 }
                 console.log(message);
-                if (!message) return [3 /*break*/, 12];
+                if (!message) return [3 /*break*/, 15];
                 return [4 /*yield*/, notify.sendNotify('京喜牧场兑换', message)];
-            case 11:
+            case 14:
                 _h.sent();
-                _h.label = 12;
-            case 12: return [2 /*return*/];
+                _h.label = 15;
+            case 15: return [2 /*return*/];
         }
     });
 }); })();

@@ -48,7 +48,7 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index;
-var shareCodes = [], shareCodesSelf = [], tasks;
+var shareCodes = [], shareCodesSelf = [];
 var shareCodesHW = [
     '8fa2f89e-39a0-4023-b902-74376f1ac5b4',
     'ca02cf34-1b5b-4da1-9852-8945a8cc0231',
@@ -57,7 +57,7 @@ var shareCodesHW = [
     'ed6801cc-b710-4eaf-a842-526755a907ec'
 ];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, j, score, j, i, _i, shareCodes_1, code;
+    var cookiesArr, i, j, ret, score, j, i, _i, shareCodes_1, code;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
@@ -88,7 +88,8 @@ var shareCodesHW = [
                 if (!(j < 9)) return [3 /*break*/, 9];
                 return [4 /*yield*/, doTask()];
             case 7:
-                if ((_a.sent()) === 0)
+                ret = _a.sent();
+                if (!ret)
                     return [3 /*break*/, 9];
                 _a.label = 8;
             case 8:
@@ -127,7 +128,7 @@ var shareCodesHW = [
                 i++;
                 return [3 /*break*/, 3];
             case 18:
-                shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
+                shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
                 i = 0;
                 _a.label = 19;
             case 19:
@@ -184,53 +185,71 @@ function api(body) {
 }
 function doTask() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, t, j, timestamp;
+        var tasks, finished, _i, _a, t, j, timestamp;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, api("{\"apiMapping\":\"/api/task/getTaskList\"}")];
+                case 0:
+                    console.log('任务列表刷新');
+                    return [4 /*yield*/, api("{\"apiMapping\":\"/api/task/getTaskList\"}")];
                 case 1:
                     tasks = _b.sent();
+                    finished = tasks.data.filter(function (t) {
+                        if (t.totalNum === t.finishNum)
+                            return t;
+                    });
+                    console.log(finished.length);
+                    if (finished.length === 3)
+                        return [2 /*return*/, 0];
                     _i = 0, _a = tasks.data;
                     _b.label = 2;
                 case 2:
-                    if (!(_i < _a.length)) return [3 /*break*/, 13];
+                    if (!(_i < _a.length)) return [3 /*break*/, 15];
                     t = _a[_i];
-                    j = t.finishNum;
+                    j = 0;
                     _b.label = 3;
                 case 3:
-                    if (!(j < t.totalNum)) return [3 /*break*/, 12];
+                    if (!(j < t.totalNum - t.finishNum)) return [3 /*break*/, 14];
                     console.log(t.taskName);
-                    return [4 /*yield*/, api("{\"parentId\":\"" + t.parentId + "\",\"taskId\":\"" + t.taskId + "\",\"apiMapping\":\"/api/task/doTask\"}")];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
                 case 4:
+                    _b.sent();
+                    return [4 /*yield*/, api("{\"parentId\":\"" + t.parentId + "\",\"taskId\":\"" + t.taskId + "\",\"apiMapping\":\"/api/task/doTask\"}")];
+                case 5:
                     res = _b.sent();
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10000)];
-                case 5:
-                    _b.sent();
-                    if (!(res.code === 200)) return [3 /*break*/, 10];
-                    timestamp = res.data.timeStamp;
-                    return [4 /*yield*/, api("{\"parentId\":\"" + t.parentId + "\",\"taskId\":\"" + t.taskId + "\",\"timeStamp\":" + timestamp + ",\"apiMapping\":\"/api/task/getReward\"}")];
                 case 6:
-                    res = _b.sent();
-                    if (!(res.code === 200)) return [3 /*break*/, 8];
-                    console.log('任务成功，获得', res.data.score);
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                    _b.sent();
+                    if (!(res.code === 200)) return [3 /*break*/, 12];
+                    console.log('任务完成');
+                    return [4 /*yield*/, api("{\"apiMapping\":\"/api/index/indexInfo\"}")];
                 case 7:
                     _b.sent();
-                    return [2 /*return*/, 1];
+                    if (t.type === 'FOLLOW_SHOP_TASK')
+                        return [2 /*return*/, 1];
+                    timestamp = res.data.timeStamp;
+                    return [4 /*yield*/, api("{\"parentId\":\"" + t.parentId + "\",\"taskId\":\"" + t.taskId + "\",\"timeStamp\":" + timestamp + ",\"apiMapping\":\"/api/task/getReward\"}")];
                 case 8:
-                    console.log('任务失败', res);
-                    _b.label = 9;
-                case 9: return [3 /*break*/, 11];
+                    res = _b.sent();
+                    if (!(res.code === 200)) return [3 /*break*/, 10];
+                    console.log('领奖成功，获得', res.data.score);
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                case 9:
+                    _b.sent();
+                    return [2 /*return*/, 1];
                 case 10:
-                    console.log('任务失败', res);
+                    console.log('领奖失败', res);
                     _b.label = 11;
-                case 11:
+                case 11: return [3 /*break*/, 13];
+                case 12:
+                    console.log('任务失败', res);
+                    _b.label = 13;
+                case 13:
                     j++;
                     return [3 /*break*/, 3];
-                case 12:
+                case 14:
                     _i++;
                     return [3 /*break*/, 2];
-                case 13: return [2 /*return*/, 0];
+                case 15: return [2 /*return*/];
             }
         });
     });

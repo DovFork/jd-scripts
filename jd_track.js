@@ -1,7 +1,7 @@
 "use strict";
 /**
  * 京东快递更新通知
- * cron: 0-23/2 * * * *
+ * cron: 0 0-23/4 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -48,11 +48,12 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', UserName, index, allMessage = '', res = '', message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, except, orders, i, _i, _a, order, orderId, title, t, status_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _b, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _b.sent();
+                cookiesArr = _d.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 try {
                     (0, fs_1.accessSync)('./json/jd_track.json');
@@ -62,7 +63,7 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                     orders = {};
                 }
                 i = 0;
-                _b.label = 2;
+                _d.label = 2;
             case 2:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 6];
                 cookie = cookiesArr[i];
@@ -76,23 +77,28 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                 message = '';
                 return [4 /*yield*/, getOrderList()];
             case 3:
-                res = _b.sent();
+                res = _d.sent();
                 for (_i = 0, _a = res.orderList; _i < _a.length; _i++) {
                     order = _a[_i];
-                    orderId = order['orderId'], title = order['productList'][0]['title'], t = order['progressInfo']['tip'], status_1 = order['progressInfo']['content'];
-                    if (status_1.match(/(?=签收|已取走|已暂存)/))
-                        continue;
-                    console.log(title);
-                    console.log('\t', t, status_1);
-                    console.log();
-                    if (Object.keys(orders).indexOf(orderId) > -1 && orders[orderId]['status'] !== status_1) {
-                        message += title + "\n" + t + "  " + status_1 + "\n\n";
+                    orderId = order['orderId'];
+                    title = order['productList'][0]['title'];
+                    t = ((_b = order.progressInfo) === null || _b === void 0 ? void 0 : _b.tip) || null;
+                    status_1 = ((_c = order.progressInfo) === null || _c === void 0 ? void 0 : _c.content) || null;
+                    if (t && status_1) {
+                        if (status_1.match(/(?=签收|已取走|已暂存)/))
+                            continue;
+                        console.log(title);
+                        console.log('\t', t, status_1);
+                        console.log();
+                        if (Object.keys(orders).indexOf(orderId) > -1 && orders[orderId]['status'] !== status_1) {
+                            message += title + "\n" + t + "  " + status_1 + "\n\n";
+                        }
+                        orders[orderId] = {
+                            title: title,
+                            t: t,
+                            status: status_1
+                        };
                     }
-                    orders[orderId] = {
-                        title: title,
-                        t: t,
-                        status: status_1
-                    };
                 }
                 if (message) {
                     message = "<\u4EAC\u4E1C\u8D26\u53F7" + (i + 1) + ">  " + UserName + "\n\n" + message;
@@ -100,8 +106,8 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 4:
-                _b.sent();
-                _b.label = 5;
+                _d.sent();
+                _d.label = 5;
             case 5:
                 i++;
                 return [3 /*break*/, 2];
@@ -110,8 +116,8 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                 if (!allMessage) return [3 /*break*/, 8];
                 return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东快递更新', allMessage)];
             case 7:
-                _b.sent();
-                _b.label = 8;
+                _d.sent();
+                _d.label = 8;
             case 8: return [2 /*return*/];
         }
     });

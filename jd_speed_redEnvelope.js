@@ -54,83 +54,97 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie, res, UserName, index;
 var shareCodesSelf = [], shareCodes = [], shareCodesHW, id = 'PFbUR7wtwUcQ860Sn8WRfw';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, i, _i, shareCodes_1, boss;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var cookiesArr, i, i, _i, shareCodes_1, boss, _a;
+    var _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)('c8bce')];
             case 1:
-                _a.sent();
+                _c.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
-                cookiesArr = _a.sent();
+                cookiesArr = _c.sent();
                 i = 0;
-                _a.label = 3;
+                _c.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 7];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 11];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
-                return [4 /*yield*/, api('redEnvelopeInteractHome', "{%22linkId%22:%22" + id + "%22,%22redEnvelopeId%22:%22%22,%22inviter%22:%22%22,%22helpType%22:%22%22}")];
+                return [4 /*yield*/, api('openRedEnvelopeInteract', '', '')];
             case 4:
-                // res = await api('openRedEnvelopeInteract', `{%22linkId%22:%22PFbUR7wtwUcQ860Sn8WRfw%22}`);
-                //
-                // if (res.code === 0) {
-                //   console.log('当前进度:', res.data.amount * 1, ' 还需要:', res.data.needAmount * 1 ?? (10 - res.data.needAmount * 1).toFixed(2))
-                //   await wait(1000)
-                // } else {
-                //   console.log('火爆？')
-                // }
-                res = _a.sent();
+                res = _c.sent();
+                if (!(res.code === 0)) return [3 /*break*/, 6];
+                console.log('当前进度:', res.data.amount * 1, ' 还需要:', (_b = res.data.needAmount * 1) !== null && _b !== void 0 ? _b : (10 - res.data.needAmount * 1).toFixed(2));
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 5:
+                _c.sent();
+                return [3 /*break*/, 7];
+            case 6:
+                console.log('需要先手动打开红包。火爆？');
+                _c.label = 7;
+            case 7: return [4 /*yield*/, api('redEnvelopeInteractHome', '', '')];
+            case 8:
+                res = _c.sent();
                 if (res.data) {
+                    console.log('助力码:', res.data.redEnvelopeId, res.data.inviter);
                     shareCodesSelf.push({
                         redEnvelopeId: res.data.redEnvelopeId,
                         inviter: res.data.markedPin
                     });
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 5:
-                _a.sent();
-                _a.label = 6;
-            case 6:
+            case 9:
+                _c.sent();
+                _c.label = 10;
+            case 10:
                 i++;
                 return [3 /*break*/, 3];
-            case 7:
+            case 11:
                 console.log('内部助力码:', shareCodesSelf);
                 i = 0;
-                _a.label = 8;
-            case 8:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 17];
+                _c.label = 12;
+            case 12:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 24];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, getCodesHW()];
-            case 9:
-                _a.sent();
+            case 13:
+                _c.sent();
                 if (i === 0)
                     shareCodes = __spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true);
                 else
                     shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
                 _i = 0, shareCodes_1 = shareCodes;
-                _a.label = 10;
-            case 10:
-                if (!(_i < shareCodes_1.length)) return [3 /*break*/, 16];
+                _c.label = 14;
+            case 14:
+                if (!(_i < shareCodes_1.length)) return [3 /*break*/, 23];
                 boss = shareCodes_1[_i];
-                if (!(boss.redEnvelopeId && boss.inviter)) return [3 /*break*/, 15];
+                if (!(boss.redEnvelopeId && boss.inviter)) return [3 /*break*/, 22];
                 console.log("\u8D26\u53F7" + (i + 1) + " " + UserName + " \u53BB\u52A9\u529B ", boss.redEnvelopeId);
-                return [4 /*yield*/, api('openRedEnvelopeInteract', "{%22linkId%22:%22" + id + "%22,%22redEnvelopeId%22:%22" + boss.redEnvelopeId + "%22,%22inviter%22:%22" + boss.inviter + "%22,%22helpType%22:%222%22}")];
-            case 11:
-                res = _a.sent();
+                if (!boss.inviter) return [3 /*break*/, 16];
+                return [4 /*yield*/, api('openRedEnvelopeInteract', boss.redEnvelopeId, boss.inviter, 2)];
+            case 15:
+                _a = res = _c.sent();
+                return [3 /*break*/, 18];
+            case 16: return [4 /*yield*/, api('openRedEnvelopeInteract', boss.redEnvelopeId, boss.inviter, 1)];
+            case 17:
+                _a = res = _c.sent();
+                _c.label = 18;
+            case 18:
+                _a;
                 console.log(JSON.stringify(res));
-                if (!(res.code === 16020)) return [3 /*break*/, 13];
+                if (!(res.code === 16020)) return [3 /*break*/, 20];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 12:
-                _a.sent();
-                return [3 /*break*/, 16];
-            case 13:
+            case 19:
+                _c.sent();
+                return [3 /*break*/, 23];
+            case 20:
                 res = res.data.helpResult;
                 if (res.code === 16013) {
                     console.log('上限');
-                    return [3 /*break*/, 16];
+                    return [3 /*break*/, 23];
                 }
                 else if (res.code === 16012) {
                     console.log('已助力过');
@@ -145,40 +159,38 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW, id = 'PFbUR7wtwUcQ860Sn8
                     console.log('其他错误', res.errMsg);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 14:
-                _a.sent();
-                _a.label = 15;
-            case 15:
+            case 21:
+                _c.sent();
+                _c.label = 22;
+            case 22:
                 _i++;
-                return [3 /*break*/, 10];
-            case 16:
+                return [3 /*break*/, 14];
+            case 23:
                 i++;
-                return [3 /*break*/, 8];
-            case 17: return [2 /*return*/];
+                return [3 /*break*/, 12];
+            case 24: return [2 /*return*/];
         }
     });
 }); })();
-function api(fn, body) {
+function api(fn, redEnvelopeId, inviter, helpType) {
+    if (helpType === void 0) { helpType = 2; }
     return __awaiter(this, void 0, void 0, function () {
-        var t, url, data, e_1;
+        var linkId, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    t = Date.now();
-                    url = "https://api.m.jd.com/?functionId=" + fn + "&body=" + body + "&t=" + t + "&appid=activities_platform&client=H5&clientVersion=1.0.0";
+                    linkId = 'PFbUR7wtwUcQ860Sn8WRfw';
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, axios_1["default"].get(url, {
+                    return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={%22linkId%22:%22" + linkId + "%22,%22redEnvelopeId%22:%22" + redEnvelopeId + "%22,%22inviter%22:%22" + inviter + "%22,%22helpType%22:%22" + helpType + "%22}&t=" + Date.now() + "&appid=activities_platform&clientVersion=3.5.0", {
                             headers: {
                                 'Host': 'api.m.jd.com',
-                                'Connection': 'keep-alive',
-                                'Accept': 'application/json, text/plain, */*',
-                                'Origin': 'https://618redpacket.jd.com',
-                                'User-Agent': 'jdltapp;',
-                                'Referer': 'https://618redpacket.jd.com/?activityId=PFbUR7wtwUcQ860Sn8WRfw',
-                                'Accept-Language': 'zh-CN,en-US;q=0.9',
-                                'X-Requested-With': 'com.jd.jdlite',
+                                'accept': 'application/json, text/plain, */*',
+                                'origin': 'https://618redpacket.jd.com',
+                                'user-agent': 'jdltapp;iPhone;3.5.0;14.2;network/wifi;hasUPPay/0;pushNoticeIsOpen/0;lang/zh_CN;model/iPhone10,2;hasOCPay/0;appBuild/1066;supportBestPay/0;pv/7.0;apprpd/;Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
+                                'accept-language': 'zh-cn',
+                                'referer': "https://618redpacket.jd.com/?activityId=" + linkId + "&redEnvelopeId=" + redEnvelopeId + "&inviterId=" + inviter + "&helpType=1&lng=&lat=&sid=",
                                 'Cookie': cookie
                             }
                         })];
@@ -214,11 +226,4 @@ function getCodesHW() {
             }
         });
     });
-}
-function randomString(e) {
-    e = e || 32;
-    var t = "0123456789", a = t.length, n = "";
-    for (var i = 0; i < e; i++)
-        n += t.charAt(Math.floor(Math.random() * a));
-    return n;
 }

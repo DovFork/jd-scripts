@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * 0～30秒开始执行，31～59秒死循环等待
+ * 提现金额：0.1、0.5、1
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,121 +40,99 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-/**
- * 必须编译成js再运行
- * 可在31~59秒启动，0~30秒自动放行
- * 只在00:00:xx和12:00:xx升级建筑
- * 默认：0点1元，12点0.5，其他0.1
- * export CFD_CASHOUT_MONEY=1  // 自定义1元
- */
-var worker_threads_1 = require("worker_threads");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var ts_md5_1 = require("ts-md5");
-var axios_1 = require("axios");
-var TS_USER_AGENTS_2 = require("./TS_USER_AGENTS");
 var date_fns_1 = require("date-fns");
+var axios_1 = require("axios");
+var ts_md5_1 = require("ts-md5");
+var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
 var dotenv = require("dotenv");
 var CryptoJS = require('crypto-js');
 dotenv.config();
 var appId = 10028, fingerprint, token = '', enCryptMethodJD;
-var cookie = '', res = '';
-function f1(cookies) {
-    var _this = this;
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-        var _i, _a, b, token, money, h;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    cookie = cookies;
-                    _b.label = 1;
-                case 1:
-                    if (!1) return [3 /*break*/, 3];
-                    if (new Date().getSeconds() < 30)
-                        return [3 /*break*/, 3];
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(100)];
-                case 2:
-                    _b.sent();
-                    return [3 /*break*/, 1];
-                case 3:
-                    if (!((new Date().getHours() === 0 || new Date().getHours() === 12) && new Date().getMinutes() === 0)) return [3 /*break*/, 8];
-                    _i = 0, _a = ['food', 'fun', 'shop', 'sea'];
-                    _b.label = 4;
-                case 4:
-                    if (!(_i < _a.length)) return [3 /*break*/, 8];
-                    b = _a[_i];
-                    return [4 /*yield*/, api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b })];
-                case 5:
-                    res = _b.sent();
-                    if (!(res.dwCanLvlUp === 1)) return [3 /*break*/, 7];
-                    return [4 /*yield*/, api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', { ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b })];
-                case 6:
-                    res = _b.sent();
-                    if (res.iRet === 0) {
-                        console.log("\u5347\u7EA7\u6210\u529F:", res);
-                        return [3 /*break*/, 8];
-                    }
-                    _b.label = 7;
-                case 7:
-                    _i++;
-                    return [3 /*break*/, 4];
-                case 8:
-                    // 提现
-                    console.log('解锁：', (0, date_fns_1.format)(new Date(), 'hh:mm:ss:SSS'));
-                    return [4 /*yield*/, getJxToken(cookie)];
-                case 9:
-                    token = _b.sent();
-                    return [4 /*yield*/, api('user/CashOutQuali', '_cfd_t,bizCode,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { strPgUUNum: token.strPgUUNum, strPgtimestamp: token.strPgtimestamp, strPhoneID: token.strPhoneID })];
-                case 10:
-                    res = _b.sent();
-                    console.log('资格:', res);
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
-                case 11:
-                    _b.sent();
-                    console.log('提现：', (0, date_fns_1.format)(new Date(), 'hh:mm:ss:SSS'));
-                    h = new Date().getHours();
-                    if (h === 0)
-                        money = 100;
-                    else if (h === 12)
-                        money = 50;
-                    else
-                        money = 10;
-                    money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : money;
-                    console.log('本次计划提现：', money / 100);
-                    return [4 /*yield*/, api('user/CashOut', '_cfd_t,bizCode,ddwMoney,ddwPaperMoney,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { ddwMoney: money, ddwPaperMoney: money * 10, strPgUUNum: token.strPgUUNum, strPgtimestamp: token.strPgtimestamp, strPhoneID: token.strPhoneID })];
-                case 12:
-                    res = _b.sent();
-                    console.log('提现:', res);
-                    resolve();
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-}
+var cookie = '', res = '', UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                if (!worker_threads_1.isMainThread) return [3 /*break*/, 3];
-                return [4 /*yield*/, requestAlgo()];
+    var cookiesArr, i, _i, _a, b, token_1, money, h;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, requestAlgo()];
             case 1:
-                _a.sent();
+                _b.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
-                cookiesArr = _a.sent();
-                for (i = 0; i < cookiesArr.length; i++) {
-                    new worker_threads_1.Worker(__filename, {
-                        workerData: {
-                            cookie: cookiesArr[i]
-                        }
-                    });
-                }
-                return [3 /*break*/, 5];
-            case 3: return [4 /*yield*/, f1(worker_threads_1.workerData.cookie)];
+                cookiesArr = _b.sent();
+                i = 0;
+                _b.label = 3;
+            case 3:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 19];
+                cookie = cookiesArr[i];
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                index = i + 1;
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                _b.label = 4;
             case 4:
-                _a.sent();
-                _a.label = 5;
-            case 5: return [2 /*return*/];
+                if (!1) return [3 /*break*/, 8];
+                if (!(new Date().getSeconds() < 30)) return [3 /*break*/, 5];
+                return [3 /*break*/, 8];
+            case 5: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(100)];
+            case 6:
+                _b.sent();
+                _b.label = 7;
+            case 7: return [3 /*break*/, 4];
+            case 8:
+                if (!((new Date().getHours() === 0 || new Date().getHours() === 12) && new Date().getMinutes() === 0)) return [3 /*break*/, 13];
+                _i = 0, _a = ['food', 'fun', 'shop', 'sea'];
+                _b.label = 9;
+            case 9:
+                if (!(_i < _a.length)) return [3 /*break*/, 13];
+                b = _a[_i];
+                return [4 /*yield*/, api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b })];
+            case 10:
+                res = _b.sent();
+                if (!(res.dwCanLvlUp === 1)) return [3 /*break*/, 12];
+                return [4 /*yield*/, api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', { ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: b })];
+            case 11:
+                res = _b.sent();
+                if (res.iRet === 0) {
+                    console.log(b + "\u5347\u7EA7\u6210\u529F");
+                    return [3 /*break*/, 13];
+                }
+                _b.label = 12;
+            case 12:
+                _i++;
+                return [3 /*break*/, 9];
+            case 13:
+                // 提现
+                console.log('解锁：', (0, date_fns_1.format)(new Date(), 'hh:mm:ss:SSS'));
+                return [4 /*yield*/, getJxToken(cookie)];
+            case 14:
+                token_1 = _b.sent();
+                return [4 /*yield*/, api('user/CashOutQuali', '_cfd_t,bizCode,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { strPgUUNum: token_1.strPgUUNum, strPgtimestamp: token_1.strPgtimestamp, strPhoneID: token_1.strPhoneID })];
+            case 15:
+                res = _b.sent();
+                console.log('资格:', res);
+                if (res.iRet === 2036)
+                    return [3 /*break*/, 19];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
+            case 16:
+                _b.sent();
+                console.log('提现：', (0, date_fns_1.format)(new Date(), 'hh:mm:ss:SSS'));
+                money = void 0, h = new Date().getHours();
+                if (h === 0)
+                    money = 100;
+                else if (h === 12)
+                    money = 50;
+                else
+                    money = 10;
+                money = process.env.CFD_CASHOUT_MONEY ? parseFloat(process.env.CFD_CASHOUT_MONEY) * 100 : money;
+                console.log('本次计划提现：', money / 100);
+                return [4 /*yield*/, api('user/CashOut', '_cfd_t,bizCode,ddwMoney,ddwPaperMoney,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strZone', { ddwMoney: money, ddwPaperMoney: money * 10, strPgUUNum: token_1.strPgUUNum, strPgtimestamp: token_1.strPgtimestamp, strPhoneID: token_1.strPhoneID })];
+            case 17:
+                res = _b.sent();
+                console.log('提现:', res);
+                _b.label = 18;
+            case 18:
+                i++;
+                return [3 /*break*/, 3];
+            case 19: return [2 /*return*/];
         }
     });
 }); })();
@@ -165,10 +147,6 @@ function getJxToken(cookie) {
     }
     var phoneId = generateStr(40);
     var timestamp = Date.now().toString();
-    if (!cookie['match'](/pt_pin=([^; ]+)(?=;?)/)) {
-        console.log('此账号cookie填写不规范,你的pt_pin=xxx后面没分号(;)\n');
-        return {};
-    }
     var nickname = cookie.match(/pt_pin=([^;]*)/)[1];
     var jstoken = ts_md5_1.Md5.hashStr('' + decodeURIComponent(nickname) + timestamp + phoneId + 'tPOamqCuk9NLgVPAljUyIHcPRmKlVxDy');
     return {
@@ -197,7 +175,6 @@ function api(fn, stk, params) {
                                 url += "&" + key + "=" + params[key];
                         }
                     }
-                    console.log(cookie);
                     url += '&h5st=' + decrypt(stk, url);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
@@ -240,7 +217,7 @@ function requestAlgo() {
                                                 'Pragma': 'no-cache',
                                                 'Cache-Control': 'no-cache',
                                                 'Accept': 'application/json',
-                                                'User-Agent': TS_USER_AGENTS_2["default"],
+                                                'User-Agent': TS_USER_AGENTS_1["default"],
                                                 'Content-Type': 'application/json',
                                                 'Origin': 'https://st.jingxi.com',
                                                 'Sec-Fetch-Site': 'cross-site',
@@ -282,7 +259,6 @@ function decrypt(stk, url) {
         var random = '5gkjB6SpmC9s';
         token = "tk01wcdf61cb3a8nYUtHcmhSUFFCfddDPRvKvYaMjHkxo6Aj7dhzO+GXGFa9nPXfcgT+mULoF1b1YIS1ghvSlbwhE0Xc";
         fingerprint = 9686767825751161;
-        // $.fingerprint = 7811850938414161;
         var str = "" + token + fingerprint + timestamp + appId + random;
         hash1 = CryptoJS.SHA512(str, token).toString(CryptoJS.enc.Hex);
     }

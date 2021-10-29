@@ -42,7 +42,7 @@ exports.__esModule = true;
  * export PUSH_COOKIE=true
  */
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
 var qrcode = require('qrcode-terminal');
 var notify = require('./sendNotify');
 var USER_AGENT = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_2 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8H7 Safari/6533.18.5 UCBrowser/13.4.2.1122';

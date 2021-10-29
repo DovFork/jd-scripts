@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.resetHosts = exports.randomString = exports.exceptCookie = exports.h5st = exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.o2s = exports.resetHosts = exports.randomString = exports.exceptCookie = exports.h5st = exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var date_fns_1 = require("date-fns");
@@ -293,7 +293,7 @@ function getJxToken(cookie) {
 exports.getJxToken = getJxToken;
 function exceptCookie(filename) {
     if (filename === void 0) { filename = 'x.ts'; }
-    var except = [];
+    var except;
     try {
         (0, fs_1.accessSync)('./utils/exceptCookie.json');
         except = JSON.parse((0, fs_1.readFileSync)('./utils/exceptCookie.json').toString() || '{}')[filename] || [];
@@ -321,4 +321,8 @@ function resetHosts() {
     }
 }
 exports.resetHosts = resetHosts;
+function o2s(arr) {
+    console.log(JSON.stringify(arr));
+}
+exports.o2s = o2s;
 exports["default"] = USER_AGENT;

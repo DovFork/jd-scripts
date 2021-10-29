@@ -194,10 +194,15 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
             case 25:
                 res = _h.sent();
                 if (!(res.ret === 0)) return [3 /*break*/, 27];
-                if (res.data.prizetype === 3)
+                if (res.data.prizetype === 3) {
                     console.log('抽奖成功，金币：', res.data.addcoins);
-                else
+                }
+                else if (res.data.prizetype === 1) {
+                    console.log('抽奖成功，卡片：', res.data.cardtype);
+                }
+                else {
                     console.log('抽奖成功，其他：', res);
+                }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 26:
                 _h.sent();

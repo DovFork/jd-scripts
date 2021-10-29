@@ -55,7 +55,7 @@ var server = '', message = '';
                 netstat = (0, child_process_1.execSync)("netstat -tnlp").toString();
                 port = netstat.match(/.*0\.0\.0\.0:(\d+).*nginx\.conf/)[1];
                 server = "127.0.0.1:" + port;
-                taskName = "jd_88hb.ts", cron = '5 0,6,18 * * *';
+                taskName = "jd_bean_box.ts", cron = '1 0,9,18,22 * * *';
                 return [4 /*yield*/, get(taskName, bearer)];
             case 1:
                 task = _a.sent();
@@ -96,14 +96,11 @@ function set(task, bearer, cron) {
                     return [4 /*yield*/, (0, sendNotify_1.sendNotify)('强制更新cron', message)];
                 case 2:
                     _a.sent();
-                    return [3 /*break*/, 5];
+                    return [3 /*break*/, 4];
                 case 3:
                     console.log('更新失败：', data);
-                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('强制更新cron', "\u66F4\u65B0\u5931\u8D25\n" + JSON.stringify(data))];
-                case 4:
-                    _a.sent();
-                    _a.label = 5;
-                case 5: return [2 /*return*/];
+                    _a.label = 4;
+                case 4: return [2 /*return*/];
             }
         });
     });

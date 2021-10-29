@@ -42,31 +42,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var path = require("path");
-var sendNotify_1 = require("./sendNotify");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cow = require('./utils/jd_jxmc.js').cow;
 var token = require('./utils/jd_jxmc.js').token;
 var cookie = '', res = '', homePageInfo, jxToken, UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var e_1, cookiesArr, except, i, lastgettime, food, cowToken;
+    var cookiesArr, except, i, lastgettime, food, cowToken;
     var _a, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                _c.trys.push([0, 1, , 3]);
-                (0, TS_USER_AGENTS_1.resetHosts)();
-                return [3 /*break*/, 3];
+                try {
+                    (0, TS_USER_AGENTS_1.resetHosts)();
+                }
+                catch (e) {
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
             case 1:
-                e_1 = _c.sent();
-                return [4 /*yield*/, (0, sendNotify_1.sendNotify)("脚本执行出错", "删除TS_USER_AGENT.js\n\n删js ! 不是ts !")];
-            case 2:
-                _c.sent();
-                return [2 /*return*/];
-            case 3: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
-            case 4:
                 _c.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
-            case 5:
+            case 2:
                 cookiesArr = _c.sent();
                 if (process.argv[2]) {
                     console.log('收到命令行cookie');
@@ -74,33 +69,33 @@ var cookie = '', res = '', homePageInfo, jxToken, UserName, index;
                 }
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 i = 0;
-                _c.label = 6;
-            case 6:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 13];
+                _c.label = 3;
+            case 3:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 10];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                 if (except.includes(encodeURIComponent(UserName))) {
                     console.log('已设置跳过');
-                    return [3 /*break*/, 12];
+                    return [3 /*break*/, 9];
                 }
                 return [4 /*yield*/, token(cookie)];
-            case 7:
+            case 4:
                 jxToken = _c.sent();
                 return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'activeid,activekey,channel,isgift,isqueryinviteicon,isquerypicksite,jxmc_jstoken,phoneid,sceneid,timestamp', {
                         isgift: 1,
                         isquerypicksite: 1,
                         isqueryinviteicon: 1
                     })];
-            case 8:
+            case 5:
                 homePageInfo = _c.sent();
                 lastgettime = void 0;
                 if ((_b = (_a = homePageInfo.data) === null || _a === void 0 ? void 0 : _a.cow) === null || _b === void 0 ? void 0 : _b.lastgettime) {
                     lastgettime = homePageInfo.data.cow.lastgettime;
                 }
                 else {
-                    return [3 /*break*/, 12];
+                    return [3 /*break*/, 9];
                 }
                 food = 0;
                 try {
@@ -108,32 +103,32 @@ var cookie = '', res = '', homePageInfo, jxToken, UserName, index;
                 }
                 catch (e) {
                     console.log('未开通？黑号？');
-                    return [3 /*break*/, 12];
+                    return [3 /*break*/, 9];
                 }
                 return [4 /*yield*/, cow(lastgettime)];
-            case 9:
+            case 6:
                 cowToken = _c.sent();
                 return [4 /*yield*/, api('operservice/GetCoin', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,token', { token: cowToken })];
-            case 10:
+            case 7:
                 res = _c.sent();
                 if (res.ret === 0)
                     console.log('收牛牛:', res.data.addcoin);
                 else
                     console.log('收牛牛:', res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 11:
+            case 8:
                 _c.sent();
-                _c.label = 12;
-            case 12:
+                _c.label = 9;
+            case 9:
                 i++;
-                return [3 /*break*/, 6];
-            case 13: return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 10: return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, stk, params) {
     return __awaiter(this, void 0, void 0, function () {
-        var url, data, e_2;
+        var url, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -162,8 +157,8 @@ function api(fn, stk, params) {
                         return [2 /*return*/, JSON.parse(data.replace(/jsonpCBK.?\(/, '').split('\n')[0])];
                     return [2 /*return*/, data];
                 case 3:
-                    e_2 = _a.sent();
-                    console.log('api Error:', e_2);
+                    e_1 = _a.sent();
+                    console.log('api Error:', e_1);
                     return [2 /*return*/, {}];
                 case 4: return [2 /*return*/];
             }

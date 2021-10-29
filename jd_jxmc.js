@@ -138,8 +138,9 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 console.log(e_2);
                 return [3 /*break*/, 12];
             case 12:
-                console.log('现有草:', food);
-                console.log('金币:', coins);
+                console.log('草草🌿', food);
+                console.log('蛋蛋🥚', homePageInfo.data.eggcnt);
+                console.log('钱钱💰', coins);
                 return [4 /*yield*/, api('queryservice/GetCardInfo', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')];
             case 13:
                 // 扭蛋机
@@ -588,9 +589,9 @@ function api(fn, stk, params) {
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
-                                'Referer': 'https://st.jingxi.com/pingou/jxmc/index.html',
                                 'Host': 'm.jingxi.com',
-                                'User-Agent': 'jdpingou;',
+                                'User-Agent': "jdpingou;iPhone;5.9.0;12.4.1;" + (0, TS_USER_AGENTS_1.randomString)(40) + ";network/wifi;",
+                                'Referer': 'https://st.jingxi.com/pingou/jxmc/index.html',
                                 'Cookie': cookie
                             }
                         })];

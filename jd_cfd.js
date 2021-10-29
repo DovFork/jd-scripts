@@ -61,7 +61,7 @@ var axi = axios_1["default"].create({ timeout: 10000 });
 var cookie = '', res = '', UserName, index;
 var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false, USER_AGENT = 'jdpingou;', token = {};
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, e_1, todayMoney, flag, dwPageIndex, _i, _a, t, _b, _c, xb, tasks, _d, _e, t, prizeInfo, CardList, cards, _f, CardList_1, card, richcard, coincard, coincardUsing, _g, coincard_1, card, _h, richcard_1, card, j, j, wallet, build, minLV, _j, _k, b, dwCurProgress, strDT, strMyShareId, ddwSeasonStartTm, strLT, RealTmReport, j, employee, _l, employee_1, emp, empRes, _m, _o, sign, MermaidRes, shipRes, bags_1, _p, _q, s, strTypeCnt_1, n, bags, _r, _s, s, strTypeCnt, n, j, _t, _u, t, _v, _w, t, _x, _y, e, employ, _z, _0, b, i, data, e_2, j;
+    var cookiesArr, i, e_1, todayMoney, flag, dwPageIndex, _i, _a, t, _b, _c, xb, tasks, _d, _e, t, prizeInfo, CardList, cards, _f, CardList_1, card, richcard, coincard, coincardUsing, richcardUsing, _g, coincard_1, card, _h, richcard_1, card, j, j, wallet, build, minLV, _j, _k, b, dwCurProgress, strDT, strMyShareId, ddwSeasonStartTm, strLT, RealTmReport, j, employee, _l, employee_1, emp, empRes, _m, _o, sign, MermaidRes, shipRes, bags_1, _p, _q, s, strTypeCnt_1, n, bags, _r, _s, s, strTypeCnt, n, j, _t, _u, t, _v, _w, t, _x, _y, e, employ, _z, _0, b, i, data, e_2, j;
     var _1;
     return __generator(this, function (_2) {
         switch (_2.label) {
@@ -221,6 +221,9 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 coincardUsing = coincard.filter(function (card) {
                     return card.dwCardState === 2;
                 });
+                richcardUsing = richcard.filter(function (card) {
+                    return card.dwCardState === 2;
+                });
                 if (!(coincardUsing.length === 0)) return [3 /*break*/, 33];
                 _g = 0, coincard_1 = coincard;
                 _2.label = 30;
@@ -242,6 +245,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 _g++;
                 return [3 /*break*/, 30];
             case 33:
+                if (!(richcardUsing.length === 0)) return [3 /*break*/, 40];
                 _h = 0, richcard_1 = richcard;
                 _2.label = 34;
             case 34:

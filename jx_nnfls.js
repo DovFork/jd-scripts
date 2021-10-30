@@ -111,19 +111,17 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
             case 10:
                 if (!(_d < _e.length)) return [3 /*break*/, 16];
                 t = _e[_d];
-                if (!tasks.includes(t.taskid)) return [3 /*break*/, 15];
+                if (!tasks.includes(t.taskId)) return [3 /*break*/, 15];
                 console.log(t.taskName);
                 return [4 /*yield*/, api('task/drawUserTask', 'sceneval,taskid', { taskid: t.taskId })];
             case 11:
                 res = _g.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 12:
                 _g.sent();
                 return [4 /*yield*/, api('task/UserTaskFinish', 'sceneval,taskid', { taskid: t.taskId })];
             case 13:
                 res = _g.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 14:
                 _g.sent();

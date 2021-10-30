@@ -448,7 +448,9 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 _h.label = 87;
             case 87:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 99];
-                return [4 /*yield*/, getCodes()];
+                return [4 /*yield*/, getCodes()
+                    // 获取随机红包码
+                ];
             case 88:
                 _h.sent();
                 _h.label = 89;
@@ -504,7 +506,9 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 _h.label = 100;
             case 100:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 112];
-                return [4 /*yield*/, getCodes()];
+                return [4 /*yield*/, getCodes()
+                    // 获取随机助力码
+                ];
             case 101:
                 _h.sent();
                 _h.label = 102;

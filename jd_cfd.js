@@ -807,7 +807,9 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 _2.label = 157;
             case 157:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 168];
-                return [4 /*yield*/, getCodesHW()];
+                return [4 /*yield*/, getCodesHW()
+                    // 获取随机助力码
+                ];
             case 158:
                 _2.sent();
                 _2.label = 159;

@@ -71,6 +71,7 @@ var index, remain = 0;
             case 5:
                 res = _e.sent();
                 buyerNick = res.data.data.msg;
+                console.log('buyerNick:', buyerNick);
                 return [4 /*yield*/, api('UserInfo')];
             case 6:
                 res = _e.sent();

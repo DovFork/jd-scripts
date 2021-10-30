@@ -188,7 +188,7 @@ function decrypt(stk, url) {
         var random = '5gkjB6SpmC9s';
         token = "tk01wcdf61cb3a8nYUtHcmhSUFFCfddDPRvKvYaMjHkxo6Aj7dhzO+GXGFa9nPXfcgT+mULoF1b1YIS1ghvSlbwhE0Xc";
         fingerprint = 9686767825751161;
-        // $.fingerprint = 7811850938414161;
+        // $.fingerprint = 7811850938414161
         var str = "" + token + fingerprint + timestamp + appId + random;
         hash1 = CryptoJS.SHA512(str, token).toString(CryptoJS.enc.Hex);
     }

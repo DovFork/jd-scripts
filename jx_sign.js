@@ -138,7 +138,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [
                 return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
             case 17:
                 res = _e.sent();
-                rili = res.riliremind_task.domax;
+                rili = res.riliremind_task.status;
                 console.log(res.riliremind_task.getmoney);
                 _a = 0, _b = res.commontask;
                 _e.label = 18;
@@ -164,7 +164,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [
                 _a++;
                 return [3 /*break*/, 18];
             case 22:
-                if (!(rili !== 1)) return [3 /*break*/, 24];
+                if (!(rili === 1)) return [3 /*break*/, 24];
                 return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/dotask?task=rili_remind&signhb_source=5&ispp=0&sqactive=&tk=&_stk=ispp%2Csignhb_source%2Csqactive%2Ctask%2Ctk&_ste=1&_=" + Date.now() + "&sceneval=2", 'ispp,signhb_source,sqactive,task,tk')];
             case 23:
                 res = _e.sent();

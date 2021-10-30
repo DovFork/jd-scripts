@@ -47,107 +47,100 @@ var cookie = '', res = '', UserName, index;
 function main() {
     var _a, _b;
     return __awaiter(this, void 0, void 0, function () {
-        var cookiesArr, i, _c, isLogin, nickName, j, taskArr, _i, taskArr_1, t, e_1;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        var cookiesArr, i, j, taskArr, _i, taskArr_1, t, e_1;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
                 case 1:
-                    cookiesArr = _d.sent();
+                    cookiesArr = _c.sent();
                     i = 0;
-                    _d.label = 2;
+                    _c.label = 2;
                 case 2:
-                    if (!(i < cookiesArr.length)) return [3 /*break*/, 29];
-                    _d.label = 3;
+                    if (!(i < cookiesArr.length)) return [3 /*break*/, 27];
+                    _c.label = 3;
                 case 3:
-                    _d.trys.push([3, 26, , 27]);
+                    _c.trys.push([3, 25, , 26]);
                     cookie = cookiesArr[i];
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     index = i + 1;
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
-                case 4:
-                    _c = _d.sent(), isLogin = _c.isLogin, nickName = _c.nickName;
-                    if (!isLogin) {
-                        notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
-                        return [3 /*break*/, 28];
-                    }
-                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                     return [4 /*yield*/, getIsvToken()];
-                case 5:
-                    _d.sent();
+                case 4:
+                    _c.sent();
                     return [4 /*yield*/, getIsvToken2()];
-                case 6:
-                    _d.sent();
+                case 5:
+                    _c.sent();
                     return [4 /*yield*/, init()];
-                case 7:
-                    _d.sent();
+                case 6:
+                    _c.sent();
                     return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/dz/common/getSimpleActInfoVo', 'activityId=dz2103100001340201')];
-                case 8:
-                    res = _d.sent();
+                case 7:
+                    res = _c.sent();
                     shopId = res.data.venderId;
                     return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/customer/getMyPing', "userId=" + shopId + "&token=" + token2 + "&fromType=APP")];
-                case 9:
-                    res = _d.sent();
+                case 8:
+                    res = _c.sent();
                     pin = res.data.secretPin;
                     return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/wxActionCommon/getUserInfo', "pin=" + encodeURIComponent(pin))];
-                case 10:
-                    res = _d.sent();
+                case 9:
+                    res = _c.sent();
                     if ((_a = res.data) === null || _a === void 0 ? void 0 : _a.hasOwnProperty('id')) {
                         uuid = res.data.id;
                     }
                     else {
-                        return [3 /*break*/, 28];
+                        return [3 /*break*/, 26];
                     }
                     return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/common/accessLogWithAD', "venderId=1000013402&code=99&pin=" + encodeURIComponent(pin) + "&activityId=dz2103100001340201&pageUrl=https%3A%2F%2Flzdz-isv.isvjcloud.com%2Fdingzhi%2Fyili%2Fyangniu%2Factivity%2F4827909%3FactivityId%3Ddz2103100001340201%26shareUuid%3Db44243656a694b6f94bb30a4a5f2a45d%26adsource%3Dziying%26shareuserid4minipg%3D5Iufa9rY657S3OP3PLSpK07oeVP9kq2pYSH90mYt4m3fwcJlClpxrfmVYaGKuquQkdK3rLBQpEQH9V4tdrrh0w%3D%3D%26shopid%3D1000013402%26lng%3D114.062604%26lat%3D29.541501%26sid%3D6e9bfee3838075a72533536815d8f3ew%26un_area%3D4_48201_54794_0&subType=app&adSource=ziying")];
-                case 11:
-                    res = _d.sent();
+                case 10:
+                    res = _c.sent();
                     return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/dingzhi/yili/yangniu/activityContent', "activityId=dz2103100001340201&pin=" + encodeURIComponent(pin) + "&pinImg=null&nick=" + cookie.match(/pt_pin=([^;]*)/)[1] + "&cjyxPin=&cjhyPin=&shareUuid=")];
-                case 12:
-                    res = _d.sent();
+                case 11:
+                    res = _c.sent();
                     actorUuid = res.data.actorUuid;
                     console.log('互助码：', actorUuid);
                     milk = res.data.score2 / 10;
                     j = 0;
-                    _d.label = 13;
-                case 13:
-                    if (!(j < milk)) return [3 /*break*/, 17];
+                    _c.label = 12;
+                case 12:
+                    if (!(j < milk)) return [3 /*break*/, 16];
                     return [4 /*yield*/, api('feedCow', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin))];
-                case 14:
-                    res = _d.sent();
+                case 13:
+                    res = _c.sent();
                     if (res.result) {
                         console.log('喂奶成功，剩余：', res.data.score2);
                     }
                     else {
                         console.log('喂奶失败：', res);
-                        return [3 /*break*/, 17];
+                        return [3 /*break*/, 16];
                     }
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                case 14:
+                    _c.sent();
+                    _c.label = 15;
                 case 15:
-                    _d.sent();
-                    _d.label = 16;
-                case 16:
                     j++;
-                    return [3 /*break*/, 13];
-                case 17:
-                    if (!1) return [3 /*break*/, 20];
+                    return [3 /*break*/, 12];
+                case 16:
+                    if (!1) return [3 /*break*/, 19];
                     return [4 /*yield*/, api('start', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin))];
-                case 18:
-                    res = _d.sent();
+                case 17:
+                    res = _c.sent();
                     if (res.result) {
                         console.log('抽奖成功：', res.data.name);
                     }
                     else if (res.errorMessage === '继续努力，多多喂养牛牛哦~') {
                         console.log('抽奖失败，没有抽奖机会');
-                        return [3 /*break*/, 20];
+                        return [3 /*break*/, 19];
                     }
                     else {
                         console.log('抽奖失败：', res);
-                        return [3 /*break*/, 20];
+                        return [3 /*break*/, 19];
                     }
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+                case 18:
+                    _c.sent();
+                    return [3 /*break*/, 16];
                 case 19:
-                    _d.sent();
-                    return [3 /*break*/, 17];
-                case 20:
                     taskArr = [
                         { taskType: 0 },
                         { taskType: 1 },
@@ -157,36 +150,35 @@ function main() {
                         { taskType: 21 },
                     ];
                     _i = 0, taskArr_1 = taskArr;
-                    _d.label = 21;
-                case 21:
-                    if (!(_i < taskArr_1.length)) return [3 /*break*/, 25];
+                    _c.label = 20;
+                case 20:
+                    if (!(_i < taskArr_1.length)) return [3 /*break*/, 24];
                     t = taskArr_1[_i];
                     return [4 /*yield*/, api('saveTask', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin) + "&taskType=" + t.taskType + "&taskValue=" + ((_b = t.taskValue) !== null && _b !== void 0 ? _b : ''))];
-                case 22:
-                    res = _d.sent();
+                case 21:
+                    res = _c.sent();
                     if (res.result)
                         console.log('任务完成：', res.data.milkCount);
                     else {
                         console.log('任务失败：', res);
-                        return [3 /*break*/, 25];
+                        return [3 /*break*/, 24];
                     }
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                case 22:
+                    _c.sent();
+                    _c.label = 23;
                 case 23:
-                    _d.sent();
-                    _d.label = 24;
-                case 24:
                     _i++;
-                    return [3 /*break*/, 21];
-                case 25: return [3 /*break*/, 27];
-                case 26:
-                    e_1 = _d.sent();
+                    return [3 /*break*/, 20];
+                case 24: return [3 /*break*/, 26];
+                case 25:
+                    e_1 = _c.sent();
                     console.log(e_1);
-                    return [3 /*break*/, 27];
-                case 27: return [3 /*break*/, 29];
-                case 28:
+                    return [3 /*break*/, 26];
+                case 26:
                     i++;
                     return [3 /*break*/, 2];
-                case 29: return [2 /*return*/];
+                case 27: return [2 /*return*/];
             }
         });
     });

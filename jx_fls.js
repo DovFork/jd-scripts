@@ -60,15 +60,15 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [
     'XGxI73R4Uu88cRIL2AqoJmZUOjq-1DhZURMBZYdfxv3hG1P_qnrIyxaEmseHd2aL'
 ];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, coin, tasks, _i, _a, t, _b, _c, t, surplusTimes, j, i, _d, shareCode_1, code;
-    var _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    var cookiesArr, i, coin, tasks, _i, _a, t, _b, _c, t, _d, _e, t, surplusTimes, j, i, _f, shareCode_1, code;
+    var _g;
+    return __generator(this, function (_h) {
+        switch (_h.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _f.sent();
+                cookiesArr = _h.sent();
                 i = 0;
-                _f.label = 2;
+                _h.label = 2;
             case 2:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 22];
                 cookie = cookiesArr[i];
@@ -77,7 +77,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                 return [4 /*yield*/, api('sign/UserSignNew', 'sceneval,source', { source: '' })];
             case 3:
-                res = _f.sent();
+                res = _h.sent();
                 console.log('签到', JSON.stringify(res));
                 console.log('助力码', res.data.token);
                 shareCodeSelf.push(res.data.token);
@@ -85,67 +85,73 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [
                 console.log('金币', coin);
                 return [4 /*yield*/, api('task/QueryUserTask', 'sceneval,taskType', { taskType: 0 })];
             case 4:
-                res = _f.sent();
+                res = _h.sent();
                 tasks = [];
-                for (_i = 0, _a = (_e = res.datas) !== null && _e !== void 0 ? _e : []; _i < _a.length; _i++) {
+                for (_i = 0, _a = (_g = res.datas) !== null && _g !== void 0 ? _g : []; _i < _a.length; _i++) {
                     t = _a[_i];
                     if (t.state !== 2)
                         tasks.push(t.taskid);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 5:
-                _f.sent();
+                _h.sent();
                 return [4 /*yield*/, api('task/QueryPgTaskCfg', 'sceneval', {})];
             case 6:
-                res = _f.sent();
-                _b = 0, _c = res.data.tasks;
-                _f.label = 7;
+                res = _h.sent();
+                if (tasks.length === 0) {
+                    for (_b = 0, _c = res.data.tasks; _b < _c.length; _b++) {
+                        t = _c[_b];
+                        tasks.push(t.taskid);
+                    }
+                }
+                _d = 0, _e = res.data.tasks;
+                _h.label = 7;
             case 7:
-                if (!(_b < _c.length)) return [3 /*break*/, 13];
-                t = _c[_b];
+                if (!(_d < _e.length)) return [3 /*break*/, 13];
+                t = _e[_d];
                 if (!tasks.includes(t.taskid)) return [3 /*break*/, 12];
                 console.log(t.taskName);
                 return [4 /*yield*/, api('task/drawUserTask', 'sceneval,taskid', { taskid: t.taskId })];
             case 8:
-                res = _f.sent();
+                res = _h.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 9:
-                _f.sent();
+                _h.sent();
                 return [4 /*yield*/, api('task/UserTaskFinish', 'sceneval,taskid', { taskid: t.taskId })];
             case 10:
-                res = _f.sent();
+                res = _h.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 11:
-                _f.sent();
-                _f.label = 12;
+                _h.sent();
+                _h.label = 12;
             case 12:
-                _b++;
+                _d++;
                 return [3 /*break*/, 7];
             case 13: return [4 /*yield*/, api('active/LuckyTwistUserInfo', 'sceneval', {})];
             case 14:
-                res = _f.sent();
+                res = _h.sent();
                 surplusTimes = res.data.surplusTimes;
                 console.log('剩余抽奖次数', surplusTimes);
                 j = 0;
-                _f.label = 15;
+                _h.label = 15;
             case 15:
                 if (!(j < surplusTimes && coin >= 10)) return [3 /*break*/, 19];
                 return [4 /*yield*/, api('active/LuckyTwistDraw', 'active,activedesc,sceneval', { active: 'rwjs_fk1111', activedesc: encodeURIComponent('幸运扭蛋机抽奖') })];
             case 16:
-                res = _f.sent();
+                res = _h.sent();
                 console.log('抽奖成功', JSON.stringify(res));
                 coin -= 10;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 17:
-                _f.sent();
-                _f.label = 18;
+                _h.sent();
+                _h.label = 18;
             case 18:
                 j++;
                 return [3 /*break*/, 15];
             case 19: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 20:
-                _f.sent();
-                _f.label = 21;
+                _h.sent();
+                _h.label = 21;
             case 21:
                 i++;
                 return [3 /*break*/, 2];
@@ -153,27 +159,27 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [
                 console.log('内部助力', shareCodeSelf);
                 shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
                 i = 0;
-                _f.label = 23;
+                _h.label = 23;
             case 23:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 29];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                _d = 0, shareCode_1 = shareCode;
-                _f.label = 24;
+                _f = 0, shareCode_1 = shareCode;
+                _h.label = 24;
             case 24:
-                if (!(_d < shareCode_1.length)) return [3 /*break*/, 28];
-                code = shareCode_1[_d];
+                if (!(_f < shareCode_1.length)) return [3 /*break*/, 28];
+                code = shareCode_1[_f];
                 console.log(UserName + " \u53BB\u52A9\u529B " + code);
                 return [4 /*yield*/, api('sign/helpSign', 'flag,sceneval,token', { flag: 0, token: code })];
             case 25:
-                res = _f.sent();
+                res = _h.sent();
                 console.log('助力结果', JSON.stringify(res));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 26:
-                _f.sent();
-                _f.label = 27;
+                _h.sent();
+                _h.label = 27;
             case 27:
-                _d++;
+                _f++;
                 return [3 /*break*/, 24];
             case 28:
                 i++;

@@ -50,11 +50,11 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index;
 var shareCodes = [], shareCodesSelf = [];
 var shareCodesHW = [
-    '8fa2f89e-39a0-4023-b902-74376f1ac5b4',
-    'ca02cf34-1b5b-4da1-9852-8945a8cc0231',
-    '5b222457-2b63-4702-8579-909ba1a0a6de',
-    '61b17229-85e9-45d4-a399-62a251f8c59f',
-    'ed6801cc-b710-4eaf-a842-526755a907ec'
+    'b674113e-7a08-4dff-bb30-0717ddfabce1',
+    '7b811634-e0cb-4022-8434-76f077845531',
+    '3d2da5d4-488d-46c9-ab37-8bc800bb226c',
+    '278670a6-89da-4a7c-8665-4ff412a47a22',
+    '23f31f87-5b7b-4341-842d-654f592846de'
 ];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, j, ret, score, j, i, _i, shareCodes_1, code;
@@ -128,6 +128,7 @@ var shareCodesHW = [
                 i++;
                 return [3 /*break*/, 3];
             case 18:
+                console.log('内部助力', shareCodesSelf);
                 shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
                 i = 0;
                 _a.label = 19;

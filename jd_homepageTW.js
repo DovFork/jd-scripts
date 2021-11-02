@@ -55,7 +55,7 @@ var cookie = '', res = '', UserName, index, uuid;
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
 var activityId, encryptProjectId, inviteTaskId;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _i, _a, t, i, _b, shareCode_1, code;
+    var cookiesArr, i, e_1, _i, _a, t, i, _b, shareCode_1, code;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -64,117 +64,146 @@ var activityId, encryptProjectId, inviteTaskId;
                 i = 0;
                 _c.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 11];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 17];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                 uuid = (0, TS_USER_AGENTS_1.randomString)(40);
-                return [4 /*yield*/, api('showSecondFloorCardInfo', { "source": "card" })];
+                _c.label = 3;
             case 3:
-                res = _c.sent();
-                activityId = res.data.result.activityBaseInfo.activityId, encryptProjectId = res.data.result.activityBaseInfo.encryptProjectId;
-                console.log(activityId);
-                return [4 /*yield*/, api('superBrandTaskList', { "source": "card", "activityId": activityId, "assistInfoFlag": 1 })];
+                _c.trys.push([3, 5, , 6]);
+                return [4 /*yield*/, api('showSecondFloorCardInfo', { "source": "card" })];
             case 4:
                 res = _c.sent();
-                _i = 0, _a = res.data.result.taskList;
-                _c.label = 5;
+                activityId = res.data.result.activityBaseInfo.activityId;
+                encryptProjectId = res.data.result.activityBaseInfo.encryptProjectId;
+                return [3 /*break*/, 6];
             case 5:
-                if (!(_i < _a.length)) return [3 /*break*/, 8];
+                e_1 = _c.sent();
+                console.log(e_1);
+                return [3 /*break*/, 16];
+            case 6: return [4 /*yield*/, api('superBrandTaskList', { "source": "card", "activityId": activityId, "assistInfoFlag": 1 })];
+            case 7:
+                res = _c.sent();
+                _i = 0, _a = res.data.result.taskList;
+                _c.label = 8;
+            case 8:
+                if (!(_i < _a.length)) return [3 /*break*/, 14];
                 t = _a[_i];
-                if (!!t.completionFlag) return [3 /*break*/, 7];
-                if (!(t.assignmentName === '邀请好友')) return [3 /*break*/, 7];
+                if (!!t.completionFlag) return [3 /*break*/, 13];
+                if (!(t.assignmentName !== '邀请好友' && t.assignmentName !== '去首页限时下拉')) return [3 /*break*/, 11];
+                console.log(t.assignmentName);
+                return [4 /*yield*/, api('superBrandDoTask', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId, "encryptAssignmentId": t.encryptAssignmentId, "assignmentType": 1, "itemId": t.ext.shoppingActivity[0].itemId, "actionType": 0 })];
+            case 9:
+                res = _c.sent();
+                if (res.data.bizCode === '0') {
+                    console.log('任务完成', res.data.result.rewards[1].beanNum);
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 10:
+                _c.sent();
+                _c.label = 11;
+            case 11:
+                if (!(t.assignmentName === '邀请好友')) return [3 /*break*/, 13];
                 inviteTaskId = t.encryptAssignmentId;
                 console.log('助力码', t.ext.assistTaskDetail.itemId);
                 shareCodeSelf.push(t.ext.assistTaskDetail.itemId);
                 return [4 /*yield*/, api('superBrandMyVoteFriendList', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId, "encryptAssignmentId": t.encryptAssignmentId, "assistInfoFlag": 1 })];
-            case 6:
+            case 12:
                 res = _c.sent();
                 console.log('收到助力', res.data.result.friendList.length, '/', 30);
-                _c.label = 7;
-            case 7:
-                _i++;
-                return [3 /*break*/, 5];
-            case 8: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 9:
-                _c.sent();
-                _c.label = 10;
-            case 10:
-                i++;
-                return [3 /*break*/, 2];
-            case 11:
-                console.log('内部助力', shareCodeSelf);
-                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 13];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tw')];
-            case 12:
-                shareCodeHW = _c.sent();
                 _c.label = 13;
             case 13:
+                _i++;
+                return [3 /*break*/, 8];
+            case 14: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 15:
+                _c.sent();
+                _c.label = 16;
+            case 16:
+                i++;
+                return [3 /*break*/, 2];
+            case 17:
+                console.log('内部助力', shareCodeSelf);
+                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 19];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tw')];
+            case 18:
+                shareCodeHW = _c.sent();
+                _c.label = 19;
+            case 19:
                 shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
                 i = 0;
-                _c.label = 14;
-            case 14:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 25];
+                _c.label = 20;
+            case 20:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 31];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 _b = 0, shareCode_1 = shareCode;
-                _c.label = 15;
-            case 15:
-                if (!(_b < shareCode_1.length)) return [3 /*break*/, 24];
+                _c.label = 21;
+            case 21:
+                if (!(_b < shareCode_1.length)) return [3 /*break*/, 30];
                 code = shareCode_1[_b];
                 console.log("\u8D26\u53F7 " + UserName + " \u53BB\u52A9\u529B " + code);
                 return [4 /*yield*/, api('superBrandDoTask', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId, "encryptAssignmentId": inviteTaskId, "assignmentType": 2, "itemId": code, "actionType": 0 })];
-            case 16:
+            case 22:
                 res = _c.sent();
-                if (!(res.data.bizCode === '0')) return [3 /*break*/, 17];
+                if (!(res.data.bizCode === '0')) return [3 /*break*/, 23];
                 console.log('成功');
-                return [3 /*break*/, 21];
-            case 17:
-                if (!(res.data.bizCode === '104')) return [3 /*break*/, 18];
+                return [3 /*break*/, 27];
+            case 23:
+                if (!(res.data.bizCode === '104')) return [3 /*break*/, 24];
                 console.log('已助力过');
-                return [3 /*break*/, 21];
-            case 18:
-                if (!(res.data.bizCode === '109')) return [3 /*break*/, 19];
+                return [3 /*break*/, 27];
+            case 24:
+                if (!(res.data.bizCode === '109')) return [3 /*break*/, 25];
                 console.log('不能自己给自己助力');
-                return [3 /*break*/, 21];
-            case 19:
+                return [3 /*break*/, 27];
+            case 25:
                 console.log('助力失败', res.data.bizMsg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 20:
+            case 26:
                 _c.sent();
-                return [3 /*break*/, 24];
-            case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 22:
+                return [3 /*break*/, 30];
+            case 27: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 28:
                 _c.sent();
-                _c.label = 23;
-            case 23:
+                _c.label = 29;
+            case 29:
                 _b++;
-                return [3 /*break*/, 15];
-            case 24:
+                return [3 /*break*/, 21];
+            case 30:
                 i++;
-                return [3 /*break*/, 14];
-            case 25: return [2 /*return*/];
+                return [3 /*break*/, 20];
+            case 31: return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
+        var data, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/?uuid=" + uuid + "&client=wh5&appid=ProductZ4Brand&functionId=" + fn + "&t=" + +new Date() + "&body=" + encodeURIComponent(JSON.stringify(body)), '', {
-                        headers: {
-                            'Host': 'api.m.jd.com',
-                            'Origin': 'https://prodev.m.jd.com',
-                            'User-Agent': TS_USER_AGENTS_1["default"],
-                            'Referer': 'https://prodev.m.jd.com/mall/active/ZskuZGqQMZ2j6L99PM1L8jg2F2a/index.html',
-                            'Cookie': cookie
-                        }
-                    })];
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/?uuid=" + uuid + "&client=wh5&appid=ProductZ4Brand&functionId=" + fn + "&t=" + +new Date() + "&body=" + encodeURIComponent(JSON.stringify(body)), '', {
+                            headers: {
+                                'Host': 'api.m.jd.com',
+                                'Origin': 'https://prodev.m.jd.com',
+                                'User-Agent': TS_USER_AGENTS_1["default"],
+                                'Referer': 'https://prodev.m.jd.com/mall/active/ZskuZGqQMZ2j6L99PM1L8jg2F2a/index.html',
+                                'Cookie': cookie
+                            }
+                        })];
                 case 1:
                     data = (_a.sent()).data;
                     return [2 /*return*/, data];
+                case 2:
+                    e_2 = _a.sent();
+                    console.log('Error');
+                    (0, TS_USER_AGENTS_1.o2s)(e_2);
+                    return [2 /*return*/, ''];
+                case 3: return [2 /*return*/];
             }
         });
     });

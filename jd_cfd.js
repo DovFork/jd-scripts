@@ -965,40 +965,42 @@ function task() {
 }
 function makeShareCodes() {
     return __awaiter(this, void 0, void 0, function () {
-        var pin, data, e_3;
+        var bean, farm, pin, data, e_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strShareId,strVersion,strZone', {
-                        ddwTaskId: '',
-                        strShareId: '',
-                        strMarkList: 'undefined',
-                        strPgUUNum: token.strPgUUNum,
-                        strPgtimestamp: token.strPgtimestamp,
-                        strPhoneID: token.strPhoneID,
-                        strVersion: '1.0.1'
-                    })];
+                case 0:
+                    _a.trys.push([0, 5, , 6]);
+                    return [4 /*yield*/, api('user/QueryUserInfo', '_cfd_t,bizCode,ddwTaskId,dwEnv,ptag,source,strPgUUNum,strPgtimestamp,strPhoneID,strShareId,strVersion,strZone', {
+                            ddwTaskId: '',
+                            strShareId: '',
+                            strMarkList: 'undefined',
+                            strPgUUNum: token.strPgUUNum,
+                            strPgtimestamp: token.strPgtimestamp,
+                            strPhoneID: token.strPhoneID,
+                            strVersion: '1.0.1'
+                        })];
                 case 1:
                     res = _a.sent();
                     console.log('助力码:', res.strMyShareId);
                     shareCodesSelf.push(res.strMyShareId);
-                    pin = cookie.match(/pt_pin=([^;]*)/)[1];
-                    pin = ts_md5_1.Md5.hashStr(pin);
-                    _a.label = 2;
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.getBeanShareCode)(cookie)];
                 case 2:
-                    _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&pin=" + pin, { timeout: 10000 })];
+                    bean = _a.sent();
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.getFarmShareCode)(cookie)];
                 case 3:
-                    data = (_a.sent()).data;
-                    if (data.code === 200)
-                        console.log('已自动提交助力码');
-                    else
-                        console.log('提交失败！');
-                    return [3 /*break*/, 5];
+                    farm = _a.sent();
+                    pin = ts_md5_1.Md5.hashStr(cookie.match(/pt_pin=([^;]*)/)[1]);
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin)];
                 case 4:
+                    data = (_a.sent()).data;
+                    console.log(data.message);
+                    return [3 /*break*/, 6];
+                case 5:
                     e_3 = _a.sent();
-                    console.log('自动提交助力码出错');
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+                    console.log('自动提交失败');
+                    console.log(e_3);
+                    return [3 /*break*/, 6];
+                case 6: return [2 /*return*/];
             }
         });
     });

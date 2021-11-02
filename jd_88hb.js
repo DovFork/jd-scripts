@@ -288,30 +288,26 @@ function makeShareCodes(code) {
         var bean, farm, pin, data, e_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getBeanShareCode)(cookie)];
+                case 0:
+                    _a.trys.push([0, 4, , 5]);
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.getBeanShareCode)(cookie)];
                 case 1:
                     bean = _a.sent();
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.getFarmShareCode)(cookie)];
                 case 2:
                     farm = _a.sent();
-                    pin = cookie.match(/pt_pin=([^;]*)/)[1];
-                    pin = ts_md5_1.Md5.hashStr(pin);
-                    _a.label = 3;
+                    pin = ts_md5_1.Md5.hashStr(cookie.match(/pt_pin=([^;]*)/)[1]);
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/hb88?sharecode=" + code + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin)];
                 case 3:
-                    _a.trys.push([3, 5, , 6]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/hb88?sharecode=" + code + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin, { timeout: 10000 })];
-                case 4:
                     data = (_a.sent()).data;
-                    if (data.code === 200)
-                        console.log('自动提交助力码成功');
-                    else
-                        console.log('自动提交助力码失败！已提交farm的cookie才可提交88hb');
-                    return [3 /*break*/, 6];
-                case 5:
+                    console.log(data.message);
+                    return [3 /*break*/, 5];
+                case 4:
                     e_4 = _a.sent();
-                    console.log('自动提交助力码出错');
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    console.log('自动提交失败');
+                    console.log(e_4);
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
         });
     });

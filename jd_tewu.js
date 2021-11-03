@@ -123,7 +123,7 @@ var activityId, encryptProjectId, inviteTaskId;
                 sign2 = _c[_b];
                 console.log(sign2.beginTime, sign2.status);
                 beginClock = new Date("2021-01-01 " + sign2.beginTime).getHours();
-                if (!(new Date().getHours() === beginClock && sign2.status === 0)) return [3 /*break*/, 17];
+                if (!(new Date().getHours() === beginClock && sign2.status === 1)) return [3 /*break*/, 17];
                 console.log('开始下拉任务');
                 return [4 /*yield*/, api('superBrandDoTask', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId, "encryptAssignmentId": t.encryptAssignmentId, "assignmentType": 5, "itemId": sign2.itemId, "actionType": 0, "dropDownChannel": 1 })];
             case 16:

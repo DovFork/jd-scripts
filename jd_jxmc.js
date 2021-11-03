@@ -120,16 +120,16 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 else {
                     return [3 /*break*/, 101];
                 }
-                food = 0;
+                food = void 0, petid = void 0, coins = void 0;
                 try {
                     food = homePageInfo.data.materialinfo[0].value;
+                    petid = homePageInfo.data.petinfo[0].petid;
+                    coins = homePageInfo.data.coins;
                 }
                 catch (e) {
-                    console.log('未开通？黑号？');
+                    console.log('初始化出错，手动去app');
                     return [3 /*break*/, 101];
                 }
-                petid = homePageInfo.data.petinfo[0].petid;
-                coins = homePageInfo.data.coins;
                 console.log('助力码:', homePageInfo.data.sharekey);
                 shareCodesSelf.push(homePageInfo.data.sharekey);
                 _k.label = 12;

@@ -58,7 +58,7 @@ var sendNotify_1 = require("../sendNotify");
                 res = _a.sent();
                 file = res.match(/h=n\(\d+\),v="([^"]*)/)[1];
                 console.log('invokeKey:', file);
-                if (!(file !== 'JL1VTNRadM68cIMQ')) return [3 /*break*/, 5];
+                if (!(file !== 'q8DNJdpcfRQ69gIx')) return [3 /*break*/, 5];
                 return [4 /*yield*/, (0, sendNotify_1.sendNotify)('invokeKey Update', file)];
             case 4:
                 _a.sent();

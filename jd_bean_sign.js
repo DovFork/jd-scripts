@@ -82,6 +82,7 @@ function main() {
                 case 9:
                     if (data.indexOf('京东多合一签到脚本') > -1) {
                         data = data.replace('var OtherKey = ``;', "var OtherKey = `" + JSON.stringify(cookiesNobyDa) + "`;");
+                        data = data.replace(/ztmFUCxcPMNyUq0P/g, 'q8DNJdpcfRQ69gIx');
                         (0, fs_1.writeFileSync)('./sign.js', data, 'utf-8');
                         (0, child_process_1.execSync)('node ./sign.js >> ./sign.log');
                         data = (0, fs_1.readFileSync)('./sign.log', 'utf-8');

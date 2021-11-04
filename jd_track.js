@@ -94,6 +94,7 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                             message += title + "\n" + t + "  " + status_1 + "\n\n";
                         }
                         orders[orderId] = {
+                            user: UserName,
                             title: title,
                             t: t,
                             status: status_1

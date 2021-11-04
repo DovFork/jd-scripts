@@ -892,8 +892,15 @@ function api(fn, stk, params, taskPosition) {
                         })];
                 case 1:
                     data = (_a.sent()).data;
-                    if (typeof data === 'string')
-                        return [2 /*return*/, JSON.parse(data.replace(/\n/g, '').match(/jsonpCBK.?\(([^)]*)/)[1])];
+                    if (typeof data === 'string') {
+                        try {
+                            return [2 /*return*/, JSON.parse(data.replace(/\n/g, '').match(/jsonpCBK.?\(([^)]*)/)[1])];
+                        }
+                        catch (e) {
+                            console.log(data);
+                            return [2 /*return*/, ''];
+                        }
+                    }
                     else
                         return [2 /*return*/, data];
                     return [2 /*return*/];

@@ -57,6 +57,14 @@ var date_fns_1 = require("date-fns");
 var token = require('./utils/jd_jxmc.js').token;
 var cookie = '', res = '', UserName, index, UA = '';
 var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], jxToken;
+var HW_Priority = true;
+/**
+ * CK1助力顺序
+ * HW_Priority: boolean
+ * true  HW.ts -> 内部
+ * false 内部   -> HW.ts
+ */
+process.env.HW_Priority === 'false' ? HW_Priority = false : '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, strUserPin, dwHelpedTimes, i, _i, shareCodes_1, code, i, strUserPin, dwHelpedTimes, _a, _b, t;
     var _c;
@@ -117,7 +125,12 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], jxToken;
                 shareCodesHW = _d.sent();
                 _d.label = 14;
             case 14:
-                shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
+                if (i === 0 && HW_Priority) {
+                    shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
+                }
+                else {
+                    shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
+                }
                 _i = 0, shareCodes_1 = shareCodes;
                 _d.label = 15;
             case 15:

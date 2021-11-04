@@ -43,19 +43,22 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var fs_1 = require("fs");
 var child_process_1 = require("child_process");
-var sendNotify_1 = require("./sendNotify");
-var server = '', message = '';
+var sendNotify = require('./sendNotify').sendNotify;
+var server = '', message = '', taskName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var auth, bearer, netstat, port, taskName, cron, task;
+    var auth, bearer, netstat, port, cron, task;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                if (!(process.env.HOSTNAME === 'qinglong')) return [3 /*break*/, 5];
                 auth = JSON.parse((0, fs_1.readFileSync)(process.env.QL_DIR + "/config/auth.json").toString());
                 bearer = auth.token;
                 netstat = (0, child_process_1.execSync)("netstat -tnlp").toString();
                 port = netstat.match(/.*0\.0\.0\.0:(\d+).*nginx\.conf/)[1];
                 server = "127.0.0.1:" + port;
-                taskName = "jd_bean_box.ts", cron = '1 0,9,18,22 * * *';
+                // 新cron
+                taskName = "jd_joy_new.js";
+                cron = '0 0-23/2 * * *';
                 return [4 /*yield*/, get(taskName, bearer)];
             case 1:
                 task = _a.sent();
@@ -71,7 +74,11 @@ var server = '', message = '';
             case 3:
                 console.log('cron相同，忽略更新');
                 _a.label = 4;
-            case 4: return [2 /*return*/];
+            case 4: return [3 /*break*/, 6];
+            case 5:
+                console.log('NOT 🐉');
+                _a.label = 6;
+            case 6: return [2 /*return*/];
         }
     });
 }); })();
@@ -93,7 +100,7 @@ function set(task, bearer, cron) {
                     data = (_a.sent()).data;
                     if (!(data.code === 200)) return [3 /*break*/, 3];
                     console.log(task.name + "\u7684cron\u66F4\u65B0\u6210\u529F");
-                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('强制更新cron', message)];
+                    return [4 /*yield*/, sendNotify(taskName, message)];
                 case 2:
                     _a.sent();
                     return [3 /*break*/, 4];

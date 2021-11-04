@@ -95,8 +95,7 @@ var activityId, encryptProjectId, inviteTaskId;
                 return [4 /*yield*/, api('superBrandTaskLottery', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId, "tag": "divide" })];
             case 7:
                 res = _g.sent();
-                console.log('瓜分');
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                console.log('瓜分', res.data.result.rewards[0].beanNum);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 8:
                 _g.sent();

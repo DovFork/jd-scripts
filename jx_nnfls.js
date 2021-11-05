@@ -55,152 +55,145 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', UserName, index, res = '';
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, coin, tasks, _i, _a, t, _b, _c, t, _d, _e, t, surplusTimes, j, i, _f, shareCode_1, code;
-    return __generator(this, function (_g) {
-        switch (_g.label) {
+    var cookiesArr, i, coin, _i, _a, t, surplusTimes, j, i, _b, shareCode_1, code;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _g.sent();
+                cookiesArr = _c.sent();
                 i = 0;
-                _g.label = 2;
+                _c.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 25];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 20];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
                 return [4 /*yield*/, api('sign/UserSignNew', 'sceneval,source', { source: '' })];
             case 3:
-                res = _g.sent();
-                console.log('签到', JSON.stringify(res));
+                res = _c.sent();
+                console.log('签到');
                 console.log('助力码', res.data.token);
                 shareCodeSelf.push(res.data.token);
                 coin = res.data.pgAmountTotal;
                 console.log('金币', coin);
-                return [4 /*yield*/, api('task/QueryUserTask', 'sceneval,taskType', { taskType: 0 })];
-            case 4:
-                res = _g.sent();
-                tasks = [];
-                if (!res.datas) return [3 /*break*/, 5];
-                for (_i = 0, _a = res.datas; _i < _a.length; _i++) {
-                    t = _a[_i];
-                    if (t.state !== 2)
-                        tasks.push(t.taskid);
-                }
-                return [3 /*break*/, 7];
-            case 5: return [4 /*yield*/, api('task/QueryPgTaskCfg', 'sceneval', {})];
-            case 6:
-                res = _g.sent();
-                if (tasks.length === 0) {
-                    for (_b = 0, _c = res.data.tasks; _b < _c.length; _b++) {
-                        t = _c[_b];
-                        tasks.push(t.taskid);
-                    }
-                }
-                _g.label = 7;
-            case 7:
-                console.log('tasks:', tasks);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 8:
-                _g.sent();
                 return [4 /*yield*/, api('task/QueryPgTaskCfg', 'sceneval', {})];
-            case 9:
-                res = _g.sent();
-                _d = 0, _e = res.data.tasks;
-                _g.label = 10;
-            case 10:
-                if (!(_d < _e.length)) return [3 /*break*/, 16];
-                t = _e[_d];
-                if (!tasks.includes(t.taskId)) return [3 /*break*/, 15];
+            case 4:
+                /*
+                res = await api('task/QueryUserTask', 'sceneval,taskType', {taskType: 0})
+                let tasks: number[] = []
+                if (res.datas) {
+                  for (let t of res.datas) {
+                    if (t.state !== 2)
+                      tasks.push(t.taskid)
+                  }
+                } else {
+                  res = await api('task/QueryPgTaskCfg', 'sceneval', {})
+                  if (tasks.length === 0) {
+                    for (let t of res.data.tasks) {
+                      tasks.push(t.taskid)
+                    }
+                  }
+                }
+                console.log('tasks:', tasks)
+                await wait(2000)
+                 */
+                res = _c.sent();
+                _i = 0, _a = res.data.tasks;
+                _c.label = 5;
+            case 5:
+                if (!(_i < _a.length)) return [3 /*break*/, 11];
+                t = _a[_i];
+                if (!(t.taskState === 1)) return [3 /*break*/, 10];
                 console.log(t.taskName);
                 return [4 /*yield*/, api('task/drawUserTask', 'sceneval,taskid', { taskid: t.taskId })];
-            case 11:
-                res = _g.sent();
+            case 6:
+                res = _c.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 12:
-                _g.sent();
+            case 7:
+                _c.sent();
                 return [4 /*yield*/, api('task/UserTaskFinish', 'sceneval,taskid', { taskid: t.taskId })];
-            case 13:
-                res = _g.sent();
+            case 8:
+                res = _c.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 14:
-                _g.sent();
-                _g.label = 15;
-            case 15:
-                _d++;
-                return [3 /*break*/, 10];
-            case 16: return [4 /*yield*/, api('active/LuckyTwistUserInfo', 'sceneval', {})];
-            case 17:
-                res = _g.sent();
+            case 9:
+                _c.sent();
+                _c.label = 10;
+            case 10:
+                _i++;
+                return [3 /*break*/, 5];
+            case 11: return [4 /*yield*/, api('active/LuckyTwistUserInfo', 'sceneval', {})];
+            case 12:
+                res = _c.sent();
                 surplusTimes = res.data.surplusTimes;
                 console.log('剩余抽奖次数', surplusTimes);
                 j = 0;
-                _g.label = 18;
-            case 18:
-                if (!(j < surplusTimes && coin >= 10)) return [3 /*break*/, 22];
+                _c.label = 13;
+            case 13:
+                if (!(j < surplusTimes && coin >= 10)) return [3 /*break*/, 17];
                 return [4 /*yield*/, api('active/LuckyTwistDraw', 'active,activedesc,sceneval', { active: 'rwjs_fk1111', activedesc: encodeURIComponent('幸运扭蛋机抽奖') })];
-            case 19:
-                res = _g.sent();
+            case 14:
+                res = _c.sent();
                 console.log('抽奖成功', res.data.prize[0].prizename);
                 coin -= 10;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 20:
-                _g.sent();
-                _g.label = 21;
-            case 21:
+            case 15:
+                _c.sent();
+                _c.label = 16;
+            case 16:
                 j++;
-                return [3 /*break*/, 18];
-            case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 23:
-                _g.sent();
-                _g.label = 24;
-            case 24:
+                return [3 /*break*/, 13];
+            case 17: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 18:
+                _c.sent();
+                _c.label = 19;
+            case 19:
                 i++;
                 return [3 /*break*/, 2];
-            case 25:
+            case 20:
                 console.log('内部助力', shareCodeSelf);
                 i = 0;
-                _g.label = 26;
-            case 26:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 36];
-                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 28];
+                _c.label = 21;
+            case 21:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 31];
+                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 23];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('nnfls')];
-            case 27:
-                shareCodeHW = _g.sent();
-                _g.label = 28;
-            case 28:
+            case 22:
+                shareCodeHW = _c.sent();
+                _c.label = 23;
+            case 23:
                 shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                _f = 0, shareCode_1 = shareCode;
-                _g.label = 29;
-            case 29:
-                if (!(_f < shareCode_1.length)) return [3 /*break*/, 35];
-                code = shareCode_1[_f];
+                _b = 0, shareCode_1 = shareCode;
+                _c.label = 24;
+            case 24:
+                if (!(_b < shareCode_1.length)) return [3 /*break*/, 30];
+                code = shareCode_1[_b];
                 console.log(UserName + " \u53BB\u52A9\u529B " + code);
                 return [4 /*yield*/, api('sign/helpSign', 'flag,sceneval,token', { flag: 0, token: code })];
-            case 30:
-                res = _g.sent();
+            case 25:
+                res = _c.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 31:
-                _g.sent();
+            case 26:
+                _c.sent();
                 return [4 /*yield*/, api('sign/helpSign', 'flag,sceneval,token', { flag: 1, token: code })];
-            case 32:
-                res = _g.sent();
+            case 27:
+                res = _c.sent();
                 console.log('助力结果', res.errMsg);
                 if (res.errMsg === 'help day limit')
-                    return [3 /*break*/, 35];
+                    return [3 /*break*/, 30];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 33:
-                _g.sent();
-                _g.label = 34;
-            case 34:
-                _f++;
-                return [3 /*break*/, 29];
-            case 35:
+            case 28:
+                _c.sent();
+                _c.label = 29;
+            case 29:
+                _b++;
+                return [3 /*break*/, 24];
+            case 30:
                 i++;
-                return [3 /*break*/, 26];
-            case 36: return [2 /*return*/];
+                return [3 /*break*/, 21];
+            case 31: return [2 /*return*/];
         }
     });
 }); })();

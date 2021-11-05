@@ -815,7 +815,6 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 return [4 /*yield*/, axi.get("https://api.jdsharecode.xyz/api/jxcfd/30", { timeout: 10000 })];
             case 163:
                 data = (_2.sent()).data;
-                console.log('获取到30个随机助力码:', data.data);
                 shareCodes = __spreadArray(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true), data.data, true);
                 return [3 /*break*/, 165];
             case 164:
@@ -836,8 +835,12 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 if (res.iRet === 0) {
                     console.log('助力成功:', res.Data.GuestPrizeInfo.strPrizeName);
                 }
-                else if (res.iRet === 2190) {
+                else if (res.iRet === 2235) {
                     console.log('上限');
+                    return [3 /*break*/, 170];
+                }
+                else if (res.iRet === 1023) {
+                    console.log('信号弱');
                     return [3 /*break*/, 170];
                 }
                 else if (res.iRet === 2191) {

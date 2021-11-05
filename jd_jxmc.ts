@@ -9,7 +9,6 @@ import * as path from 'path'
 import {sendNotify} from './sendNotify'
 import {requireConfig, getBeanShareCode, getFarmShareCode, wait, requestAlgo, h5st, exceptCookie, resetHosts, randomString, o2s} from './TS_USER_AGENTS'
 
-const cow = require('./utils/jd_jxmc.js').cow
 const token = require('./utils/jd_jxmc.js').token
 
 let cookie: string = '', res: any = '', shareCodes: string[] = [], homePageInfo: any, jxToken: any, UserName: string, index: number
@@ -55,10 +54,10 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
       continue
     }
 
-    let food: number,petid: string, coins:number
+    let food: number, petid: string, coins: number
     try {
       food = homePageInfo.data.materialinfo[0].value
-      petid=homePageInfo.data.petinfo[0].petid
+      petid = homePageInfo.data.petinfo[0].petid
       coins = homePageInfo.data.coins
     } catch (e: any) {
       console.log('初始化出错，手动去app')
@@ -137,8 +136,9 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
         console.log(`card ${card.cardtype}`, card.currnum, '/', card.neednum)
         if (card.currnum >= card.neednum) {
           console.log('可以兑换')
-          // TODO 兑换卡片
-          await sendNotify('牧场卡片可兑换', UserName)
+          res = await api('operservice/Combine', 'activeid,activekey,cardtype,channel,jxmc_jstoken,phoneid,sceneid,timestamp', {cardtype: card.cardtype})
+          res.ret === 0 ? console.log('兑换成功') : ''
+          await wait(2000)
         }
       }
     } catch (e) {
@@ -152,16 +152,6 @@ let shareCodesHbSelf: string[] = [], shareCodesHbHw: string[] = [], shareCodesSe
       await makeShareCodesHb(res.data.sharekey)
     } catch (e: any) {
     }
-
-    // 收牛牛
-    let cowToken = await cow(lastgettime)
-    console.log(cowToken)
-    res = await api('operservice/GetCoin', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,token', {token: cowToken})
-    if (res.ret === 0)
-      console.log('收牛牛:', res.data.addcoin)
-    else
-      console.log('收牛牛:', res)
-    await wait(1000)
 
     // 签到
     res = await api('queryservice/GetSignInfo', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')
@@ -356,6 +346,7 @@ interface Params {
   jxpp_wxapp_type?: number,
   dateType?: string,
   step?: string,
+  cardtype?: number,
 }
 
 async function getTask() {

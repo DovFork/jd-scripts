@@ -54,8 +54,9 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index, uuid;
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
 var activityId, encryptProjectId, inviteTaskId;
+var message = '', sendNotify = require('./sendNotify').sendNotify;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _i, _a, card, e_1, activityCardInfo, _b, _c, t, _d, _e, sign2, beginClock, i, _f, shareCode_1, code;
+    var cookiesArr, i, _i, _a, card, e_1, activityCardInfo, _b, _c, t, _d, _e, sign2, beginClock, j, i, _f, shareCode_1, code;
     return __generator(this, function (_g) {
         switch (_g.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -64,7 +65,7 @@ var activityId, encryptProjectId, inviteTaskId;
                 i = 0;
                 _g.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 36];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 30];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -88,7 +89,7 @@ var activityId, encryptProjectId, inviteTaskId;
             case 5:
                 e_1 = _g.sent();
                 console.log(e_1);
-                return [3 /*break*/, 35];
+                return [3 /*break*/, 29];
             case 6:
                 activityCardInfo = res.data.result.activityCardInfo;
                 if (!(activityCardInfo.divideTimeStatus === 1 && activityCardInfo.divideStatus === 0 && activityCardInfo.cardStatus === 1)) return [3 /*break*/, 9];
@@ -96,6 +97,7 @@ var activityId, encryptProjectId, inviteTaskId;
             case 7:
                 res = _g.sent();
                 console.log('瓜分', res.data.result.rewards[0].beanNum);
+                message += "\u8D26\u53F7" + index + "  " + UserName + "\n" + res.data.result.rewards[0].beanNum + "\n\n";
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 8:
                 _g.sent();
@@ -106,9 +108,9 @@ var activityId, encryptProjectId, inviteTaskId;
                 _b = 0, _c = res.data.result.taskList || [];
                 _g.label = 11;
             case 11:
-                if (!(_b < _c.length)) return [3 /*break*/, 33];
+                if (!(_b < _c.length)) return [3 /*break*/, 27];
                 t = _c[_b];
-                if (!!t.completionFlag) return [3 /*break*/, 22];
+                if (!!t.completionFlag) return [3 /*break*/, 26];
                 if (!(t.assignmentType === 1)) return [3 /*break*/, 14];
                 return [4 /*yield*/, api('superBrandDoTask', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId, "encryptAssignmentId": t.encryptAssignmentId, "assignmentType": 1, "itemId": t.ext.shoppingActivity[0].itemId, "actionType": 0 })];
             case 12:
@@ -150,111 +152,96 @@ var activityId, encryptProjectId, inviteTaskId;
                 return [3 /*break*/, 18];
             case 21:
                 if (t.assignmentType === 7) {
-                    console.log('开卡？');
+                    console.log('开卡  pass');
                 }
-                _g.label = 22;
-            case 22:
-                if (!(t.assignmentName === '邀请好友')) return [3 /*break*/, 32];
+                if (!(t.assignmentName === '邀请好友')) return [3 /*break*/, 26];
                 inviteTaskId = t.encryptAssignmentId;
                 console.log('助力码', t.ext.assistTaskDetail.itemId);
                 shareCodeSelf.push(t.ext.assistTaskDetail.itemId);
-                return [4 /*yield*/, api('superBrandMyVoteFriendList', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId, "encryptAssignmentId": t.encryptAssignmentId, "assistInfoFlag": 1 })];
+                console.log('收到助力', t.completionCnt, '/', 30);
+                j = 0;
+                _g.label = 22;
+            case 22:
+                if (!(j < t.cardAssistBoxRest)) return [3 /*break*/, 26];
+                return [4 /*yield*/, api('superBrandTaskLottery', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId })];
             case 23:
                 res = _g.sent();
-                console.log('收到助力', t.completionCnt, '/', 30);
-                if (!(t.completionCnt >= 10 && t.ext.cardAssistBoxOpen === 0)) return [3 /*break*/, 26];
-                return [4 /*yield*/, api('superBrandTaskLottery', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId })];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 24:
-                res = _g.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                _g.sent();
+                console.log('打开盒子', JSON.stringify(res));
+                _g.label = 25;
             case 25:
-                _g.sent();
-                console.log('打开成功 1号盒子');
-                t.ext.cardAssistBoxOpen++;
-                _g.label = 26;
+                j++;
+                return [3 /*break*/, 22];
             case 26:
-                if (!(t.completionCnt >= 20 && t.ext.cardAssistBoxOpen === 1)) return [3 /*break*/, 29];
-                return [4 /*yield*/, api('superBrandTaskLottery', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId })];
-            case 27:
-                res = _g.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 28:
-                _g.sent();
-                console.log('打开成功 2号盒子');
-                t.ext.cardAssistBoxOpen++;
-                _g.label = 29;
-            case 29:
-                if (!(t.completionCnt >= 30 && t.ext.cardAssistBoxOpen === 2)) return [3 /*break*/, 32];
-                return [4 /*yield*/, api('superBrandTaskLottery', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId })];
-            case 30:
-                res = _g.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 31:
-                _g.sent();
-                console.log('打开成功 3号盒子');
-                _g.label = 32;
-            case 32:
                 _b++;
                 return [3 /*break*/, 11];
-            case 33: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 34:
+            case 27: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 28:
                 _g.sent();
-                _g.label = 35;
-            case 35:
+                _g.label = 29;
+            case 29:
                 i++;
                 return [3 /*break*/, 2];
-            case 36:
+            case 30:
+                if (!message) return [3 /*break*/, 32];
+                return [4 /*yield*/, sendNotify("特物瓜分", message)];
+            case 31:
+                _g.sent();
+                _g.label = 32;
+            case 32:
                 console.log('内部助力', shareCodeSelf);
-                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 38];
+                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 34];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tw')];
-            case 37:
+            case 33:
                 shareCodeHW = _g.sent();
-                _g.label = 38;
-            case 38:
+                _g.label = 34;
+            case 34:
                 shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
                 i = 0;
-                _g.label = 39;
-            case 39:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 50];
+                _g.label = 35;
+            case 35:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 46];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 _f = 0, shareCode_1 = shareCode;
-                _g.label = 40;
-            case 40:
-                if (!(_f < shareCode_1.length)) return [3 /*break*/, 49];
+                _g.label = 36;
+            case 36:
+                if (!(_f < shareCode_1.length)) return [3 /*break*/, 45];
                 code = shareCode_1[_f];
                 console.log("\u8D26\u53F7 " + UserName + " \u53BB\u52A9\u529B " + code);
                 return [4 /*yield*/, api('superBrandDoTask', { "source": "card", "activityId": activityId, "encryptProjectId": encryptProjectId, "encryptAssignmentId": inviteTaskId, "assignmentType": 2, "itemId": code, "actionType": 0 })];
-            case 41:
+            case 37:
                 res = _g.sent();
-                if (!(res.data.bizCode === '0')) return [3 /*break*/, 42];
+                if (!(res.data.bizCode === '0')) return [3 /*break*/, 38];
                 console.log('成功');
-                return [3 /*break*/, 46];
-            case 42:
-                if (!(res.data.bizCode === '104')) return [3 /*break*/, 43];
+                return [3 /*break*/, 42];
+            case 38:
+                if (!(res.data.bizCode === '104')) return [3 /*break*/, 39];
                 console.log('已助力过');
-                return [3 /*break*/, 46];
-            case 43:
-                if (!(res.data.bizCode === '109')) return [3 /*break*/, 44];
+                return [3 /*break*/, 42];
+            case 39:
+                if (!(res.data.bizCode === '109')) return [3 /*break*/, 40];
                 console.log('不能自己给自己助力');
-                return [3 /*break*/, 46];
-            case 44:
+                return [3 /*break*/, 42];
+            case 40:
                 console.log('助力失败', res.data.bizMsg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 45:
+            case 41:
                 _g.sent();
-                _g.label = 46;
-            case 46: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 47:
+                _g.label = 42;
+            case 42: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 43:
                 _g.sent();
-                _g.label = 48;
-            case 48:
+                _g.label = 44;
+            case 44:
                 _f++;
-                return [3 /*break*/, 40];
-            case 49:
+                return [3 /*break*/, 36];
+            case 45:
                 i++;
-                return [3 /*break*/, 39];
-            case 50: return [2 /*return*/];
+                return [3 /*break*/, 35];
+            case 46: return [2 /*return*/];
         }
     });
 }); })();

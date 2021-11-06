@@ -193,14 +193,14 @@ function getShareCodes() {
                     data = (_a.sent()).data;
                     console.log("\u4ECE\u52A9\u529B\u6C60\u83B7\u53D6\u523030\u4E2A:" + JSON.stringify(data.data));
                     HELP_HW === 'true'
-                        ? shareCodes = __spreadArray(__spreadArray(__spreadArray([], shareCodesInternal, true), HW_CODE, true), data.data, true)
-                        : shareCodes = __spreadArray(__spreadArray([], shareCodesInternal, true), data.data, true);
+                        ? shareCodes = Array.from(new Set(__spreadArray(__spreadArray(__spreadArray([], shareCodesInternal, true), HW_CODE, true), data.data, true)))
+                        : shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesInternal, true), data.data, true)));
                     return [3 /*break*/, 3];
                 case 2:
                     e_2 = _a.sent();
                     HELP_HW === 'true'
-                        ? shareCodes = __spreadArray(__spreadArray([], shareCodesInternal, true), HW_CODE, true)
-                        : shareCodes = __spreadArray([], shareCodesInternal, true);
+                        ? shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesInternal, true), HW_CODE, true)))
+                        : shareCodes = Array.from(new Set(__spreadArray([], shareCodesInternal, true)));
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }

@@ -103,10 +103,11 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: code, type: 1 })];
             case 6:
                 res = _e.sent();
-                console.log('助力', JSON.stringify(res));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 7:
                 _e.sent();
+                if (res.autosign_sendhb !== '0' || res.todaysign === 1)
+                    return [3 /*break*/, 9];
                 _e.label = 8;
             case 8:
                 _i++;

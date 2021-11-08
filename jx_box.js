@@ -64,7 +64,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = ['aae98a3e3b04d3ac430ee9ee
 var HW_Priority = true;
 process.env.HW_Priority === 'false' ? HW_Priority = false : '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _i, shareCode_1, code, except, i, rili, _a, _b, t, _c, _d, t, e_1;
+    var cookiesArr, i, _i, shareCode_1, code, except, i, _a, _b, t, _c, _d, t, e_1;
     return __generator(this, function (_e) {
         switch (_e.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
@@ -132,30 +132,41 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 _e.label = 12;
             case 12:
                 _e.trys.push([12, 26, , 27]);
-                return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
+                return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })
+                    /*
+                    let rili: number = res.riliremind_task.status
+                      "riliremind_task":
+                      {
+                          "domax": 0,
+                          "forwardAlarmTime": "",
+                          "getmoney": "0",
+                          "getniu": "",
+                          "rank": "",
+                          "remindpopTitle": "",
+                          "remindtime": "",
+                          "status": 1,
+                          "task": "",
+                          "taskLink": "",
+                          "taskbtnn": "",
+                          "taskbtny": "",
+                          "taskname": "",
+                          "url": ""
+                      }
+                    console.log(res.riliremind_task.getmoney)
+              
+                    // 日历
+                    if (rili === 1) {
+                      res = await api(`https://m.jingxi.com/fanxiantask/signhb/dotask?task=rili_remind&signhb_source=5&ispp=0&sqactive=&tk=&_stk=ispp%2Csignhb_source%2Csqactive%2Ctask%2Ctk&_ste=1&_=${Date.now()}&sceneval=2`, 'ispp,signhb_source,sqactive,task,tk')
+                      if (res.ret === 0) {
+                        console.log('日历任务完成')
+                      } else {
+                        console.log('日历任务失败', res)
+                      }
+                    }
+                    */
+                ];
             case 13:
                 res = _e.sent();
-                rili = res.riliremind_task.status;
-                /*
-                  "riliremind_task":
-                  {
-                      "domax": 0,
-                      "forwardAlarmTime": "",
-                      "getmoney": "0",
-                      "getniu": "",
-                      "rank": "",
-                      "remindpopTitle": "",
-                      "remindtime": "",
-                      "status": 1,
-                      "task": "",
-                      "taskLink": "",
-                      "taskbtnn": "",
-                      "taskbtny": "",
-                      "taskname": "",
-                      "url": ""
-                  }
-                */
-                console.log(res.riliremind_task.getmoney);
                 _a = 0, _b = res.commontask;
                 _e.label = 14;
             case 14:
@@ -181,17 +192,6 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 return [3 /*break*/, 14];
             case 18: return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
             case 19:
-                // 日历
-                /*
-                if (rili === 1) {
-                  res = await api(`https://m.jingxi.com/fanxiantask/signhb/dotask?task=rili_remind&signhb_source=5&ispp=0&sqactive=&tk=&_stk=ispp%2Csignhb_source%2Csqactive%2Ctask%2Ctk&_ste=1&_=${Date.now()}&sceneval=2`, 'ispp,signhb_source,sqactive,task,tk')
-                  if (res.ret === 0) {
-                    console.log('日历任务完成')
-                  } else {
-                    console.log('日历任务失败', res)
-                  }
-                }
-                */
                 res = _e.sent();
                 if (!(res.baoxiang_left != 0)) return [3 /*break*/, 24];
                 console.log(res.baoxiang_stage);

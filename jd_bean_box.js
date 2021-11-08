@@ -106,7 +106,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 j = 0;
                 _f.label = 9;
             case 9:
-                if (!(j < 4)) return [3 /*break*/, 24];
+                if (!(j < 2)) return [3 /*break*/, 24];
                 console.log("Round:" + (j + 1));
                 return [4 /*yield*/, api('beanTaskList', { "viewChannel": "AppHome" })];
             case 10:

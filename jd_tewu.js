@@ -53,7 +53,7 @@ var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index, uuid;
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
-var activityId, encryptProjectId, inviteTaskId;
+var activityId, encryptProjectId, inviteTaskId, isOpen = false;
 var message = '', sendNotify = require('./sendNotify').sendNotify;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, _i, _a, card, e_1, activityCardInfo, _b, _c, t, _d, _e, sign2, beginClock, j, i, _f, shareCode_1, code;
@@ -79,6 +79,7 @@ var message = '', sendNotify = require('./sendNotify').sendNotify;
                 res = _g.sent();
                 activityId = res.data.result.activityBaseInfo.activityId;
                 encryptProjectId = res.data.result.activityBaseInfo.encryptProjectId;
+                isOpen = true;
                 // 已收集
                 console.log('已收集');
                 for (_i = 0, _a = res.data.result.activityCardInfo.cardPackList; _i < _a.length; _i++) {
@@ -88,8 +89,8 @@ var message = '', sendNotify = require('./sendNotify').sendNotify;
                 return [3 /*break*/, 6];
             case 5:
                 e_1 = _g.sent();
-                console.log(e_1);
-                return [3 /*break*/, 30];
+                console.log('活动未开启');
+                return [3 /*break*/, 31];
             case 6:
                 activityCardInfo = res.data.result.activityCardInfo;
                 if (!(activityCardInfo.divideTimeStatus === 1 && activityCardInfo.divideStatus === 0 && activityCardInfo.cardStatus === 1)) return [3 /*break*/, 9];
@@ -194,6 +195,7 @@ var message = '', sendNotify = require('./sendNotify').sendNotify;
                 _g.sent();
                 _g.label = 33;
             case 33:
+                if (!isOpen) return [3 /*break*/, 47];
                 console.log('内部助力', shareCodeSelf);
                 if (!(shareCodeHW.length === 0)) return [3 /*break*/, 35];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tw')];

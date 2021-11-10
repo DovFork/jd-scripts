@@ -233,6 +233,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 }
                 else {
                     console.log('金币加速卡使用失败', res);
+                    return [3 /*break*/, 34];
                 }
                 return [3 /*break*/, 33];
             case 32: return [3 /*break*/, 34];
@@ -259,6 +260,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 }
                 else {
                     console.log('点券加速卡使用失败', res);
+                    return [3 /*break*/, 40];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 38:
@@ -882,7 +884,7 @@ function api(fn, stk, params, taskPosition) {
                         url = "https://m.jingxi.com/newtasksys/newtasksys_front/" + fn + "?strZone=jxbfd&bizCode=" + bizCode + "&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBK" + String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0)) + "&g_ty=ls";
                     }
                     else {
-                        url = "https://m.jingxi.com/jxbfd/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=7155.9.47&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBK" + String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0)) + "&g_ty=ls";
+                        url = "https://m.jingxi.com/jxbfd/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
                     }
                     url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10032);
                     return [4 /*yield*/, axios_1["default"].get(url, {
@@ -904,8 +906,9 @@ function api(fn, stk, params, taskPosition) {
                             return [2 /*return*/, ''];
                         }
                     }
-                    else
+                    else {
                         return [2 /*return*/, data];
+                    }
                     return [2 /*return*/];
             }
         });

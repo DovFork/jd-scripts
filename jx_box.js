@@ -4,7 +4,6 @@
  * 做任务、开宝箱
  * 每号可收20次助力，出1次助力
  * cron: 5 0,6,12 * * *
- * TODO CK 20+
  * CK1默认优先助力HW.ts，其余助力CK1
  * HW_Priority: boolean
  * true  HW.ts -> 内部
@@ -57,14 +56,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var path = require("path");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index;
 var shareCodeSelf = [], shareCode = [], shareCodeHW = ['aae98a3e3b04d3ac430ee9ee91f4759d', 'bdf489af86e5021575040fffee407bc2', '92a46b6081a955fb4dcea1e56e590b3a', '638d77021a1dd4d74cad72d44afd9899', 'f4dc33716d2551e372fd44f5ac0baca8'];
 var HW_Priority = true;
 process.env.HW_Priority === 'false' ? HW_Priority = false : '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _i, shareCode_1, code, except, i, _a, _b, t, _c, _d, t, e_1;
+    var cookiesArr, i, HW_Random, _i, shareCode_1, code, i, _a, _b, t, _c, _d, t, e_1;
     return __generator(this, function (_e) {
         switch (_e.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
@@ -86,11 +84,12 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 _e.label = 4;
             case 4:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 10];
+                HW_Random = shareCodeHW[Math.floor(Math.random() * shareCodeHW.length)];
                 if (i === 0 && HW_Priority) {
-                    shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), shareCodeSelf, true)));
+                    shareCode = Array.from(new Set(__spreadArray(__spreadArray([], HW_Random, true), shareCodeSelf, true)));
                 }
                 else {
-                    shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
+                    shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), HW_Random, true)));
                 }
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
@@ -103,6 +102,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: code, type: 1 })];
             case 6:
                 res = _e.sent();
+                (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 7:
                 _e.sent();
@@ -116,7 +116,6 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 i++;
                 return [3 /*break*/, 4];
             case 10:
-                except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 i = 0;
                 _e.label = 11;
             case 11:
@@ -125,15 +124,12 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
-                if (except.includes(encodeURIComponent(UserName))) {
-                    console.log('已设置跳过');
-                    return [3 /*break*/, 29];
-                }
                 _e.label = 12;
             case 12:
                 _e.trys.push([12, 26, , 27]);
                 return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })
                     /*
+                    // 日历
                     let rili: number = res.riliremind_task.status
                       "riliremind_task":
                       {
@@ -153,8 +149,6 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                           "url": ""
                       }
                     console.log(res.riliremind_task.getmoney)
-              
-                    // 日历
                     if (rili === 1) {
                       res = await api(`https://m.jingxi.com/fanxiantask/signhb/dotask?task=rili_remind&signhb_source=5&ispp=0&sqactive=&tk=&_stk=ispp%2Csignhb_source%2Csqactive%2Ctask%2Ctk&_ste=1&_=${Date.now()}&sceneval=2`, 'ispp,signhb_source,sqactive,task,tk')
                       if (res.ret === 0) {

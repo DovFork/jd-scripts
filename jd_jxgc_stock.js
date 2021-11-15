@@ -85,6 +85,7 @@ var cookie = '', res = '', message = '';
                 if (!(_i < _a.length)) return [3 /*break*/, 9];
                 t = _a[_i];
                 name_1 = t.name;
+                console.log(name_1);
                 _b = 0, keywords_1 = keywords;
                 _c.label = 5;
             case 5:

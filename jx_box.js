@@ -173,7 +173,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 ];
             case 15:
                 res = _e.sent();
-                _a = 0, _b = res.commontask;
+                _a = 0, _b = res.commontask || [];
                 _e.label = 16;
             case 16:
                 if (!(_a < _b.length)) return [3 /*break*/, 20];

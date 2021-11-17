@@ -73,7 +73,7 @@ console.log('帮助HelloWorld:', HELP_HW);
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, (0, shareCodesTool_1.jxfactory)(cookie)];
             case 4:
                 sharecode = _b.sent();
@@ -115,7 +115,7 @@ console.log('帮助HelloWorld:', HELP_HW);
                 console.log('不给自己助力');
                 return [3 /*break*/, 15];
             case 12:
-                console.log(empName + "\u7ED9" + boss + "\u52A9\u529B");
+                console.log("".concat(empName, "\u7ED9").concat(boss, "\u52A9\u529B"));
                 return [4 /*yield*/, api('friend/AssistFriend', '_time,sharepin,zone', { sharepin: boss })];
             case 13:
                 res = _b.sent();
@@ -155,7 +155,7 @@ function api(fn, stk, params) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "https://m.jingxi.com/dreamfactory/" + fn + "?zone=dream_factory&_time=" + Date.now() + "&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
+                    url = "https://m.jingxi.com/dreamfactory/".concat(fn, "?zone=dream_factory&_time=").concat(Date.now(), "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
                     url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10001);
                     _a.label = 1;
                 case 1:
@@ -191,7 +191,7 @@ function getShareCodes() {
                     return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/jxfactory/30")];
                 case 1:
                     data = (_a.sent()).data;
-                    console.log("\u4ECE\u52A9\u529B\u6C60\u83B7\u53D6\u523030\u4E2A:" + JSON.stringify(data.data));
+                    console.log("\u4ECE\u52A9\u529B\u6C60\u83B7\u53D6\u523030\u4E2A:".concat(JSON.stringify(data.data)));
                     HELP_HW === 'true'
                         ? shareCodes = Array.from(new Set(__spreadArray(__spreadArray(__spreadArray([], shareCodesInternal, true), HW_CODE, true), data.data, true)))
                         : shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesInternal, true), data.data, true)));

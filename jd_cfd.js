@@ -78,7 +78,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 token = (0, TS_USER_AGENTS_1.getJxToken)(cookie);
                 _2.label = 4;
             case 4:
@@ -335,7 +335,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 return [4 /*yield*/, api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: build })];
             case 58:
                 res = _2.sent();
-                console.log(build + "\u5347\u7EA7\u9700\u8981:", res.ddwNextLvlCostCoin);
+                console.log("".concat(build, "\u5347\u7EA7\u9700\u8981:"), res.ddwNextLvlCostCoin);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 59:
                 _2.sent();
@@ -522,7 +522,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 90:
                 _2.sent();
                 if (!res.StoryInfo.StoryList[0].Special) return [3 /*break*/, 94];
-                console.log("\u8239\u6765\u4E86\uFF0C\u4E58\u5BA2\u662F" + res.StoryInfo.StoryList[0].Special.strName);
+                console.log("\u8239\u6765\u4E86\uFF0C\u4E58\u5BA2\u662F".concat(res.StoryInfo.StoryList[0].Special.strName));
                 return [4 /*yield*/, api('story/SpecialUserOper', '_cfd_t,bizCode,ddwTriggerDay,dwEnv,dwType,ptag,source,strStoryId,strZone,triggerType', {
                         strStoryId: res.StoryInfo.StoryList[0].strStoryId,
                         dwType: '2',
@@ -577,9 +577,9 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 strTypeCnt_1 = '';
                 for (n = 0; n < bags_1.length; n++) {
                     if (n % 2 === 0)
-                        strTypeCnt_1 += bags_1[n] + ":";
+                        strTypeCnt_1 += "".concat(bags_1[n], ":");
                     else
-                        strTypeCnt_1 += bags_1[n] + "|";
+                        strTypeCnt_1 += "".concat(bags_1[n], "|");
                 }
                 if (!(bags_1.length !== 0)) return [3 /*break*/, 100];
                 return [4 /*yield*/, api('story/sellgoods', '_cfd_t,bizCode,dwEnv,dwSceneId,ptag,source,strTypeCnt,strZone', { dwSceneId: isCollector ? '2' : '1', strTypeCnt: strTypeCnt_1 })];
@@ -607,9 +607,9 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 strTypeCnt = '';
                 for (n = 0; n < bags.length; n++) {
                     if (n % 2 === 0)
-                        strTypeCnt += bags[n] + ":";
+                        strTypeCnt += "".concat(bags[n], ":");
                     else
-                        strTypeCnt += bags[n] + "|";
+                        strTypeCnt += "".concat(bags[n], "|");
                 }
                 if (!(bags.length !== 0)) return [3 /*break*/, 106];
                 return [4 /*yield*/, api('story/sellgoods', '_cfd_t,bizCode,dwEnv,dwSceneId,ptag,source,strTypeCnt,strZone', { dwSceneId: isCollector ? '2' : '1', strTypeCnt: strTypeCnt })];
@@ -750,7 +750,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 138:
                 employ = _2.sent();
                 if (employ.iRet === 0)
-                    console.log("\u96C7\u4F63" + e.strBuildIndex + "\u5BFC\u6E38\u6210\u529F");
+                    console.log("\u96C7\u4F63".concat(e.strBuildIndex, "\u5BFC\u6E38\u6210\u529F"));
                 if (employ.iRet === 2003)
                     return [3 /*break*/, 141];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
@@ -771,7 +771,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 return [4 /*yield*/, api('user/CollectCoin', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', { strBuildIndex: b, dwType: '1' })];
             case 144:
                 res = _2.sent();
-                console.log(b + "\u6536\u91D1\u5E01:", res.ddwCoin);
+                console.log("".concat(b, "\u6536\u91D1\u5E01:"), res.ddwCoin);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 145:
                 _2.sent();
@@ -811,7 +811,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 155:
                 if (!(j < shareCodes.length)) return [3 /*break*/, 159];
                 cookie = cookiesArr[i];
-                console.log("\u8D26\u53F7" + (i + 1) + "\u53BB\u52A9\u529B:", shareCodes[j]);
+                console.log("\u8D26\u53F7".concat(i + 1, "\u53BB\u52A9\u529B:"), shareCodes[j]);
                 return [4 /*yield*/, api('story/helpbystage', '_cfd_t,bizCode,dwEnv,ptag,source,strShareId,strZone', { strShareId: shareCodes[j] })];
             case 156:
                 res = _2.sent();
@@ -862,10 +862,10 @@ function api(fn, stk, params, taskPosition) {
                         else {
                             bizCode = params.bizCode;
                         }
-                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/" + fn + "?strZone=jxbfd&bizCode=" + bizCode + "&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBK" + String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0)) + "&g_ty=ls";
+                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?strZone=jxbfd&bizCode=").concat(bizCode, "&source=jxbfd&dwEnv=7&_cfd_t=").concat(Date.now(), "&ptag=&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat(String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0)), "&g_ty=ls");
                     }
                     else {
-                        url = "https://m.jingxi.com/jxbfd/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBK" + String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0)) + "&g_ty=ls";
+                        url = "https://m.jingxi.com/jxbfd/".concat(fn, "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=").concat(Date.now(), "&ptag=&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat(String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0)), "&g_ty=ls");
                     }
                     url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10032);
                     return [4 /*yield*/, axios_1["default"].get(url, {
@@ -874,7 +874,7 @@ function api(fn, stk, params, taskPosition) {
                                 'Accept': '*/*',
                                 'Connection': 'keep-alive',
                                 'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
-                                'User-Agent': "jdpingou;iPhone;4.13.0;14.4.2;" + (0, TS_USER_AGENTS_1.randomString)(40) + ";network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/" + (Math.random() * 98 + 1) + ";pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+                                'User-Agent': "jdpingou;iPhone;4.13.0;14.4.2;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/").concat(Math.random() * 98 + 1, ";pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"),
                                 'Referer': 'https://st.jingxi.com/',
                                 'Cookie': cookie
                             }
@@ -992,7 +992,7 @@ function makeShareCodes() {
                 case 3:
                     farm = _a.sent();
                     pin = ts_md5_1.Md5.hashStr(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/jxcfd?sharecode=" + res.strMyShareId + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin)];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/jxcfd?sharecode=".concat(res.strMyShareId, "&bean=").concat(bean, "&farm=").concat(farm, "&pin=").concat(pin))];
                 case 4:
                     data = (_a.sent()).data;
                     console.log(data.message);

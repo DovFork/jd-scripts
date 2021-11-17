@@ -56,13 +56,13 @@ var DEBUG = false;
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api("functionId=getInteractionHomeInfo&body=%7B%22sign%22%3A%22u6vtLQ7ztxgykLEr%22%7D&appid=content_ecology&client=wh5&clientVersion=1.0.0")];
             case 3:
                 res = _r.sent();
                 sign = res.result.taskConfig.projectId;
                 DEBUG ? console.log(JSON.stringify(res)) : '';
-                return [4 /*yield*/, api("functionId=queryInteractiveInfo&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                return [4 /*yield*/, api("functionId=queryInteractiveInfo&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 4:
                 res = _r.sent();
                 DEBUG ? console.log(JSON.stringify(res)) : '';
@@ -85,7 +85,7 @@ var DEBUG = false;
                 if (!(t.ext.sign1.status === 1)) return [3 /*break*/, 7];
                 signDay = ((_l = t.ext.sign1.signList) === null || _l === void 0 ? void 0 : _l.length) || 0, type = t.rewards[signDay].rewardType;
                 console.log(signDay, type);
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%221%22%2C%22actionType%22%3A%22%22%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22encryptAssignmentId%22%3A%22").concat(t.encryptAssignmentId, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%221%22%2C%22actionType%22%3A%22%22%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 6:
                 res = _r.sent();
                 console.log('签到成功', JSON.stringify(res));
@@ -101,7 +101,7 @@ var DEBUG = false;
                 proInfo = _c[_b];
                 if (!(proInfo.status === 1)) return [3 /*break*/, 11];
                 console.log(t.assignmentName);
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.itemId + "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22encryptAssignmentId%22%3A%22").concat(t.encryptAssignmentId, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22").concat(proInfo.itemId, "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 10:
                 res = _r.sent();
                 console.log(res);
@@ -117,14 +117,14 @@ var DEBUG = false;
                 proInfo = _e[_d];
                 if (!(proInfo.status === 1)) return [3 /*break*/, 17];
                 console.log(t.assignmentName);
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.advId + "%22%2C%22actionType%22%3A1%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22encryptAssignmentId%22%3A%22").concat(t.encryptAssignmentId, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22").concat(proInfo.advId, "%22%2C%22actionType%22%3A1%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 14:
                 res = _r.sent();
                 console.log(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.ext.waitDuration * 1000)];
             case 15:
                 _r.sent();
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.advId + "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22encryptAssignmentId%22%3A%22").concat(t.encryptAssignmentId, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22").concat(proInfo.advId, "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 16:
                 res = _r.sent();
                 console.log(res);
@@ -140,14 +140,14 @@ var DEBUG = false;
                 proInfo = _g[_f];
                 if (!(proInfo.status === 1)) return [3 /*break*/, 23];
                 console.log(t.assignmentName);
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.itemId + "%22%2C%22actionType%22%3A1%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22encryptAssignmentId%22%3A%22").concat(t.encryptAssignmentId, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22").concat(proInfo.itemId, "%22%2C%22actionType%22%3A1%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 20:
                 res = _r.sent();
                 console.log(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.ext.waitDuration * 1000)];
             case 21:
                 _r.sent();
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.itemId + "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22encryptAssignmentId%22%3A%22").concat(t.encryptAssignmentId, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22").concat(proInfo.itemId, "%22%2C%22actionType%22%3A0%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 22:
                 res = _r.sent();
                 console.log(res);
@@ -163,7 +163,7 @@ var DEBUG = false;
                 proInfo = _j[_h];
                 if (!(proInfo.status === 1)) return [3 /*break*/, 28];
                 console.log(t.assignmentName);
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + sign + "%22%2C%22encryptAssignmentId%22%3A%22" + t.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + proInfo.itemId + "%22%2C%22actionType%22%3A1%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22encryptAssignmentId%22%3A%22").concat(t.encryptAssignmentId, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22").concat(proInfo.itemId, "%22%2C%22actionType%22%3A1%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 26:
                 res = _r.sent();
                 console.log('加购:', res);
@@ -191,8 +191,8 @@ var DEBUG = false;
             case 32:
                 if (!(_k < shareCodeSelf_1.length)) return [3 /*break*/, 36];
                 code = shareCodeSelf_1[_k];
-                console.log("\u8D26\u53F71 " + UserName + " \u53BB\u52A9\u529B " + code.itemId);
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + code.encryptProjectId + "%22%2C%22encryptAssignmentId%22%3A%22" + code.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + code.itemId + "%22%2C%22actionType%22%3A%22%22%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                console.log("\u8D26\u53F71 ".concat(UserName, " \u53BB\u52A9\u529B ").concat(code.itemId));
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22".concat(code.encryptProjectId, "%22%2C%22encryptAssignmentId%22%3A%22").concat(code.encryptAssignmentId, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22").concat(code.itemId, "%22%2C%22actionType%22%3A%22%22%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 33:
                 res = _r.sent();
                 console.log('助力结果:', res);
@@ -208,8 +208,8 @@ var DEBUG = false;
                 cookie = cookiesArr[1];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 code = shareCodeSelf[0];
-                console.log("\u8D26\u53F72 " + UserName + " \u53BB\u52A9\u529B " + code.itemId);
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22" + code.encryptProjectId + "%22%2C%22encryptAssignmentId%22%3A%22" + code.encryptAssignmentId + "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22" + code.itemId + "%22%2C%22actionType%22%3A%22%22%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology")];
+                console.log("\u8D26\u53F72 ".concat(UserName, " \u53BB\u52A9\u529B ").concat(code.itemId));
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=%7B%22encryptProjectId%22%3A%22".concat(code.encryptProjectId, "%22%2C%22encryptAssignmentId%22%3A%22").concat(code.encryptAssignmentId, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22itemId%22%3A%22").concat(code.itemId, "%22%2C%22actionType%22%3A%22%22%2C%22completionFlag%22%3A%22%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 37:
                 res = _r.sent();
                 console.log('助力结果:', res);

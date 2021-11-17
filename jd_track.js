@@ -69,7 +69,7 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 if (except.includes(encodeURIComponent(UserName))) {
                     console.log('已设置跳过');
                     return [3 /*break*/, 5];
@@ -91,7 +91,7 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                         console.log('\t', t, status_1);
                         console.log();
                         if (Object.keys(orders).indexOf(orderId) > -1 && orders[orderId]['status'] !== status_1) {
-                            message += title + "\n" + t + "  " + status_1 + "\n\n";
+                            message += "".concat(title, "\n").concat(t, "  ").concat(status_1, "\n\n");
                         }
                         orders[orderId] = {
                             user: UserName,
@@ -102,7 +102,7 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                     }
                 }
                 if (message) {
-                    message = "<\u4EAC\u4E1C\u8D26\u53F7" + (i + 1) + ">  " + UserName + "\n\n" + message;
+                    message = "<\u4EAC\u4E1C\u8D26\u53F7".concat(i + 1, ">  ").concat(UserName, "\n\n").concat(message);
                     allMessage += message;
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
@@ -136,7 +136,7 @@ function getOrderList() {
             switch (_a.label) {
                 case 0:
                     t = Date.now();
-                    return [4 /*yield*/, axios_1["default"].get("https://wq.jd.com/bases/orderlist/list?order_type=2&start_page=1&last_page=0&page_size=10&callersource=mainorder&t=" + t + "&sceneval=2&_=" + (t + 1) + "&sceneval=2", {
+                    return [4 /*yield*/, axios_1["default"].get("https://wq.jd.com/bases/orderlist/list?order_type=2&start_page=1&last_page=0&page_size=10&callersource=mainorder&t=".concat(t, "&sceneval=2&_=").concat(t + 1, "&sceneval=2"), {
                             headers: {
                                 'authority': 'wq.jd.com',
                                 'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',

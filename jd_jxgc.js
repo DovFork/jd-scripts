@@ -66,7 +66,7 @@ var cookie = '', res = '', UserName, index;
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 if (except.includes(encodeURIComponent(UserName))) {
                     console.log('已设置跳过');
                     return [3 /*break*/, 28];
@@ -91,7 +91,7 @@ var cookie = '', res = '', UserName, index;
                     investedElectric = res.data.productionList[0].investedElectric, needElectric = res.data.productionList[0].needElectric, progress = (investedElectric / needElectric * 100).toFixed(2);
                     console.log('生产进度:', progress);
                     if (progress === '100.00') {
-                        (0, sendNotify_1.sendNotify)("京喜工厂生产完成", "\u8D26\u53F7" + index + " " + UserName);
+                        (0, sendNotify_1.sendNotify)("京喜工厂生产完成", "\u8D26\u53F7".concat(index, " ").concat(UserName));
                         return [3 /*break*/, 28];
                     }
                 }
@@ -270,9 +270,9 @@ function api(fn, stk, params) {
     return new Promise(function (resolve, reject) {
         var url = '';
         if (['GetUserTaskStatusList', 'DoTask', 'Award'].indexOf(fn) > -1)
-            url = "https://m.jingxi.com/newtasksys/newtasksys_front/" + fn + "?source=dreamfactory&_time=" + Date.now() + "&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
+            url = "https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?source=dreamfactory&_time=").concat(Date.now(), "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
         else
-            url = "https://m.jingxi.com/dreamfactory/" + fn + "?zone=dream_factory&_time=" + Date.now() + "&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
+            url = "https://m.jingxi.com/dreamfactory/".concat(fn, "?zone=dream_factory&_time=").concat(Date.now(), "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
         url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10001);
         axios_1["default"].get(url, {
             headers: {

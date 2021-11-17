@@ -166,7 +166,7 @@ function api(fn, stk, params) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "https://m.jingxi.com/jxmc/" + fn + "?channel=7&sceneid=1001&_stk=" + encodeURIComponent(stk) + "&_ste=1&sceneval=2";
+                    url = "https://m.jingxi.com/jxmc/".concat(fn, "?channel=7&sceneid=1001&_stk=").concat(encodeURIComponent(stk), "&_ste=1&sceneval=2");
                     url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10028);
                     _a.label = 1;
                 case 1:
@@ -200,7 +200,7 @@ function getEgg(items) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://m.jingxi.com/active/queryprizedetails?actives=" + items + "&_=" + Date.now() + "&sceneval=2&g_login_type=1&callback=jsonpCBK" + rnd + "&g_ty=ls", {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://m.jingxi.com/active/queryprizedetails?actives=".concat(items, "&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat(rnd, "&g_ty=ls"), {
                         headers: {
                             'Cookie': cookie,
                             'Host': 'm.jingxi.com',
@@ -210,7 +210,7 @@ function getEgg(items) {
                     })];
                 case 1:
                     data = (_a.sent()).data;
-                    data = JSON.parse(data.replace("try{ jsonpCBK" + rnd + "(", '').replace(');}catch(e){}', ''));
+                    data = JSON.parse(data.replace("try{ jsonpCBK".concat(rnd, "("), '').replace(');}catch(e){}', ''));
                     resolve(data);
                     return [2 /*return*/];
             }

@@ -54,7 +54,7 @@ var pin = '', uuid = '', shopId = '', tokenKey = '', token = '';
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, getIsvToken()];
             case 3:
                 _a.sent();
@@ -69,12 +69,12 @@ var pin = '', uuid = '', shopId = '', tokenKey = '', token = '';
                 res = _a.sent();
                 shopId = res.data.shopId;
                 console.log('shopId:', shopId);
-                return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/customer/getMyPing', "userId=1000361242&token=" + token + "&fromType=APP")];
+                return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/customer/getMyPing', "userId=1000361242&token=".concat(token, "&fromType=APP"))];
             case 7:
                 res = _a.sent();
                 pin = res.data.secretPin;
                 console.log('pin:', pin);
-                return [4 /*yield*/, api('myInfo', "activityId=90121061401&pin=" + encodeURIComponent(pin))];
+                return [4 /*yield*/, api('myInfo', "activityId=90121061401&pin=".concat(encodeURIComponent(pin)))];
             case 8:
                 res = _a.sent();
                 foodLeft = res.data.bags[1].totalNum - res.data.bags[1].useNum;
@@ -84,7 +84,7 @@ var pin = '', uuid = '', shopId = '', tokenKey = '', token = '';
                 _a.label = 9;
             case 9:
                 if (!(j < 20)) return [3 /*break*/, 14];
-                return [4 /*yield*/, api('doTask', "taskId=interact&activityId=90121061401&pin=" + encodeURIComponent(pin))];
+                return [4 /*yield*/, api('doTask', "taskId=interact&activityId=90121061401&pin=".concat(encodeURIComponent(pin)))];
             case 10:
                 res = _a.sent();
                 if (!res.result) return [3 /*break*/, 12];
@@ -161,7 +161,7 @@ function api(fn, body) {
         url = fn;
     }
     else {
-        url = "https://lzdz-isv.isvjcloud.com/dingzhi/qqxing/pasture/" + fn + "?_=" + Date.now();
+        url = "https://lzdz-isv.isvjcloud.com/dingzhi/qqxing/pasture/".concat(fn, "?_=").concat(Date.now());
     }
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
         var _a, data, headers;
@@ -302,7 +302,7 @@ function reloadCookie(setCookie) {
     cookie = '';
     for (var ck in cookieTEMP) {
         if (cookieTEMP.hasOwnProperty(ck)) {
-            cookie += ck + "=" + cookieTEMP[ck] + ";";
+            cookie += "".concat(ck, "=").concat(cookieTEMP[ck], ";");
         }
     }
 }

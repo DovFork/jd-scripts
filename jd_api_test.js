@@ -50,22 +50,22 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0:
-                console.log("\n==================\u811A\u672C\u6267\u884C- \u5317\u4EAC\u65F6\u95F4(UTC+8)\uFF1A" + (0, date_fns_1.format)(Date.now(), 'yyyy-MM-dd HH:mm:ss') + "\n\n");
+                console.log("\n==================\u811A\u672C\u6267\u884C- \u5317\u4EAC\u65F6\u95F4(UTC+8)\uFF1A".concat((0, date_fns_1.format)(Date.now(), 'yyyy-MM-dd HH:mm:ss'), "\n\n"));
                 cars = ['bean', 'farm', 'health', 'jxfactory', 'pet'];
                 db = cars[getRandomNumberByRange(0, 5)];
                 num = getRandomNumberByRange(5, 20);
-                console.log("\u672C\u6B21\u968F\u673A\u9009\u62E9" + db + "\u83B7\u53D6" + num + "\u4E2A\u968F\u673A\u52A9\u529B\u7801");
+                console.log("\u672C\u6B21\u968F\u673A\u9009\u62E9".concat(db, "\u83B7\u53D6").concat(num, "\u4E2A\u968F\u673A\u52A9\u529B\u7801"));
                 return [4 /*yield*/, car(db, num)];
             case 1:
                 _d.sent();
                 times = getRandomNumberByRange(3, 6);
-                console.log("\u5F00\u59CB\u6D4B\u8BD5" + times + "\u6B21\u4E0A\u62A5");
+                console.log("\u5F00\u59CB\u6D4B\u8BD5".concat(times, "\u6B21\u4E0A\u62A5"));
                 i = 0;
                 _d.label = 2;
             case 2:
                 if (!(i < times)) return [3 /*break*/, 6];
                 _b = (_a = console).log;
-                _c = ["\u7B2C" + (i + 1) + "\u6B21:"];
+                _c = ["\u7B2C".concat(i + 1, "\u6B21:")];
                 return [4 /*yield*/, runTimes()];
             case 3:
                 _b.apply(_a, _c.concat([_d.sent()]));
@@ -90,7 +90,7 @@ function car(db, num) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/" + db + "/" + num, {
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/".concat(db, "/").concat(num), {
                             timeout: 10000
                         })];
                 case 1:
@@ -120,7 +120,7 @@ function runTimes() {
                     return [2 /*return*/, '成功'];
                 case 2:
                     e_2 = _a.sent();
-                    return [2 /*return*/, "" + e_2];
+                    return [2 /*return*/, "".concat(e_2)];
                 case 3: return [2 /*return*/];
             }
         });

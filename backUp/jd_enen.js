@@ -54,7 +54,7 @@ var cookie = '', UserName, index;
                     cookie = cookiesArr[i];
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     index = i + 1;
-                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                     axios_1["default"].get('https://plogin.m.jd.com/cgi-bin/ml/mlogout?appid=300&returnurl=https%3A%2F%2Fm.jd.com%2F', {
                         headers: {
                             'authority': 'plogin.m.jd.com',

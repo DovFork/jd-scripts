@@ -73,7 +73,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 cookiesArr = _e.sent();
                 cookie = cookiesArr[0];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F71 " + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F71 ".concat(UserName, "\n"));
                 return [4 /*yield*/, api('query', 'signhb_source,smp,type', {})];
             case 3:
                 res = _e.sent();
@@ -98,7 +98,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
             case 5:
                 if (!(_i < shareCode_1.length)) return [3 /*break*/, 9];
                 code = shareCode_1[_i];
-                console.log(UserName + " \u53BB\u52A9\u529B " + code);
+                console.log("".concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
                 return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: code, type: 1 })];
             case 6:
                 res = _e.sent();
@@ -122,7 +122,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 _e.label = 12;
             case 12:
                 _e.trys.push([12, 28, , 29]);
@@ -180,7 +180,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 t = _b[_a];
                 if (!(t.status === 1)) return [3 /*break*/, 19];
                 console.log(t.taskname);
-                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/dotask?task=" + t.task + "&signhb_source=5&_=" + Date.now() + "&sceneval=2", '')];
+                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/dotask?task=".concat(t.task, "&signhb_source=5&_=").concat(Date.now(), "&sceneval=2"), '')];
             case 17:
                 res = _e.sent();
                 if (res.ret === 0) {
@@ -207,7 +207,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 if (!(_c < _d.length)) return [3 /*break*/, 26];
                 t = _d[_c];
                 if (!(t.status === 1)) return [3 /*break*/, 25];
-                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/bxdraw?_=" + Date.now() + "&sceneval=2", '')];
+                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/bxdraw?_=".concat(Date.now(), "&sceneval=2"), '')];
             case 23:
                 res = _e.sent();
                 console.log('开宝箱，获得：', res.sendhb);
@@ -251,7 +251,7 @@ function api(fn, stk, params) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "https://m.jingxi.com/fanxiantask/signhb/" + fn + "?_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
+                    url = "https://m.jingxi.com/fanxiantask/signhb/".concat(fn, "?_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
                     if (fn.match(/(dotask|bxdraw)/)) {
                         url = fn;
                     }
@@ -262,7 +262,7 @@ function api(fn, stk, params) {
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'm.jingxi.com',
-                                'User-Agent': "jdpingou;iPhone;5.9.0;12.4.1;" + (0, TS_USER_AGENTS_1.randomString)(40) + ";network/wifi;",
+                                'User-Agent': "jdpingou;iPhone;5.9.0;12.4.1;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";network/wifi;"),
                                 'Referer': 'https://st.jingxi.com/',
                                 'Cookie': cookie
                             }

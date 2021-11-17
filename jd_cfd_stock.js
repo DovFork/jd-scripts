@@ -77,7 +77,7 @@ var target = process.env.CFD_STOCK
                     stock = j.dwStockNum;
                     console.log(name_1, stock);
                     if (target.includes(name_1) && stock !== 0) {
-                        notify.sendNotify("\u8D22\u5BCC\u5C9B\u8865\u8D27\n\n" + name_1, "\u5E93\u5B58\uFF1A" + stock, '', '\n\n你好，世界！');
+                        notify.sendNotify("\u8D22\u5BCC\u5C9B\u8865\u8D27\n\n".concat(name_1), "\u5E93\u5B58\uFF1A".concat(stock), '', '\n\n你好，世界！');
                     }
                 }
                 return [2 /*return*/];
@@ -92,16 +92,16 @@ function api(fn, stk, params) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "https://m.jingxi.com/jxbfd/" + fn + "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_ste=1&_=" + Date.now() + "&sceneval=2&_stk=" + encodeURIComponent(stk);
+                    url = "https://m.jingxi.com/jxbfd/".concat(fn, "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=").concat(Date.now(), "&ptag=&_ste=1&_=").concat(Date.now(), "&sceneval=2&_stk=").concat(encodeURIComponent(stk));
                     if (['GetUserTaskStatusList', 'Award', 'DoTask'].includes(fn)) {
                         console.log('api2');
-                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/" + fn + "?strZone=jxbfd&bizCode=jxbfddch&source=jxbfd&dwEnv=7&_cfd_t=" + Date.now() + "&ptag=&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2";
+                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?strZone=jxbfd&bizCode=jxbfddch&source=jxbfd&dwEnv=7&_cfd_t=").concat(Date.now(), "&ptag=&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
                     }
                     if (Object.keys(params).length !== 0) {
                         key = void 0;
                         for (key in params) {
                             if (params.hasOwnProperty(key))
-                                url += "&" + key + "=" + params[key];
+                                url += "&".concat(key, "=").concat(params[key]);
                         }
                     }
                     url += '&h5st=' + decrypt(stk, url);
@@ -163,10 +163,10 @@ function requestAlgo() {
                                             console.log('token:', token);
                                             enCryptMethodJDString = data.data.result.algo;
                                             if (enCryptMethodJDString)
-                                                enCryptMethodJD = new Function("return " + enCryptMethodJDString)();
+                                                enCryptMethodJD = new Function("return ".concat(enCryptMethodJDString))();
                                         }
                                         else {
-                                            console.log("fp: " + fingerprint);
+                                            console.log("fp: ".concat(fingerprint));
                                             console.log('request_algo 签名参数API请求失败:');
                                         }
                                         resolve();
@@ -189,12 +189,12 @@ function decrypt(stk, url) {
         token = "tk01wcdf61cb3a8nYUtHcmhSUFFCfddDPRvKvYaMjHkxo6Aj7dhzO+GXGFa9nPXfcgT+mULoF1b1YIS1ghvSlbwhE0Xc";
         fingerprint = 9686767825751161;
         // $.fingerprint = 7811850938414161
-        var str = "" + token + fingerprint + timestamp + appId + random;
+        var str = "".concat(token).concat(fingerprint).concat(timestamp).concat(appId).concat(random);
         hash1 = CryptoJS.SHA512(str, token).toString(CryptoJS.enc.Hex);
     }
     var st = '';
     stk.split(',').map(function (item, index) {
-        st += item + ":" + getQueryString(url, item) + (index === stk.split(',').length - 1 ? '' : '&');
+        st += "".concat(item, ":").concat(getQueryString(url, item)).concat(index === stk.split(',').length - 1 ? '' : '&');
     });
     var hash2 = CryptoJS.HmacSHA256(st, hash1.toString()).toString(CryptoJS.enc.Hex);
     return encodeURIComponent(["".concat(timestamp.toString()), "".concat(fingerprint.toString()), "".concat(appId.toString()), "".concat(token), "".concat(hash2)].join(";"));
@@ -208,7 +208,7 @@ function requireConfig() {
                 cookiesArr.push(jdCookieNode[item]);
             }
         });
-        console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
+        console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
         resolve();
     });
 }

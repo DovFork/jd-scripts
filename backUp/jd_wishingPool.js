@@ -60,7 +60,7 @@ var balance;
                 return [4 /*yield*/, TotalBean()];
             case 3:
                 _g.sent();
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + $.index + "\u3011" + ($.nickName || $.UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat($.index, "\u3011").concat($.nickName || $.UserName, "\n"));
                 return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1EFVQwQ", "taskToken": "", "channelId": 1 })];
             case 4:
                 taskVos = _g.sent();
@@ -157,7 +157,7 @@ function api(Fn, body) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action", "functionId=" + Fn + "&body=" + JSON.stringify(body) + "&client=wh5&clientVersion=1.0.0", {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action", "functionId=".concat(Fn, "&body=").concat(JSON.stringify(body), "&client=wh5&clientVersion=1.0.0"), {
                         headers: {
                             'Referer': 'https://h5.m.jd.com/babelDiy/Zeus/UQwNm9fNDey3xNEUTSgpYikqnXR/index.html',
                             'Content-Type': 'application/x-www-form-urlencoded',
@@ -196,7 +196,7 @@ function doTask(taskToken, taskId, timeout) {
                     res = _a.sent();
                     if (res.code === 0) {
                         try {
-                            console.log("\u4EFB\u52A1\u6210\u529F: \u83B7\u5F97" + res.data.result.score * 1 + " \u4F59\u989D: " + res.data.result.userScore * 1);
+                            console.log("\u4EFB\u52A1\u6210\u529F: \u83B7\u5F97".concat(res.data.result.score * 1, " \u4F59\u989D: ").concat(res.data.result.userScore * 1));
                         }
                         catch (e) {
                             console.log("\u4EFB\u52A1\u9519\u8BEF: ", JSON.stringify(res));
@@ -228,7 +228,7 @@ function requireConfig() {
                 cookiesArr.push(jdCookieNode[item]);
             }
         });
-        console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
+        console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
         resolve(0);
     });
 }

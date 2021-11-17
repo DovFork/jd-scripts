@@ -73,7 +73,7 @@ var shareCodesHW = [
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api("{\"apiMapping\":\"/api/task/doSign\"}")];
             case 4:
                 res = _a.sent();
@@ -141,8 +141,8 @@ var shareCodesHW = [
             case 20:
                 if (!(_i < shareCodes_1.length)) return [3 /*break*/, 24];
                 code = shareCodes_1[_i];
-                console.log("\u8D26\u53F7 " + UserName + " \u53BB\u52A9\u529B " + code);
-                return [4 /*yield*/, api("{\"shareId\":\"" + code + "\",\"apiMapping\":\"/api/supportTask/doSupport\"}")];
+                console.log("\u8D26\u53F7 ".concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
+                return [4 /*yield*/, api("{\"shareId\":\"".concat(code, "\",\"apiMapping\":\"/api/supportTask/doSupport\"}"))];
             case 21:
                 res = _a.sent();
                 if (res.code === 200) {
@@ -167,7 +167,7 @@ function api(body) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/api", "appid=china-joy&functionId=star_push_jd_prod&body=" + body + "&t=" + Date.now(), {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/api", "appid=china-joy&functionId=star_push_jd_prod&body=".concat(body, "&t=").concat(Date.now()), {
                         headers: {
                             'Host': 'api.m.jd.com',
                             'Origin': 'https://starintroducer.jd.com',
@@ -214,7 +214,7 @@ function doTask() {
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
                 case 4:
                     _b.sent();
-                    return [4 /*yield*/, api("{\"parentId\":\"" + t.parentId + "\",\"taskId\":\"" + t.taskId + "\",\"apiMapping\":\"/api/task/doTask\"}")];
+                    return [4 /*yield*/, api("{\"parentId\":\"".concat(t.parentId, "\",\"taskId\":\"").concat(t.taskId, "\",\"apiMapping\":\"/api/task/doTask\"}"))];
                 case 5:
                     res = _b.sent();
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10000)];
@@ -228,7 +228,7 @@ function doTask() {
                     if (t.type === 'FOLLOW_SHOP_TASK')
                         return [2 /*return*/, 1];
                     timestamp = res.data.timeStamp;
-                    return [4 /*yield*/, api("{\"parentId\":\"" + t.parentId + "\",\"taskId\":\"" + t.taskId + "\",\"timeStamp\":" + timestamp + ",\"apiMapping\":\"/api/task/getReward\"}")];
+                    return [4 /*yield*/, api("{\"parentId\":\"".concat(t.parentId, "\",\"taskId\":\"").concat(t.taskId, "\",\"timeStamp\":").concat(timestamp, ",\"apiMapping\":\"/api/task/getReward\"}"))];
                 case 8:
                     res = _b.sent();
                     if (!(res.code === 200)) return [3 /*break*/, 10];

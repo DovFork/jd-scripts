@@ -58,7 +58,7 @@ var joyId1;
                 $.index = i + 1;
                 $.isLogin = true;
                 $.nickName = $.UserName;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + $.index + "\u3011" + ($.nickName || $.UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat($.index, "\u3011").concat($.nickName || $.UserName, "\n"));
                 return [4 /*yield*/, api('apTaskList', { "linkId": "LsQNxL7iWDlXUs6cFl-AAg" })];
             case 3:
                 taskVos = _b.sent();
@@ -152,7 +152,7 @@ function api(fn, body) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/", "functionId=" + fn + "&body=" + JSON.stringify(body) + "&_t=" + Date.now() + "&appid=activities_platform", {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/", "functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&_t=").concat(Date.now(), "&appid=activities_platform"), {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                             'User-Agent': TS_USER_AGENTS_1["default"],
@@ -176,7 +176,7 @@ function joyList() {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/?functionId=joyList&body={%22linkId%22:%22LsQNxL7iWDlXUs6cFl-AAg%22}&_t=" + Date.now() + "&appid=activities_platform", {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/?functionId=joyList&body={%22linkId%22:%22LsQNxL7iWDlXUs6cFl-AAg%22}&_t=".concat(Date.now(), "&appid=activities_platform"), {
                         headers: {
                             'host': 'api.m.jd.com',
                             'User-agent': TS_USER_AGENTS_1["default"],
@@ -206,7 +206,7 @@ function requireConfig() {
                 cookiesArr.push(jdCookieNode[item]);
             }
         });
-        console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
+        console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
         resolve(0);
     });
 }

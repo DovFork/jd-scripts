@@ -51,11 +51,11 @@ var server = '', message = '', taskName;
         switch (_a.label) {
             case 0:
                 if (!(process.env.HOSTNAME === 'qinglong')) return [3 /*break*/, 5];
-                auth = JSON.parse((0, fs_1.readFileSync)(process.env.QL_DIR + "/config/auth.json").toString());
+                auth = JSON.parse((0, fs_1.readFileSync)("".concat(process.env.QL_DIR, "/config/auth.json")).toString());
                 bearer = auth.token;
                 netstat = (0, child_process_1.execSync)("netstat -tnlp").toString();
                 port = netstat.match(/.*0\.0\.0\.0:(\d+).*nginx\.conf/)[1];
-                server = "127.0.0.1:" + port;
+                server = "127.0.0.1:".concat(port);
                 // 新cron
                 taskName = "jd_joy_new.js";
                 cron = '0 0-23/2 * * *';
@@ -63,10 +63,10 @@ var server = '', message = '', taskName;
             case 1:
                 task = _a.sent();
                 if (!(task && task.schedule !== cron)) return [3 /*break*/, 3];
-                console.log("\u5F00\u59CB\u66F4\u65B0" + task.name + "\u7684cron");
+                console.log("\u5F00\u59CB\u66F4\u65B0".concat(task.name, "\u7684cron"));
                 console.log('旧', task.schedule);
                 console.log('新', cron);
-                message = "\u65E7  " + task.schedule + "\n\u65B0  " + cron + "\n\u66F4\u65B0\u6210\u529F";
+                message = "\u65E7  ".concat(task.schedule, "\n\u65B0  ").concat(cron, "\n\u66F4\u65B0\u6210\u529F");
                 return [4 /*yield*/, set(task, bearer, cron)];
             case 2:
                 _a.sent();
@@ -87,11 +87,11 @@ function set(task, bearer, cron) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].put("http://" + server + "/api/crons?t=" + Date.now(), JSON.stringify({
+                case 0: return [4 /*yield*/, axios_1["default"].put("http://".concat(server, "/api/crons?t=").concat(Date.now()), JSON.stringify({
                         "name": task.name, "command": task.command, "schedule": cron, "_id": task._id
                     }), {
                         headers: {
-                            'Authorization': "Bearer " + bearer,
+                            'Authorization': "Bearer ".concat(bearer),
                             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36',
                             'Content-Type': 'application/json;charset=UTF-8'
                         }
@@ -99,7 +99,7 @@ function set(task, bearer, cron) {
                 case 1:
                     data = (_a.sent()).data;
                     if (!(data.code === 200)) return [3 /*break*/, 3];
-                    console.log(task.name + "\u7684cron\u66F4\u65B0\u6210\u529F");
+                    console.log("".concat(task.name, "\u7684cron\u66F4\u65B0\u6210\u529F"));
                     return [4 /*yield*/, sendNotify(taskName, message)];
                 case 2:
                     _a.sent();
@@ -117,9 +117,9 @@ function get(name, bearer) {
         var data, _i, _a, task;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("http://" + server + "/api/crons?searchValue=&t=" + Date.now(), {
+                case 0: return [4 /*yield*/, axios_1["default"].get("http://".concat(server, "/api/crons?searchValue=&t=").concat(Date.now()), {
                         headers: {
-                            'Authorization': "Bearer " + bearer,
+                            'Authorization': "Bearer ".concat(bearer),
                             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36',
                             'Content-Type': 'application/json;charset=UTF-8'
                         }

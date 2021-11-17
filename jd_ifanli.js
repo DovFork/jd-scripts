@@ -53,7 +53,7 @@ var cookie = '', res = '', UserName, index;
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api('getTaskFinishCount')];
             case 3:
                 res = _b.sent();
@@ -111,7 +111,7 @@ function api(fn) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://ifanli.m.jd.com/rebateapi/task/" + fn, {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://ifanli.m.jd.com/rebateapi/task/".concat(fn), {
                         headers: {
                             "Host": "ifanli.m.jd.com",
                             "User-Agent": TS_USER_AGENTS_1["default"],
@@ -132,7 +132,7 @@ function taskApi(fn, body) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://ifanli.m.jd.com/rebateapi/task/" + fn, JSON.stringify(body), {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://ifanli.m.jd.com/rebateapi/task/".concat(fn), JSON.stringify(body), {
                         headers: {
                             'authority': 'ifanli.m.jd.com',
                             'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',

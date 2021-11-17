@@ -62,10 +62,10 @@ var UserName, index;
             case 3:
                 _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\uFF1A").concat(nickName || UserName));
                     return [3 /*break*/, 21];
                 }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(nickName || UserName, "\n"));
                 k = 0;
                 _c.label = 4;
             case 4:
@@ -112,7 +112,7 @@ var UserName, index;
             case 15: return [4 /*yield*/, getTask()];
             case 16:
                 res = _c.sent();
-                console.log("\u6709" + res.data.chanceLeft + "\u6B21\u62BD\u5956\u673A\u4F1A");
+                console.log("\u6709".concat(res.data.chanceLeft, "\u6B21\u62BD\u5956\u673A\u4F1A"));
                 j = 0;
                 _c.label = 17;
             case 17:
@@ -139,7 +139,7 @@ function api(fn, body) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/module/task/draw/" + fn, body, {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/module/task/draw/".concat(fn), body, {
                         headers: {
                             'Host': 'jdjoy.jd.com',
                             'Referer': 'https://prodev.m.jd.com/mall/active/ebLz35DwiVumB6pcrGkqmnhCgmC/index.html',
@@ -181,7 +181,7 @@ function join() {
                     })];
                 case 1:
                     data = (_a.sent()).data;
-                    console.log("\u62BD\u4E2D\uFF1A" + data.data.rewardName);
+                    console.log("\u62BD\u4E2D\uFF1A".concat(data.data.rewardName));
                     return [2 /*return*/];
             }
         });

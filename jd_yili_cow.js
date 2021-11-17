@@ -63,7 +63,7 @@ function main() {
                     cookie = cookiesArr[i];
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     index = i + 1;
-                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                     return [4 /*yield*/, getIsvToken()];
                 case 4:
                     _c.sent();
@@ -77,11 +77,11 @@ function main() {
                 case 7:
                     res = _c.sent();
                     shopId = res.data.venderId;
-                    return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/customer/getMyPing', "userId=" + shopId + "&token=" + token2 + "&fromType=APP")];
+                    return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/customer/getMyPing', "userId=".concat(shopId, "&token=").concat(token2, "&fromType=APP"))];
                 case 8:
                     res = _c.sent();
                     pin = res.data.secretPin;
-                    return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/wxActionCommon/getUserInfo', "pin=" + encodeURIComponent(pin))];
+                    return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/wxActionCommon/getUserInfo', "pin=".concat(encodeURIComponent(pin)))];
                 case 9:
                     res = _c.sent();
                     if ((_a = res.data) === null || _a === void 0 ? void 0 : _a.hasOwnProperty('id')) {
@@ -90,10 +90,10 @@ function main() {
                     else {
                         return [3 /*break*/, 26];
                     }
-                    return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/common/accessLogWithAD', "venderId=1000013402&code=99&pin=" + encodeURIComponent(pin) + "&activityId=dz2103100001340201&pageUrl=https%3A%2F%2Flzdz-isv.isvjcloud.com%2Fdingzhi%2Fyili%2Fyangniu%2Factivity%2F4827909%3FactivityId%3Ddz2103100001340201%26shareUuid%3Db44243656a694b6f94bb30a4a5f2a45d%26adsource%3Dziying%26shareuserid4minipg%3D5Iufa9rY657S3OP3PLSpK07oeVP9kq2pYSH90mYt4m3fwcJlClpxrfmVYaGKuquQkdK3rLBQpEQH9V4tdrrh0w%3D%3D%26shopid%3D1000013402%26lng%3D114.062604%26lat%3D29.541501%26sid%3D6e9bfee3838075a72533536815d8f3ew%26un_area%3D4_48201_54794_0&subType=app&adSource=ziying")];
+                    return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/common/accessLogWithAD', "venderId=1000013402&code=99&pin=".concat(encodeURIComponent(pin), "&activityId=dz2103100001340201&pageUrl=https%3A%2F%2Flzdz-isv.isvjcloud.com%2Fdingzhi%2Fyili%2Fyangniu%2Factivity%2F4827909%3FactivityId%3Ddz2103100001340201%26shareUuid%3Db44243656a694b6f94bb30a4a5f2a45d%26adsource%3Dziying%26shareuserid4minipg%3D5Iufa9rY657S3OP3PLSpK07oeVP9kq2pYSH90mYt4m3fwcJlClpxrfmVYaGKuquQkdK3rLBQpEQH9V4tdrrh0w%3D%3D%26shopid%3D1000013402%26lng%3D114.062604%26lat%3D29.541501%26sid%3D6e9bfee3838075a72533536815d8f3ew%26un_area%3D4_48201_54794_0&subType=app&adSource=ziying"))];
                 case 10:
                     res = _c.sent();
-                    return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/dingzhi/yili/yangniu/activityContent', "activityId=dz2103100001340201&pin=" + encodeURIComponent(pin) + "&pinImg=null&nick=" + cookie.match(/pt_pin=([^;]*)/)[1] + "&cjyxPin=&cjhyPin=&shareUuid=")];
+                    return [4 /*yield*/, api('https://lzdz-isv.isvjcloud.com/dingzhi/yili/yangniu/activityContent', "activityId=dz2103100001340201&pin=".concat(encodeURIComponent(pin), "&pinImg=null&nick=").concat(cookie.match(/pt_pin=([^;]*)/)[1], "&cjyxPin=&cjhyPin=&shareUuid="))];
                 case 11:
                     res = _c.sent();
                     actorUuid = res.data.actorUuid;
@@ -103,7 +103,7 @@ function main() {
                     _c.label = 12;
                 case 12:
                     if (!(j < milk)) return [3 /*break*/, 16];
-                    return [4 /*yield*/, api('feedCow', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin))];
+                    return [4 /*yield*/, api('feedCow', "activityId=dz2103100001340201&actorUuid=".concat(actorUuid, "&pin=").concat(encodeURIComponent(pin)))];
                 case 13:
                     res = _c.sent();
                     if (res.result) {
@@ -122,7 +122,7 @@ function main() {
                     return [3 /*break*/, 12];
                 case 16:
                     if (!1) return [3 /*break*/, 19];
-                    return [4 /*yield*/, api('start', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin))];
+                    return [4 /*yield*/, api('start', "activityId=dz2103100001340201&actorUuid=".concat(actorUuid, "&pin=").concat(encodeURIComponent(pin)))];
                 case 17:
                     res = _c.sent();
                     if (res.result) {
@@ -154,7 +154,7 @@ function main() {
                 case 20:
                     if (!(_i < taskArr_1.length)) return [3 /*break*/, 24];
                     t = taskArr_1[_i];
-                    return [4 /*yield*/, api('saveTask', "activityId=dz2103100001340201&actorUuid=" + actorUuid + "&pin=" + encodeURIComponent(pin) + "&taskType=" + t.taskType + "&taskValue=" + ((_b = t.taskValue) !== null && _b !== void 0 ? _b : ''))];
+                    return [4 /*yield*/, api('saveTask', "activityId=dz2103100001340201&actorUuid=".concat(actorUuid, "&pin=").concat(encodeURIComponent(pin), "&taskType=").concat(t.taskType, "&taskValue=").concat((_b = t.taskValue) !== null && _b !== void 0 ? _b : ''))];
                 case 21:
                     res = _c.sent();
                     if (res.result)
@@ -191,7 +191,7 @@ function api(fn, body) {
         url = fn;
     }
     else {
-        url = "https://lzdz-isv.isvjcloud.com/dingzhi/yili/yangniu/" + fn;
+        url = "https://lzdz-isv.isvjcloud.com/dingzhi/yili/yangniu/".concat(fn);
     }
     return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
         var _a, data, headers;
@@ -223,7 +223,7 @@ function getIsvToken() {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=genToken&clientVersion=10.0.2&client=android&uuid=818aa057737ba6a4&st=1623934987178&sign=0877498be29cda51b9628fa0195f412f&sv=111", "body=" + escape('{"action":"to","to":"https%3A%2F%2Fh5.m.jd.com%2FbabelDiy%2FZeus%2F3KSjXqQabiTuD1cJ28QskrpWoBKT%2Findex.html%3FbabelChannel%3D45%26collectionId%3D519"}'), {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=genToken&clientVersion=10.0.2&client=android&uuid=818aa057737ba6a4&st=1623934987178&sign=0877498be29cda51b9628fa0195f412f&sv=111", "body=".concat(escape('{"action":"to","to":"https%3A%2F%2Fh5.m.jd.com%2FbabelDiy%2FZeus%2F3KSjXqQabiTuD1cJ28QskrpWoBKT%2Findex.html%3FbabelChannel%3D45%26collectionId%3D519"}')), {
                         headers: {
                             'Host': 'api.m.jd.com',
                             'charset': 'UTF-8',
@@ -297,7 +297,7 @@ function reloadCookie(setCookie) {
         cookie = '';
         for (var ck in cookieTEMP) {
             if (cookieTEMP.hasOwnProperty(ck)) {
-                cookie += ck + "=" + cookieTEMP[ck] + ";";
+                cookie += "".concat(ck, "=").concat(cookieTEMP[ck], ";");
             }
         }
     }

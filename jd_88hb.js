@@ -80,7 +80,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, token(cookie)];
             case 3:
                 jxToken = _d.sent();
@@ -136,7 +136,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
             case 15:
                 if (!(_i < shareCodes_1.length)) return [3 /*break*/, 19];
                 code = shareCodes_1[_i];
-                console.log("\u8D26\u53F7 " + UserName + " \u53BB\u52A9\u529B " + code);
+                console.log("\u8D26\u53F7 ".concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
                 return [4 /*yield*/, api('EnrollFriend', 'activeId,channel,joinDate,phoneid,publishFlag,strPin,timestamp', { joinDate: (0, date_fns_1.format)(Date.now(), 'yyyyMMdd'), strPin: code })];
             case 16:
                 res = _d.sent();
@@ -175,7 +175,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
             case 22:
                 jxToken = _d.sent();
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + " \u62C6\u7EA2\u5305\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, " \u62C6\u7EA2\u5305\n"));
                 return [4 /*yield*/, api('GetUserInfo', 'activeId,channel,phoneid,publishFlag,stepreward_jstoken,timestamp,userDraw', { userDraw: 1 })];
             case 23:
                 res = _d.sent();
@@ -193,9 +193,9 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
             case 26:
                 res = _d.sent();
                 if (res.iRet === 2018)
-                    console.log("\u7B49\u7EA7" + t.dwGrade + "\u7EA2\u5305\u5DF2\u6253\u5F00\u8FC7");
+                    console.log("\u7B49\u7EA7".concat(t.dwGrade, "\u7EA2\u5305\u5DF2\u6253\u5F00\u8FC7"));
                 else if (res.iRet === 0)
-                    console.log("\u7B49\u7EA7" + t.dwGrade + "\u7EA2\u5305\u6253\u5F00\u6210\u529F");
+                    console.log("\u7B49\u7EA7".concat(t.dwGrade, "\u7EA2\u5305\u6253\u5F00\u6210\u529F"));
                 else {
                     console.log('其他错误', (_c = res.sErrMsg) !== null && _c !== void 0 ? _c : JSON.stringify(res));
                     return [3 /*break*/, 30];
@@ -222,8 +222,8 @@ function api(fn, stk, params) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "https://m.jingxi.com/cubeactive/steprewardv3/" + fn + "?activeId=525597&publishFlag=1&channel=7&_stk=" + encodeURIComponent(stk) + "&_ste=1&_=" + Date.now() + "&sceneval=2&stepreward_jstoken=" + jxToken['farm_jstoken'] + "&timestamp=" + jxToken['timestamp'] + "&phoneid=" + jxToken['phoneid'];
-                    UA = "jdpingou;iPhone;4.13.0;14.4.2;" + (0, TS_USER_AGENTS_1.randomString)(40) + ";network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/" + (Math.random() * 98 + 1) + ";pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148";
+                    url = "https://m.jingxi.com/cubeactive/steprewardv3/".concat(fn, "?activeId=525597&publishFlag=1&channel=7&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2&stepreward_jstoken=").concat(jxToken['farm_jstoken'], "&timestamp=").concat(jxToken['timestamp'], "&phoneid=").concat(jxToken['phoneid']);
+                    UA = "jdpingou;iPhone;4.13.0;14.4.2;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/").concat(Math.random() * 98 + 1, ";pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148");
                     url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10010);
                     _a.label = 1;
                 case 1:
@@ -263,7 +263,7 @@ function makeShareCodes(code) {
                 case 2:
                     farm = _a.sent();
                     pin = ts_md5_1.Md5.hashStr(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/hb88?sharecode=" + code + "&bean=" + bean + "&farm=" + farm + "&pin=" + pin)];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/hb88?sharecode=".concat(code, "&bean=").concat(bean, "&farm=").concat(farm, "&pin=").concat(pin))];
                 case 3:
                     data = (_a.sent()).data;
                     console.log(data.message);

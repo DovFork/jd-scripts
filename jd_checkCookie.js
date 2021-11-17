@@ -98,7 +98,7 @@ function api(index, cookie, username) {
                     }
                     else {
                         console.log(index, '❌', username);
-                        errMsg += index + " " + username + "\n";
+                        errMsg += "".concat(index, " ").concat(username, "\n");
                     }
                     return [2 /*return*/];
             }

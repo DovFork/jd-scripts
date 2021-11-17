@@ -54,7 +54,7 @@ var cookie = '', res = '', UserName, index;
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 body = {
                     "sharePin": "",
                     "shareType": 1,
@@ -76,7 +76,7 @@ var cookie = '', res = '', UserName, index;
                 console.log(JSON.stringify(res));
                 user = res.resultData.data;
                 if (!user.realName) {
-                    console.log(UserName + "\u672A\u5F00\u901A\u6E38\u620F");
+                    console.log("".concat(UserName, "\u672A\u5F00\u901A\u6E38\u620F"));
                     return [3 /*break*/, 36];
                 }
                 console.log('助力码:', user.sharePin);
@@ -99,7 +99,7 @@ var cookie = '', res = '', UserName, index;
                 _k.sent();
                 if (res.resultData.code === '200') {
                     console.log('收果子成功，剩余：', res.resultData.data.treeInfo.fruit);
-                    console.log("\u8DDD\u79BB" + res.resultData.data.treeInfo.treeName + "\u8FD8\u6709" + res.resultData.data.treeInfo.progressLeft);
+                    console.log("\u8DDD\u79BB".concat(res.resultData.data.treeInfo.treeName, "\u8FD8\u6709").concat(res.resultData.data.treeInfo.progressLeft));
                 }
                 // 签到
                 body = {
@@ -210,7 +210,7 @@ var cookie = '', res = '', UserName, index;
                 _k.label = 24;
             case 24:
                 if (!(t.workStatus === 0)) return [3 /*break*/, 29];
-                return [4 /*yield*/, mission('queryMissionReceiveAfterStatus', "%7B%22missionId%22:%22" + t.mid + "%22%7D", t.url)];
+                return [4 /*yield*/, mission('queryMissionReceiveAfterStatus', "%7B%22missionId%22:%22".concat(t.mid, "%22%7D"), t.url)];
             case 25:
                 res = _k.sent();
                 console.log('任务开始:', (_h = res.resultData) === null || _h === void 0 ? void 0 : _h.msg);
@@ -218,7 +218,7 @@ var cookie = '', res = '', UserName, index;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(readTime * 1000)];
             case 26:
                 _k.sent();
-                return [4 /*yield*/, mission('finishReadMission', "%7B%22missionId%22%3A%22" + t.mid + "%22%2C%22readTime%22%3A" + readTime + "%7D", t.url)];
+                return [4 /*yield*/, mission('finishReadMission', "%7B%22missionId%22%3A%22".concat(t.mid, "%22%2C%22readTime%22%3A").concat(readTime, "%7D"), t.url)];
             case 27:
                 res = _k.sent();
                 console.log('任务完成:', (_j = res.resultData) === null || _j === void 0 ? void 0 : _j.msg);
@@ -272,7 +272,7 @@ function api(fn, body) {
                     else {
                         body = encodeURIComponent(JSON.stringify(body));
                     }
-                    return [4 /*yield*/, axios_1["default"].post("https://ms.jr.jd.com/gw/generic/uc/h5/m/" + fn + "?_=" + Date.now() * 1000, "reqData=" + body, {
+                    return [4 /*yield*/, axios_1["default"].post("https://ms.jr.jd.com/gw/generic/uc/h5/m/".concat(fn, "?_=").concat(Date.now() * 1000), "reqData=".concat(body), {
                             headers: {
                                 'User-Agent': TS_USER_AGENTS_1["default"],
                                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',

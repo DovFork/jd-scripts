@@ -112,7 +112,7 @@ function api() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = (0, TS_USER_AGENTS_1.h5st)("https://wq.jd.com/dreamfactory/diminfo/GetCommodityList?zone=dream_factory&flag=2&pageNo=1&pageSize=12&_time=" + Date.now() + "&_stk=_time%2Cflag%2CpageNo%2CpageSize%2Czone&_ste=1&_=" + Date.now() + "&sceneval=2", '_time,flag,pageNo,pageSize,zone', {}, 10001);
+                    url = (0, TS_USER_AGENTS_1.h5st)("https://wq.jd.com/dreamfactory/diminfo/GetCommodityList?zone=dream_factory&flag=2&pageNo=1&pageSize=12&_time=".concat(Date.now(), "&_stk=_time%2Cflag%2CpageNo%2CpageSize%2Czone&_ste=1&_=").concat(Date.now(), "&sceneval=2"), '_time,flag,pageNo,pageSize,zone', {}, 10001);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'wq.jd.com',

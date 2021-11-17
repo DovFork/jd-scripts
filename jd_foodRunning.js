@@ -60,10 +60,10 @@ var index, remain = 0;
             case 3:
                 _a = _e.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\uFF1A").concat(nickName || UserName));
                     return [3 /*break*/, 33];
                 }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(nickName || UserName, "\n"));
                 return [4 /*yield*/, getIsvToken2()];
             case 4:
                 _e.sent();
@@ -183,7 +183,7 @@ var index, remain = 0;
                 return [3 /*break*/, 26];
             case 30: return [3 /*break*/, 32];
             case 31:
-                console.log(t.missionName + "--\u5DF2\u5168\u90E8\u5B8C\u6210");
+                console.log("".concat(t.missionName, "--\u5DF2\u5168\u90E8\u5B8C\u6210"));
                 _e.label = 32;
             case 32:
                 _i++;
@@ -254,7 +254,7 @@ function api(fn) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://jinggengjcq-isv.isvjcloud.com/dm/front/foodRunning/" + fn + "?open_id=&mix_nick=&bizExtString=&user_id=10299171", JSON.stringify({
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://jinggengjcq-isv.isvjcloud.com/dm/front/foodRunning/".concat(fn, "?open_id=&mix_nick=&bizExtString=&user_id=10299171"), JSON.stringify({
                         "jsonRpc": "2.0",
                         "params": {
                             "commonParameter": {
@@ -267,7 +267,7 @@ function api(fn) {
                             "admJson": {
                                 "source": "01",
                                 "strTMMixNick": token2,
-                                "method": "/foodRunning/" + fn,
+                                "method": "/foodRunning/".concat(fn),
                                 "actId": "jd_food_running",
                                 "buyerNick": buyerNick,
                                 "pushWay": 1,
@@ -326,7 +326,7 @@ function requireConfig() {
                 cookiesArr.push(jdCookieNode[item]);
             }
         });
-        console.log("\u5171" + cookiesArr.length + "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n");
+        console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
         resolve(0);
     });
 }

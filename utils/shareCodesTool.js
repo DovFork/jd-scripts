@@ -45,7 +45,7 @@ function bean(cookie) {
         var data;
         return __generator(this, function (_d) {
             switch (_d.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action', "functionId=plantBeanIndex&body=" + escape(JSON.stringify({ version: "9.0.0.1", "monitor_source": "plant_app_plant_index", "monitor_refer": "" })) + "&appid=ld&client=apple&area=5_274_49707_49973&build=167283&clientVersion=9.1.0", {
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action', "functionId=plantBeanIndex&body=".concat(escape(JSON.stringify({ version: "9.0.0.1", "monitor_source": "plant_app_plant_index", "monitor_refer": "" })), "&appid=ld&client=apple&area=5_274_49707_49973&build=167283&clientVersion=9.1.0"), {
                         headers: {
                             Cookie: cookie,
                             Host: "api.m.jd.com",
@@ -70,7 +70,7 @@ function farm(cookie) {
         var data;
         return __generator(this, function (_c) {
             switch (_c.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action?functionId=initForFarm', "body=" + escape(JSON.stringify({ "version": 4 })) + "&appid=wh5&clientVersion=9.1.0", {
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action?functionId=initForFarm', "body=".concat(escape(JSON.stringify({ "version": 4 })), "&appid=wh5&clientVersion=9.1.0"), {
                         headers: {
                             "cookie": cookie,
                             "origin": "https://home.m.jd.com",
@@ -93,7 +93,7 @@ function health(cookie) {
         var data;
         return __generator(this, function (_d) {
             switch (_d.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action/client.action?functionId=jdhealth_getTaskDetail&body=" + escape(JSON.stringify({ "buildingId": "", taskId: 6, "channelId": 1 })) + "&client=wh5&clientVersion=1.0.0", {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action/client.action?functionId=jdhealth_getTaskDetail&body=".concat(escape(JSON.stringify({ "buildingId": "", taskId: 6, "channelId": 1 })), "&client=wh5&clientVersion=1.0.0"), {
                         headers: {
                             "Cookie": cookie,
                             "origin": "https://h5.m.jd.com",
@@ -116,7 +116,7 @@ function pet(cookie) {
         var data;
         return __generator(this, function (_c) {
             switch (_c.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=initPetTown", "body=" + escape(JSON.stringify({ version: 2, channel: "app" })) + "&appid=wh5&loginWQBiz=pet-town&clientVersion=9.0.4", {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=initPetTown", "body=".concat(escape(JSON.stringify({ version: 2, channel: "app" })), "&appid=wh5&loginWQBiz=pet-town&clientVersion=9.0.4"), {
                         headers: {
                             'Cookie': cookie,
                             "User-Agent": TS_USER_AGENTS_1["default"],
@@ -138,7 +138,7 @@ function factory(cookie) {
         var data, _i, _c, t;
         return __generator(this, function (_d) {
             switch (_d.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=jdfactory_getTaskDetail", "functionId=jdfactory_getTaskDetail&body=" + escape(JSON.stringify({})) + "&client=wh5&clientVersion=9.1.0", {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=jdfactory_getTaskDetail", "functionId=jdfactory_getTaskDetail&body=".concat(escape(JSON.stringify({})), "&client=wh5&clientVersion=9.1.0"), {
                         headers: {
                             Cookie: cookie,
                             origin: "https://h5.m.jd.com",
@@ -199,7 +199,7 @@ function jxfactory(cookie) {
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    url = "https://m.jingxi.com/newtasksys/newtasksys_front/GetUserTaskStatusList?source=dreamfactory&bizCode=dream_factory&_time=" + Date.now() + "&_stk=" + encodeURIComponent('_time,bizCode,source') + "&_ste=1&_=" + Date.now() + "&sceneval=2";
+                    url = "https://m.jingxi.com/newtasksys/newtasksys_front/GetUserTaskStatusList?source=dreamfactory&bizCode=dream_factory&_time=".concat(Date.now(), "&_stk=").concat(encodeURIComponent('_time,bizCode,source'), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
                     url = (0, TS_USER_AGENTS_1.h5st)(url, '_time,bizCode,source', {}, 10001);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
@@ -223,7 +223,7 @@ function cash(cookie) {
         var data;
         return __generator(this, function (_d) {
             switch (_d.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=cash_mob_home&body=" + escape(JSON.stringify({})) + "&appid=CashRewardMiniH5Env&appid=9.1.0", {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=cash_mob_home&body=".concat(escape(JSON.stringify({})), "&appid=CashRewardMiniH5Env&appid=9.1.0"), {
                         headers: {
                             'Cookie': cookie,
                             'Host': 'api.m.jd.com',

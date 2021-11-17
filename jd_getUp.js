@@ -58,10 +58,10 @@ var cookie = '', cookiesArr, UserName, index;
             case 3:
                 _a = _b.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\uFF1A").concat(nickName || UserName));
                     return [3 /*break*/, 7];
                 }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(nickName || UserName, "\n"));
                 _b.label = 4;
             case 4:
                 _b.trys.push([4, 6, , 7]);

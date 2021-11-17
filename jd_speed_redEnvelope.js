@@ -71,7 +71,7 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW, id = 'PFbUR7wtwUcQ860Sn8
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api('openRedEnvelopeInteract', '', '')];
             case 4:
                 res = _c.sent();
@@ -122,7 +122,7 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW, id = 'PFbUR7wtwUcQ860Sn8
                 if (!(_i < shareCodes_1.length)) return [3 /*break*/, 23];
                 boss = shareCodes_1[_i];
                 if (!(boss.redEnvelopeId && boss.inviter)) return [3 /*break*/, 22];
-                console.log("\u8D26\u53F7" + (i + 1) + " " + UserName + " \u53BB\u52A9\u529B ", boss.redEnvelopeId);
+                console.log("\u8D26\u53F7".concat(i + 1, " ").concat(UserName, " \u53BB\u52A9\u529B "), boss.redEnvelopeId);
                 if (!boss.inviter) return [3 /*break*/, 16];
                 return [4 /*yield*/, api('openRedEnvelopeInteract', boss.redEnvelopeId, boss.inviter, 2)];
             case 15:
@@ -183,14 +183,14 @@ function api(fn, redEnvelopeId, inviter, helpType) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={%22linkId%22:%22" + linkId + "%22,%22redEnvelopeId%22:%22" + redEnvelopeId + "%22,%22inviter%22:%22" + inviter + "%22,%22helpType%22:%22" + helpType + "%22}&t=" + Date.now() + "&appid=activities_platform&clientVersion=3.5.0", {
+                    return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/?functionId=openRedEnvelopeInteract&body={%22linkId%22:%22".concat(linkId, "%22,%22redEnvelopeId%22:%22").concat(redEnvelopeId, "%22,%22inviter%22:%22").concat(inviter, "%22,%22helpType%22:%22").concat(helpType, "%22}&t=").concat(Date.now(), "&appid=activities_platform&clientVersion=3.5.0"), {
                             headers: {
                                 'Host': 'api.m.jd.com',
                                 'accept': 'application/json, text/plain, */*',
                                 'origin': 'https://618redpacket.jd.com',
                                 'user-agent': 'jdltapp;iPhone;3.5.0;14.2;network/wifi;hasUPPay/0;pushNoticeIsOpen/0;lang/zh_CN;model/iPhone10,2;hasOCPay/0;appBuild/1066;supportBestPay/0;pv/7.0;apprpd/;Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1',
                                 'accept-language': 'zh-cn',
-                                'referer': "https://618redpacket.jd.com/?activityId=" + linkId + "&redEnvelopeId=" + redEnvelopeId + "&inviterId=" + inviter + "&helpType=1&lng=&lat=&sid=",
+                                'referer': "https://618redpacket.jd.com/?activityId=".concat(linkId, "&redEnvelopeId=").concat(redEnvelopeId, "&inviterId=").concat(inviter, "&helpType=1&lng=&lat=&sid="),
                                 'Cookie': cookie
                             }
                         })];

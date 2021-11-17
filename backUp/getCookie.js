@@ -61,7 +61,7 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
                         'Host': 'plogin.m.jd.com'
                     }
                 };
-                return [4 /*yield*/, axios_1["default"].get("https://plogin.m.jd.com/cgi-bin/mm/new_login_entrance?lang=chs&appid=300&returnurl=https://wq.jd.com/passport/LoginRedirect?state=" + Date.now() + "&returnurl=https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action&source=wq_passport", config)];
+                return [4 /*yield*/, axios_1["default"].get("https://plogin.m.jd.com/cgi-bin/mm/new_login_entrance?lang=chs&appid=300&returnurl=https://wq.jd.com/passport/LoginRedirect?state=".concat(Date.now(), "&returnurl=https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action&source=wq_passport"), config)];
             case 1:
                 _a = _e.sent(), headers = _a.headers, data = _a.data;
                 s_token = data['s_token'];
@@ -73,25 +73,25 @@ var PUSH_COOKIE = (_a = process.env.PUSH_COOKIE) !== null && _a !== void 0 ? _a 
                 guid = setCookie.match(/guid=([^;]*)/)[1];
                 lsid = setCookie.match(/lsid=([^;]*)/)[1];
                 lstoken = setCookie.match(/lstoken=([^;]*)/)[1];
-                cookies = "guid=" + guid + ";lang=chs;lsid=" + lsid + ";lstoken=" + lstoken + ";";
+                cookies = "guid=".concat(guid, ";lang=chs;lsid=").concat(lsid, ";lstoken=").concat(lstoken, ";");
                 config.headers.cookie = cookies;
-                body = { 'lang': 'chs', 'appid': '300', 'returnurl': "https://wqlogin2.jd.com/passport/LoginRedirect?state=" + Date.now() + "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action", 'source': 'wq_passport' };
-                return [4 /*yield*/, axios_1["default"].post("https://plogin.m.jd.com/cgi-bin/m/tmauthreflogurl?s_token=" + s_token + "&v=" + Date.now() + "&remember=true", encodeURIComponent(JSON.stringify(body)), config).then(function (res) {
+                body = { 'lang': 'chs', 'appid': '300', 'returnurl': "https://wqlogin2.jd.com/passport/LoginRedirect?state=".concat(Date.now(), "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action"), 'source': 'wq_passport' };
+                return [4 /*yield*/, axios_1["default"].post("https://plogin.m.jd.com/cgi-bin/m/tmauthreflogurl?s_token=".concat(s_token, "&v=").concat(Date.now(), "&remember=true"), encodeURIComponent(JSON.stringify(body)), config).then(function (res) {
                         return res;
                     })];
             case 2:
                 res = _e.sent();
                 token = res.data.token;
                 okl_token = res.headers['set-cookie'][0].match(/okl_token=([^;]*)/)[1];
-                url = "https://plogin.m.jd.com/cgi-bin/m/tmauth?appid=300&client_type=m&token=" + token;
+                url = "https://plogin.m.jd.com/cgi-bin/m/tmauth?appid=300&client_type=m&token=".concat(token);
                 console.log(url);
                 qrcode.generate(url, { small: true });
                 _e.label = 3;
             case 3:
                 if (!1) return [3 /*break*/, 10];
-                return [4 /*yield*/, axios_1["default"].post("https://plogin.m.jd.com/cgi-bin/m/tmauthchecktoken?&token=" + token + "&ou_state=0&okl_token=" + okl_token, "lang=chs&appid=300&source=wq_passport&returnurl=https://wqlogin2.jd.com/passport/LoginRedirect?state=" + Date.now() + "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action", {
+                return [4 /*yield*/, axios_1["default"].post("https://plogin.m.jd.com/cgi-bin/m/tmauthchecktoken?&token=".concat(token, "&ou_state=0&okl_token=").concat(okl_token), "lang=chs&appid=300&source=wq_passport&returnurl=https://wqlogin2.jd.com/passport/LoginRedirect?state=".concat(Date.now(), "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action"), {
                         headers: {
-                            'Referer': "https://plogin.m.jd.com/login/login?appid=300&returnurl=https://wqlogin2.jd.com/passport/LoginRedirect?state=" + Date.now() + "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action&source=wq_passport",
+                            'Referer': "https://plogin.m.jd.com/login/login?appid=300&returnurl=https://wqlogin2.jd.com/passport/LoginRedirect?state=".concat(Date.now(), "&returnurl=//home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&/myJd/home.action&source=wq_passport"),
                             'Cookie': cookies,
                             'Connection': 'Keep-Alive',
                             'Content-Type': 'application/x-www-form-urlencoded; Charset=UTF-8',

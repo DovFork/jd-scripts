@@ -58,7 +58,7 @@ var tokenKey = '', token = '', bearer = '';
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, getIsvToken()];
             case 3:
                 _d.sent();
@@ -78,7 +78,7 @@ var tokenKey = '', token = '', bearer = '';
                 t = _a[_i];
                 if (!(t.status === 1)) return [3 /*break*/, 17];
                 if (!t.simpleRecordInfoVo) return [3 /*break*/, 10];
-                return [4 /*yield*/, api('do_task', "taskToken=" + t.simpleRecordInfoVo.taskToken + "&task_id=" + t.taskId + "&task_type=" + t.taskType)];
+                return [4 /*yield*/, api('do_task', "taskToken=".concat(t.simpleRecordInfoVo.taskToken, "&task_id=").concat(t.taskId, "&task_type=").concat(t.taskType))];
             case 8:
                 // 签到
                 res = _d.sent();
@@ -96,7 +96,7 @@ var tokenKey = '', token = '', bearer = '';
                 item = items_1[_b];
                 if (!(item.status === 1)) return [3 /*break*/, 14];
                 name_1 = item.shopName || item.title || item.skuName;
-                return [4 /*yield*/, api('do_task', "taskToken=" + item.taskToken + "&task_id=" + t.taskId + "&task_type=" + t.taskType + "&task_name=" + encodeURIComponent(name_1))];
+                return [4 /*yield*/, api('do_task', "taskToken=".concat(item.taskToken, "&task_id=").concat(t.taskId, "&task_type=").concat(t.taskType, "&task_name=").concat(encodeURIComponent(name_1)))];
             case 12:
                 res = _d.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
@@ -134,7 +134,7 @@ var tokenKey = '', token = '', bearer = '';
                 t = res_1[_c];
                 if (!(t.times_limit !== t.exchange_total)) return [3 /*break*/, 23];
                 console.log('兑换', t.coins);
-                return [4 /*yield*/, api('do_exchange', "id=" + t.id)];
+                return [4 /*yield*/, api('do_exchange', "id=".concat(t.id))];
             case 21:
                 res = _d.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
@@ -156,8 +156,8 @@ var tokenKey = '', token = '', bearer = '';
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 30];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log(UserName + "\u53BB\u52A9\u529B" + shareCodesInternal[0].taskToken);
-                return [4 /*yield*/, api('do_assist_task', "taskToken=" + shareCodesInternal[0].taskToken + "&inviter_id=" + shareCodesInternal[0].inviter_id)];
+                console.log("".concat(UserName, "\u53BB\u52A9\u529B").concat(shareCodesInternal[0].taskToken));
+                return [4 /*yield*/, api('do_assist_task', "taskToken=".concat(shareCodesInternal[0].taskToken, "&inviter_id=").concat(shareCodesInternal[0].inviter_id))];
             case 27:
                 res = _d.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
@@ -185,14 +185,14 @@ function api(fn, body) {
                         'Host': 'ddsj-dz.isvjcloud.com',
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'User-Agent': TS_USER_AGENTS_1["default"],
-                        'Authorization': "Bearer " + bearer,
+                        'Authorization': "Bearer ".concat(bearer),
                         'Referer': 'https://ddsj-dz.isvjcloud.com/dd-world/'
                     };
                     if (!body) return [3 /*break*/, 5];
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, axios_1["default"].post("https://ddsj-dz.isvjcloud.com/dd-api/" + fn, body, { headers: headers })];
+                    return [4 /*yield*/, axios_1["default"].post("https://ddsj-dz.isvjcloud.com/dd-api/".concat(fn), body, { headers: headers })];
                 case 2:
                     data = (_a.sent()).data;
                     return [2 /*return*/, data];
@@ -202,7 +202,7 @@ function api(fn, body) {
                 case 4: return [3 /*break*/, 8];
                 case 5:
                     _a.trys.push([5, 7, , 8]);
-                    return [4 /*yield*/, axios_1["default"].get("https://ddsj-dz.isvjcloud.com/dd-api/" + fn, { headers: headers })];
+                    return [4 /*yield*/, axios_1["default"].get("https://ddsj-dz.isvjcloud.com/dd-api/".concat(fn), { headers: headers })];
                 case 6:
                     data = (_a.sent()).data;
                     return [2 /*return*/, data];
@@ -267,14 +267,14 @@ function getToken() {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://ddsj-dz.isvjcloud.com/dd-api/jd-user-info', "token=" + token + "&source=01", {
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://ddsj-dz.isvjcloud.com/dd-api/jd-user-info', "token=".concat(token, "&source=01"), {
                         headers: {
                             'Host': 'ddsj-dz.isvjcloud.com',
                             'Origin': 'https://ddsj-dz.isvjcloud.com',
                             'Authorization': 'Bearer undefined',
                             'User-Agent': TS_USER_AGENTS_1["default"],
                             'Referer': 'https://ddsj-dz.isvjcloud.com',
-                            'Cookie': "IsvToken=" + tokenKey + ";"
+                            'Cookie': "IsvToken=".concat(tokenKey, ";")
                         }
                     })];
                 case 1:

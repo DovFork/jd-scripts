@@ -69,7 +69,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + UserName + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, initForTurntableFarm()];
             case 3:
                 res = _f.sent();
@@ -107,7 +107,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 _f.label = 9;
             case 9:
                 if (!(j < 2)) return [3 /*break*/, 24];
-                console.log("Round:" + (j + 1));
+                console.log("Round:".concat(j + 1));
                 return [4 /*yield*/, api('beanTaskList', { "viewChannel": "AppHome" })];
             case 10:
                 res = _f.sent();
@@ -207,7 +207,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
             case 36:
                 if (!(_b < shareCode_1.length)) return [3 /*break*/, 40];
                 code = shareCode_1[_b];
-                console.log(UserName + " \u53BB\u52A9\u529B " + code.shareCode);
+                console.log("".concat(UserName, " \u53BB\u52A9\u529B ").concat(code.shareCode));
                 return [4 /*yield*/, qjd('signGroupHelp', { "activeType": 2, "groupCode": code.groupCode, "shareCode": code.shareCode, "activeId": code.activeId, "source": "guest" })];
             case 37:
                 res = _f.sent();
@@ -233,7 +233,7 @@ function api(fn, body) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=" + fn, "body=" + encodeURIComponent(JSON.stringify(body)) + "&appid=ld&client=apple&clientVersion=10.0.8&uuid=" + uuid + "&openudid=" + uuid, {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=".concat(fn), "body=".concat(encodeURIComponent(JSON.stringify(body)), "&appid=ld&client=apple&clientVersion=10.0.8&uuid=").concat(uuid, "&openudid=").concat(uuid), {
                         headers: {
                             'Host': 'api.m.jd.com',
                             'content-type': 'application/x-www-form-urlencoded',
@@ -254,7 +254,7 @@ function qjd(fn, body) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=" + fn + "&body=" + encodeURIComponent(JSON.stringify(body)) + "&appid=ld&client=apple&clientVersion=10.0.8&uuid=" + uuid + "&openudid=" + uuid, {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&appid=ld&client=apple&clientVersion=10.0.8&uuid=").concat(uuid, "&openudid=").concat(uuid), {
                         headers: {
                             'Host': 'api.m.jd.com',
                             'User-Agent': TS_USER_AGENTS_1["default"],

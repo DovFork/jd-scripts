@@ -65,15 +65,15 @@ var UserName, index;
             case 3:
                 _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
                 if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7" + index + "\uFF1A" + (nickName || UserName));
+                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\uFF1A").concat(nickName || UserName));
                     return [3 /*break*/, 16];
                 }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7" + index + "\u3011" + (nickName || UserName) + "\n");
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(nickName || UserName, "\n"));
                 k = 0;
                 _c.label = 4;
             case 4:
                 if (!(k < 3)) return [3 /*break*/, 16];
-                console.log("round:" + (k + 1));
+                console.log("round:".concat(k + 1));
                 return [4 /*yield*/, api("taskInitForFarm", { "version": 14, "channel": 1, "babelChannel": "120" })];
             case 5:
                 res = _c.sent();
@@ -95,9 +95,9 @@ var UserName, index;
                 // 做任务
                 res = _c.sent();
                 if (res.code === '0')
-                    console.log(t.mainTitle + "\uFF1A\u4EFB\u52A1\u5B8C\u6210");
+                    console.log("".concat(t.mainTitle, "\uFF1A\u4EFB\u52A1\u5B8C\u6210"));
                 else
-                    console.log(t.mainTitle + "\uFF1A\u4EFB\u52A1\u5931\u8D25-" + res.code);
+                    console.log("".concat(t.mainTitle, "\uFF1A\u4EFB\u52A1\u5931\u8D25-").concat(res.code));
                 _c.label = 10;
             case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 11:
@@ -125,7 +125,7 @@ function api(fn, body) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=" + fn + "&body=" + escape(JSON.stringify(body)) + "&appid=wh5", {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=".concat(fn, "&body=").concat(escape(JSON.stringify(body)), "&appid=wh5"), {
                         headers: {
                             'Referer': 'https://carry.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html',
                             'Connection': 'keep-alive',

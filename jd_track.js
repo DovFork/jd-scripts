@@ -45,6 +45,7 @@ var path = require("path");
 var sendNotify_1 = require("./sendNotify");
 var fs_1 = require("fs");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var child_process_1 = require("child_process");
 var cookie = '', UserName, index, allMessage = '', res = '', message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, except, orders, i, _i, _a, order, orderId, title, t, status_1, account, _b, account_1, acc;
@@ -55,12 +56,12 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
             case 1:
                 cookiesArr = _e.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
-                try {
-                    (0, fs_1.accessSync)('./json/jd_track.json');
+                orders = {};
+                if ((0, fs_1.existsSync)('./json')) {
                     orders = JSON.parse((0, fs_1.readFileSync)('./json/jd_track.json').toString() || '{}');
                 }
-                catch (e) {
-                    orders = {};
+                else {
+                    (0, child_process_1.execSync)('mkdir json');
                 }
                 i = 0;
                 _e.label = 2;

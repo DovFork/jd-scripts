@@ -1,8 +1,6 @@
 "use strict";
 /**
- * TODO
- * 团
- *
+ * 京喜工厂
  * cron: 30 * * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {

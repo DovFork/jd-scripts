@@ -65,10 +65,11 @@ var cookie = '', res = '', UserName, index;
                 j = 0;
                 _b.label = 5;
             case 5:
-                if (!(j < maxTaskCount - finishCount)) return [3 /*break*/, 15];
+                if (!(j < 1)) return [3 /*break*/, 15];
                 return [4 /*yield*/, api('getTaskList')];
             case 6:
                 tasks = _b.sent();
+                (0, TS_USER_AGENTS_1.o2s)(tasks);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 7:
                 _b.sent();
@@ -78,17 +79,17 @@ var cookie = '', res = '', UserName, index;
                 if (!(_i < _a.length)) return [3 /*break*/, 14];
                 t = _a[_i];
                 if (!(t.status === 1)) return [3 /*break*/, 13];
-                return [4 /*yield*/, taskApi('saveTaskRecord', { "taskId": t.taskId, "taskType": t.taskType })];
+                return [4 /*yield*/, taskApi('saveTaskRecord', { taskId: t.taskId, taskType: t.taskType, businessId: t.businessId })];
             case 9:
                 res = _b.sent();
-                console.log(res.content.uid, res.content.tt + '');
+                (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.watchTime * 1000 + 500)];
             case 10:
                 _b.sent();
-                return [4 /*yield*/, taskApi('saveTaskRecord', { "taskId": t.taskId, "taskType": t.taskType, uid: res.content.uid, tt: res.content.tt })];
+                return [4 /*yield*/, taskApi('saveTaskRecord', { taskId: t.taskId, taskType: t.taskType, businessId: t.businessId, uid: res.content.uid, tt: res.content.tt })];
             case 11:
                 res = _b.sent();
-                console.log(res.content.msg);
+                (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 12:
                 _b.sent();
@@ -135,7 +136,7 @@ function taskApi(fn, body) {
                 case 0: return [4 /*yield*/, axios_1["default"].post("https://ifanli.m.jd.com/rebateapi/task/".concat(fn), JSON.stringify(body), {
                         headers: {
                             'authority': 'ifanli.m.jd.com',
-                            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
+                            'user-agent': TS_USER_AGENTS_1["default"],
                             'content-type': 'application/json;charset=UTF-8',
                             'accept': 'application/json, text/plain, */*',
                             'origin': 'https://ifanli.m.jd.com',

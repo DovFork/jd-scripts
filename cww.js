@@ -204,9 +204,9 @@ function beforeTask(fn, linkAddr) {
                 case 0:
                     lkt = Date.now();
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
-                    return [4 /*yield*/, axios_1["default"].post("https://draw.jdfcloud.com//common/pet/icon/click?iconCode=".concat(fn, "&linkAddr=").concat(linkAddr, "&reqSource=weapp&invokeKey=").concat(invokeKey), {
+                    return [4 /*yield*/, axios_1["default"].post("https://draw.jdfcloud.com//common/pet/icon/click?iconCode=".concat(fn, "&linkAddr=").concat(linkAddr, "&reqSource=weapp&invokeKey=").concat(invokeKey), '', {
                             headers: {
-                                'lkt': lkt,
+                                'lkt': lkt.toString(),
                                 'lks': lks,
                                 'Host': 'draw.jdfcloud.com',
                                 'content-type': 'application/json',
@@ -230,17 +230,16 @@ function doTask(fn, body) {
                 case 0:
                     lkt = Date.now();
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
-                    return [4 /*yield*/, axios_1["default"].post("https://draw.jdfcloud.com//common/pet/".concat(fn, "?reqSource=weapp&invokeKey=").concat(invokeKey), {
+                    return [4 /*yield*/, axios_1["default"].post("https://draw.jdfcloud.com//common/pet/".concat(fn, "?reqSource=weapp&invokeKey=").concat(invokeKey), typeof body === 'object' ? JSON.stringify(body) : body, {
                             headers: {
-                                'lkt': lkt,
+                                'lkt': lkt.toString(),
                                 'lks': lks,
                                 'Host': 'draw.jdfcloud.com',
                                 'content-type': fn === 'followGood' || fn === 'followShop' ? 'application/x-www-form-urlencoded' : 'application/json',
                                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.16(0x18001027) NetType/WIFI Language/zh_CN',
                                 'Referer': 'https://servicewechat.com/wxccb5c536b0ecd1bf/770/page-frame.html',
                                 'Cookie': cookie
-                            },
-                            body: typeof body === 'object' ? JSON.stringify(body) : body
+                            }
                         })];
                 case 1:
                     data = (_a.sent()).data;

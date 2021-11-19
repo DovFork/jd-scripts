@@ -65,11 +65,10 @@ var cookie = '', res = '', UserName, index;
                 j = 0;
                 _b.label = 5;
             case 5:
-                if (!(j < 1)) return [3 /*break*/, 15];
+                if (!(j < maxTaskCount - finishCount)) return [3 /*break*/, 15];
                 return [4 /*yield*/, api('getTaskList')];
             case 6:
                 tasks = _b.sent();
-                (0, TS_USER_AGENTS_1.o2s)(tasks);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 7:
                 _b.sent();

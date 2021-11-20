@@ -43,166 +43,266 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var ts_md5_1 = require("ts-md5");
+var date_fns_1 = require("date-fns");
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _i, _a, t, _b, _c, task, _d, _e, task, _f, _g, task;
-    return __generator(this, function (_h) {
-        switch (_h.label) {
+    var cookiesArr, i, lastFeedTime, winCoin, _i, _a, user, _b, _c, t, _d, _e, task, _f, _g, task, _h, _j, task;
+    return __generator(this, function (_k) {
+        switch (_k.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _h.sent();
+                cookiesArr = _k.sent();
                 i = 0;
-                _h.label = 2;
+                _k.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 38];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 68];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, api('pet/getPetTaskConfig')];
+                return [4 /*yield*/, doTask('enterRoom/h5', {}, '&invitePin=')];
             case 3:
-                /*
-                await beforeFeed()
-                await wait(1000)
-                res = await feed()
-                if (res.errorCode === 'feed_ok') {
-                  console.log('喂食成功', 80)
-                } else {
-                  console.log('喂食失败', res)
-                }
-                await wait(2000)
-            
-                 */
-                res = _h.sent();
-                _i = 0, _a = res.datas;
-                _h.label = 4;
+                res = _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 4:
-                if (!(_i < _a.length)) return [3 /*break*/, 37];
-                t = _a[_i];
-                if (!(t.receiveStatus === 'unreceive')) return [3 /*break*/, 7];
+                _k.sent();
+                lastFeedTime = res.data.lastFeedTime;
+                if (!((0, date_fns_1.differenceInMinutes)(Date.now(), lastFeedTime) > 180)) return [3 /*break*/, 9];
+                return [4 /*yield*/, click('feed')];
+            case 5:
+                _k.sent();
+                return [4 /*yield*/, beforeFeed()];
+            case 6:
+                _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 7:
+                _k.sent();
+                return [4 /*yield*/, feed()];
+            case 8:
+                res = _k.sent();
+                if (res.errorCode === 'feed_ok') {
+                    console.log('喂食成功', 80);
+                }
+                else {
+                    console.log('喂食失败', res);
+                }
+                return [3 /*break*/, 10];
+            case 9:
+                console.log('feed间隔未满3小时，上次喂食', (0, date_fns_1.format)(lastFeedTime, 'HH:mm:ss'));
+                _k.label = 10;
+            case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)
+                // run
+            ];
+            case 11:
+                _k.sent();
+                // run
+                return [4 /*yield*/, click('race')];
+            case 12:
+                // run
+                _k.sent();
+                return [4 /*yield*/, beforeFeed('race')];
+            case 13:
+                _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 14:
+                _k.sent();
+                return [4 /*yield*/, api('pet/combat/detail/v2', '', '&help=false')];
+            case 15:
+                res = _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 16:
+                _k.sent();
+                if (!(res.data.petRaceResult === 'unreceive')) return [3 /*break*/, 19];
+                winCoin = res.data.winCoin // 赛跑奖励
+                ;
+                return [4 /*yield*/, api('pet/combat/receive')];
+            case 17:
+                res = _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 18:
+                _k.sent();
+                if (!res.errorCode) {
+                    console.log('赛跑领奖成功', winCoin);
+                }
+                return [3 /*break*/, 31];
+            case 19:
+                if (!(res.data.petRaceResult === 'not_participate')) return [3 /*break*/, 30];
+                console.log('可参赛');
+                return [4 /*yield*/, api('pet/combat/match', '', '&teamLevel=2')];
+            case 20:
+                res = _k.sent();
+                return [4 /*yield*/, beforeFeed('race_match')];
+            case 21:
+                _k.sent();
+                return [4 /*yield*/, click('race_match')];
+            case 22:
+                _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 23:
+                _k.sent();
+                _k.label = 24;
+            case 24:
+                if (!1) return [3 /*break*/, 29];
+                if (!(res.data.petRaceResult === 'matching')) return [3 /*break*/, 27];
+                console.log('正在匹配......');
+                return [4 /*yield*/, api('pet/combat/match', '', '&teamLevel=2')];
+            case 25:
+                res = _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 26:
+                _k.sent();
+                return [3 /*break*/, 28];
+            case 27: return [3 /*break*/, 29];
+            case 28: return [3 /*break*/, 24];
+            case 29: return [3 /*break*/, 31];
+            case 30:
+                if (res.data.petRaceResult === 'participate') {
+                    console.log('比赛中......');
+                    for (_i = 0, _a = res.data.raceUsers; _i < _a.length; _i++) {
+                        user = _a[_i];
+                        console.log(user.nickName, user.distance);
+                    }
+                }
+                else {
+                    console.log('race状态未知');
+                    (0, TS_USER_AGENTS_1.o2s)(res);
+                }
+                _k.label = 31;
+            case 31: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 32:
+                _k.sent();
+                return [4 /*yield*/, api('pet/getPetTaskConfig')];
+            case 33:
+                res = _k.sent();
+                _b = 0, _c = res.datas;
+                _k.label = 34;
+            case 34:
+                if (!(_b < _c.length)) return [3 /*break*/, 67];
+                t = _c[_b];
+                if (!(t.receiveStatus === 'unreceive')) return [3 /*break*/, 37];
                 console.log('可领奖:', t.taskName);
                 return [4 /*yield*/, api('pet/getFood', t.taskType)];
-            case 5:
-                res = _h.sent();
+            case 35:
+                res = _k.sent();
                 if (res.errorCode === 'received') {
                     console.log('已领取:', res.data);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 6:
-                _h.sent();
-                _h.label = 7;
-            case 7:
-                if (!(t.taskName === '浏览频道')) return [3 /*break*/, 20];
+            case 36:
+                _k.sent();
+                _k.label = 37;
+            case 37:
+                if (!(t.taskName === '浏览频道')) return [3 /*break*/, 50];
                 return [4 /*yield*/, beforeFeed('follow_channel')];
-            case 8:
-                _h.sent();
+            case 38:
+                _k.sent();
                 return [4 /*yield*/, click('follow_channel')];
-            case 9:
-                _h.sent();
+            case 39:
+                _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 10:
-                _h.sent();
+            case 40:
+                _k.sent();
                 return [4 /*yield*/, api('pet/getFollowChannels')];
-            case 11:
-                res = _h.sent();
+            case 41:
+                res = _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 12:
-                _h.sent();
-                _b = 0, _c = res.datas;
-                _h.label = 13;
-            case 13:
-                if (!(_b < _c.length)) return [3 /*break*/, 20];
-                task = _c[_b];
-                if (!!task.status) return [3 /*break*/, 19];
+            case 42:
+                _k.sent();
+                _d = 0, _e = res.datas;
+                _k.label = 43;
+            case 43:
+                if (!(_d < _e.length)) return [3 /*break*/, 50];
+                task = _e[_d];
+                if (!!task.status) return [3 /*break*/, 49];
                 console.log('浏览频道', task.channelName);
                 return [4 /*yield*/, click('follow_channel', task.channelId)];
-            case 14:
-                _h.sent();
+            case 44:
+                _k.sent();
                 return [4 /*yield*/, beforeTask('follow_channel', task.channelId)];
-            case 15:
-                _h.sent();
+            case 45:
+                _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
-            case 16:
-                _h.sent();
+            case 46:
+                _k.sent();
                 return [4 /*yield*/, doTask('scan', { "channelId": task.channelId, "taskType": 'FollowChannel' })];
-            case 17:
-                _h.sent();
+            case 47:
+                _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 18:
-                _h.sent();
-                _h.label = 19;
-            case 19:
-                _b++;
-                return [3 /*break*/, 13];
-            case 20:
-                if (!(t.taskName === '逛会场')) return [3 /*break*/, 28];
-                _d = 0, _e = t.scanMarketList;
-                _h.label = 21;
-            case 21:
-                if (!(_d < _e.length)) return [3 /*break*/, 28];
-                task = _e[_d];
-                if (!!task.status) return [3 /*break*/, 27];
+            case 48:
+                _k.sent();
+                _k.label = 49;
+            case 49:
+                _d++;
+                return [3 /*break*/, 43];
+            case 50:
+                if (!(t.taskName === '逛会场')) return [3 /*break*/, 58];
+                _f = 0, _g = t.scanMarketList;
+                _k.label = 51;
+            case 51:
+                if (!(_f < _g.length)) return [3 /*break*/, 58];
+                task = _g[_f];
+                if (!!task.status) return [3 /*break*/, 57];
                 console.log('逛逛会场', task.marketName);
                 return [4 /*yield*/, beforeTask('scan_market', encodeURIComponent(task.marketLink || task.marketLinkH5))];
-            case 22:
-                _h.sent();
+            case 52:
+                _k.sent();
                 return [4 /*yield*/, click('scan_market', encodeURIComponent(task.marketLink || task.marketLinkH5))];
-            case 23:
-                _h.sent();
+            case 53:
+                _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
-            case 24:
-                _h.sent();
+            case 54:
+                _k.sent();
                 return [4 /*yield*/, doTask('scan', { "marketLink": task.marketLink || task.marketLinkH5, "taskType": "ScanMarket" })];
-            case 25:
-                _h.sent();
+            case 55:
+                _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 26:
-                _h.sent();
-                _h.label = 27;
-            case 27:
-                _d++;
-                return [3 /*break*/, 21];
-            case 28:
-                if (!(t.taskName === '关注商品')) return [3 /*break*/, 36];
-                _f = 0, _g = t.followGoodList;
-                _h.label = 29;
-            case 29:
-                if (!(_f < _g.length)) return [3 /*break*/, 36];
-                task = _g[_f];
-                if (!!task.status) return [3 /*break*/, 35];
+            case 56:
+                _k.sent();
+                _k.label = 57;
+            case 57:
+                _f++;
+                return [3 /*break*/, 51];
+            case 58:
+                if (!(t.taskName === '关注商品')) return [3 /*break*/, 66];
+                _h = 0, _j = t.followGoodList;
+                _k.label = 59;
+            case 59:
+                if (!(_h < _j.length)) return [3 /*break*/, 66];
+                task = _j[_h];
+                if (!!task.status) return [3 /*break*/, 65];
                 console.log('关注商品', task.skuName);
                 return [4 /*yield*/, beforeTask('follow_good', task.sku)];
-            case 30:
-                _h.sent();
+            case 60:
+                _k.sent();
                 return [4 /*yield*/, click('follow_good', task.sku)];
-            case 31:
-                _h.sent();
+            case 61:
+                _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
-            case 32:
-                _h.sent();
+            case 62:
+                _k.sent();
                 return [4 /*yield*/, doTask('followGood', "sku=".concat(task.sku))];
-            case 33:
-                _h.sent();
+            case 63:
+                _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 34:
-                _h.sent();
-                _h.label = 35;
-            case 35:
-                _f++;
-                return [3 /*break*/, 29];
-            case 36:
-                _i++;
-                return [3 /*break*/, 4];
-            case 37:
+            case 64:
+                _k.sent();
+                _k.label = 65;
+            case 65:
+                _h++;
+                return [3 /*break*/, 59];
+            case 66:
+                _b++;
+                return [3 /*break*/, 34];
+            case 67:
                 i++;
                 return [3 /*break*/, 2];
-            case 38: return [2 /*return*/];
+            case 68: return [2 /*return*/];
         }
     });
 }); })();
-function api(fn, taskType) {
+function api(fn, taskType, params) {
     return __awaiter(this, void 0, void 0, function () {
         var lkt, lks, url, data;
         return __generator(this, function (_a) {
@@ -212,7 +312,7 @@ function api(fn, taskType) {
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
                     url = taskType
                         ? "https://jdjoy.jd.com/common/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey, "&taskType=").concat(taskType)
-                        : "https://jdjoy.jd.com/common/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey);
+                        : "https://jdjoy.jd.com/common/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey) + params;
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
@@ -322,7 +422,7 @@ function beforeTask(fn, linkAddr) {
         });
     });
 }
-function doTask(fn, body) {
+function doTask(fn, body, params) {
     return __awaiter(this, void 0, void 0, function () {
         var lkt, lks, data;
         return __generator(this, function (_a) {
@@ -330,7 +430,7 @@ function doTask(fn, body) {
                 case 0:
                     lkt = Date.now();
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
-                    return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/common/pet/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey), typeof body === 'object' ? JSON.stringify(body) : body, {
+                    return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/common/pet/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey) + params, typeof body === 'object' ? JSON.stringify(body) : body, {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
                                 'lkt': lkt.toString(),
@@ -345,8 +445,10 @@ function doTask(fn, body) {
                         })];
                 case 1:
                     data = (_a.sent()).data;
-                    console.log(data.errorCode);
-                    return [2 /*return*/];
+                    if (data.errorCode) {
+                        console.log(data.errorCode);
+                    }
+                    return [2 /*return*/, data];
             }
         });
     });

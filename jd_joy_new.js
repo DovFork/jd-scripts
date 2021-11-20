@@ -165,6 +165,12 @@ var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
                         console.log(user.nickName, user.distance);
                     }
                 }
+                else if (res.data.petRaceResult === 'time_over') {
+                    console.log('非比赛时段');
+                }
+                else if (res.data.petRaceResult === 'race_lose') {
+                    console.log('赛跑结果  输');
+                }
                 else {
                     console.log('race状态未知');
                     (0, TS_USER_AGENTS_1.o2s)(res);
@@ -312,7 +318,7 @@ function api(fn, taskType, params) {
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
                     url = taskType
                         ? "https://jdjoy.jd.com/common/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey, "&taskType=").concat(taskType)
-                        : "https://jdjoy.jd.com/common/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey) + params;
+                        : "https://jdjoy.jd.com/common/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey).concat(params !== null && params !== void 0 ? params : '');
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
@@ -430,7 +436,7 @@ function doTask(fn, body, params) {
                 case 0:
                     lkt = Date.now();
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
-                    return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/common/pet/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey) + params, typeof body === 'object' ? JSON.stringify(body) : body, {
+                    return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/common/pet/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey).concat(params !== null && params !== void 0 ? params : ''), typeof body === 'object' ? JSON.stringify(body) : body, {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
                                 'lkt': lkt.toString(),

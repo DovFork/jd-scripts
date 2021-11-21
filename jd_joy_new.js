@@ -48,7 +48,7 @@ var date_fns_1 = require("date-fns");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, lastFeedTime, winCoin, _i, _a, user, _b, _c, t, _d, _e, task, _f, _g, task, _h, _j, task;
+    var cookiesArr, i, lastFeedTime, winCoin, _i, _a, user, _b, _c, t, _d, _e, task, _f, _g, task, _h, _j, task, e_1;
     return __generator(this, function (_k) {
         switch (_k.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -57,30 +57,34 @@ var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
                 i = 0;
                 _k.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 68];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 72];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, doTask('enterRoom/h5', {}, '&invitePin=')];
+                _k.label = 3;
             case 3:
+                _k.trys.push([3, 70, , 71]);
+                return [4 /*yield*/, doTask('enterRoom/h5', {}, '&invitePin=')];
+            case 4:
+                // 进入游戏
                 res = _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 4:
-                _k.sent();
-                lastFeedTime = res.data.lastFeedTime;
-                if (!((0, date_fns_1.differenceInMinutes)(Date.now(), lastFeedTime) > 180)) return [3 /*break*/, 9];
-                return [4 /*yield*/, click('feed')];
             case 5:
                 _k.sent();
-                return [4 /*yield*/, beforeFeed()];
+                lastFeedTime = res.data.lastFeedTime;
+                if (!((0, date_fns_1.differenceInMinutes)(Date.now(), lastFeedTime) > 180)) return [3 /*break*/, 10];
+                return [4 /*yield*/, click('feed')];
             case 6:
                 _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                return [4 /*yield*/, beforeFeed()];
             case 7:
                 _k.sent();
-                return [4 /*yield*/, feed()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 8:
+                _k.sent();
+                return [4 /*yield*/, feed()];
+            case 9:
                 res = _k.sent();
                 if (res.errorCode === 'feed_ok') {
                     console.log('喂食成功', 80);
@@ -88,76 +92,81 @@ var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
                 else {
                     console.log('喂食失败', res);
                 }
-                return [3 /*break*/, 10];
-            case 9:
+                return [3 /*break*/, 11];
+            case 10:
                 console.log('feed间隔未满3小时，上次喂食', (0, date_fns_1.format)(lastFeedTime, 'HH:mm:ss'));
-                _k.label = 10;
-            case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)
-                // run
+                _k.label = 11;
+            case 11: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)
+                // 查询积分
             ];
-            case 11:
+            case 12:
                 _k.sent();
+                return [4 /*yield*/, api('gift/getBeanConfigs')];
+            case 13:
+                // 查询积分
+                res = _k.sent();
+                console.log('现有积分', res.data.petCoin);
                 // run
                 return [4 /*yield*/, click('race')];
-            case 12:
+            case 14:
                 // run
                 _k.sent();
                 return [4 /*yield*/, beforeFeed('race')];
-            case 13:
+            case 15:
                 _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 14:
-                _k.sent();
-                return [4 /*yield*/, api('pet/combat/detail/v2', '', '&help=false')];
-            case 15:
-                res = _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 16:
                 _k.sent();
-                if (!(res.data.petRaceResult === 'unreceive')) return [3 /*break*/, 19];
-                winCoin = res.data.winCoin // 赛跑奖励
-                ;
-                return [4 /*yield*/, api('pet/combat/receive')];
+                return [4 /*yield*/, api('pet/combat/detail/v2', '', '&help=false')];
             case 17:
                 res = _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 18:
                 _k.sent();
+                if (!(res.data.petRaceResult === 'unreceive')) return [3 /*break*/, 21];
+                winCoin = res.data.winCoin // 赛跑奖励
+                ;
+                return [4 /*yield*/, api('pet/combat/receive')];
+            case 19:
+                res = _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 20:
+                _k.sent();
                 if (!res.errorCode) {
                     console.log('赛跑领奖成功', winCoin);
                 }
-                return [3 /*break*/, 31];
-            case 19:
-                if (!(res.data.petRaceResult === 'not_participate')) return [3 /*break*/, 30];
+                return [3 /*break*/, 33];
+            case 21:
+                if (!(res.data.petRaceResult === 'not_participate')) return [3 /*break*/, 32];
                 console.log('可参赛');
                 return [4 /*yield*/, api('pet/combat/match', '', '&teamLevel=2')];
-            case 20:
+            case 22:
                 res = _k.sent();
                 return [4 /*yield*/, beforeFeed('race_match')];
-            case 21:
-                _k.sent();
-                return [4 /*yield*/, click('race_match')];
-            case 22:
-                _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 23:
                 _k.sent();
-                _k.label = 24;
+                return [4 /*yield*/, click('race_match')];
             case 24:
-                if (!1) return [3 /*break*/, 29];
-                if (!(res.data.petRaceResult === 'matching')) return [3 /*break*/, 27];
+                _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 25:
+                _k.sent();
+                _k.label = 26;
+            case 26:
+                if (!1) return [3 /*break*/, 31];
+                if (!(res.data.petRaceResult === 'matching')) return [3 /*break*/, 29];
                 console.log('正在匹配......');
                 return [4 /*yield*/, api('pet/combat/match', '', '&teamLevel=2')];
-            case 25:
+            case 27:
                 res = _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 26:
+            case 28:
                 _k.sent();
-                return [3 /*break*/, 28];
-            case 27: return [3 /*break*/, 29];
-            case 28: return [3 /*break*/, 24];
+                return [3 /*break*/, 30];
             case 29: return [3 /*break*/, 31];
-            case 30:
+            case 30: return [3 /*break*/, 26];
+            case 31: return [3 /*break*/, 33];
+            case 32:
                 if (res.data.petRaceResult === 'participate') {
                     console.log('比赛中......');
                     for (_i = 0, _a = res.data.raceUsers; _i < _a.length; _i++) {
@@ -166,145 +175,153 @@ var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
                     }
                 }
                 else if (res.data.petRaceResult === 'time_over') {
-                    console.log('非比赛时段');
+                    console.log('赛跑已结束');
                 }
                 else if (res.data.petRaceResult === 'race_lose') {
                     console.log('赛跑结果  输');
                 }
+                else if (res.data.petRaceResult === 'unbegin') {
+                    console.log('赛跑未开始');
+                }
                 else {
-                    console.log('race状态未知');
+                    console.log('赛跑状态未知');
                     (0, TS_USER_AGENTS_1.o2s)(res);
                 }
-                _k.label = 31;
-            case 31: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 32:
+                _k.label = 33;
+            case 33: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 34:
                 _k.sent();
                 return [4 /*yield*/, api('pet/getPetTaskConfig')];
-            case 33:
+            case 35:
                 res = _k.sent();
                 _b = 0, _c = res.datas;
-                _k.label = 34;
-            case 34:
-                if (!(_b < _c.length)) return [3 /*break*/, 67];
+                _k.label = 36;
+            case 36:
+                if (!(_b < _c.length)) return [3 /*break*/, 69];
                 t = _c[_b];
-                if (!(t.receiveStatus === 'unreceive')) return [3 /*break*/, 37];
+                if (!(t.receiveStatus === 'unreceive')) return [3 /*break*/, 39];
                 console.log('可领奖:', t.taskName);
                 return [4 /*yield*/, api('pet/getFood', t.taskType)];
-            case 35:
+            case 37:
                 res = _k.sent();
                 if (res.errorCode === 'received') {
                     console.log('已领取:', res.data);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 36:
-                _k.sent();
-                _k.label = 37;
-            case 37:
-                if (!(t.taskName === '浏览频道')) return [3 /*break*/, 50];
-                return [4 /*yield*/, beforeFeed('follow_channel')];
             case 38:
                 _k.sent();
-                return [4 /*yield*/, click('follow_channel')];
+                _k.label = 39;
             case 39:
-                _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                if (!(t.taskName === '浏览频道')) return [3 /*break*/, 52];
+                return [4 /*yield*/, beforeFeed('follow_channel')];
             case 40:
                 _k.sent();
-                return [4 /*yield*/, api('pet/getFollowChannels')];
+                return [4 /*yield*/, click('follow_channel')];
             case 41:
-                res = _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 42:
                 _k.sent();
-                _d = 0, _e = res.datas;
-                _k.label = 43;
+                return [4 /*yield*/, api('pet/getFollowChannels')];
             case 43:
-                if (!(_d < _e.length)) return [3 /*break*/, 50];
-                task = _e[_d];
-                if (!!task.status) return [3 /*break*/, 49];
-                console.log('浏览频道', task.channelName);
-                return [4 /*yield*/, click('follow_channel', task.channelId)];
+                res = _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 44:
                 _k.sent();
-                return [4 /*yield*/, beforeTask('follow_channel', task.channelId)];
+                _d = 0, _e = res.datas;
+                _k.label = 45;
             case 45:
-                _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
+                if (!(_d < _e.length)) return [3 /*break*/, 52];
+                task = _e[_d];
+                if (!!task.status) return [3 /*break*/, 51];
+                console.log('浏览频道', task.channelName);
+                return [4 /*yield*/, click('follow_channel', task.channelId)];
             case 46:
                 _k.sent();
-                return [4 /*yield*/, doTask('scan', { "channelId": task.channelId, "taskType": 'FollowChannel' })];
+                return [4 /*yield*/, beforeTask('follow_channel', task.channelId)];
             case 47:
                 _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 48:
                 _k.sent();
-                _k.label = 49;
+                return [4 /*yield*/, doTask('scan', { "channelId": task.channelId, "taskType": 'FollowChannel' })];
             case 49:
-                _d++;
-                return [3 /*break*/, 43];
-            case 50:
-                if (!(t.taskName === '逛会场')) return [3 /*break*/, 58];
-                _f = 0, _g = t.scanMarketList;
-                _k.label = 51;
-            case 51:
-                if (!(_f < _g.length)) return [3 /*break*/, 58];
-                task = _g[_f];
-                if (!!task.status) return [3 /*break*/, 57];
-                console.log('逛逛会场', task.marketName);
-                return [4 /*yield*/, beforeTask('scan_market', encodeURIComponent(task.marketLink || task.marketLinkH5))];
-            case 52:
-                _k.sent();
-                return [4 /*yield*/, click('scan_market', encodeURIComponent(task.marketLink || task.marketLinkH5))];
-            case 53:
-                _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
-            case 54:
-                _k.sent();
-                return [4 /*yield*/, doTask('scan', { "marketLink": task.marketLink || task.marketLinkH5, "taskType": "ScanMarket" })];
-            case 55:
-                _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 56:
-                _k.sent();
-                _k.label = 57;
-            case 57:
-                _f++;
-                return [3 /*break*/, 51];
-            case 58:
-                if (!(t.taskName === '关注商品')) return [3 /*break*/, 66];
-                _h = 0, _j = t.followGoodList;
-                _k.label = 59;
-            case 59:
-                if (!(_h < _j.length)) return [3 /*break*/, 66];
-                task = _j[_h];
-                if (!!task.status) return [3 /*break*/, 65];
-                console.log('关注商品', task.skuName);
-                return [4 /*yield*/, beforeTask('follow_good', task.sku)];
-            case 60:
-                _k.sent();
-                return [4 /*yield*/, click('follow_good', task.sku)];
-            case 61:
-                _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
-            case 62:
-                _k.sent();
-                return [4 /*yield*/, doTask('followGood', "sku=".concat(task.sku))];
-            case 63:
                 _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 50:
+                _k.sent();
+                _k.label = 51;
+            case 51:
+                _d++;
+                return [3 /*break*/, 45];
+            case 52:
+                if (!(t.taskName === '逛会场')) return [3 /*break*/, 60];
+                _f = 0, _g = t.scanMarketList;
+                _k.label = 53;
+            case 53:
+                if (!(_f < _g.length)) return [3 /*break*/, 60];
+                task = _g[_f];
+                if (!!task.status) return [3 /*break*/, 59];
+                console.log('逛逛会场', task.marketName);
+                return [4 /*yield*/, beforeTask('scan_market', encodeURIComponent(task.marketLink || task.marketLinkH5))];
+            case 54:
+                _k.sent();
+                return [4 /*yield*/, click('scan_market', encodeURIComponent(task.marketLink || task.marketLinkH5))];
+            case 55:
+                _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
+            case 56:
+                _k.sent();
+                return [4 /*yield*/, doTask('scan', { "marketLink": task.marketLink || task.marketLinkH5, "taskType": "ScanMarket" })];
+            case 57:
+                _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 58:
+                _k.sent();
+                _k.label = 59;
+            case 59:
+                _f++;
+                return [3 /*break*/, 53];
+            case 60:
+                if (!(t.taskName === '关注商品')) return [3 /*break*/, 68];
+                _h = 0, _j = t.followGoodList;
+                _k.label = 61;
+            case 61:
+                if (!(_h < _j.length)) return [3 /*break*/, 68];
+                task = _j[_h];
+                if (!!task.status) return [3 /*break*/, 67];
+                console.log('关注商品', task.skuName);
+                return [4 /*yield*/, beforeTask('follow_good', task.sku)];
+            case 62:
+                _k.sent();
+                return [4 /*yield*/, click('follow_good', task.sku)];
+            case 63:
+                _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 64:
                 _k.sent();
-                _k.label = 65;
+                return [4 /*yield*/, doTask('followGood', "sku=".concat(task.sku))];
             case 65:
-                _h++;
-                return [3 /*break*/, 59];
+                _k.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 66:
-                _b++;
-                return [3 /*break*/, 34];
+                _k.sent();
+                _k.label = 67;
             case 67:
+                _h++;
+                return [3 /*break*/, 61];
+            case 68:
+                _b++;
+                return [3 /*break*/, 36];
+            case 69: return [3 /*break*/, 71];
+            case 70:
+                e_1 = _k.sent();
+                console.log('Error！手动打开app确认');
+                return [3 /*break*/, 71];
+            case 71:
                 i++;
                 return [3 /*break*/, 2];
-            case 68: return [2 /*return*/];
+            case 72: return [2 /*return*/];
         }
     });
 }); })();

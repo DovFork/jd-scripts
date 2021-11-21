@@ -70,7 +70,7 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 cookiesArr = _k.sent();
                 if (process.argv[2]) {
                     console.log('收到命令行cookie');
-                    cookiesArr = [unescape(process.argv[2])];
+                    cookiesArr = [decodeURIComponent(process.argv[2])];
                 }
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 i = 0;

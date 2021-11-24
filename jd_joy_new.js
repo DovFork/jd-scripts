@@ -47,6 +47,7 @@ var ts_md5_1 = require("ts-md5");
 var date_fns_1 = require("date-fns");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
+var message;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, lastFeedTime, winCoin, _i, _a, user, _b, _c, t, _d, _e, task, _f, _g, task, _h, _j, task, e_1;
     return __generator(this, function (_k) {
@@ -134,6 +135,7 @@ var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
                 _k.sent();
                 if (!res.errorCode) {
                     console.log('赛跑领奖成功', winCoin);
+                    message += "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n\u8D5B\u8DD1\u9886\u5956\u6210\u529F\uFF0C\u83B7\u5F97").concat(winCoin, "\u79EF\u5206\n\n");
                 }
                 return [3 /*break*/, 33];
             case 21:
@@ -179,6 +181,7 @@ var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
                 }
                 else if (res.data.petRaceResult === 'race_lose') {
                     console.log('赛跑结果  输');
+                    message += "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n\u8D5B\u8DD1\u7ED3\u679C\uFF1A\u8F93\n\n");
                 }
                 else if (res.data.petRaceResult === 'unbegin') {
                     console.log('赛跑未开始');

@@ -51,14 +51,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
-var path = require("path");
 var sendNotify_1 = require("./sendNotify");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var token = require('./utils/jd_jxmc.js').token;
 var cookie = '', res = '', shareCodes = [], homePageInfo, jxToken, UserName, index;
 var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, i, j, lastgettime, food, petid, coins, petNum, petids, e_1, e_2, tasks, _i, _a, t, j, drawTimes, j, _b, _c, card, e_3, e_4, _d, _e, day, j, _f, _g, t, e_5, e_6, i, data, e_7, j, i, data, e_8, j;
+    var cookiesArr, i, j, lastgettime, food, petid, coins, petNum, petids, e_1, e_2, tasks, _i, _a, t, j, drawTimes, j, _b, _c, card, e_3, e_4, _d, _e, day, j, _f, _g, t, e_5, e_6, i, data, e_7, j, i, data, e_8, j;
     var _h, _j;
     return __generator(this, function (_k) {
         switch (_k.label) {
@@ -68,11 +67,6 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _k.sent();
-                if (process.argv[2]) {
-                    console.log('收到命令行cookie');
-                    cookiesArr = [decodeURIComponent(process.argv[2])];
-                }
-                except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 i = 0;
                 _k.label = 3;
             case 3:
@@ -81,10 +75,6 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
-                if (except.includes(encodeURIComponent(UserName))) {
-                    console.log('已设置跳过');
-                    return [3 /*break*/, 113];
-                }
                 return [4 /*yield*/, token(cookie)];
             case 4:
                 jxToken = _k.sent();

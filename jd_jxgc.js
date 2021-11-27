@@ -60,14 +60,14 @@ var cookie = '', res = '', UserName, index;
                 i = 0;
                 _b.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 32];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 29];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 if (except.includes(encodeURIComponent(UserName))) {
                     console.log('已设置跳过');
-                    return [3 /*break*/, 31];
+                    return [3 /*break*/, 28];
                 }
                 return [4 /*yield*/, api('userinfo/GetUserInfo', '_time,materialTuanId,materialTuanPin,needPickSiteInfo,pin,sharePin,shareType,source,zone', {
                         pin: '',
@@ -90,32 +90,19 @@ var cookie = '', res = '', UserName, index;
                     console.log('生产进度:', progress);
                     if (progress === '100.00') {
                         (0, sendNotify_1.sendNotify)("京喜工厂生产完成", "\u8D26\u53F7".concat(index, " ").concat(UserName));
-                        return [3 /*break*/, 31];
+                        return [3 /*break*/, 28];
                     }
                 }
                 catch (e) {
                     console.log('当前没有产品在生产');
-                    return [3 /*break*/, 31];
+                    return [3 /*break*/, 28];
                 }
                 factoryId = res.data.factoryList[0].factoryId;
-                if (!(res.data.productionStage.productionStageAwardStatus === 1)) return [3 /*break*/, 8];
-                return [4 /*yield*/, api('userinfo/DrawProductionStagePrize', '', { productionId: productionId })];
+                return [4 /*yield*/, api('generator/QueryCurrentElectricityQuantity', '_time,factoryid,querytype,zone', { factoryid: factoryId, querytype: 1 })];
             case 6:
                 res = _b.sent();
-                if (res.ret === 0)
-                    console.log('开红包成功', res.data.active);
-                else
-                    console.log('开红包失败', JSON.stringify(res));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 7:
-                _b.sent();
-                _b.label = 8;
-            case 8: return [4 /*yield*/, api('generator/QueryCurrentElectricityQuantity', '_time,factoryid,querytype,zone', { factoryid: factoryId, querytype: 1 })];
-            case 9:
-                // 收发电机
-                res = _b.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 10:
+            case 7:
                 _b.sent();
                 flag = -1;
                 if (res.data.nextCollectDoubleFlag === 1) {
@@ -132,89 +119,89 @@ var cookie = '', res = '', UserName, index;
                     // 没有双倍，直接收
                     flag = 0;
                 }
-                if (!(flag !== -1)) return [3 /*break*/, 12];
+                if (!(flag !== -1)) return [3 /*break*/, 9];
                 return [4 /*yield*/, api('generator/CollectCurrentElectricity', '_time,apptoken,doubleflag,factoryid,pgtimestamp,phoneID,zone', { apptoken: '', pgtimestamp: '', phoneID: '', factoryid: factoryId, doubleflag: flag, timeStamp: 'undefined' })];
-            case 11:
+            case 8:
                 res = _b.sent();
                 res.ret === 0
                     ? console.log('发电机收取成功:', res.data.CollectElectricity)
                     : console.log('发电机收取失败:', res);
-                _b.label = 12;
-            case 12: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
+                _b.label = 9;
+            case 9: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
                 // 投入电力
             ];
-            case 13:
+            case 10:
                 _b.sent();
                 j = 0;
-                _b.label = 14;
-            case 14:
-                if (!(j < 3)) return [3 /*break*/, 18];
+                _b.label = 11;
+            case 11:
+                if (!(j < 3)) return [3 /*break*/, 15];
                 return [4 /*yield*/, api('userinfo/InvestElectric', '_time,productionId,zone', { productionId: productionId })];
-            case 15:
+            case 12:
                 res = _b.sent();
                 if (res.ret === 0) {
                     console.log('投入电力:', res.data.investElectric);
                 }
                 else {
                     console.log('投入电力失败:', res);
-                    return [3 /*break*/, 18];
+                    return [3 /*break*/, 15];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 16:
+            case 13:
                 _b.sent();
-                _b.label = 17;
-            case 17:
+                _b.label = 14;
+            case 14:
                 j++;
-                return [3 /*break*/, 14];
-            case 18: return [4 /*yield*/, api('friend/QueryHireReward', '_time,zone')];
+                return [3 /*break*/, 11];
+            case 15: return [4 /*yield*/, api('friend/QueryHireReward', '_time,zone')];
+            case 16:
+                res = _b.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 17:
+                _b.sent();
+                _i = 0, _a = res.data.hireReward;
+                _b.label = 18;
+            case 18:
+                if (!(_i < _a.length)) return [3 /*break*/, 22];
+                t = _a[_i];
+                if (!(t.date !== (0, date_fns_1.format)(Date.now(), "yyyyMMdd"))) return [3 /*break*/, 21];
+                return [4 /*yield*/, api('friend/HireAward', '_time,date,type,zone', { date: t.date })];
             case 19:
                 res = _b.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 20:
                 _b.sent();
-                _i = 0, _a = res.data.hireReward;
-                _b.label = 21;
-            case 21:
-                if (!(_i < _a.length)) return [3 /*break*/, 25];
-                t = _a[_i];
-                if (!(t.date !== (0, date_fns_1.format)(Date.now(), "yyyyMMdd"))) return [3 /*break*/, 24];
-                return [4 /*yield*/, api('friend/HireAward', '_time,date,type,zone', { date: t.date })];
-            case 22:
-                res = _b.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 23:
-                _b.sent();
                 if (res.ret === 0)
                     console.log('收取气泡成功:', t.electricityQuantity);
-                _b.label = 24;
-            case 24:
+                _b.label = 21;
+            case 21:
                 _i++;
-                return [3 /*break*/, 21];
-            case 25:
+                return [3 /*break*/, 18];
+            case 22:
                 console.log('任务列表开始');
                 j = 0;
-                _b.label = 26;
-            case 26:
-                if (!(j < 30)) return [3 /*break*/, 30];
+                _b.label = 23;
+            case 23:
+                if (!(j < 30)) return [3 /*break*/, 27];
                 return [4 /*yield*/, task()];
-            case 27:
+            case 24:
                 if ((_b.sent()) === 0) {
-                    return [3 /*break*/, 30];
+                    return [3 /*break*/, 27];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
-            case 28:
+            case 25:
                 _b.sent();
-                _b.label = 29;
-            case 29:
+                _b.label = 26;
+            case 26:
                 j++;
-                return [3 /*break*/, 26];
-            case 30:
+                return [3 /*break*/, 23];
+            case 27:
                 console.log('任务列表结束');
-                _b.label = 31;
-            case 31:
+                _b.label = 28;
+            case 28:
                 i++;
                 return [3 /*break*/, 3];
-            case 32: return [2 /*return*/];
+            case 29: return [2 /*return*/];
         }
     });
 }); })();
@@ -278,32 +265,25 @@ function task() {
 }
 function api(fn, stk, params) {
     if (params === void 0) { params = {}; }
-    return __awaiter(this, void 0, void 0, function () {
-        var url, t, _i, _a, _b, key, val, data;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    t = Date.now();
-                    if (['GetUserTaskStatusList', 'DoTask', 'Award'].indexOf(fn) > -1)
-                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?source=dreamfactory&_time=").concat(t, "&_ts=").concat(t, "&_=").concat(t, "&sceneval=2");
-                    else
-                        url = "https://m.jingxi.com/dreamfactory/".concat(fn, "?zone=dream_factory&_time=").concat(t, "&_ts=").concat(t, "&_=").concat(t, "&sceneval=2");
-                    for (_i = 0, _a = Object.entries(params); _i < _a.length; _i++) {
-                        _b = _a[_i], key = _b[0], val = _b[1];
-                        url += "&".concat(key, "=").concat(val);
-                    }
-                    return [4 /*yield*/, axios_1["default"].get(url, {
-                            headers: {
-                                'Host': 'm.jingxi.com',
-                                'User-Agent': 'jdpingou;',
-                                'Referer': 'https://st.jingxi.com/',
-                                'Cookie': cookie
-                            }
-                        })];
-                case 1:
-                    data = (_c.sent()).data;
-                    return [2 /*return*/, data];
+    return new Promise(function (resolve, reject) {
+        var url = '';
+        if (['GetUserTaskStatusList', 'DoTask', 'Award'].indexOf(fn) > -1)
+            url = "https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?source=dreamfactory&_time=").concat(Date.now(), "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
+        else
+            url = "https://m.jingxi.com/dreamfactory/".concat(fn, "?zone=dream_factory&_time=").concat(Date.now(), "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
+        url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10001);
+        axios_1["default"].get(url, {
+            headers: {
+                'Cookie': cookie,
+                'Host': 'm.jingxi.com',
+                'User-Agent': 'jdpingou;',
+                'Referer': 'https://st.jingxi.com/pingou/dream_factory/index.html'
             }
+        }).then(function (res) {
+            resolve(res.data);
+        })["catch"](function (err) {
+            console.log('err:', err);
+            reject(err);
         });
     });
 }

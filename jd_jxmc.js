@@ -237,13 +237,13 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 res = _k.sent();
                 if (!(res.ret === 0)) return [3 /*break*/, 43];
                 if (res.data.prizetype === 3) {
-                    console.log('抽奖成功，金币：', res.data.addcoins);
+                    console.log('抽奖成功，金币:', res.data.addcoins);
                 }
                 else if (res.data.prizetype === 1) {
-                    console.log('抽奖成功，卡片：', res.data.cardtype);
+                    console.log('抽奖成功，卡片:', res.data.cardtype);
                 }
                 else {
-                    console.log('抽奖成功，其他：', res);
+                    console.log('抽奖成功，其他:', res);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
             case 42:
@@ -347,7 +347,7 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
             case 70:
                 // 登录领白菜
                 res = _k.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 71:
                 _k.sent();
                 if (!(res.iscandraw === 1)) return [3 /*break*/, 73];
@@ -355,7 +355,7 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
             case 72:
                 res = _k.sent();
                 if (res.ret === 0) {
-                    console.log('登录领白菜：', res.data.drawnum);
+                    console.log('登录领白菜:', res.data.drawnum);
                 }
                 _k.label = 73;
             case 73: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
@@ -565,7 +565,7 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                     return [3 /*break*/, 127];
                 }
                 else {
-                    console.log('失败：', res);
+                    console.log('失败:', res);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
             case 125:
@@ -618,7 +618,7 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                     console.log('成功，获得:', res.data.addcoins);
                 }
                 else {
-                    console.log('失败：', res);
+                    console.log('失败:', res);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
             case 138:

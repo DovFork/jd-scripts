@@ -50,6 +50,9 @@ var cookie = '', UserName, index;
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _a.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 2:
+                _a.sent();
                 for (i = 0; i < cookiesArr.length; i++) {
                     cookie = cookiesArr[i];
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);

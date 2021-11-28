@@ -335,19 +335,37 @@ function randomNumString(e) {
 exports.randomNumString = randomNumString;
 function getshareCodeHW(key) {
     return __awaiter(this, void 0, void 0, function () {
-        var data, e_1;
+        var shareCodeHW, i, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/HW_CODES')];
+                    shareCodeHW = [];
+                    i = 0;
+                    _a.label = 1;
                 case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data[key] || []];
+                    if (!(i < 5)) return [3 /*break*/, 7];
+                    _a.label = 2;
                 case 2:
+                    _a.trys.push([2, 4, , 6]);
+                    return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/HW_CODES')];
+                case 3:
+                    data = (_a.sent()).data;
+                    shareCodeHW = data[key] || [];
+                    if (shareCodeHW.length !== 0) {
+                        return [3 /*break*/, 7];
+                    }
+                    return [3 /*break*/, 6];
+                case 4:
                     e_1 = _a.sent();
-                    return [2 /*return*/, []];
-                case 3: return [2 /*return*/];
+                    console.log("getshareCodeHW Error, Retry...");
+                    return [4 /*yield*/, wait(getRandomNumberByRange(2000, 6000))];
+                case 5:
+                    _a.sent();
+                    return [3 /*break*/, 6];
+                case 6:
+                    i++;
+                    return [3 /*break*/, 1];
+                case 7: return [2 /*return*/, shareCodeHW];
             }
         });
     });

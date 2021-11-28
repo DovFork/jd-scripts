@@ -46,33 +46,32 @@ var axios_1 = require("axios");
 var date_fns_1 = require("date-fns");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cars, db, num, times, i, _a, _b, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
+    var cars, db, num, times, i;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
                 console.log("\n==================\u811A\u672C\u6267\u884C- \u5317\u4EAC\u65F6\u95F4(UTC+8)\uFF1A".concat((0, date_fns_1.format)(Date.now(), 'yyyy-MM-dd HH:mm:ss'), "\n\n"));
                 cars = ['bean', 'farm', 'health', 'jxfactory', 'pet'];
-                db = cars[getRandomNumberByRange(0, 5)];
-                num = getRandomNumberByRange(5, 20);
+                db = cars[Math.floor(Math.random() * cars.length)];
+                num = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(5, 20);
                 console.log("\u672C\u6B21\u968F\u673A\u9009\u62E9".concat(db, "\u83B7\u53D6").concat(num, "\u4E2A\u968F\u673A\u52A9\u529B\u7801"));
                 return [4 /*yield*/, car(db, num)];
             case 1:
-                _d.sent();
-                times = getRandomNumberByRange(3, 6);
+                _a.sent();
+                times = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(3, 6);
                 console.log("\u5F00\u59CB\u6D4B\u8BD5".concat(times, "\u6B21\u4E0A\u62A5"));
                 i = 0;
-                _d.label = 2;
+                _a.label = 2;
             case 2:
                 if (!(i < times)) return [3 /*break*/, 6];
-                _b = (_a = console).log;
-                _c = ["\u7B2C".concat(i + 1, "\u6B21:")];
+                console.log("\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u6D4B\u8BD5"));
                 return [4 /*yield*/, runTimes()];
             case 3:
-                _b.apply(_a, _c.concat([_d.sent()]));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(Math.floor(getRandomNumberByRange(1, 5)) * 1000)];
+                _a.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)((0, TS_USER_AGENTS_1.getRandomNumberByRange)(2000, 6000))];
             case 4:
-                _d.sent();
-                _d.label = 5;
+                _a.sent();
+                _a.label = 5;
             case 5:
                 i++;
                 return [3 /*break*/, 2];
@@ -80,9 +79,6 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
         }
     });
 }); })();
-function getRandomNumberByRange(start, end) {
-    return Math.floor(Math.random() * (end - start) + start);
-}
 function car(db, num) {
     return __awaiter(this, void 0, void 0, function () {
         var data, e_1;
@@ -90,9 +86,7 @@ function car(db, num) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/".concat(db, "/").concat(num), {
-                            timeout: 10000
-                        })];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/".concat(db, "/").concat(num))];
                 case 1:
                     data = (_a.sent()).data;
                     console.log('获取助力池成功');
@@ -114,13 +108,15 @@ function runTimes() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/runTimes?activityId=bean&sharecode=123", { timeout: 10000 })];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/runTimes?activityId=bean&sharecode=123")];
                 case 1:
                     data = (_a.sent()).data;
-                    return [2 /*return*/, '成功'];
+                    console.log('测试成功', data);
+                    return [3 /*break*/, 3];
                 case 2:
                     e_2 = _a.sent();
-                    return [2 /*return*/, "".concat(e_2)];
+                    console.log('测试失败', e_2);
+                    return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });

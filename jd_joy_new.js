@@ -46,8 +46,67 @@ var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var date_fns_1 = require("date-fns");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var JDJRValidator = require('./utils/jd_joy_validate').JDJRValidator;
 var cookie = '', res = '', UserName, index, invokeKey = 'q8DNJdpcfRQ69gIx';
 var message;
+function get(url, config) {
+    var _this = this;
+    return new Promise(function (resolve, reject) {
+        axios_1["default"].get(url, config).then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+            var validateRes, validate, data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(JSON.stringify(res.data).search('验证') > -1)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, new JDJRValidator().run()];
+                    case 1:
+                        validateRes = _a.sent();
+                        validate = validateRes.validate;
+                        return [4 /*yield*/, get("".concat(url, "&validate=").concat(validate), config)];
+                    case 2:
+                        data = _a.sent();
+                        resolve(data);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        resolve(res.data);
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        }); })["catch"](function (err) {
+            reject(err);
+        });
+    });
+}
+function post(url, body, config) {
+    var _this = this;
+    return new Promise(function (resolve, reject) {
+        axios_1["default"].post(url, body, config).then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+            var validateRes, validate, data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(JSON.stringify(res.data).search('验证') > -1)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, new JDJRValidator().run()];
+                    case 1:
+                        validateRes = _a.sent();
+                        validate = validateRes.validate;
+                        return [4 /*yield*/, post("".concat(url, "&validate=").concat(validate), body, config)];
+                    case 2:
+                        data = _a.sent();
+                        resolve(data);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        resolve(res.data);
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        }); })["catch"](function (err) {
+            reject(err);
+        });
+    });
+}
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, lastFeedTime, winCoin, _i, _a, user, _b, _c, t, _d, _e, task, _f, _g, task, _h, _j, task, e_1;
     return __generator(this, function (_k) {
@@ -91,7 +150,7 @@ var message;
                     console.log('喂食成功', 80);
                 }
                 else {
-                    console.log('喂食失败', res);
+                    console.log('喂食失败', res.errorCode);
                 }
                 return [3 /*break*/, 11];
             case 10:
@@ -319,7 +378,8 @@ var message;
             case 69: return [3 /*break*/, 71];
             case 70:
                 e_1 = _k.sent();
-                console.log('Error！手动打开app确认');
+                console.log(e_1);
+                console.log('Error! 手动打开app确认');
                 return [3 /*break*/, 71];
             case 71:
                 i++;
@@ -330,7 +390,7 @@ var message;
 }); })();
 function api(fn, taskType, params) {
     return __awaiter(this, void 0, void 0, function () {
-        var lkt, lks, url, data;
+        var lkt, lks, url;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -339,7 +399,7 @@ function api(fn, taskType, params) {
                     url = taskType
                         ? "https://jdjoy.jd.com/common/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey, "&taskType=").concat(taskType)
                         : "https://jdjoy.jd.com/common/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey).concat(params !== null && params !== void 0 ? params : '');
-                    return [4 /*yield*/, axios_1["default"].get(url, {
+                    return [4 /*yield*/, get(url, {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
                                 'Accept': '*/*',
@@ -354,8 +414,8 @@ function api(fn, taskType, params) {
                             }
                         })];
                 case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
+                    res = _a.sent();
+                    return [2 /*return*/, res];
             }
         });
     });
@@ -363,13 +423,13 @@ function api(fn, taskType, params) {
 function beforeFeed(fn) {
     if (fn === void 0) { fn = 'feed'; }
     return __awaiter(this, void 0, void 0, function () {
-        var lkt, lks, data;
+        var lkt, lks;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     lkt = Date.now();
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
-                    return [4 /*yield*/, axios_1["default"].get("https://jdjoy.jd.com/common/pet/icon/click1?iconCode=".concat(fn, "&reqSource=h5&invokeKey=").concat(invokeKey), {
+                    return [4 /*yield*/, get("https://jdjoy.jd.com/common/pet/icon/click1?iconCode=".concat(fn, "&reqSource=h5&invokeKey=").concat(invokeKey), {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
                                 'lkt': lkt.toString(),
@@ -382,21 +442,21 @@ function beforeFeed(fn) {
                             }
                         })];
                 case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
+                    res = _a.sent();
+                    return [2 /*return*/, res];
             }
         });
     });
 }
 function feed() {
     return __awaiter(this, void 0, void 0, function () {
-        var lkt, lks, data;
+        var lkt, lks;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     lkt = Date.now();
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
-                    return [4 /*yield*/, axios_1["default"].get("https://jdjoy.jd.com/common/pet/feed?feedCount=80&reqSource=h5&invokeKey=".concat(invokeKey), {
+                    return [4 /*yield*/, get("https://jdjoy.jd.com/common/pet/feed?feedCount=80&reqSource=h5&invokeKey=".concat(invokeKey), {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
                                 'lkt': lkt.toString(),
@@ -409,21 +469,21 @@ function feed() {
                             }
                         })];
                 case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
+                    res = _a.sent();
+                    return [2 /*return*/, res];
             }
         });
     });
 }
 function beforeTask(fn, linkAddr) {
     return __awaiter(this, void 0, void 0, function () {
-        var lkt, lks, data;
+        var lkt, lks;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     lkt = Date.now();
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
-                    return [4 /*yield*/, axios_1["default"].get("https://jdjoy.jd.com/common/pet/icon/click1?iconCode=".concat(fn, "&linkAddr=").concat(linkAddr, "&reqSource=h5&invokeKey=").concat(invokeKey), {
+                    return [4 /*yield*/, get("https://jdjoy.jd.com/common/pet/icon/click1?iconCode=".concat(fn, "&linkAddr=").concat(linkAddr, "&reqSource=h5&invokeKey=").concat(invokeKey), {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
                                 'Accept': '*/*',
@@ -439,9 +499,9 @@ function beforeTask(fn, linkAddr) {
                             }
                         })];
                 case 1:
-                    data = (_a.sent()).data;
-                    if (data.errorCode) {
-                        console.log(data.errorCode);
+                    res = _a.sent();
+                    if (res.errorCode) {
+                        console.log(res.errorCode);
                     }
                     return [2 /*return*/];
             }
@@ -450,13 +510,13 @@ function beforeTask(fn, linkAddr) {
 }
 function doTask(fn, body, params) {
     return __awaiter(this, void 0, void 0, function () {
-        var lkt, lks, data;
+        var lkt, lks;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     lkt = Date.now();
                     lks = ts_md5_1.Md5.hashStr('' + invokeKey + lkt);
-                    return [4 /*yield*/, axios_1["default"].post("https://jdjoy.jd.com/common/pet/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey).concat(params !== null && params !== void 0 ? params : ''), typeof body === 'object' ? JSON.stringify(body) : body, {
+                    return [4 /*yield*/, post("https://jdjoy.jd.com/common/pet/".concat(fn, "?reqSource=h5&invokeKey=").concat(invokeKey).concat(params !== null && params !== void 0 ? params : ''), typeof body === 'object' ? JSON.stringify(body) : body, {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
                                 'lkt': lkt.toString(),
@@ -470,18 +530,18 @@ function doTask(fn, body, params) {
                             }
                         })];
                 case 1:
-                    data = (_a.sent()).data;
-                    if (data.errorCode) {
-                        console.log(data.errorCode);
+                    res = _a.sent();
+                    if (res.errorCode) {
+                        console.log(res.errorCode);
                     }
-                    return [2 /*return*/, data];
+                    return [2 /*return*/, res];
             }
         });
     });
 }
 function click(iconCode, linkAddr) {
     return __awaiter(this, void 0, void 0, function () {
-        var lkt, lks, url, data;
+        var lkt, lks, url;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -490,7 +550,7 @@ function click(iconCode, linkAddr) {
                     url = linkAddr
                         ? "https://jdjoy.jd.com/common/pet/icon/click?code=1624363341529274068136&iconCode=".concat(iconCode, "&linkAddr=").concat(linkAddr, "&reqSource=h5&invokeKey=").concat(invokeKey)
                         : "https://jdjoy.jd.com/common/pet/icon/click?code=1624363341529274068136&iconCode=".concat(iconCode, "&reqSource=h5&invokeKey=").concat(invokeKey);
-                    return [4 /*yield*/, axios_1["default"].get(url, {
+                    return [4 /*yield*/, get(url, {
                             headers: {
                                 'Host': 'jdjoy.jd.com',
                                 'Connection': 'keep-alive',
@@ -507,9 +567,9 @@ function click(iconCode, linkAddr) {
                             }
                         })];
                 case 1:
-                    data = (_a.sent()).data;
-                    if (data.errorCode) {
-                        console.log(data.errorCode);
+                    res = _a.sent();
+                    if (res.errorCode) {
+                        console.log(res.errorCode);
                     }
                     return [2 /*return*/];
             }

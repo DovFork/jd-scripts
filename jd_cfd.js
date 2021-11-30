@@ -620,7 +620,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 120:
                 if (!(_t < _u.length)) return [3 /*break*/, 124];
                 t = _u[_t];
-                if (!([1, 2].indexOf(t.dwOrderId) > -1 && t.dwCompleteNum < t.dwTargetNum && t.strTaskName != '热气球接待20位游客')) return [3 /*break*/, 123];
+                if (!([1, 2].indexOf(t.dwOrderId) > -1 && t.dwCompleteNum < t.dwTargetNum && t.strTaskName != '升级1个建筑')) return [3 /*break*/, 123];
                 console.log('开始任务➡️:', t.strTaskName);
                 return [4 /*yield*/, api('DoTask', '_cfd_t,bizCode,configExtra,dwEnv,ptag,source,strZone,taskId', { taskId: t.ddwTaskId, configExtra: '' }, 'right')];
             case 121:
@@ -657,7 +657,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 129:
                 _2.sent();
                 if (res.ret === 0) {
-                    console.log("\u9886\u5956\u6210\u529F:", res);
+                    console.log('领奖成功');
                 }
                 else {
                     console.log('领奖失败', res);
@@ -883,7 +883,7 @@ function task() {
                         console.log("\u9886\u5956\u6210\u529F:", res.ddwCoin, res.ddwMoney);
                     }
                     catch (e) {
-                        console.log('领奖成功:', res.data);
+                        console.log('领奖失败:', res.data);
                     }
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
                 case 6:

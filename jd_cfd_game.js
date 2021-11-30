@@ -44,7 +44,7 @@ var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index, token = {};
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, tasks, dwCurProgress, strDT, strMyShareId, ddwSeasonStartTm, RealTmReport, PearlList, strLT, j;
+    var cookiesArr, i, j, dwCurProgress, strDT, strMyShareId, ddwSeasonStartTm, RealTmReport, PearlList, strLT, j_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
@@ -56,15 +56,18 @@ var cookie = '', res = '', UserName, index, token = {};
                 i = 0;
                 _a.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 17];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 19];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
-                token = (0, TS_USER_AGENTS_1.getJxToken)(cookie);
-                tasks = void 0;
-                return [4 /*yield*/, api('user/ComposePearlState', '', { __t: Date.now(), dwGetType: 0 })];
+                j = 0;
+                _a.label = 4;
             case 4:
+                if (!(j < 3)) return [3 /*break*/, 18];
+                token = (0, TS_USER_AGENTS_1.getJxToken)(cookie);
+                return [4 /*yield*/, api('user/ComposePearlState', '', { __t: Date.now(), dwGetType: 0 })];
+            case 5:
                 // 珍珠
                 res = _a.sent();
                 dwCurProgress = res.dwCurProgress;
@@ -76,13 +79,13 @@ var cookie = '', res = '', UserName, index, token = {};
                 console.log('PearlList', JSON.stringify(PearlList));
                 strLT = res.oPT[res.ddwCurTime % (res.oPT.length)];
                 console.log("\u5DF2\u5408\u6210".concat(dwCurProgress, "\u4E2A\u73CD\u73E0\uFF0C").concat(res.ddwVirHb / 100, "\u5143\u7EA2\u5305"));
-                if (!(res.dayDrawInfo.dwIsDraw === 0)) return [3 /*break*/, 7];
+                if (!(res.dayDrawInfo.dwIsDraw === 0)) return [3 /*break*/, 8];
                 return [4 /*yield*/, api("user/GetPearlDailyReward", "__t,strZone", { __t: Date.now() })];
-            case 5:
-                res = _a.sent();
-                if (!(res.iRet === 0)) return [3 /*break*/, 7];
-                return [4 /*yield*/, api("user/PearlDailyDraw", "__t,ddwSeaonStart,strToken,strZone", { __t: Date.now(), ddwSeaonStart: ddwSeasonStartTm, strToken: res.strToken })];
             case 6:
+                res = _a.sent();
+                if (!(res.iRet === 0)) return [3 /*break*/, 8];
+                return [4 /*yield*/, api("user/PearlDailyDraw", "__t,ddwSeaonStart,strToken,strZone", { __t: Date.now(), ddwSeaonStart: ddwSeasonStartTm, strToken: res.strToken })];
+            case 7:
                 res = _a.sent();
                 if (res.strPrizeName) {
                     console.log('抽奖获得:', res.strPrizeName);
@@ -90,27 +93,27 @@ var cookie = '', res = '', UserName, index, token = {};
                 else {
                     console.log('抽奖失败？', res);
                 }
-                _a.label = 7;
-            case 7:
-                if (!strDT) return [3 /*break*/, 16];
-                console.log('继续合成');
-                console.log('本次合成需要上报:', RealTmReport);
-                j = 0;
                 _a.label = 8;
             case 8:
-                if (!(j < RealTmReport)) return [3 /*break*/, 14];
-                return [4 /*yield*/, api('user/RealTmReport', '', { __t: Date.now(), dwIdentityType: 0, strBussKey: 'composegame', strMyShareId: strMyShareId, ddwCount: 10 })];
+                if (!strDT) return [3 /*break*/, 17];
+                console.log('继续合成');
+                console.log('本次合成需要上报:', RealTmReport);
+                j_1 = 0;
+                _a.label = 9;
             case 9:
+                if (!(j_1 < RealTmReport)) return [3 /*break*/, 15];
+                return [4 /*yield*/, api('user/RealTmReport', '', { __t: Date.now(), dwIdentityType: 0, strBussKey: 'composegame', strMyShareId: strMyShareId, ddwCount: 10 })];
+            case 10:
                 res = _a.sent();
                 if (res.iRet === 0)
-                    console.log("\u6E38\u620F\u4E2D\u9014\u4E0A\u62A5".concat(j + 1, ":OK"));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 10:
-                _a.sent();
-                console.log(JSON.stringify(PearlList[j]));
-                if (!PearlList[j].rbf) return [3 /*break*/, 13];
-                return [4 /*yield*/, api('user/ComposePearlAward', '__t,size,strBT,strZone,type', { __t: Date.now(), size: 1, strBT: strDT, type: PearlList[j].type })];
+                    console.log("\u6E38\u620F\u4E2D\u9014\u4E0A\u62A5".concat(j_1 + 1, ":OK"));
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 11:
+                _a.sent();
+                console.log(JSON.stringify(PearlList[j_1]));
+                if (!PearlList[j_1].rbf) return [3 /*break*/, 14];
+                return [4 /*yield*/, api('user/ComposePearlAward', '__t,size,strBT,strZone,type', { __t: Date.now(), size: 1, strBT: strDT, type: PearlList[j_1].type })];
+            case 12:
                 res = _a.sent();
                 if (res.iRet === 0) {
                     console.log("\u4E0A\u62A5\u5F97\u7EA2\u5305:".concat(res.ddwAwardHb / 100, "\u7EA2\u5305\uFF0C\u5F53\u524D\u6709").concat(res.ddwVirHb / 100));
@@ -119,27 +122,33 @@ var cookie = '', res = '', UserName, index, token = {};
                     console.log('上报得红包失败:', res);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 12:
-                _a.sent();
-                _a.label = 13;
             case 13:
-                j++;
-                return [3 /*break*/, 8];
-            case 14: return [4 /*yield*/, api("user/ComposePearlAddProcess", '__t,strBT,strLT,strZone', { __t: Date.now(), strBT: strDT, strLT: strLT })];
-            case 15:
+                _a.sent();
+                _a.label = 14;
+            case 14:
+                j_1++;
+                return [3 /*break*/, 9];
+            case 15: return [4 /*yield*/, api("user/ComposePearlAddProcess", '__t,strBT,strLT,strZone', { __t: Date.now(), strBT: strDT, strLT: strLT })];
+            case 16:
                 // 珍珠奖励
                 res = _a.sent();
                 if (res.iRet === 0) {
                     console.log("\u5408\u6210\u6210\u529F:\u83B7\u5F97".concat(res.ddwAwardHb / 100, "\u7EA2\u5305\uFF0C\u5F53\u524D\u6709").concat(res.dwCurProgress, "\u73CD\u73E0\uFF0C").concat(res.ddwVirHb / 100, "\u7EA2\u5305"));
+                    if (res.ddwAwardHb === 0) {
+                        return [3 /*break*/, 18];
+                    }
                 }
                 else {
                     console.log('合成失败:', res);
                 }
-                _a.label = 16;
-            case 16:
+                _a.label = 17;
+            case 17:
+                j++;
+                return [3 /*break*/, 4];
+            case 18:
                 i++;
                 return [3 /*break*/, 3];
-            case 17: return [2 /*return*/];
+            case 19: return [2 /*return*/];
         }
     });
 }); })();

@@ -96,7 +96,7 @@ var cookie = '', res = '', message = '';
                 _c.sent();
                 desp = res.data.commodityList[0].description;
                 if (desp.indexOf('红包') > -1) {
-                    desp = desp.match(/奖励以(.*)发放/)[1];
+                    desp = desp.match(/奖[励|品]以(.*)发放/)[1];
                     message += "".concat(name_1, " ").concat(desp, "\n");
                 }
                 else if (desp.indexOf('支付') > -1) {

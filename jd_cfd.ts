@@ -146,7 +146,7 @@ interface Params {
           break
         }
       }
-      if (t.dwCompleteNum < t.dwTargetNum && t.strTaskName !== '去接待NPC') {
+      if (t.dwCompleteNum < t.dwTargetNum && t.strTaskName !== '去接待NPC' && t.strTaskName.indexOf('累计邀请') === -1) {
         console.log(t.strTaskName)
         res = await api('DoTask', '_cfd_t,bizCode,configExtra,dwEnv,ptag,source,strZone,taskId', {bizCode: tasks.Data.strZone, taskId: t.ddwTaskId})
         await wait(t.dwLookTime * 1000 ?? 2000)
@@ -185,6 +185,7 @@ interface Params {
             isUsing = true
           } else {
             console.log('点券加速卡使用失败', res)
+            isUsing = true
             break
           }
           await wait(2000)
@@ -232,7 +233,7 @@ interface Params {
       res = await api('user/GetBuildInfo', '_cfd_t,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strZone', {strBuildIndex: build})
       console.log(`${build}升级需要:`, res.ddwNextLvlCostCoin)
       await wait(2000)
-      if (res.dwCanLvlUp === 1 && res.ddwNextLvlCostCoin * 2 <= wallet) {
+      if (res.dwCanLvlUp === 1 && res.ddwNextLvlCostCoin <= wallet) {
         res = await api('user/BuildLvlUp', '_cfd_t,bizCode,ddwCostCoin,dwEnv,ptag,source,strBuildIndex,strZone', {ddwCostCoin: res.ddwNextLvlCostCoin, strBuildIndex: build})
         await wait(2000)
         if (res.iRet === 0) {
@@ -243,53 +244,6 @@ interface Params {
         break
       }
       await wait(3000)
-    }
-
-    // 珍珠
-    res = await api('user/ComposePearlState', '', {__t: Date.now(), dwGetType: 0})
-    let dwCurProgress: number = res.dwCurProgress, strDT: string = res.strDT, strMyShareId: string = res.strMyShareId, ddwSeasonStartTm: number = res.ddwSeasonStartTm
-    let strLT: string = res.oPT[res.ddwCurTime % (res.oPT.length)]
-    console.log(`已合成${dwCurProgress}个珍珠，${res.ddwVirHb / 100}元红包`)
-
-    if (res.dayDrawInfo.dwIsDraw === 0) {
-      res = await api("user/GetPearlDailyReward", "__t,strZone", {__t: Date.now()})
-      if (res.iRet === 0) {
-        res = await api("user/PearlDailyDraw", "__t,ddwSeaonStart,strToken,strZone", {__t: Date.now(), ddwSeaonStart: ddwSeasonStartTm, strToken: res.strToken})
-        if (res.strPrizeName) {
-          console.log('抽奖获得:', res.strPrizeName)
-        } else {
-          console.log('抽奖失败？', res)
-        }
-      }
-    }
-
-    // 模拟合成
-    if (strDT) {
-      console.log('继续合成')
-      let RealTmReport: number = getRandomNumberByRange(10, 20)
-      console.log('本次合成需要上报:', RealTmReport)
-      for (let j = 0; j < RealTmReport; j++) {
-        res = await api('user/RealTmReport', '', {__t: Date.now(), dwIdentityType: 0, strBussKey: 'composegame', strMyShareId: strMyShareId, ddwCount: 10})
-        if (res.iRet === 0)
-          console.log(`游戏中途上报${j + 1}:OK`)
-        await wait(2000)
-        if (getRandomNumberByRange(1, 6) === 2) {
-          res = await api('user/ComposePearlAward', '__t,size,strBT,strZone,type', {__t: Date.now(), size: 1, strBT: strDT, type: 4})
-          if (res.iRet === 0) {
-            console.log(`上报得红包:${res.ddwAwardHb / 100}红包，当前有${res.ddwVirHb / 100}`)
-          } else {
-            console.log('上报得红包失败:', res)
-          }
-          await wait(1000)
-        }
-      }
-      // 珍珠奖励
-      res = await api(`user/ComposePearlAddProcess`, '__t,strBT,strLT,strZone', {__t: Date.now(), strBT: strDT, strLT: strLT})
-      if (res.iRet === 0) {
-        console.log(`合成成功:获得${res.ddwAwardHb / 100}红包，当前有${res.dwCurProgress}珍珠，${res.ddwVirHb / 100}红包`)
-      } else {
-        console.log('合成失败:', res)
-      }
     }
 
     // 签到 助力奖励

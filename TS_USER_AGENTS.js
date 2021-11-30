@@ -149,18 +149,27 @@ function getFarmShareCode(cookie) {
     });
 }
 exports.getFarmShareCode = getFarmShareCode;
-function requireConfig() {
-    var cookiesArr = [];
-    return new Promise(function (resolve) {
-        console.log('开始获取配置文件\n');
-        var jdCookieNode = require('./jdCookie.js');
-        Object.keys(jdCookieNode).forEach(function (item) {
-            if (jdCookieNode[item]) {
-                cookiesArr.push(jdCookieNode[item]);
+function requireConfig(index) {
+    if (index === void 0) { index = -1; }
+    return __awaiter(this, void 0, void 0, function () {
+        var cookiesArr, jdCookieNode;
+        return __generator(this, function (_a) {
+            cookiesArr = [];
+            jdCookieNode = require('./jdCookie.js');
+            Object.keys(jdCookieNode).forEach(function (item) {
+                if (jdCookieNode[item]) {
+                    cookiesArr.push(jdCookieNode[item]);
+                }
+            });
+            console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
+            if (index != -1) {
+                return [2 /*return*/, [cookiesArr[index]]];
             }
+            else {
+                return [2 /*return*/, cookiesArr];
+            }
+            return [2 /*return*/];
         });
-        console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
-        resolve(cookiesArr);
     });
 }
 exports.requireConfig = requireConfig;

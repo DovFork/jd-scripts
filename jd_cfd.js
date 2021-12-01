@@ -620,7 +620,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 120:
                 if (!(_t < _u.length)) return [3 /*break*/, 124];
                 t = _u[_t];
-                if (!([1, 2].indexOf(t.dwOrderId) > -1 && t.dwCompleteNum < t.dwTargetNum && t.strTaskName != '升级1个建筑')) return [3 /*break*/, 123];
+                if (!([1, 2].indexOf(t.dwOrderId) > -1 && t.dwCompleteNum < t.dwTargetNum && t.strTaskName !== '升级1个建筑')) return [3 /*break*/, 123];
                 console.log('开始任务➡️:', t.strTaskName);
                 return [4 /*yield*/, api('DoTask', '_cfd_t,bizCode,configExtra,dwEnv,ptag,source,strZone,taskId', { taskId: t.ddwTaskId, configExtra: '' }, 'right')];
             case 121:

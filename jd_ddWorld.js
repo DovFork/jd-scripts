@@ -138,7 +138,7 @@ var tokenKey = '', token = '', bearer = '';
             case 21:
                 res = _d.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 22:
                 _d.sent();
                 _d.label = 23;
@@ -156,11 +156,11 @@ var tokenKey = '', token = '', bearer = '';
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 30];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log("".concat(UserName, "\u53BB\u52A9\u529B").concat(shareCodesInternal[0].taskToken));
+                console.log("".concat(UserName, " \u53BB\u52A9\u529B ").concat(shareCodesInternal[0].taskToken));
                 return [4 /*yield*/, api('do_assist_task', "taskToken=".concat(shareCodesInternal[0].taskToken, "&inviter_id=").concat(shareCodesInternal[0].inviter_id))];
             case 27:
                 res = _d.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 28:
                 _d.sent();
                 console.log('助力结果：', res);

@@ -47,7 +47,7 @@ var sendNotify_1 = require("./sendNotify");
 var path = require("path");
 var cookie = '', res = '', UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, i, productionId, investedElectric, needElectric, progress, factoryId, flag, j, _i, _a, t, j;
+    var cookiesArr, except, i, productionId, factoryId, investedElectric, needElectric, progress, flag, j, _i, _a, t, j;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)(10001)];
@@ -60,14 +60,14 @@ var cookie = '', res = '', UserName, index;
                 i = 0;
                 _b.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 29];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 32];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 if (except.includes(encodeURIComponent(UserName))) {
                     console.log('已设置跳过');
-                    return [3 /*break*/, 28];
+                    return [3 /*break*/, 31];
                 }
                 return [4 /*yield*/, api('userinfo/GetUserInfo', '_time,materialTuanId,materialTuanPin,needPickSiteInfo,pin,sharePin,shareType,source,zone', {
                         pin: '',
@@ -80,29 +80,39 @@ var cookie = '', res = '', UserName, index;
                     })];
             case 4:
                 res = _b.sent();
-                productionId = 0;
+                productionId = 0, factoryId = 0;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 5:
                 _b.sent();
                 try {
                     productionId = res.data.productionList[0].productionId;
+                    factoryId = res.data.factoryList[0].factoryId;
                     investedElectric = res.data.productionList[0].investedElectric, needElectric = res.data.productionList[0].needElectric, progress = (investedElectric / needElectric * 100).toFixed(2);
                     console.log('生产进度:', progress);
                     if (progress === '100.00') {
                         (0, sendNotify_1.sendNotify)("京喜工厂生产完成", "\u8D26\u53F7".concat(index, " ").concat(UserName));
-                        return [3 /*break*/, 28];
+                        return [3 /*break*/, 31];
                     }
                 }
                 catch (e) {
                     console.log('当前没有产品在生产');
-                    return [3 /*break*/, 28];
+                    return [3 /*break*/, 31];
                 }
-                factoryId = res.data.factoryList[0].factoryId;
-                return [4 /*yield*/, api('generator/QueryCurrentElectricityQuantity', '_time,factoryid,querytype,zone', { factoryid: factoryId, querytype: 1 })];
+                if (!(res.data.productionStage.productionStageAwardStatus === 1)) return [3 /*break*/, 8];
+                return [4 /*yield*/, api('userinfo/DrawProductionStagePrize', '_time,productionId,zone', { productionId: productionId })];
             case 6:
                 res = _b.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                console.log('打开红包:', res.data.active);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 7:
+                _b.sent();
+                _b.label = 8;
+            case 8: return [4 /*yield*/, api('generator/QueryCurrentElectricityQuantity', '_time,factoryid,querytype,zone', { factoryid: factoryId, querytype: 1 })];
+            case 9:
+                // 收发电机
+                res = _b.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 10:
                 _b.sent();
                 flag = -1;
                 if (res.data.nextCollectDoubleFlag === 1) {
@@ -119,89 +129,89 @@ var cookie = '', res = '', UserName, index;
                     // 没有双倍，直接收
                     flag = 0;
                 }
-                if (!(flag !== -1)) return [3 /*break*/, 9];
+                if (!(flag !== -1)) return [3 /*break*/, 12];
                 return [4 /*yield*/, api('generator/CollectCurrentElectricity', '_time,apptoken,doubleflag,factoryid,pgtimestamp,phoneID,zone', { apptoken: '', pgtimestamp: '', phoneID: '', factoryid: factoryId, doubleflag: flag, timeStamp: 'undefined' })];
-            case 8:
+            case 11:
                 res = _b.sent();
                 res.ret === 0
                     ? console.log('发电机收取成功:', res.data.CollectElectricity)
                     : console.log('发电机收取失败:', res);
-                _b.label = 9;
-            case 9: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
+                _b.label = 12;
+            case 12: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
                 // 投入电力
             ];
-            case 10:
+            case 13:
                 _b.sent();
                 j = 0;
-                _b.label = 11;
-            case 11:
-                if (!(j < 3)) return [3 /*break*/, 15];
+                _b.label = 14;
+            case 14:
+                if (!(j < 3)) return [3 /*break*/, 18];
                 return [4 /*yield*/, api('userinfo/InvestElectric', '_time,productionId,zone', { productionId: productionId })];
-            case 12:
+            case 15:
                 res = _b.sent();
                 if (res.ret === 0) {
                     console.log('投入电力:', res.data.investElectric);
                 }
                 else {
                     console.log('投入电力失败:', res);
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 18];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 13:
-                _b.sent();
-                _b.label = 14;
-            case 14:
-                j++;
-                return [3 /*break*/, 11];
-            case 15: return [4 /*yield*/, api('friend/QueryHireReward', '_time,zone')];
             case 16:
-                res = _b.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 17:
                 _b.sent();
-                _i = 0, _a = res.data.hireReward;
-                _b.label = 18;
-            case 18:
-                if (!(_i < _a.length)) return [3 /*break*/, 22];
-                t = _a[_i];
-                if (!(t.date !== (0, date_fns_1.format)(Date.now(), "yyyyMMdd"))) return [3 /*break*/, 21];
-                return [4 /*yield*/, api('friend/HireAward', '_time,date,type,zone', { date: t.date })];
+                _b.label = 17;
+            case 17:
+                j++;
+                return [3 /*break*/, 14];
+            case 18: return [4 /*yield*/, api('friend/QueryHireReward', '_time,zone')];
             case 19:
                 res = _b.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 20:
                 _b.sent();
-                if (res.ret === 0)
-                    console.log('收取气泡成功:', t.electricityQuantity);
+                _i = 0, _a = res.data.hireReward;
                 _b.label = 21;
             case 21:
-                _i++;
-                return [3 /*break*/, 18];
+                if (!(_i < _a.length)) return [3 /*break*/, 25];
+                t = _a[_i];
+                if (!(t.date !== (0, date_fns_1.format)(Date.now(), "yyyyMMdd"))) return [3 /*break*/, 24];
+                return [4 /*yield*/, api('friend/HireAward', '_time,date,type,zone', { date: t.date })];
             case 22:
+                res = _b.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 23:
+                _b.sent();
+                if (res.ret === 0)
+                    console.log('收取气泡成功:', t.electricityQuantity);
+                _b.label = 24;
+            case 24:
+                _i++;
+                return [3 /*break*/, 21];
+            case 25:
                 console.log('任务列表开始');
                 j = 0;
-                _b.label = 23;
-            case 23:
-                if (!(j < 30)) return [3 /*break*/, 27];
-                return [4 /*yield*/, task()];
-            case 24:
-                if ((_b.sent()) === 0) {
-                    return [3 /*break*/, 27];
-                }
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
-            case 25:
-                _b.sent();
                 _b.label = 26;
             case 26:
-                j++;
-                return [3 /*break*/, 23];
+                if (!(j < 30)) return [3 /*break*/, 30];
+                return [4 /*yield*/, task()];
             case 27:
-                console.log('任务列表结束');
-                _b.label = 28;
+                if ((_b.sent()) === 0) {
+                    return [3 /*break*/, 30];
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 28:
+                _b.sent();
+                _b.label = 29;
+            case 29:
+                j++;
+                return [3 /*break*/, 26];
+            case 30:
+                console.log('任务列表结束');
+                _b.label = 31;
+            case 31:
                 i++;
                 return [3 /*break*/, 3];
-            case 29: return [2 /*return*/];
+            case 32: return [2 /*return*/];
         }
     });
 }); })();

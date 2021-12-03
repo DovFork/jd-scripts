@@ -168,7 +168,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 i = 0;
                 _d.label = 21;
             case 21:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 31];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 30];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, token(cookie)];
@@ -186,32 +186,30 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 _a = 0, _b = res.Data.gradeConfig;
                 _d.label = 25;
             case 25:
-                if (!(_a < _b.length)) return [3 /*break*/, 30];
+                if (!(_a < _b.length)) return [3 /*break*/, 29];
                 t = _b[_a];
-                if (!(dwHelpedTimes >= t.dwHelpTimes)) return [3 /*break*/, 28];
+                if (!(dwHelpedTimes >= t.dwHelpTimes && t.dwIsHasDraw !== 2)) return [3 /*break*/, 28];
                 return [4 /*yield*/, api('DoGradeDraw', 'activeId,channel,grade,phoneid,publishFlag,stepreward_jstoken,strPin,timestamp', { grade: t.dwGrade, strPin: strUserPin })];
             case 26:
                 res = _d.sent();
-                if (res.iRet === 2018)
-                    console.log("\u7B49\u7EA7".concat(t.dwGrade, "\u7EA2\u5305\u5DF2\u6253\u5F00\u8FC7"));
-                else if (res.iRet === 0)
+                if (res.iRet === 0) {
                     console.log("\u7B49\u7EA7".concat(t.dwGrade, "\u7EA2\u5305\u6253\u5F00\u6210\u529F"));
+                }
                 else {
                     console.log('其他错误', (_c = res.sErrMsg) !== null && _c !== void 0 ? _c : JSON.stringify(res));
-                    return [3 /*break*/, 30];
+                    return [3 /*break*/, 29];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(15000)];
             case 27:
                 _d.sent();
-                return [3 /*break*/, 29];
-            case 28: return [3 /*break*/, 30];
-            case 29:
+                _d.label = 28;
+            case 28:
                 _a++;
                 return [3 /*break*/, 25];
-            case 30:
+            case 29:
                 i++;
                 return [3 /*break*/, 21];
-            case 31: return [2 /*return*/];
+            case 30: return [2 /*return*/];
         }
     });
 }); })();

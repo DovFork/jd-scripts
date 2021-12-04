@@ -39,6 +39,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 exports.__esModule = true;
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
@@ -48,56 +57,56 @@ var token = require('./utils/jd_jxmc.js').token;
 var cookie = '', res = '', shareCodes = [], homePageInfo, jxToken, UserName, index;
 var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, j, lastgettime, food, petid, coins, petNum, petids, e_1, tasks, _i, _a, t, j, drawTimes, j, _b, _c, card, e_2, e_3, _d, _e, day, j, _f, _g, t, e_4, e_5;
-    var _h, _j;
-    return __generator(this, function (_k) {
-        switch (_k.label) {
+    var cookiesArr, _i, _a, _b, index_1, value, j, lastgettime, food, petid, coins, petNum, petids, e_1, tasks, _c, _d, t, j, drawTimes, j, _e, _f, card, e_2, e_3, _g, _h, day, j, _j, _k, t, e_4, e_5, _l, _m, _o, index_2, value, data, e_6, _p, shareCodes_1, code, _q, _r, _s, index_3, value, data, e_7, _t, shareCodes_2, code;
+    var _u, _v;
+    return __generator(this, function (_w) {
+        switch (_w.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
             case 1:
-                _k.sent();
+                _w.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
-                cookiesArr = _k.sent();
-                i = 0;
-                _k.label = 3;
+                cookiesArr = _w.sent();
+                _i = 0, _a = cookiesArr.entries();
+                _w.label = 3;
             case 3:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 110];
-                cookie = cookiesArr[i];
+                if (!(_i < _a.length)) return [3 /*break*/, 110];
+                _b = _a[_i], index_1 = _b[0], value = _b[1];
+                cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index_1 + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, token(cookie)];
             case 4:
-                jxToken = _k.sent();
+                jxToken = _w.sent();
                 return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'activeid,activekey,channel,isgift,isqueryinviteicon,isquerypicksite,jxmc_jstoken,phoneid,sceneid,timestamp', { isgift: 1, isquerypicksite: 1, isqueryinviteicon: 1 })];
             case 5:
-                homePageInfo = _k.sent();
+                homePageInfo = _w.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 6:
-                _k.sent();
+                _w.sent();
                 if (!(homePageInfo.data.maintaskId !== 'pause')) return [3 /*break*/, 11];
                 console.log('init...');
                 j = 0;
-                _k.label = 7;
+                _w.label = 7;
             case 7:
                 if (!(j < 20)) return [3 /*break*/, 11];
                 return [4 /*yield*/, api('operservice/DoMainTask', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,step,timestamp', { step: homePageInfo.data.maintaskId })];
             case 8:
-                res = _k.sent();
+                res = _w.sent();
                 if (res.data.maintaskId === 'pause')
                     return [3 /*break*/, 11];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 9:
-                _k.sent();
-                _k.label = 10;
+                _w.sent();
+                _w.label = 10;
             case 10:
                 j++;
                 return [3 /*break*/, 7];
             case 11: return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'activeid,activekey,channel,isgift,isqueryinviteicon,isquerypicksite,jxmc_jstoken,phoneid,sceneid,timestamp', { isgift: 1, isquerypicksite: 1, isqueryinviteicon: 1 })];
             case 12:
-                homePageInfo = _k.sent();
+                homePageInfo = _w.sent();
                 lastgettime = void 0;
-                if ((_j = (_h = homePageInfo.data) === null || _h === void 0 ? void 0 : _h.cow) === null || _j === void 0 ? void 0 : _j.lastgettime) {
+                if ((_v = (_u = homePageInfo.data) === null || _u === void 0 ? void 0 : _u.cow) === null || _v === void 0 ? void 0 : _v.lastgettime) {
                     lastgettime = homePageInfo.data.cow.lastgettime;
                 }
                 else {
@@ -119,15 +128,15 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 }
                 console.log('助力码:', homePageInfo.data.sharekey);
                 shareCodesSelf.push(homePageInfo.data.sharekey);
-                _k.label = 13;
+                _w.label = 13;
             case 13:
-                _k.trys.push([13, 15, , 16]);
+                _w.trys.push([13, 15, , 16]);
                 return [4 /*yield*/, makeShareCodes(homePageInfo.data.sharekey)];
             case 14:
-                _k.sent();
+                _w.sent();
                 return [3 /*break*/, 16];
             case 15:
-                e_1 = _k.sent();
+                e_1 = _w.sent();
                 console.log(e_1);
                 return [3 /*break*/, 16];
             case 16:
@@ -139,28 +148,28 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                     // 助农
                 ];
             case 17:
-                _k.sent();
+                _w.sent();
                 return [4 /*yield*/, api('GetUserTaskStatusList', 'bizCode,dateType,jxpp_wxapp_type,showAreaTaskFlag,source', { dateType: '2', showAreaTaskFlag: 0, jxpp_wxapp_type: 7 }, true)];
             case 18:
-                tasks = _k.sent();
+                tasks = _w.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 19:
-                _k.sent();
-                _i = 0, _a = tasks.data.userTaskStatusList;
-                _k.label = 20;
+                _w.sent();
+                _c = 0, _d = tasks.data.userTaskStatusList;
+                _w.label = 20;
             case 20:
-                if (!(_i < _a.length)) return [3 /*break*/, 30];
-                t = _a[_i];
+                if (!(_c < _d.length)) return [3 /*break*/, 30];
+                t = _d[_c];
                 if (!(t.awardStatus === 2 && t.taskName !== '邀请牧场新用户助力' && t.taskName !== '拆开邀人红包')) return [3 /*break*/, 29];
                 console.log(t.taskName);
                 if (!(t.completedTimes < t.targetTimes)) return [3 /*break*/, 26];
                 j = t.completedTimes;
-                _k.label = 21;
+                _w.label = 21;
             case 21:
                 if (!(j < t.targetTimes)) return [3 /*break*/, 25];
                 return [4 /*yield*/, api('DoTask', 'bizCode,configExtra,source,taskId', { taskId: t.taskId }, true)];
             case 22:
-                res = _k.sent();
+                res = _w.sent();
                 if (res.ret === 0) {
                     console.log('任务完成');
                 }
@@ -170,15 +179,15 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 23:
-                _k.sent();
-                _k.label = 24;
+                _w.sent();
+                _w.label = 24;
             case 24:
                 j++;
                 return [3 /*break*/, 21];
             case 25: return [3 /*break*/, 29];
             case 26: return [4 /*yield*/, api('Award', 'bizCode,source,taskId', { taskId: t.taskId }, true)];
             case 27:
-                res = _k.sent();
+                res = _w.sent();
                 if (res.ret === 0) {
                     console.log('领奖成功', res.data.prizeInfo.match(/:(.*)}/)[1]);
                 }
@@ -188,38 +197,38 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 28:
-                _k.sent();
-                _k.label = 29;
+                _w.sent();
+                _w.label = 29;
             case 29:
-                _i++;
+                _c++;
                 return [3 /*break*/, 20];
             case 30: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)
                 // 扭蛋机
             ];
             case 31:
-                _k.sent();
+                _w.sent();
                 return [4 /*yield*/, api('queryservice/GetCardInfo', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')];
             case 32:
                 // 扭蛋机
-                res = _k.sent();
+                res = _w.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 33:
-                _k.sent();
+                _w.sent();
                 drawTimes = res.data.times;
                 if (!(typeof drawTimes === "undefined")) return [3 /*break*/, 35];
-                return [4 /*yield*/, (0, sendNotify_1.sendNotify)("牧场扭蛋机错误", "\u8D26\u53F7".concat(i + 1, " ").concat(UserName, "\n\u624B\u52A8\u5EFA\u9020\u626D\u86CB\u673A"))];
+                return [4 /*yield*/, (0, sendNotify_1.sendNotify)("牧场扭蛋机错误", "\u8D26\u53F7".concat(index_1 + 1, " ").concat(UserName, "\n\u624B\u52A8\u5EFA\u9020\u626D\u86CB\u673A"))];
             case 34:
-                _k.sent();
+                _w.sent();
                 return [3 /*break*/, 41];
             case 35:
                 console.log('扭蛋机剩余次数:', drawTimes);
                 j = 0;
-                _k.label = 36;
+                _w.label = 36;
             case 36:
                 if (!(j < drawTimes)) return [3 /*break*/, 41];
                 return [4 /*yield*/, api('operservice/DrawCard', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')];
             case 37:
-                res = _k.sent();
+                res = _w.sent();
                 if (!(res.ret === 0)) return [3 /*break*/, 39];
                 if (res.data.prizetype === 3) {
                     console.log('抽奖成功，金币:', res.data.addcoins);
@@ -232,7 +241,7 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
             case 38:
-                _k.sent();
+                _w.sent();
                 return [3 /*break*/, 40];
             case 39:
                 console.log('抽奖失败:', res);
@@ -242,73 +251,73 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 return [3 /*break*/, 36];
             case 41: return [4 /*yield*/, api('queryservice/GetCardInfo', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')];
             case 42:
-                res = _k.sent();
-                _k.label = 43;
+                res = _w.sent();
+                _w.label = 43;
             case 43:
-                _k.trys.push([43, 49, , 50]);
-                _b = 0, _c = res.data.cardinfo;
-                _k.label = 44;
+                _w.trys.push([43, 49, , 50]);
+                _e = 0, _f = res.data.cardinfo;
+                _w.label = 44;
             case 44:
-                if (!(_b < _c.length)) return [3 /*break*/, 48];
-                card = _c[_b];
+                if (!(_e < _f.length)) return [3 /*break*/, 48];
+                card = _f[_e];
                 console.log("card ".concat(card.cardtype), card.currnum, '/', card.neednum);
                 if (!(card.currnum >= card.neednum && petNum < 6)) return [3 /*break*/, 47];
                 console.log('可以兑换');
                 return [4 /*yield*/, api('operservice/Combine', 'activeid,activekey,cardtype,channel,jxmc_jstoken,phoneid,sceneid,timestamp', { cardtype: card.cardtype })];
             case 45:
-                res = _k.sent();
+                res = _w.sent();
                 res.ret === 0 ? console.log('兑换成功') : '';
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 46:
-                _k.sent();
-                _k.label = 47;
+                _w.sent();
+                _w.label = 47;
             case 47:
-                _b++;
+                _e++;
                 return [3 /*break*/, 44];
             case 48: return [3 /*break*/, 50];
             case 49:
-                e_2 = _k.sent();
+                e_2 = _w.sent();
                 return [3 /*break*/, 50];
             case 50: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)
                 // 红包
             ];
             case 51:
-                _k.sent();
+                _w.sent();
                 return [4 /*yield*/, api('operservice/GetInviteStatus', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')];
             case 52:
                 // 红包
-                res = _k.sent();
+                res = _w.sent();
                 console.log('红包助力:', res.data.sharekey);
                 shareCodesHbSelf.push(res.data.sharekey);
-                _k.label = 53;
+                _w.label = 53;
             case 53:
-                _k.trys.push([53, 55, , 56]);
+                _w.trys.push([53, 55, , 56]);
                 return [4 /*yield*/, makeShareCodesHb(res.data.sharekey)];
             case 54:
-                _k.sent();
+                _w.sent();
                 return [3 /*break*/, 56];
             case 55:
-                e_3 = _k.sent();
+                e_3 = _w.sent();
                 return [3 /*break*/, 56];
             case 56: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)
                 // 签到
             ];
             case 57:
-                _k.sent();
+                _w.sent();
                 return [4 /*yield*/, api('queryservice/GetSignInfo', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')];
             case 58:
                 // 签到
-                res = _k.sent();
+                res = _w.sent();
                 if (!res.data.signlist) return [3 /*break*/, 63];
-                _d = 0, _e = res.data.signlist;
-                _k.label = 59;
+                _g = 0, _h = res.data.signlist;
+                _w.label = 59;
             case 59:
-                if (!(_d < _e.length)) return [3 /*break*/, 62];
-                day = _e[_d];
+                if (!(_g < _h.length)) return [3 /*break*/, 62];
+                day = _h[_g];
                 if (!(day.fortoday && !day.hasdone)) return [3 /*break*/, 61];
                 return [4 /*yield*/, api('operservice/GetSignReward', 'channel,currdate,sceneid', { currdate: res.data.currdate })];
             case 60:
-                res = _k.sent();
+                res = _w.sent();
                 if (res.ret === 0) {
                     console.log('签到成功!');
                 }
@@ -317,49 +326,49 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 }
                 return [3 /*break*/, 62];
             case 61:
-                _d++;
+                _g++;
                 return [3 /*break*/, 59];
             case 62: return [3 /*break*/, 64];
             case 63:
                 console.log('没有获取到签到信息！');
-                _k.label = 64;
+                _w.label = 64;
             case 64: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)
                 // 登录领白菜
             ];
             case 65:
-                _k.sent();
+                _w.sent();
                 return [4 /*yield*/, api('queryservice/GetVisitBackInfo', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')];
             case 66:
                 // 登录领白菜
-                res = _k.sent();
+                res = _w.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 67:
-                _k.sent();
+                _w.sent();
                 if (!(res.iscandraw === 1)) return [3 /*break*/, 69];
                 return [4 /*yield*/, api('operservice/GetVisitBackCabbage', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')];
             case 68:
-                res = _k.sent();
+                res = _w.sent();
                 if (res.ret === 0) {
                     console.log('登录领白菜:', res.data.drawnum);
                 }
-                _k.label = 69;
+                _w.label = 69;
             case 69: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 70:
-                _k.sent();
+                _w.sent();
                 console.log('任务列表开始');
                 j = 0;
-                _k.label = 71;
+                _w.label = 71;
             case 71:
                 if (!(j < 30)) return [3 /*break*/, 75];
                 return [4 /*yield*/, getTask()];
             case 72:
-                if ((_k.sent()) === 0) {
+                if ((_w.sent()) === 0) {
                     return [3 /*break*/, 75];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 73:
-                _k.sent();
-                _k.label = 74;
+                _w.sent();
+                _w.label = 74;
             case 74:
                 j++;
                 return [3 /*break*/, 71];
@@ -367,13 +376,13 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 console.log('任务列表结束');
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 76:
-                _k.sent();
-                _k.label = 77;
+                _w.sent();
+                _w.label = 77;
             case 77:
                 if (!(coins >= 5000)) return [3 /*break*/, 80];
                 return [4 /*yield*/, api('operservice/Buy', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,type', { type: '1' })];
             case 78:
-                res = _k.sent();
+                res = _w.sent();
                 if (res.ret === 0) {
                     console.log('买草成功:', res.data.newnum);
                     coins -= 5000;
@@ -385,18 +394,18 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
             case 79:
-                _k.sent();
+                _w.sent();
                 return [3 /*break*/, 77];
             case 80: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 81:
-                _k.sent();
-                _k.label = 82;
+                _w.sent();
+                _w.label = 82;
             case 82:
                 if (!(food >= 10)) return [3 /*break*/, 90];
                 food -= 10;
                 return [4 /*yield*/, api('operservice/Feed', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp')];
             case 83:
-                res = _k.sent();
+                res = _w.sent();
                 if (!(res.ret === 0)) return [3 /*break*/, 84];
                 console.log('喂食:', res.data.newnum);
                 return [3 /*break*/, 88];
@@ -409,9 +418,9 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                         isqueryinviteicon: 1
                     })];
             case 85:
-                homePageInfo = _k.sent();
-                for (_f = 0, _g = homePageInfo.data.petinfo; _f < _g.length; _f++) {
-                    t = _g[_f];
+                homePageInfo = _w.sent();
+                for (_j = 0, _k = homePageInfo.data.petinfo; _j < _k.length; _j++) {
+                    t = _k[_j];
                     if (t.cangetborn === 1) {
                         petid = t.petid;
                         break;
@@ -419,7 +428,7 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 }
                 return [4 /*yield*/, api('operservice/GetSelfResult', 'activeid,activekey,channel,itemid,jxmc_jstoken,phoneid,sceneid,timestamp,type', { itemid: petid, type: '11' })];
             case 86:
-                res = _k.sent();
+                res = _w.sent();
                 if (res.ret === 0) {
                     console.log('收🥚成功:', res.data.newnum);
                 }
@@ -437,133 +446,189 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                     console.log('Feed未知错误:', res);
                     return [3 /*break*/, 90];
                 }
-                _k.label = 88;
+                _w.label = 88;
             case 88: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(7000)];
             case 89:
-                _k.sent();
+                _w.sent();
                 return [3 /*break*/, 82];
             case 90: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
             case 91:
-                _k.sent();
+                _w.sent();
                 console.log('除草...start');
-                _k.label = 92;
+                _w.label = 92;
             case 92:
                 if (!1) return [3 /*break*/, 101];
-                _k.label = 93;
+                _w.label = 93;
             case 93:
-                _k.trys.push([93, 99, , 100]);
+                _w.trys.push([93, 99, , 100]);
                 return [4 /*yield*/, api('operservice/Action', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,type', { type: '2' })];
             case 94:
-                res = _k.sent();
+                res = _w.sent();
                 if (res.data.addcoins === 0 || JSON.stringify(res.data) === '{}')
                     return [3 /*break*/, 101];
                 console.log('锄草:', res.data.addcoins);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 95:
-                _k.sent();
+                _w.sent();
                 if (!res.data.surprise) return [3 /*break*/, 98];
                 return [4 /*yield*/, api("operservice/GetSelfResult", "activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,type", { type: '14', itemid: 'undefined' })];
             case 96:
-                res = _k.sent();
+                res = _w.sent();
                 console.log('锄草奖励:', res.data.prizepool);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 97:
-                _k.sent();
-                _k.label = 98;
+                _w.sent();
+                _w.label = 98;
             case 98: return [3 /*break*/, 100];
             case 99:
-                e_4 = _k.sent();
+                e_4 = _w.sent();
                 console.log('除草 Error:', e_4);
                 return [3 /*break*/, 101];
             case 100: return [3 /*break*/, 92];
             case 101: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 102:
-                _k.sent();
-                _k.label = 103;
+                _w.sent();
+                _w.label = 103;
             case 103:
                 if (!1) return [3 /*break*/, 109];
-                _k.label = 104;
+                _w.label = 104;
             case 104:
-                _k.trys.push([104, 107, , 108]);
+                _w.trys.push([104, 107, , 108]);
                 return [4 /*yield*/, api('operservice/Action', 'activeid,activekey,channel,jxmc_jstoken,petid,phoneid,sceneid,timestamp,type', { type: '1', petid: petids[Math.floor((Math.random() * petids.length))] })];
             case 105:
-                res = _k.sent();
+                res = _w.sent();
                 if (res.data.addcoins === 0 || JSON.stringify(res.data) === '{}')
                     return [3 /*break*/, 109];
                 console.log('挑逗:', res.data.addcoins);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 106:
-                _k.sent();
+                _w.sent();
                 return [3 /*break*/, 108];
             case 107:
-                e_5 = _k.sent();
+                e_5 = _w.sent();
                 console.log('挑逗 Error:', e_5);
                 return [3 /*break*/, 109];
             case 108: return [3 /*break*/, 103];
             case 109:
-                i++;
+                _i++;
                 return [3 /*break*/, 3];
-            case 110: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)
-                /*
-                for (let i = 0; i < cookiesArr.length; i++) {
-                  await getCodes()
-                  // 获取随机红包码
-                  try {
-                    let {data}: any = await axios.get(`https://api.jdsharecode.xyz/api/jxmchb/30`, {timeout: 10000})
-                    console.log('获取到30个随机红包码:', data.data)
-                    shareCodes = Array.from(new Set([...shareCodesHbSelf, ...shareCodesHbHw, ...data.data]))
-                  } catch (e: any) {
-                    console.log('获取助力池失败')
-                    shareCodes = Array.from(new Set([...shareCodesHbSelf, ...shareCodesHbHw]))
-                  }
-              
-                  cookie = cookiesArr[i]
-                  jxToken = await token(cookie)
-                  for (let j = 0; j < shareCodes.length; j++) {
-                    console.log(`账号${i + 1}去助力${shareCodes[j]}`)
-                    res = await api('operservice/InviteEnroll', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,sharekey,timestamp', {sharekey: shareCodes[j]})
-                    if (res.ret === 0) {
-                      console.log('成功')
-                    } else if (res.ret === 2711) {
-                      console.log('上限')
-                      break
-                    } else {
-                      console.log('失败:', res.message)
-                    }
-                    await wait(8000)
-                  }
-                }
-              
-                for (let i = 0; i < cookiesArr.length; i++) {
-                  await getCodes()
-                  // 获取随机助力码
-                  try {
-                    let {data}: any = await axios.get(`https://api.jdsharecode.xyz/api/jxmc/30`, {timeout: 10000})
-                    console.log('获取到30个随机助力码:', data.data)
-                    shareCodes = Array.from(new Set([...shareCodesSelf, ...shareCodesHW, ...data.data]))
-                  } catch (e: any) {
-                    console.log('获取助力池失败')
-                    shareCodes = Array.from(new Set([...shareCodesSelf, ...shareCodesHW]))
-                  }
-                  cookie = cookiesArr[i]
-                  jxToken = await token(cookie)
-                  for (let j = 0; j < shareCodes.length; j++) {
-                    console.log(`账号${i + 1}去助力${shareCodes[j]}`)
-                    res = await api('operservice/EnrollFriend', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,sharekey,timestamp', {sharekey: shareCodes[j]})
-                    if (res.ret === 0) {
-                      console.log('成功，获得:', res.data.addcoins)
-                    } else {
-                      console.log('失败:', res)
-                    }
-                    await wait(8000)
-                  }
-                }
-              
-                 */
-            ];
+            case 110: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 111:
-                _k.sent();
-                return [2 /*return*/];
+                _w.sent();
+                _l = 0, _m = cookiesArr.entries();
+                _w.label = 112;
+            case 112:
+                if (!(_l < _m.length)) return [3 /*break*/, 124];
+                _o = _m[_l], index_2 = _o[0], value = _o[1];
+                return [4 /*yield*/, getCodes()
+                    // 获取随机红包码
+                ];
+            case 113:
+                _w.sent();
+                _w.label = 114;
+            case 114:
+                _w.trys.push([114, 116, , 117]);
+                return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/jxmchb/30")];
+            case 115:
+                data = (_w.sent()).data;
+                console.log('获取到30个随机红包码:', data.data);
+                shareCodes = Array.from(new Set(__spreadArray(__spreadArray(__spreadArray([], shareCodesHbSelf, true), shareCodesHbHw, true), data.data, true)));
+                return [3 /*break*/, 117];
+            case 116:
+                e_6 = _w.sent();
+                console.log('获取助力池失败');
+                shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHbSelf, true), shareCodesHbHw, true)));
+                return [3 /*break*/, 117];
+            case 117:
+                cookie = value;
+                return [4 /*yield*/, token(cookie)];
+            case 118:
+                jxToken = _w.sent();
+                _p = 0, shareCodes_1 = shareCodes;
+                _w.label = 119;
+            case 119:
+                if (!(_p < shareCodes_1.length)) return [3 /*break*/, 123];
+                code = shareCodes_1[_p];
+                console.log("\u8D26\u53F7".concat(index_2 + 1, " \u53BB\u52A9\u529B ").concat(code));
+                return [4 /*yield*/, api('operservice/InviteEnroll', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,sharekey,timestamp', { sharekey: code })];
+            case 120:
+                res = _w.sent();
+                if (res.ret === 0) {
+                    console.log('成功');
+                }
+                else if (res.ret === 2711) {
+                    console.log('上限');
+                    return [3 /*break*/, 123];
+                }
+                else {
+                    console.log('失败:', res.message);
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
+            case 121:
+                _w.sent();
+                _w.label = 122;
+            case 122:
+                _p++;
+                return [3 /*break*/, 119];
+            case 123:
+                _l++;
+                return [3 /*break*/, 112];
+            case 124:
+                _q = 0, _r = cookiesArr.entries();
+                _w.label = 125;
+            case 125:
+                if (!(_q < _r.length)) return [3 /*break*/, 137];
+                _s = _r[_q], index_3 = _s[0], value = _s[1];
+                return [4 /*yield*/, getCodes()
+                    // 获取随机助力码
+                ];
+            case 126:
+                _w.sent();
+                _w.label = 127;
+            case 127:
+                _w.trys.push([127, 129, , 130]);
+                return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/jxmc/30", { timeout: 10000 })];
+            case 128:
+                data = (_w.sent()).data;
+                console.log('获取到30个随机助力码:', data.data);
+                shareCodes = Array.from(new Set(__spreadArray(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true), data.data, true)));
+                return [3 /*break*/, 130];
+            case 129:
+                e_7 = _w.sent();
+                console.log('获取助力池失败');
+                shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
+                return [3 /*break*/, 130];
+            case 130:
+                cookie = value;
+                return [4 /*yield*/, token(cookie)];
+            case 131:
+                jxToken = _w.sent();
+                _t = 0, shareCodes_2 = shareCodes;
+                _w.label = 132;
+            case 132:
+                if (!(_t < shareCodes_2.length)) return [3 /*break*/, 136];
+                code = shareCodes_2[_t];
+                console.log("\u8D26\u53F7".concat(index_3 + 1, " \u53BB\u52A9\u529B ").concat(code));
+                return [4 /*yield*/, api('operservice/EnrollFriend', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,sharekey,timestamp', { sharekey: code })];
+            case 133:
+                res = _w.sent();
+                if (res.ret === 0) {
+                    console.log('成功，获得:', res.data.addcoins);
+                }
+                else {
+                    console.log('失败:', res);
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
+            case 134:
+                _w.sent();
+                _w.label = 135;
+            case 135:
+                _t++;
+                return [3 /*break*/, 132];
+            case 136:
+                _q++;
+                return [3 /*break*/, 125];
+            case 137: return [2 /*return*/];
         }
     });
 }); })();
@@ -622,7 +687,7 @@ function api(fn, stk, params, temporary) {
     if (params === void 0) { params = {}; }
     if (temporary === void 0) { temporary = false; }
     return __awaiter(this, void 0, void 0, function () {
-        var url, data, e_6;
+        var url, data, e_8;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -652,7 +717,7 @@ function api(fn, stk, params, temporary) {
                         return [2 /*return*/, JSON.parse(data.replace(/\n/g, '').match(/jsonpCBK.?\(([^)]*)/)[1])];
                     return [2 /*return*/, data];
                 case 3:
-                    e_6 = _a.sent();
+                    e_8 = _a.sent();
                     return [2 /*return*/, {}];
                 case 4: return [2 /*return*/];
             }
@@ -661,7 +726,7 @@ function api(fn, stk, params, temporary) {
 }
 function makeShareCodes(code) {
     return __awaiter(this, void 0, void 0, function () {
-        var bean, farm, pin, data, e_7;
+        var bean, farm, pin, data, e_9;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -679,9 +744,9 @@ function makeShareCodes(code) {
                     console.log(data.message);
                     return [3 /*break*/, 5];
                 case 4:
-                    e_7 = _a.sent();
+                    e_9 = _a.sent();
                     console.log('自动提交失败');
-                    console.log(e_7);
+                    console.log(e_9);
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
             }
@@ -690,7 +755,7 @@ function makeShareCodes(code) {
 }
 function makeShareCodesHb(code) {
     return __awaiter(this, void 0, void 0, function () {
-        var bean, farm, pin, data, e_8;
+        var bean, farm, pin, data, e_10;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -708,9 +773,9 @@ function makeShareCodesHb(code) {
                     console.log(data.message);
                     return [3 /*break*/, 5];
                 case 4:
-                    e_8 = _a.sent();
+                    e_10 = _a.sent();
                     console.log('自动提交失败');
-                    console.log(e_8);
+                    console.log(e_10);
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
             }
@@ -719,7 +784,7 @@ function makeShareCodesHb(code) {
 }
 function getCodes() {
     return __awaiter(this, void 0, void 0, function () {
-        var data, e_9;
+        var data, e_11;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -731,7 +796,7 @@ function getCodes() {
                     shareCodesHbHw = data.jxmchb || [];
                     return [3 /*break*/, 3];
                 case 2:
-                    e_9 = _a.sent();
+                    e_11 = _a.sent();
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }

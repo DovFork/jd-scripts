@@ -303,14 +303,15 @@ exports.getJxToken = getJxToken;
 function exceptCookie(filename) {
     if (filename === void 0) { filename = 'x.ts'; }
     var except;
-    try {
-        (0, fs_1.accessSync)('./utils/exceptCookie.json');
-        except = JSON.parse((0, fs_1.readFileSync)('./utils/exceptCookie.json').toString() || '{}')[filename] || [];
+    if ((0, fs_1.existsSync)('./utils/exceptCookie.json')) {
+        try {
+            except = JSON.parse((0, fs_1.readFileSync)('./utils/exceptCookie.json').toString() || '{}')[filename] || [];
+        }
+        catch (e) {
+            console.log('./utils/exceptCookie.json JSON格式错误');
+            except = [];
+        }
     }
-    catch (e) {
-        except = [];
-    }
-    console.log('except:', except);
     return except;
 }
 exports.exceptCookie = exceptCookie;

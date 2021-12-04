@@ -45,7 +45,6 @@ var path = require("path");
 var sendNotify_1 = require("./sendNotify");
 var fs_1 = require("fs");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var child_process_1 = require("child_process");
 var cookie = '', UserName, index, allMessage = '', res = '', message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, except, orders, i, _i, _a, order, orderId, orderType, title, t, status_1, carrier, carriageId, account, _b, account_1, acc;
@@ -58,10 +57,16 @@ var cookie = '', UserName, index, allMessage = '', res = '', message = '';
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 orders = {};
                 if ((0, fs_1.existsSync)('./json')) {
-                    orders = JSON.parse((0, fs_1.readFileSync)('./json/jd_track.json').toString() || '{}');
+                    if ((0, fs_1.existsSync)('./json/jd_track.json')) {
+                        orders = JSON.parse((0, fs_1.readFileSync)('./json/jd_track.json').toString() || '{}');
+                    }
+                    else {
+                        (0, fs_1.writeFileSync)('./json/jd_track.json', '{}');
+                    }
                 }
                 else {
-                    (0, child_process_1.execSync)('mkdir json');
+                    (0, fs_1.mkdirSync)('./json');
+                    (0, fs_1.writeFileSync)('./json/jd_track.json', '{}');
                 }
                 i = 0;
                 _e.label = 2;

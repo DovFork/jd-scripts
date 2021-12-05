@@ -162,7 +162,7 @@ function getOrderList() {
                     return [4 /*yield*/, axios_1["default"].get("https://wq.jd.com/bases/orderlist/list?order_type=2&start_page=1&last_page=0&page_size=10&callersource=mainorder&t=".concat(t, "&sceneval=2&_=").concat(t + 1, "&sceneval=2"), {
                             headers: {
                                 'authority': 'wq.jd.com',
-                                'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
+                                'user-agent': TS_USER_AGENTS_1["default"],
                                 'referer': 'https://wqs.jd.com/',
                                 'cookie': cookie
                             }
@@ -182,7 +182,7 @@ function getWuliu(orderId, orderType) {
                 case 0: return [4 /*yield*/, axios_1["default"].get("https://wq.jd.com/bases/wuliudetail/dealloglist?deal_id=".concat(orderId, "&orderstate=15&ordertype=").concat(orderType, "&t=").concat(Date.now(), "&sceneval=2"), {
                         headers: {
                             'authority': 'wq.jd.com',
-                            'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
+                            'user-agent': TS_USER_AGENTS_1["default"],
                             'referer': 'https://wqs.jd.com/',
                             'cookie': cookie
                         }

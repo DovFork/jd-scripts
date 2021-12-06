@@ -1,8 +1,8 @@
 "use strict";
 /**
  * 下单返红包助力
- * demo
- * 仅测试助力池能收集多少助力码
+ * 只助力助力池，不助力内部，多次被同账号助力可能会黑
+ * cron: 30 0,9,17 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -45,29 +45,29 @@ var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var ts_md5_1 = require("ts-md5");
 var cookie = '', UserName, index, res = '';
-var orders = [], baoji = [];
+var orders = [], shareCodeSelf = [], shareCodes = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, order, _i, _a, t, remaininghongbaosum;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var cookiesArr, i, order, _i, _a, t, remaininghongbaosum, max, _b, shareCodes_1, code;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _b.sent();
+                cookiesArr = _c.sent();
                 i = 0;
-                _b.label = 2;
+                _c.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 13];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 20];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, getOrderList()];
             case 3:
-                res = _b.sent();
+                res = _c.sent();
                 order = '' // 订单号
                 ;
                 _i = 0, _a = res.orderList;
-                _b.label = 4;
+                _c.label = 4;
             case 4:
                 if (!(_i < _a.length)) return [3 /*break*/, 12];
                 t = _a[_i];
@@ -81,47 +81,85 @@ var orders = [], baoji = [];
                 orders.push(order);
                 return [4 /*yield*/, api("QueryGroupDetail", order)];
             case 5:
-                res = _b.sent();
-                if (!(res.data.groupinfo && res.data.groupinfo.end_time * 1000 < Date.now())) return [3 /*break*/, 8];
+                res = _c.sent();
+                if (!(res.data.groupinfo && res.data.groupinfo.end_time * 1000 > Date.now())) return [3 /*break*/, 8];
                 remaininghongbaosum = res.data.groupinfo.remaininghongbaosum * 1;
-                console.log("\u8BA2\u5355 ".concat(order, " \u6709\u66B4\u51FB\uFF1A"), res.data.groupinfo.groupid, '剩余：', remaininghongbaosum);
+                console.log("\u8BA2\u5355 ".concat(order, " \u2705"), res.data.groupinfo.groupid, '剩余：', remaininghongbaosum);
                 if (!(remaininghongbaosum !== 0)) return [3 /*break*/, 7];
                 return [4 /*yield*/, makeShareCodes(res.data.groupinfo.groupid)];
             case 6:
-                _b.sent();
-                baoji.push(res.data.groupinfo.groupid);
-                _b.label = 7;
+                _c.sent();
+                shareCodeSelf.push(res.data.groupinfo.groupid);
+                _c.label = 7;
             case 7: return [3 /*break*/, 9];
             case 8:
-                console.log("\u8BA2\u5355 ".concat(order, " \u65E0\u66B4\u51FB"));
-                _b.label = 9;
+                console.log("\u8BA2\u5355 ".concat(order, " \u274C"));
+                _c.label = 9;
             case 9: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 10:
-                _b.sent();
-                _b.label = 11;
+                _c.sent();
+                _c.label = 11;
             case 11:
                 _i++;
                 return [3 /*break*/, 4];
-            case 12:
+            case 12: return [4 /*yield*/, getShareCodes()];
+            case 13:
+                _c.sent();
+                max = 0;
+                _b = 0, shareCodes_1 = shareCodes;
+                _c.label = 14;
+            case 14:
+                if (!(_b < shareCodes_1.length)) return [3 /*break*/, 19];
+                code = shareCodes_1[_b];
+                if (max === 3) {
+                    console.log('3次');
+                    return [3 /*break*/, 19];
+                }
+                if (!!shareCodeSelf.includes(code)) return [3 /*break*/, 17];
+                return [4 /*yield*/, api('Help', code)];
+            case 15:
+                res = _c.sent();
+                if (res.msg === '') {
+                    console.log('助力成功，获得：', parseFloat(res.data.prize.discount));
+                    max++;
+                }
+                else {
+                    console.log(res.msg);
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 16:
+                _c.sent();
+                return [3 /*break*/, 18];
+            case 17:
+                console.log("\u8DF3\u8FC7\u5185\u90E8\u8D26\u53F7");
+                _c.label = 18;
+            case 18:
+                _b++;
+                return [3 /*break*/, 14];
+            case 19:
                 i++;
                 return [3 /*break*/, 2];
-            case 13: return [2 /*return*/];
+            case 20: return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, orderid) {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
+        var url, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://m.jingxi.com/fanxianzl/zhuli/".concat(fn, "?isquerydraw=1&orderid=").concat(orderid, "&groupid=&_=").concat(Date.now(), "&sceneval=2"), {
-                        headers: {
-                            'Host': 'm.jingxi.com',
-                            'User-Agent': "jdpingou;iPhone;5.12.0;15.1;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";network/wifi;"),
-                            'Referer': 'https://actst.jingxi.com/',
-                            'Cookie': cookie
-                        }
-                    })];
+                case 0:
+                    url = fn === 'Help'
+                        ? "https://wq.jd.com/fanxianzl/zhuli/Help?groupid=".concat(orderid, "&_stk=groupid&_ste=2&sceneval=2")
+                        : "https://m.jingxi.com/fanxianzl/zhuli/".concat(fn, "?isquerydraw=1&orderid=").concat(orderid, "&groupid=&_=").concat(Date.now(), "&sceneval=2");
+                    return [4 /*yield*/, axios_1["default"].get(url, {
+                            headers: {
+                                'Host': 'm.jingxi.com',
+                                'User-Agent': "jdpingou;iPhone;5.12.0;15.1;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";network/wifi;"),
+                                'Referer': 'https://actst.jingxi.com/',
+                                'Cookie': cookie
+                            }
+                        })];
                 case 1:
                     data = (_a.sent()).data;
                     return [2 /*return*/, data];
@@ -164,7 +202,7 @@ function makeShareCodes(code) {
                 case 2:
                     farm = _a.sent();
                     pin = ts_md5_1.Md5.hashStr(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/baoji?sharecode=".concat(code, "&bean=").concat(bean, "&farm=").concat(farm, "&pin=").concat(pin))];
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/fanxian?sharecode=".concat(code, "&bean=").concat(bean, "&farm=").concat(farm, "&pin=").concat(pin))];
                 case 3:
                     data = (_a.sent()).data;
                     console.log(data.message);
@@ -175,6 +213,28 @@ function makeShareCodes(code) {
                     console.log(e_1);
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
+            }
+        });
+    });
+}
+function getShareCodes() {
+    return __awaiter(this, void 0, void 0, function () {
+        var data, e_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/fanxian/20")];
+                case 1:
+                    data = (_a.sent()).data;
+                    console.log("\u4ECE\u52A9\u529B\u6C60\u83B7\u53D6\u5230".concat(data.data.length, "\u4E2A\uFF1A").concat(JSON.stringify(data.data)));
+                    shareCodes = data.data;
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_2 = _a.sent();
+                    shareCodes = [];
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
         });
     });

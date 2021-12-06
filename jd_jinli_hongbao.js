@@ -2,7 +2,7 @@
 /**
  * 京东-锦鲤红包
  * 做任务、助力、开红包
- * cron: 2 0,6,18 * * *
+ * cron: 1 0,6,18 * * *
  * 固定log，不知道什么时候会gg
  * CK1助力顺序
  * HW_Priority: boolean
@@ -57,11 +57,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', UserName, index;
+var cookie = '', res = '', UserName;
 var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], HW_Priority = true;
 process.env.HW_Priority === 'false' ? HW_Priority = false : '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index_1, value, e_1, _c, _d, _e, index_2, value, _f, shareCodes_1, code, _g, _h, _j, index_3, value, j, _k, _l, t, _m, _o, t, _p, _q, tp, e_2;
+    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodes_1, code, _g, _h, _j, index, value, _k, _l, t, _m, _o, tp, j, _p, _q, t, e_2;
     return __generator(this, function (_r) {
         switch (_r.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -71,13 +71,13 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 _r.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 9];
-                _b = _a[_i], index_1 = _b[0], value = _b[1];
+                _b = _a[_i], index = _b[0], value = _b[1];
                 _r.label = 3;
             case 3:
                 _r.trys.push([3, 7, , 8]);
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index_1 + 1, "\u3011").concat(UserName, "\n"));
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api('h5launch', { "followShop": 0, "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~0iuxyee"), "sceneid": "JLHBhPageh5" })];
             case 4:
                 res = _r.sent();
@@ -104,7 +104,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 _r.label = 10;
             case 10:
                 if (!(_c < _d.length)) return [3 /*break*/, 18];
-                _e = _d[_c], index_2 = _e[0], value = _e[1];
+                _e = _d[_c], index = _e[0], value = _e[1];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 cookie = value;
                 if (!(shareCodesHW.length === 0)) return [3 /*break*/, 12];
@@ -113,7 +113,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 shareCodesHW = _r.sent();
                 _r.label = 12;
             case 12:
-                if (index_2 === 0 && HW_Priority) {
+                if (index === 0 && HW_Priority) {
                     shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
                 }
                 else {
@@ -124,7 +124,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
             case 13:
                 if (!(_f < shareCodes_1.length)) return [3 /*break*/, 17];
                 code = shareCodes_1[_f];
-                console.log("\u8D26\u53F7".concat(index_2 + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
+                console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
                 return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~0gga2ik"), "sceneid": "JLHBhPageh5" })];
             case 14:
                 res = _r.sent();
@@ -153,98 +153,100 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 _r.label = 19;
             case 19:
                 if (!(_g < _h.length)) return [3 /*break*/, 47];
-                _j = _h[_g], index_3 = _j[0], value = _j[1];
+                _j = _h[_g], index = _j[0], value = _j[1];
                 _r.label = 20;
             case 20:
                 _r.trys.push([20, 45, , 46]);
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index_3 + 1, "\u3011").concat(UserName, "\n"));
-                j = 1;
-                return [4 /*yield*/, api('h5activityIndex', { "isjdapp": 1 })];
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                return [4 /*yield*/, api('taskHomePage', {})];
             case 21:
+                // 做任务
                 res = _r.sent();
-                _k = 0, _l = res.data.result.redpacketConfigFillRewardInfo;
-                _r.label = 22;
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 22:
-                if (!(_k < _l.length)) return [3 /*break*/, 28];
-                t = _l[_k];
-                if (!(t.packetStatus === 2)) return [3 /*break*/, 23];
-                console.log("\u7EA2\u5305".concat(j, "\u5DF2\u62C6\u8FC7\uFF0C\u83B7\u5F97"), t.packetAmount);
-                return [3 /*break*/, 26];
+                _r.sent();
+                _k = 0, _l = res.data.result.taskInfos;
+                _r.label = 23;
             case 23:
-                if (!(t.packetStatus === 1)) return [3 /*break*/, 26];
-                console.log("\u7EA2\u5305".concat(j, "\u53EF\u62C6"));
-                return [4 /*yield*/, api('h5receiveRedpacketAll', { "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~0suodw0"), "sceneid": "JLHBhPageh5" })];
-            case 24:
-                res = _r.sent();
-                console.log(res.data.biz_msg, parseFloat(res.data.result.discount));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 25:
-                _r.sent();
-                _r.label = 26;
-            case 26:
-                j++;
-                _r.label = 27;
-            case 27:
-                _k++;
-                return [3 /*break*/, 22];
-            case 28: return [4 /*yield*/, api('taskHomePage', {})];
-            case 29:
-                res = _r.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 30:
-                _r.sent();
-                _m = 0, _o = res.data.result.taskInfos;
-                _r.label = 31;
-            case 31:
-                if (!(_m < _o.length)) return [3 /*break*/, 44];
-                t = _o[_m];
-                if (!(!t.alreadyReceivedCount || t.alreadyReceivedCount < t.requireCount)) return [3 /*break*/, 40];
-                if (![2, 3, 4, 5, 8].includes(t.taskType)) return [3 /*break*/, 40];
+                if (!(_k < _l.length)) return [3 /*break*/, 36];
+                t = _l[_k];
+                if (!(!t.alreadyReceivedCount || t.alreadyReceivedCount < t.requireCount)) return [3 /*break*/, 32];
+                if (![2, 3, 4, 5, 8].includes(t.taskType)) return [3 /*break*/, 32];
                 return [4 /*yield*/, api('startTask', { "taskType": t.taskType, "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~1orj8k3"), "sceneid": "JLHBhPageh5" })];
-            case 32:
+            case 24:
                 res = _r.sent();
                 console.log(t.title, res.data.biz_msg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 33:
+            case 25:
                 _r.sent();
                 return [4 /*yield*/, api('getTaskDetailForColor', { taskType: t.taskType })];
-            case 34:
+            case 26:
                 res = _r.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 35:
+            case 27:
                 _r.sent();
-                _p = 0, _q = res.data.result.advertDetails;
-                _r.label = 36;
-            case 36:
-                if (!(_p < _q.length)) return [3 /*break*/, 40];
-                tp = _q[_p];
-                if (!(tp.status === 0)) return [3 /*break*/, 39];
+                _m = 0, _o = res.data.result.advertDetails;
+                _r.label = 28;
+            case 28:
+                if (!(_m < _o.length)) return [3 /*break*/, 32];
+                tp = _o[_m];
+                if (!(tp.status === 0)) return [3 /*break*/, 31];
                 return [4 /*yield*/, api('taskReportForColor', { "taskType": t.taskType, "detailId": tp.id })];
-            case 37:
+            case 29:
                 res = _r.sent();
                 console.log(t.title, tp.name, res.data.biz_msg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 38:
+            case 30:
                 _r.sent();
-                _r.label = 39;
-            case 39:
-                _p++;
-                return [3 /*break*/, 36];
-            case 40:
-                if (!(t.innerStatus === 3)) return [3 /*break*/, 43];
+                _r.label = 31;
+            case 31:
+                _m++;
+                return [3 /*break*/, 28];
+            case 32:
+                if (!(t.innerStatus === 3)) return [3 /*break*/, 35];
                 return [4 /*yield*/, api('h5receiveRedpacketAll', { "taskType": t.taskType, "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~138q6w6"), "sceneid": "JLHBhPageh5" })];
-            case 41:
+            case 33:
                 res = _r.sent();
                 console.log("".concat(t.title, " \u6253\u5F00\u6210\u529F\uFF0C\u83B7\u5F97"), parseFloat(res.data.result.discount));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 42:
+            case 34:
                 _r.sent();
+                _r.label = 35;
+            case 35:
+                _k++;
+                return [3 /*break*/, 23];
+            case 36:
+                j = 1;
+                return [4 /*yield*/, api('h5activityIndex', { "isjdapp": 1 })];
+            case 37:
+                res = _r.sent();
+                _p = 0, _q = res.data.result.redpacketConfigFillRewardInfo;
+                _r.label = 38;
+            case 38:
+                if (!(_p < _q.length)) return [3 /*break*/, 44];
+                t = _q[_p];
+                if (!(t.packetStatus === 2)) return [3 /*break*/, 39];
+                console.log("\u7EA2\u5305".concat(j, "\u5DF2\u62C6\u8FC7\uFF0C\u83B7\u5F97"), t.packetAmount);
+                return [3 /*break*/, 42];
+            case 39:
+                if (!(t.packetStatus === 1)) return [3 /*break*/, 42];
+                console.log("\u7EA2\u5305".concat(j, "\u53EF\u62C6"));
+                return [4 /*yield*/, api('h5receiveRedpacketAll', { "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~0suodw0"), "sceneid": "JLHBhPageh5" })];
+            case 40:
+                res = _r.sent();
+                console.log(res.data.biz_msg, parseFloat(res.data.result.discount));
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 41:
+                _r.sent();
+                _r.label = 42;
+            case 42:
+                j++;
                 _r.label = 43;
             case 43:
-                _m++;
-                return [3 /*break*/, 31];
+                _p++;
+                return [3 /*break*/, 38];
             case 44: return [3 /*break*/, 46];
             case 45:
                 e_2 = _r.sent();

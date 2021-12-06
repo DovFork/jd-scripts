@@ -2,7 +2,7 @@
 /**
  * 金榜任务
  * 入口 https://wz.my/7tf
- * cron: 30 22,18 * * *
+ * cron: 30 6,12,22 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }

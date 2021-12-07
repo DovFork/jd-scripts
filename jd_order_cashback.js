@@ -47,27 +47,27 @@ var ts_md5_1 = require("ts-md5");
 var cookie = '', UserName, index, res = '';
 var orders = [], shareCodeSelf = [], shareCodes = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, order, _i, _a, t, remaininghongbaosum, max, _b, shareCodes_1, code;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var cookiesArr, i, order, _i, _a, t, remaininghongbaosum, _b, _c, _d, index_1, value, _e, shareCodes_1, code;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _c.sent();
+                cookiesArr = _f.sent();
                 i = 0;
-                _c.label = 2;
+                _f.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 20];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 13];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, getOrderList()];
             case 3:
-                res = _c.sent();
+                res = _f.sent();
                 order = '' // 订单号
                 ;
                 _i = 0, _a = res.orderList;
-                _c.label = 4;
+                _f.label = 4;
             case 4:
                 if (!(_i < _a.length)) return [3 /*break*/, 12];
                 t = _a[_i];
@@ -81,65 +81,71 @@ var orders = [], shareCodeSelf = [], shareCodes = [];
                 orders.push(order);
                 return [4 /*yield*/, api("QueryGroupDetail", order)];
             case 5:
-                res = _c.sent();
+                res = _f.sent();
                 if (!(res.data.groupinfo && res.data.groupinfo.end_time * 1000 > Date.now())) return [3 /*break*/, 8];
                 remaininghongbaosum = res.data.groupinfo.remaininghongbaosum * 1;
                 console.log("\u8BA2\u5355 ".concat(order, " \u2705"), res.data.groupinfo.groupid, '剩余：', remaininghongbaosum);
                 if (!(remaininghongbaosum !== 0)) return [3 /*break*/, 7];
                 return [4 /*yield*/, makeShareCodes(res.data.groupinfo.groupid)];
             case 6:
-                _c.sent();
+                _f.sent();
                 shareCodeSelf.push(res.data.groupinfo.groupid);
-                _c.label = 7;
+                _f.label = 7;
             case 7: return [3 /*break*/, 9];
             case 8:
                 console.log("\u8BA2\u5355 ".concat(order, " \u274C"));
-                _c.label = 9;
+                _f.label = 9;
             case 9: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 10:
-                _c.sent();
-                _c.label = 11;
+                _f.sent();
+                _f.label = 11;
             case 11:
                 _i++;
                 return [3 /*break*/, 4];
-            case 12: return [4 /*yield*/, getShareCodes()];
+            case 12:
+                i++;
+                return [3 /*break*/, 2];
             case 13:
-                _c.sent();
-                max = 0;
-                _b = 0, shareCodes_1 = shareCodes;
-                _c.label = 14;
+                _b = 0, _c = cookiesArr.entries();
+                _f.label = 14;
             case 14:
-                if (!(_b < shareCodes_1.length)) return [3 /*break*/, 19];
-                code = shareCodes_1[_b];
-                if (max === 3) {
-                    console.log('3次');
-                    return [3 /*break*/, 19];
-                }
-                if (!!shareCodeSelf.includes(code)) return [3 /*break*/, 17];
-                return [4 /*yield*/, api('Help', code)];
+                if (!(_b < _c.length)) return [3 /*break*/, 22];
+                _d = _c[_b], index_1 = _d[0], value = _d[1];
+                cookie = value;
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getShareCodePool)('fanxian', 20)];
             case 15:
-                res = _c.sent();
+                _f.sent();
+                _e = 0, shareCodes_1 = shareCodes;
+                _f.label = 16;
+            case 16:
+                if (!(_e < shareCodes_1.length)) return [3 /*break*/, 21];
+                code = shareCodes_1[_e];
+                if (!!shareCodeSelf.includes(code)) return [3 /*break*/, 19];
+                console.log("\u8D26\u53F7".concat(index_1 + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
+                return [4 /*yield*/, api('Help', code)];
+            case 17:
+                res = _f.sent();
                 if (res.msg === '') {
                     console.log('助力成功，获得：', parseFloat(res.data.prize.discount));
-                    max++;
                 }
                 else {
                     console.log(res.msg);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 16:
-                _c.sent();
-                return [3 /*break*/, 18];
-            case 17:
-                console.log("\u8DF3\u8FC7\u5185\u90E8\u8D26\u53F7");
-                _c.label = 18;
             case 18:
+                _f.sent();
+                return [3 /*break*/, 20];
+            case 19:
+                console.log("\u8DF3\u8FC7\u5185\u90E8\u8D26\u53F7");
+                _f.label = 20;
+            case 20:
+                _e++;
+                return [3 /*break*/, 16];
+            case 21:
                 _b++;
                 return [3 /*break*/, 14];
-            case 19:
-                i++;
-                return [3 /*break*/, 2];
-            case 20: return [2 /*return*/];
+            case 22: return [2 /*return*/];
         }
     });
 }); })();
@@ -213,28 +219,6 @@ function makeShareCodes(code) {
                     console.log(e_1);
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
-            }
-        });
-    });
-}
-function getShareCodes() {
-    return __awaiter(this, void 0, void 0, function () {
-        var data, e_2;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/fanxian/20")];
-                case 1:
-                    data = (_a.sent()).data;
-                    console.log("\u4ECE\u52A9\u529B\u6C60\u83B7\u53D6\u5230".concat(data.data.length, "\u4E2A\uFF1A").concat(JSON.stringify(data.data)));
-                    shareCodes = data.data;
-                    return [3 /*break*/, 3];
-                case 2:
-                    e_2 = _a.sent();
-                    shareCodes = [];
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
             }
         });
     });

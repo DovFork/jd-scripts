@@ -43,11 +43,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
+var sendNotify_1 = require("./sendNotify");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var PrettyTable = require('prettytable');
 var START = (0, date_fns_1.getTime)(new Date((0, date_fns_1.format)((0, date_fns_1.subDays)(Date.now(), 7), 'yyyy-MM-dd 00:00:00')));
-var END = (0, date_fns_1.getTime)(new Date((0, date_fns_1.format)(Date.now(), 'yyyy-MM-dd 00:00:00')));
-var cookie = '', res = '', UserName, index;
+var cookie = '', res = '', UserName, index, message = '';
 var headers = ["Type", "Used", "Total"];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, flag, page, redNum, total, jx, jxUsed, js, jsUsed, jk, jkUsed, jd, jdUsed, all, allUsed, pt, rows, _i, _a, t;
@@ -76,9 +76,7 @@ var headers = ["Type", "Used", "Total"];
                 res = _b.sent();
                 for (_i = 0, _a = res.data.unUseRedInfo.redList; _i < _a.length; _i++) {
                     t = _a[_i];
-                    if (t.activityName === '双11热爱环游记')
-                        continue;
-                    if (t.beginTime * 1000 > START && t.beginTime * 1000 < END) {
+                    if (t.beginTime * 1000 > START) {
                         redNum++;
                         total = accAdd(total, t.discount * 1);
                         if (t.orgLimitStr.indexOf('京喜') > -1) {
@@ -114,6 +112,7 @@ var headers = ["Type", "Used", "Total"];
             case 6: return [3 /*break*/, 8];
             case 7: return [3 /*break*/, 3];
             case 8:
+                message += "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n\u4EAC\u559C\uFF1A").concat(jx, "\uFF0C\u5DF2\u7528").concat(jxUsed, "\n\u6781\u901F\uFF1A").concat(js, "\uFF0C\u5DF2\u7528").concat(jsUsed, "\n\u5065\u5EB7\uFF1A").concat(jk, "\uFF0C\u5DF2\u7528").concat(jkUsed, "\n\u4EAC\u4E1C\uFF1A").concat(jd, "\uFF0C\u5DF2\u7528").concat(jdUsed, "\n\u901A\u7528\uFF1A").concat(all, "\uFF0C\u5DF2\u7528").concat(allUsed, "\n\u5408\u8BA1\uFF1A").concat(total, "\u5143\uFF0C\u5171").concat(redNum, "\u4E2A\u7EA2\u5305\n\n");
                 // console.log('红包数量', redNum)
                 // console.log('总计', total)
                 // console.log('京喜', jxUsed, '/', jx)
@@ -134,7 +133,13 @@ var headers = ["Type", "Used", "Total"];
             case 9:
                 i++;
                 return [3 /*break*/, 2];
-            case 10: return [2 /*return*/];
+            case 10:
+                if (!message) return [3 /*break*/, 12];
+                return [4 /*yield*/, (0, sendNotify_1.sendNotify)('每周质量报告', message)];
+            case 11:
+                _b.sent();
+                _b.label = 12;
+            case 12: return [2 /*return*/];
         }
     });
 }); })();

@@ -43,9 +43,8 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var path = require("path");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cow = require('./utils/jd_jxmc.js').cow;
-var token = require('./utils/jd_jxmc.js').token;
 var cookie = '', res = '', homePageInfo, jxToken, UserName, index;
+var _a = require('./utils/jd_jxmc.js'), cow = _a.cow, token = _a.token;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, except, i, lastgettime, food, cowToken;
     var _a, _b;
@@ -63,10 +62,6 @@ var cookie = '', res = '', homePageInfo, jxToken, UserName, index;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
                 cookiesArr = _c.sent();
-                if (process.argv[2]) {
-                    console.log('收到命令行cookie');
-                    cookiesArr = [unescape(process.argv[2])];
-                }
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 i = 0;
                 _c.label = 3;
@@ -83,11 +78,7 @@ var cookie = '', res = '', homePageInfo, jxToken, UserName, index;
                 return [4 /*yield*/, token(cookie)];
             case 4:
                 jxToken = _c.sent();
-                return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'activeid,activekey,channel,isgift,isqueryinviteicon,isquerypicksite,jxmc_jstoken,phoneid,sceneid,timestamp', {
-                        isgift: 1,
-                        isquerypicksite: 1,
-                        isqueryinviteicon: 1
-                    })];
+                return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'activeid,activekey,channel,isgift,isqueryinviteicon,isquerypicksite,jxmc_jstoken,phoneid,sceneid,timestamp', { isgift: 1, isquerypicksite: 1, isqueryinviteicon: 1 })];
             case 5:
                 homePageInfo = _c.sent();
                 lastgettime = void 0;

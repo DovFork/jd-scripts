@@ -1,6 +1,7 @@
 "use strict";
 /**
  * 东东世界
+ * https://ddsj-dz.isvjcloud.com/
  * cron: 5 0,8,20 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -39,11 +40,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', shareCodesInternal = [], UserName, index;
 var tokenKey = '', token = '', bearer = '';
+var HW_Priority = true, shareCodeHW = [], shareCode = [];
+/**
+ * CK1助力顺序
+ * HW_Priority: boolean
+ * true  HW.ts -> 内部
+ * false 内部   -> HW.ts
+ */
+process.env.HW_Priority === 'false' ? HW_Priority = false : '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, _i, _a, t, items, _b, items_1, item, name_1, _c, res_1, t, i;
     return __generator(this, function (_d) {
@@ -153,24 +171,36 @@ var tokenKey = '', token = '', bearer = '';
                 i = 0;
                 _d.label = 26;
             case 26:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 30];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 32];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 28];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('ddWorld')];
+            case 27:
+                shareCodeHW = _d.sent();
+                _d.label = 28;
+            case 28:
+                if (i === 0 && HW_Priority) {
+                    shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), shareCodesInternal, true);
+                }
+                else {
+                    shareCode = __spreadArray(__spreadArray([], shareCodesInternal, true), shareCodeHW, true);
+                }
                 console.log("".concat(UserName, " \u53BB\u52A9\u529B ").concat(shareCodesInternal[0].taskToken));
                 return [4 /*yield*/, api('do_assist_task', "taskToken=".concat(shareCodesInternal[0].taskToken, "&inviter_id=").concat(shareCodesInternal[0].inviter_id))];
-            case 27:
-                res = _d.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
-            case 28:
-                _d.sent();
-                console.log('助力结果：', res);
-                if (!res)
-                    return [3 /*break*/, 30];
-                _d.label = 29;
             case 29:
+                res = _d.sent();
+                (0, TS_USER_AGENTS_1.o2s)(res);
+                // console.log('助力结果：', res)
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
+            case 30:
+                // console.log('助力结果：', res)
+                _d.sent();
+                _d.label = 31;
+            case 31:
                 i++;
                 return [3 /*break*/, 26];
-            case 30: return [2 /*return*/];
+            case 32: return [2 /*return*/];
         }
     });
 }); })();

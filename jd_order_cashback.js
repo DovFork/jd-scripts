@@ -115,7 +115,7 @@ var orders = [], shareCodeSelf = [], shareCodes = [];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getShareCodePool)('fanxian', 20)];
             case 15:
-                _f.sent();
+                shareCodes = _f.sent();
                 _e = 0, shareCodes_1 = shareCodes;
                 _f.label = 16;
             case 16:

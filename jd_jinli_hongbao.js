@@ -5,9 +5,7 @@
  * cron: 1 0,6,18 * * *
  * 固定log，不知道什么时候会gg
  * CK1助力顺序
- * HW_Priority: boolean
- * true  HW.ts -> 内部
- * false 内部   -> HW.ts
+ * HW.ts -> 内部
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -58,8 +56,7 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName;
-var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], HW_Priority = true;
-process.env.HW_Priority === 'false' ? HW_Priority = false : '';
+var shareCodesSelf = [], shareCodes = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodes_1, code, _g, _h, _j, index, value, _k, _l, t, _m, _o, tp, j, _p, _q, t, e_2;
     return __generator(this, function (_r) {
@@ -105,15 +102,15 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
             case 10:
                 if (!(_c < _d.length)) return [3 /*break*/, 18];
                 _e = _d[_c], index = _e[0], value = _e[1];
-                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 cookie = value;
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 if (!(shareCodesHW.length === 0)) return [3 /*break*/, 12];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('jlhb')];
             case 11:
                 shareCodesHW = _r.sent();
                 _r.label = 12;
             case 12:
-                if (index === 0 && HW_Priority) {
+                if (index === 0) {
                     shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
                 }
                 else {

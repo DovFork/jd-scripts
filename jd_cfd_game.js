@@ -107,7 +107,7 @@ var cookie = '', res = '', UserName, index, token = {};
                 res = _a.sent();
                 if (res.iRet === 0)
                     console.log("\u6E38\u620F\u4E2D\u9014\u4E0A\u62A5".concat(j_1 + 1, ":OK"));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 11:
                 _a.sent();
                 console.log(JSON.stringify(PearlList[j_1]));
@@ -121,7 +121,7 @@ var cookie = '', res = '', UserName, index, token = {};
                 else {
                     console.log('上报得红包失败:', res);
                 }
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 13:
                 _a.sent();
                 _a.label = 14;

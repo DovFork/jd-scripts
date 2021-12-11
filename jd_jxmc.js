@@ -447,7 +447,7 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                     return [3 /*break*/, 90];
                 }
                 _w.label = 88;
-            case 88: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(7000)];
+            case 88: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(8000)];
             case 89:
                 _w.sent();
                 return [3 /*break*/, 82];

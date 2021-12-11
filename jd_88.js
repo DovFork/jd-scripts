@@ -53,7 +53,6 @@ exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
-var date_fns_1 = require("date-fns");
 var token = require('./utils/jd_jxmc.js').token;
 var cookie = '', res = '', UserName, UA = '';
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [], shareCodePool = [], jxToken;
@@ -66,15 +65,15 @@ var HW_Priority = true;
  */
 process.env.HW_Priority === 'false' ? HW_Priority = false : '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, strUserPin, dwHelpedTimes, _c, _d, _e, index, value, _f, shareCode_1, code, _g, _h, _j, index, value, strUserPin, dwHelpedTimes, _k, _l, t;
-    var _m;
-    return __generator(this, function (_o) {
-        switch (_o.label) {
+    var cookiesArr, _i, _a, _b, index, value, strUserPin, dwHelpedTimes, _c, _d, _e, index, value, _f, _g, _h, index, value, strUserPin, dwHelpedTimes, _j, _k, t;
+    var _l;
+    return __generator(this, function (_m) {
+        switch (_m.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _o.sent();
+                cookiesArr = _m.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _o.label = 2;
+                _m.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 10];
                 _b = _a[_i], index = _b[0], value = _b[1];
@@ -83,51 +82,51 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, token(cookie)];
             case 3:
-                jxToken = _o.sent();
+                jxToken = _m.sent();
                 return [4 /*yield*/, api('GetUserInfo', 'activeId,channel,phoneid,publishFlag,stepreward_jstoken,timestamp,userDraw', {})];
             case 4:
-                res = _o.sent();
+                res = _m.sent();
                 strUserPin = res.Data.strUserPin, dwHelpedTimes = res.Data.dwHelpedTimes;
                 console.log('收到助力:', dwHelpedTimes);
                 console.log('助力码：', strUserPin);
                 shareCodeSelf.push(strUserPin);
                 return [4 /*yield*/, makeShareCodes(strUserPin)];
             case 5:
-                _o.sent();
+                _m.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 6:
-                _o.sent();
+                _m.sent();
                 return [4 /*yield*/, api('JoinActive', 'activeId,channel,phoneid,publishFlag,stepreward_jstoken,timestamp')];
             case 7:
-                res = _o.sent();
+                res = _m.sent();
                 res.iRet === 0 ? console.log('JoinActive: 成功') : console.log('JoinActive:', res.sErrMsg);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 8:
-                _o.sent();
-                _o.label = 9;
+                _m.sent();
+                _m.label = 9;
             case 9:
                 _i++;
                 return [3 /*break*/, 2];
             case 10:
                 console.log('内部助力码：', shareCodeSelf);
                 _c = 0, _d = cookiesArr.entries();
-                _o.label = 11;
+                _m.label = 11;
             case 11:
-                if (!(_c < _d.length)) return [3 /*break*/, 21];
+                if (!(_c < _d.length)) return [3 /*break*/, 17];
                 _e = _d[_c], index = _e[0], value = _e[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, token(cookie)];
             case 12:
-                jxToken = _o.sent();
+                jxToken = _m.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getShareCodePool)('hb88', 30)];
             case 13:
-                shareCodePool = _o.sent();
+                shareCodePool = _m.sent();
                 if (!(shareCodeHW.length === 0)) return [3 /*break*/, 15];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('88hb')];
             case 14:
-                shareCodeHW = _o.sent();
-                _o.label = 15;
+                shareCodeHW = _m.sent();
+                _m.label = 15;
             case 15:
                 if (index === 0 && HW_Priority) {
                     shareCode = Array.from(new Set(__spreadArray(__spreadArray(__spreadArray([], shareCodeHW, true), shareCodeSelf, true), shareCodePool, true)));
@@ -135,85 +134,56 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 else {
                     shareCode = Array.from(new Set(__spreadArray(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodePool, true), shareCodeHW, true)));
                 }
-                _f = 0, shareCode_1 = shareCode;
-                _o.label = 16;
+                _m.label = 16;
             case 16:
-                if (!(_f < shareCode_1.length)) return [3 /*break*/, 20];
-                code = shareCode_1[_f];
-                console.log("\u8D26\u53F7 ".concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
-                return [4 /*yield*/, api('EnrollFriend', 'activeId,channel,joinDate,phoneid,publishFlag,strPin,timestamp', { joinDate: (0, date_fns_1.format)(Date.now(), 'yyyyMMdd'), strPin: code })];
-            case 17:
-                res = _o.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 18:
-                _o.sent();
-                if (res.iRet === 0) {
-                    console.log('成功');
-                }
-                else if (res.iRet === 2015) {
-                    console.log('上限');
-                    return [3 /*break*/, 20];
-                }
-                else if (res.iRet === 2016) {
-                    console.log('火爆');
-                    return [3 /*break*/, 20];
-                }
-                else {
-                    console.log('其他错误:', res);
-                }
-                _o.label = 19;
-            case 19:
-                _f++;
-                return [3 /*break*/, 16];
-            case 20:
                 _c++;
                 return [3 /*break*/, 11];
-            case 21:
-                _g = 0, _h = cookiesArr.entries();
-                _o.label = 22;
-            case 22:
-                if (!(_g < _h.length)) return [3 /*break*/, 31];
-                _j = _h[_g], index = _j[0], value = _j[1];
+            case 17:
+                _f = 0, _g = cookiesArr.entries();
+                _m.label = 18;
+            case 18:
+                if (!(_f < _g.length)) return [3 /*break*/, 27];
+                _h = _g[_f], index = _h[0], value = _h[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, token(cookie)];
-            case 23:
-                jxToken = _o.sent();
+            case 19:
+                jxToken = _m.sent();
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, " \u62C6\u7EA2\u5305\n"));
                 return [4 /*yield*/, api('GetUserInfo', 'activeId,channel,phoneid,publishFlag,stepreward_jstoken,timestamp,userDraw', { userDraw: 1 })];
-            case 24:
-                res = _o.sent();
+            case 20:
+                res = _m.sent();
                 strUserPin = res.Data.strUserPin, dwHelpedTimes = res.Data.dwHelpedTimes;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 25:
-                _o.sent();
-                _k = 0, _l = res.Data.gradeConfig;
-                _o.label = 26;
-            case 26:
-                if (!(_k < _l.length)) return [3 /*break*/, 30];
-                t = _l[_k];
-                if (!(dwHelpedTimes >= t.dwHelpTimes && t.dwIsHasDraw !== 2)) return [3 /*break*/, 29];
+            case 21:
+                _m.sent();
+                _j = 0, _k = res.Data.gradeConfig;
+                _m.label = 22;
+            case 22:
+                if (!(_j < _k.length)) return [3 /*break*/, 26];
+                t = _k[_j];
+                if (!(dwHelpedTimes >= t.dwHelpTimes && t.dwIsHasDraw !== 2)) return [3 /*break*/, 25];
                 return [4 /*yield*/, api('DoGradeDraw', 'activeId,channel,grade,phoneid,publishFlag,stepreward_jstoken,strPin,timestamp', { grade: t.dwGrade, strPin: strUserPin })];
-            case 27:
-                res = _o.sent();
+            case 23:
+                res = _m.sent();
                 if (res.iRet === 0) {
                     console.log("\u7B49\u7EA7".concat(t.dwGrade, "\u7EA2\u5305\u6253\u5F00\u6210\u529F"));
                 }
                 else {
-                    console.log('其他错误', (_m = res.sErrMsg) !== null && _m !== void 0 ? _m : JSON.stringify(res));
-                    return [3 /*break*/, 30];
+                    console.log('其他错误', (_l = res.sErrMsg) !== null && _l !== void 0 ? _l : JSON.stringify(res));
+                    return [3 /*break*/, 26];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(15000)];
-            case 28:
-                _o.sent();
-                _o.label = 29;
-            case 29:
-                _k++;
-                return [3 /*break*/, 26];
-            case 30:
-                _g++;
+            case 24:
+                _m.sent();
+                _m.label = 25;
+            case 25:
+                _j++;
                 return [3 /*break*/, 22];
-            case 31: return [2 /*return*/];
+            case 26:
+                _f++;
+                return [3 /*break*/, 18];
+            case 27: return [2 /*return*/];
         }
     });
 }); })();

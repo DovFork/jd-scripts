@@ -52,7 +52,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', shareCodesInternal = [], UserName, index;
+var cookie = '', res = '', shareCodesInternal = [], UserName;
 var tokenKey = '', token = '', bearer = '';
 var HW_Priority = true, shareCodeHW = [], shareCode = [];
 /**
@@ -63,144 +63,164 @@ var HW_Priority = true, shareCodeHW = [], shareCode = [];
  */
 process.env.HW_Priority === 'false' ? HW_Priority = false : '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _i, _a, t, items, _b, items_1, item, name_1, _c, res_1, t, i;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
+    var cookiesArr, _i, _a, _b, index, value, _c, _d, t, items, _e, items_1, item, name_1, _f, res_1, t, _g, _h, _j, index, value, _k, shareCodesInternal_1, code;
+    return __generator(this, function (_l) {
+        switch (_l.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _d.sent();
-                i = 0;
-                _d.label = 2;
+                cookiesArr = _l.sent();
+                _i = 0, _a = cookiesArr.entries();
+                _l.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 25];
-                cookie = cookiesArr[i];
+                if (!(_i < _a.length)) return [3 /*break*/, 25];
+                _b = _a[_i], index = _b[0], value = _b[1];
+                cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, getIsvToken()];
             case 3:
-                _d.sent();
+                _l.sent();
                 return [4 /*yield*/, getIsvToken2()];
             case 4:
-                _d.sent();
+                _l.sent();
                 return [4 /*yield*/, getToken()];
             case 5:
-                _d.sent();
+                _l.sent();
                 return [4 /*yield*/, api('get_task')];
             case 6:
-                res = _d.sent();
-                _i = 0, _a = res.result.taskVos;
-                _d.label = 7;
+                res = _l.sent();
+                _c = 0, _d = res.result.taskVos;
+                _l.label = 7;
             case 7:
-                if (!(_i < _a.length)) return [3 /*break*/, 18];
-                t = _a[_i];
+                if (!(_c < _d.length)) return [3 /*break*/, 18];
+                t = _d[_c];
                 if (!(t.status === 1)) return [3 /*break*/, 17];
                 if (!t.simpleRecordInfoVo) return [3 /*break*/, 10];
                 return [4 /*yield*/, api('do_task', "taskToken=".concat(t.simpleRecordInfoVo.taskToken, "&task_id=").concat(t.taskId, "&task_type=").concat(t.taskType))];
             case 8:
                 // 签到
-                res = _d.sent();
+                res = _l.sent();
                 console.log('签到成功：', res.score);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 9:
-                _d.sent();
+                _l.sent();
                 return [3 /*break*/, 15];
             case 10:
                 items = t.browseShopVo || t.shoppingActivityVos || t.productInfoVos || [];
-                _b = 0, items_1 = items;
-                _d.label = 11;
+                _e = 0, items_1 = items;
+                _l.label = 11;
             case 11:
-                if (!(_b < items_1.length)) return [3 /*break*/, 15];
-                item = items_1[_b];
+                if (!(_e < items_1.length)) return [3 /*break*/, 15];
+                item = items_1[_e];
                 if (!(item.status === 1)) return [3 /*break*/, 14];
                 name_1 = item.shopName || item.title || item.skuName;
                 return [4 /*yield*/, api('do_task', "taskToken=".concat(item.taskToken, "&task_id=").concat(t.taskId, "&task_type=").concat(t.taskType, "&task_name=").concat(encodeURIComponent(name_1)))];
             case 12:
-                res = _d.sent();
+                res = _l.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 13:
-                _d.sent();
+                _l.sent();
                 console.log('任务完成：', res.score);
-                _d.label = 14;
+                _l.label = 14;
             case 14:
-                _b++;
+                _e++;
                 return [3 /*break*/, 11];
             case 15:
                 if (!(t.taskName === '邀请好友助力')) return [3 /*break*/, 17];
-                console.log('助力码：', t.assistTaskDetailVo.taskToken);
                 return [4 /*yield*/, api('get_user_info')];
             case 16:
-                res = _d.sent();
+                res = _l.sent();
+                console.log('助力码：', t.assistTaskDetailVo.taskToken, res.openid);
                 shareCodesInternal.push({
                     taskToken: t.assistTaskDetailVo.taskToken,
                     inviter_id: res.openid
                 });
-                _d.label = 17;
+                _l.label = 17;
             case 17:
-                _i++;
+                _c++;
                 return [3 /*break*/, 7];
             case 18:
                 if (!(new Date().getHours() === 20)) return [3 /*break*/, 24];
                 return [4 /*yield*/, api('get_exchange')];
             case 19:
-                res = _d.sent();
+                res = _l.sent();
                 console.log(res);
-                _c = 0, res_1 = res;
-                _d.label = 20;
+                _f = 0, res_1 = res;
+                _l.label = 20;
             case 20:
-                if (!(_c < res_1.length)) return [3 /*break*/, 24];
-                t = res_1[_c];
+                if (!(_f < res_1.length)) return [3 /*break*/, 24];
+                t = res_1[_f];
                 if (!(t.times_limit !== t.exchange_total)) return [3 /*break*/, 23];
                 console.log('兑换', t.coins);
                 return [4 /*yield*/, api('do_exchange', "id=".concat(t.id))];
             case 21:
-                res = _d.sent();
+                res = _l.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 22:
-                _d.sent();
-                _d.label = 23;
+                _l.sent();
+                _l.label = 23;
             case 23:
-                _c++;
+                _f++;
                 return [3 /*break*/, 20];
             case 24:
-                i++;
+                _i++;
                 return [3 /*break*/, 2];
             case 25:
                 console.log('内部助力码：', shareCodesInternal);
-                i = 0;
-                _d.label = 26;
+                _g = 0, _h = cookiesArr.entries();
+                _l.label = 26;
             case 26:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 32];
-                cookie = cookiesArr[i];
+                if (!(_g < _h.length)) return [3 /*break*/, 37];
+                _j = _h[_g], index = _j[0], value = _j[1];
+                cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 28];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('ddWorld')];
+                return [4 /*yield*/, getIsvToken()];
             case 27:
-                shareCodeHW = _d.sent();
-                _d.label = 28;
+                _l.sent();
+                return [4 /*yield*/, getIsvToken2()];
             case 28:
-                if (i === 0 && HW_Priority) {
+                _l.sent();
+                return [4 /*yield*/, getToken()];
+            case 29:
+                _l.sent();
+                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 31];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('ddWorld')];
+            case 30:
+                shareCodeHW = _l.sent();
+                _l.label = 31;
+            case 31:
+                if (index === 0 && HW_Priority) {
                     shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), shareCodesInternal, true);
                 }
                 else {
                     shareCode = __spreadArray(__spreadArray([], shareCodesInternal, true), shareCodeHW, true);
                 }
-                console.log("".concat(UserName, " \u53BB\u52A9\u529B ").concat(shareCodesInternal[0].taskToken));
-                return [4 /*yield*/, api('do_assist_task', "taskToken=".concat(shareCodesInternal[0].taskToken, "&inviter_id=").concat(shareCodesInternal[0].inviter_id))];
-            case 29:
-                res = _d.sent();
+                _k = 0, shareCodesInternal_1 = shareCodesInternal;
+                _l.label = 32;
+            case 32:
+                if (!(_k < shareCodesInternal_1.length)) return [3 /*break*/, 36];
+                code = shareCodesInternal_1[_k];
+                console.log("".concat(UserName, " \u53BB\u52A9\u529B ").concat(code.taskToken));
+                return [4 /*yield*/, api('do_assist_task', "taskToken=".concat(code.taskToken, "&inviter_id=").concat(code.inviter_id))];
+            case 33:
+                res = _l.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 // console.log('助力结果：', res)
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
-            case 30:
+            case 34:
                 // console.log('助力结果：', res)
-                _d.sent();
-                _d.label = 31;
-            case 31:
-                i++;
+                _l.sent();
+                if (res.status_code === 422)
+                    return [3 /*break*/, 36];
+                _l.label = 35;
+            case 35:
+                _k++;
+                return [3 /*break*/, 32];
+            case 36:
+                _g++;
                 return [3 /*break*/, 26];
-            case 32: return [2 /*return*/];
+            case 37: return [2 /*return*/];
         }
     });
 }); })();

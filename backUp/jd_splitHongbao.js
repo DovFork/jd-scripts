@@ -50,7 +50,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
 var axios_1 = require("axios");
 var cookie = '', res = '', UserName, index;
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];

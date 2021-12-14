@@ -87,7 +87,9 @@ var cookie = '', res = '', UserName, index;
             case 6:
                 res = _b.sent();
                 try {
-                    console.log('转盘：', res.resultData.resultData.award.content, res.resultData.resultData.award.count);
+                    console.log('转盘');
+                    (0, TS_USER_AGENTS_1.o2s)(res);
+                    // console.log('转盘：', res.resultData.resultData.award.content, res.resultData.resultData.award.count)
                 }
                 catch (e) {
                     console.log(e);
@@ -117,6 +119,7 @@ var cookie = '', res = '', UserName, index;
                 return [4 /*yield*/, api('pigPetAddFood', { channelLV: "", riskDeviceParam: "{}", skuId: "1001003003", source: 2 })];
             case 12:
                 res = _b.sent();
+                (0, TS_USER_AGENTS_1.o2s)(res);
                 console.log("\u5582".concat(t.goodsName, "\uFF0C\u6210\u957F\u503C\uFF1A"), res.resultData.resultData.cote.pig.currCount);
                 if (res.resultData.resultData.cote.pig.currCount === currLevelCount) {
                     console.log('成长值已满');

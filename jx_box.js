@@ -198,7 +198,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
             case 19:
                 _a++;
                 return [3 /*break*/, 16];
-            case 20: return [4 /*yield*/, api('query', 'type,signhb_source,smp,ispp,tk', { type: 0, signhb_source: 5, smp: '', ispp: 1, tk: '' })];
+            case 20: return [4 /*yield*/, api('query', 'ispp,signhb_source,smp,tk,type', { type: 0, signhb_source: 5, smp: '', ispp: 1, tk: '' })];
             case 21:
                 // 喜豆任务
                 res = _g.sent();
@@ -270,73 +270,54 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
     });
 }); })();
 function api(fn, stk, params) {
-    var _this = this;
     if (params === void 0) { params = {}; }
-    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var url, data, e_2;
+    return __awaiter(this, void 0, void 0, function () {
+        var url, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "https://m.jingxi.com/fanxiantask/signhb/".concat(fn, "?_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
+                    url = "https://m.jingxi.com/fanxiantask/signhb/".concat(fn, "?_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls");
                     if (fn.match(/(dotask|bxdraw)/)) {
                         url = fn;
                     }
                     url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10038);
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'm.jingxi.com',
-                                'User-Agent': "jdpingou;iPhone;5.9.0;12.4.1;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";network/wifi;"),
+                                'Accept': '*/*',
+                                'Connection': 'keep-alive',
+                                'User-Agent': 'jdpingou;',
+                                'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
                                 'Referer': 'https://st.jingxi.com/',
                                 'Cookie': cookie
                             }
                         })];
-                case 2:
+                case 1:
                     data = (_a.sent()).data;
-                    if (typeof data === 'string') {
-                        data = data.replace('try{jsonpCBKB(', '').replace('try{Query(', '').replace('try{BxDraw(', '').replace('try{Dotask(', '').split('\n')[0];
-                        resolve(JSON.parse(data));
-                    }
-                    else {
-                        resolve(data);
-                    }
-                    return [3 /*break*/, 4];
-                case 3:
-                    e_2 = _a.sent();
-                    reject(e_2);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [2 /*return*/, JSON.parse(data.match(/\((.*)/)[1])];
             }
         });
-    }); });
+    });
 }
 function doubleSign() {
     return __awaiter(this, void 0, void 0, function () {
-        var data, e_3;
+        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get('https://m.jingxi.com/double_sign/IssueReward?sceneval=2', {
-                            headers: {
-                                'Host': 'm.jingxi.com',
-                                'Origin': 'https://st.jingxi.com',
-                                'Accept': 'application/json',
-                                'User-Agent': 'jdpingou;',
-                                'Referer': 'https://st.jingxi.com/pingou/jxapp_double_signin/index.html',
-                                'Cookie': cookie
-                            }
-                        })];
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://m.jingxi.com/double_sign/IssueReward?sceneval=2&g_login_type=1&callback=jsonpCBK".concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls"), {
+                        headers: {
+                            'Host': 'm.jingxi.com',
+                            'Accept': '*/*',
+                            'Connection': 'keep-alive',
+                            'User-Agent': 'jdpingou;',
+                            'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+                            'Referer': 'https://st.jingxi.com/',
+                            'Cookie': cookie
+                        }
+                    })];
                 case 1:
                     data = (_a.sent()).data;
-                    return [2 /*return*/, data];
-                case 2:
-                    e_3 = _a.sent();
-                    console.log(e_3);
-                    return [2 /*return*/, ''];
-                case 3: return [2 /*return*/];
+                    return [2 /*return*/, JSON.parse(data.match(/jsonpCBK.?\((.*)/)[1])];
             }
         });
     });

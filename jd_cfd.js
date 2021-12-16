@@ -61,7 +61,7 @@ var axi = axios_1["default"].create({ timeout: 10000 });
 var cookie = '', res = '', UserName, index;
 var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false, token = {};
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, e_1, todayMoney, flag, dwPageIndex, _i, _a, t, _b, _c, xb, tasks, _d, _e, t, prizeInfo, CardList, cards, _f, CardList_1, card, richcard, coincard, isUsing, _g, coincard_1, card, _h, richcard_1, card, j, j, j, wallet, build, minLV, _j, _k, b, employee, _l, employee_1, emp, empRes, _m, _o, sign, MermaidRes, shipRes, bags_1, _p, _q, s, strTypeCnt_1, n, bags, _r, _s, s, strTypeCnt, n, j, _t, _u, t, _v, _w, t, _x, _y, e, employ, _z, _0, b, i, data, e_2, j;
+    var cookiesArr, i, e_1, todayMoney, flag, dwPageIndex, _i, _a, t, _b, _c, xb, tasks, _d, _e, t, prizeInfo, CardList, cards, _f, CardList_1, card, richcard, coincard, _g, coincard_1, card, _h, richcard_1, card, j, j, j, wallet, build, minLV, _j, _k, b, employee, _l, employee_1, emp, empRes, _m, _o, sign, MermaidRes, shipRes, bags_1, _p, _q, s, strTypeCnt_1, n, bags, _r, _s, s, strTypeCnt, n, j, _t, _u, t, _v, _w, t, _x, _y, e, employ, _z, _0, b, i, data, e_2, j;
     var _1;
     return __generator(this, function (_2) {
         switch (_2.label) {
@@ -217,19 +217,20 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 31:
                 // 加速卡
                 res = _2.sent();
-                richcard = res.cardInfo.richcard, coincard = res.cardInfo.coincard, isUsing = res.cardInfo.dwWorkingType !== 0;
+                console.log('加速卡：');
+                (0, TS_USER_AGENTS_1.o2s)(res);
+                richcard = res.cardInfo.richcard, coincard = res.cardInfo.coincard;
                 _g = 0, coincard_1 = coincard;
                 _2.label = 32;
             case 32:
                 if (!(_g < coincard_1.length)) return [3 /*break*/, 36];
                 card = coincard_1[_g];
-                if (!(!isUsing && card.dwCardNums !== 0)) return [3 /*break*/, 34];
+                if (!(card.dwCardNums !== 0)) return [3 /*break*/, 34];
                 return [4 /*yield*/, api('user/UsePropCard', '_cfd_t,bizCode,dwCardType,dwEnv,ptag,source,strCardTypeIndex,strZone', { dwCardType: 1, strCardTypeIndex: encodeURIComponent(card.strCardTypeIndex) })];
             case 33:
                 res = _2.sent();
                 if (res.iRet === 0) {
                     console.log('金币加速卡使用成功');
-                    isUsing = true;
                 }
                 else {
                     console.log('金币加速卡使用失败', res);
@@ -246,7 +247,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 37:
                 if (!(_h < richcard_1.length)) return [3 /*break*/, 45];
                 card = richcard_1[_h];
-                if (!(!isUsing && card.dwCardNums !== 0)) return [3 /*break*/, 43];
+                if (!(card.dwCardNums !== 0)) return [3 /*break*/, 43];
                 j = 0;
                 _2.label = 38;
             case 38:
@@ -256,11 +257,9 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
                 res = _2.sent();
                 if (res.iRet === 0) {
                     console.log('点券加速卡使用成功');
-                    isUsing = true;
                 }
                 else {
                     console.log('点券加速卡使用失败', res);
-                    isUsing = true;
                     return [3 /*break*/, 42];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
@@ -509,7 +508,6 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 97:
                 // TODO 背包满了再卖给收破烂的
                 res = _2.sent();
-                console.log(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 98:
                 _2.sent();
@@ -657,7 +655,7 @@ var shareCodes = [], shareCodesSelf = [], shareCodesHW = [], isCollector = false
             case 129:
                 _2.sent();
                 if (res.ret === 0) {
-                    console.log('领奖成功');
+                    console.log('领奖成功：', res);
                 }
                 else {
                     console.log('领奖失败', res);
@@ -803,10 +801,11 @@ function api(fn, stk, params, taskPosition) {
     if (params === void 0) { params = {}; }
     if (taskPosition === void 0) { taskPosition = ''; }
     return __awaiter(this, void 0, void 0, function () {
-        var url, bizCode, data;
+        var url, t, bizCode, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    t = Date.now();
                     if (['GetUserTaskStatusList', 'Award', 'DoTask'].includes(fn)) {
                         bizCode = void 0;
                         if (!params.bizCode) {
@@ -815,10 +814,10 @@ function api(fn, stk, params, taskPosition) {
                         else {
                             bizCode = params.bizCode;
                         }
-                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?strZone=jxbfd&bizCode=").concat(bizCode, "&source=jxbfd&dwEnv=7&_cfd_t=").concat(Date.now(), "&ptag=&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat(String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0)), "&g_ty=ls");
+                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?strZone=jxbfd&bizCode=").concat(bizCode, "&source=jxbfd&dwEnv=7&_cfd_t=").concat(t, "&ptag=&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(t + 2, "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls");
                     }
                     else {
-                        url = "https://m.jingxi.com/jxbfd/".concat(fn, "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=").concat(Date.now(), "&ptag=&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat(String.fromCharCode(Math.floor(Math.random() * 26) + "A".charCodeAt(0)), "&g_ty=ls");
+                        url = "https://m.jingxi.com/jxbfd/".concat(fn, "?strZone=jxbfd&bizCode=jxbfd&source=jxbfd&dwEnv=7&_cfd_t=").concat(t, "&ptag=&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(t + 2, "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls");
                     }
                     url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10032);
                     return [4 /*yield*/, axios_1["default"].get(url, {
@@ -827,24 +826,19 @@ function api(fn, stk, params, taskPosition) {
                                 'Accept': '*/*',
                                 'Connection': 'keep-alive',
                                 'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
-                                'User-Agent': "jdpingou;iPhone;4.13.0;14.4.2;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";network/wifi;model/iPhone10,2;appBuild/100609;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/").concat(Math.random() * 98 + 1, ";pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"),
+                                'User-Agent': "jdpingou;iPhone;5.14.2;".concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(12, 16), ".").concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, 3), ";").concat((0, TS_USER_AGENTS_1.randomString)(40), ";"),
                                 'Referer': 'https://st.jingxi.com/',
                                 'Cookie': cookie
                             }
                         })];
                 case 1:
                     data = (_a.sent()).data;
-                    if (typeof data === 'string') {
-                        try {
-                            return [2 /*return*/, JSON.parse(data.replace(/\n/g, '').match(/jsonpCBK.?\(([^)]*)/)[1])];
-                        }
-                        catch (e) {
-                            console.log(data);
-                            return [2 /*return*/, ''];
-                        }
+                    try {
+                        return [2 /*return*/, JSON.parse(data.match(/jsonpCBK.?\(([^)]*)/)[1])];
                     }
-                    else {
-                        return [2 /*return*/, data];
+                    catch (e) {
+                        console.log(data);
+                        return [2 /*return*/, ''];
                     }
                     return [2 /*return*/];
             }

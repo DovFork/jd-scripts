@@ -138,8 +138,8 @@ function api(commodityId) {
                 case 0:
                     t = Date.now();
                     url = commodityId
-                        ? "https://m.jingxi.com/dreamfactory/diminfo/GetCommodityDetails?zone=dream_factory&commodityId=".concat(commodityId, "&_time=").concat(t, "&_ts=").concat(t, "&_=").concat(t, "&sceneval=2")
-                        : "https://m.jingxi.com/dreamfactory/diminfo/GetCommodityList?zone=dream_factory&flag=2&pageNo=1&pageSize=12&_time=".concat(t, "&_ts=").concat(t, "&_=").concat(t, "&sceneval=2");
+                        ? "https://m.jingxi.com/dreamfactory/diminfo/GetCommodityDetails?zone=dream_factory&commodityId=".concat(commodityId, "&_time=").concat(t, "&_ts=").concat(t, "&_=").concat(t, "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls")
+                        : "https://m.jingxi.com/dreamfactory/diminfo/GetCommodityList?zone=dream_factory&flag=2&pageNo=1&pageSize=12&_time=".concat(t, "&_ts=").concat(t, "&_=").concat(t, "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls");
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'm.jingxi.com',
@@ -150,7 +150,7 @@ function api(commodityId) {
                         })];
                 case 1:
                     data = (_a.sent()).data;
-                    return [2 /*return*/, data];
+                    return [2 /*return*/, JSON.parse(data.match(/jsonpCBK.?\((.*)/)[1])];
             }
         });
     });

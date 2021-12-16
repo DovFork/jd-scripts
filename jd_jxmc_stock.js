@@ -50,7 +50,7 @@ var cookie = '', res = '', UserName;
     var cookiesArr, exist, items, message, token, _i, _a, good, allItems, arr, result, i, len, _b, result_1, group, _c, group_1, id, _d, _e, t, _f, _g, j;
     return __generator(this, function (_h) {
         switch (_h.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)(10028)];
             case 1:
                 _h.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -58,15 +58,11 @@ var cookie = '', res = '', UserName;
                 cookiesArr = _h.sent();
                 cookie = cookiesArr[(0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, cookiesArr.length)];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                try {
-                    (0, fs_1.accessSync)('./json/jxmc_stock.json');
-                }
-                catch (e) {
+                if (!(0, fs_1.existsSync)('./json/jxmc_stock.json')) {
                     (0, fs_1.writeFileSync)('./json/jxmc_stock.json', '{}', 'utf-8');
                 }
-                exist = (0, fs_1.readFileSync)('./json/jxmc_stock.json', 'utf-8');
                 try {
-                    exist = JSON.parse(exist);
+                    exist = JSON.parse((0, fs_1.readFileSync)('./json/jxmc_stock.json', 'utf-8'));
                 }
                 catch (e) {
                     exist = {};
@@ -75,28 +71,9 @@ var cookie = '', res = '', UserName;
                 return [4 /*yield*/, jxmcToken(cookie)];
             case 3:
                 token = _h.sent();
-                _h.label = 4;
+                return [4 /*yield*/, api('queryservice/GetGoodsListV2', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp', { activeid: 'jxmc_active_0001', activekey: 'null', jxmc_jstoken: token.farm_jstoken, timestamp: token.timestamp, phoneid: token.phoneid })];
             case 4:
-                if (!1) return [3 /*break*/, 6];
-                if (new Date().getSeconds() === 0)
-                    return [3 /*break*/, 6];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(100)];
-            case 5:
-                _h.sent();
-                return [3 /*break*/, 4];
-            case 6: return [4 /*yield*/, api('queryservice/GetGoodsListV2', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp', {
-                    activeid: 'jxmc_active_0001',
-                    activekey: 'null',
-                    jxmc_jstoken: token.farm_jstoken,
-                    timestamp: token.timestamp,
-                    phoneid: token.phoneid
-                })];
-            case 7:
                 res = _h.sent();
-                console.log(JSON.stringify(res));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 8:
-                _h.sent();
                 for (_i = 0, _a = res.data.goodslist; _i < _a.length; _i++) {
                     good = _a[_i];
                     if (!Object.keys(exist).includes(good.prizepool)) {
@@ -108,7 +85,7 @@ var cookie = '', res = '', UserName;
                     }
                 }
                 allItems = items;
-                if (!items) return [3 /*break*/, 13];
+                if (!items) return [3 /*break*/, 9];
                 arr = items.split(',');
                 arr.pop();
                 items = '';
@@ -117,30 +94,31 @@ var cookie = '', res = '', UserName;
                     result.push(arr.slice(i, i + 30));
                 }
                 _b = 0, result_1 = result;
-                _h.label = 9;
-            case 9:
-                if (!(_b < result_1.length)) return [3 /*break*/, 13];
+                _h.label = 5;
+            case 5:
+                if (!(_b < result_1.length)) return [3 /*break*/, 9];
                 group = result_1[_b];
                 for (_c = 0, group_1 = group; _c < group_1.length; _c++) {
                     id = group_1[_c];
                     items += id + ',';
                 }
                 return [4 /*yield*/, getEgg(items)];
-            case 10:
+            case 6:
                 res = _h.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 11:
+            case 7:
                 _h.sent();
                 for (_d = 0, _e = res.result; _d < _e.length; _d++) {
                     t = _e[_d];
                     exist[t.active].name = t.prizes[0].Name;
                 }
                 items = '';
-                _h.label = 12;
-            case 12:
+                _h.label = 8;
+            case 8:
                 _b++;
-                return [3 /*break*/, 9];
-            case 13:
+                return [3 /*break*/, 5];
+            case 9:
+                console.log(exist);
                 (0, fs_1.writeFileSync)('./json/jxmc_stock.json', JSON.stringify(exist, null, 2), 'utf-8');
                 for (_f = 0, _g = Object.keys(exist); _f < _g.length; _f++) {
                     j = _g[_f];
@@ -149,71 +127,64 @@ var cookie = '', res = '', UserName;
                     }
                 }
                 console.log(message);
-                if (!message) return [3 /*break*/, 15];
+                if (!message) return [3 /*break*/, 11];
                 return [4 /*yield*/, notify.sendNotify('京喜牧场兑换', message)];
-            case 14:
+            case 10:
                 _h.sent();
-                _h.label = 15;
-            case 15: return [2 /*return*/];
+                _h.label = 11;
+            case 11: return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, stk, params) {
-    var _this = this;
     if (params === void 0) { params = {}; }
-    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var url, data, e_1;
+    return __awaiter(this, void 0, void 0, function () {
+        var url, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = "https://m.jingxi.com/jxmc/".concat(fn, "?channel=7&sceneid=1001&_stk=").concat(encodeURIComponent(stk), "&_ste=1&sceneval=2");
+                    url = "https://m.jingxi.com/jxmc/".concat(fn, "?channel=7&sceneid=1001&_stk=").concat(encodeURIComponent(stk), "&_ste=1&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls");
                     url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10028);
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
-                                'Cookie': cookie,
                                 'Host': 'm.jingxi.com',
-                                'User-Agent': 'jdpingou;',
-                                'Referer': 'https://st.jingxi.com/'
+                                'Accept': '*/*',
+                                'Connection': 'keep-alive',
+                                'User-Agent': "jdpingou;iPhone;5.14.2;".concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(12, 16), ".").concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, 3), ";").concat((0, TS_USER_AGENTS_1.randomString)(40), ";"),
+                                'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+                                'Referer': 'https://st.jingxi.com/',
+                                'Cookie': cookie
                             }
                         })];
-                case 2:
+                case 1:
                     data = (_a.sent()).data;
-                    resolve(data);
-                    return [3 /*break*/, 4];
-                case 3:
-                    e_1 = _a.sent();
-                    reject(401);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [2 /*return*/, JSON.parse(data.match(/jsonpCBK.?\((.*)/)[1])];
             }
         });
-    }); });
+    });
 }
 function getEgg(items) {
-    var _this = this;
-    items = items.substr(0, items.length - 1);
-    var rnd = "abcdefhijkmnprstwxyz".charAt(Math.floor(Math.random() * 4)).toUpperCase();
-    return new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://m.jingxi.com/active/queryprizedetails?actives=".concat(items, "&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat(rnd, "&g_ty=ls"), {
-                        headers: {
-                            'Cookie': cookie,
-                            'Host': 'm.jingxi.com',
-                            'User-Agent': 'jdpingou;',
-                            'Referer': 'https://st.jingxi.com/pingou/jxmc/index.html'
-                        }
-                    })];
+                case 0:
+                    items = items.substr(0, items.length - 1);
+                    return [4 /*yield*/, axios_1["default"].get("https://m.jingxi.com/active/queryprizedetails?actives=".concat(items, "&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls"), {
+                            headers: {
+                                'Host': 'm.jingxi.com',
+                                'Accept': '*/*',
+                                'Connection': 'keep-alive',
+                                'User-Agent': "jdpingou;iPhone;5.14.2;".concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(12, 16), ".").concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, 3), ";").concat((0, TS_USER_AGENTS_1.randomString)(40), ";"),
+                                'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+                                'Referer': 'https://st.jingxi.com/',
+                                'Cookie': cookie
+                            }
+                        })];
                 case 1:
                     data = (_a.sent()).data;
-                    data = JSON.parse(data.replace("try{ jsonpCBK".concat(rnd, "("), '').replace(');}catch(e){}', ''));
-                    resolve(data);
-                    return [2 /*return*/];
+                    return [2 /*return*/, JSON.parse(data.match(/jsonpCBK.?\(([\s\S]*)\);/)[1])];
             }
         });
-    }); });
+    });
 }

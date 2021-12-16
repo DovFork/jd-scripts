@@ -52,11 +52,11 @@ var sendNotify_1 = require("../sendNotify");
                 return [4 /*yield*/, api(file)];
             case 2:
                 res = _a.sent();
-                file = 'https:' + res.match(/src="([^"]*)/)[1];
+                file = 'https:' + res.match(/src="(\/\/storage.*)"/)[1];
                 return [4 /*yield*/, api(file)];
             case 3:
                 res = _a.sent();
-                file = res.match(/var invokeKey = '(.*)';/)[1];
+                file = res.match(/invokeKey: '(.*)'/)[1];
                 console.log('invokeKey:', file);
                 if (!(file !== 'q8DNJdpcfRQ69gIx')) return [3 /*break*/, 5];
                 return [4 /*yield*/, (0, sendNotify_1.sendNotify)('invokeKey Update', file)];

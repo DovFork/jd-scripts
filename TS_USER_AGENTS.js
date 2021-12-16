@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.resetHosts = exports.randomString = exports.exceptCookie = exports.h5st = exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.resetHosts = exports.randomString = exports.exceptCookie = exports.h5st = exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var date_fns_1 = require("date-fns");
@@ -342,6 +342,11 @@ function randomNumString(e) {
     return n;
 }
 exports.randomNumString = randomNumString;
+function randomWord() {
+    var t = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', a = t.length, n = "";
+    return t.charAt(Math.floor(Math.random() * a));
+}
+exports.randomWord = randomWord;
 function getshareCodeHW(key) {
     return __awaiter(this, void 0, void 0, function () {
         var shareCodeHW, i, data, e_1;

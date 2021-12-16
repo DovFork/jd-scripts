@@ -46,7 +46,7 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var path = require("path");
 var cookie = '', res = '', UserName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, _i, _a, _b, index, value, _c, _d, t, _e, _f, tp, e_1;
+    var cookiesArr, except, _i, _a, _b, index, value, j, _c, _d, t, _e, _f, tp, e_1;
     return __generator(this, function (_g) {
         switch (_g.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -56,77 +56,88 @@ var cookie = '', res = '', UserName;
                 _i = 0, _a = cookiesArr.entries();
                 _g.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 20];
+                if (!(_i < _a.length)) return [3 /*break*/, 24];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 if (except.includes(encodeURIComponent(UserName))) {
                     console.log('已设置跳过');
-                    return [3 /*break*/, 19];
+                    return [3 /*break*/, 23];
                 }
-                return [4 /*yield*/, api('jdhealth_getTaskDetail', { "buildingId": "", "taskId": "", "channelId": 1 })];
+                j = 0;
+                _g.label = 3;
             case 3:
-                res = _g.sent();
-                _g.label = 4;
+                if (!(j < 3)) return [3 /*break*/, 23];
+                return [4 /*yield*/, api('jdhealth_getTaskDetail', { "buildingId": "", "taskId": "", "channelId": 1 })];
             case 4:
-                _g.trys.push([4, 18, , 19]);
-                _c = 0, _d = res.data.result.taskVos;
+                res = _g.sent();
                 _g.label = 5;
             case 5:
-                if (!(_c < _d.length)) return [3 /*break*/, 17];
-                t = _d[_c];
-                if (!(t.status === 1 || t.status === 3)) return [3 /*break*/, 16];
-                console.log(t.taskName);
-                _e = 0, _f = t.productInfoVos || t.followShopVo || t.shoppingActivityVos || [];
+                _g.trys.push([5, 19, , 20]);
+                _c = 0, _d = res.data.result.taskVos;
                 _g.label = 6;
             case 6:
-                if (!(_e < _f.length)) return [3 /*break*/, 16];
-                tp = _f[_e];
-                if (!(tp.status === 1)) return [3 /*break*/, 15];
-                console.log('\t', tp.skuName || tp.shopName || tp.title);
-                if (!(t.taskName.includes('早睡打卡') && t.taskBeginTime < Date.now() && t.taskEndTime > Date.now())) return [3 /*break*/, 9];
-                return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
+                if (!(_c < _d.length)) return [3 /*break*/, 18];
+                t = _d[_c];
+                if (!(t.status === 1 || t.status === 3)) return [3 /*break*/, 17];
+                console.log(t.taskName);
+                _e = 0, _f = t.productInfoVos || t.followShopVo || t.shoppingActivityVos || [];
+                _g.label = 7;
             case 7:
+                if (!(_e < _f.length)) return [3 /*break*/, 17];
+                tp = _f[_e];
+                if (!(tp.status === 1)) return [3 /*break*/, 16];
+                console.log('\t', tp.skuName || tp.shopName || tp.title);
+                if (!(t.taskName.includes('早睡打卡') && t.taskBeginTime < Date.now() && t.taskEndTime > Date.now())) return [3 /*break*/, 10];
+                return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
+            case 8:
                 res = _g.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 8:
+            case 9:
                 _g.sent();
                 console.log('\t', res.data.bizMsg);
-                _g.label = 9;
-            case 9:
-                if (!t.waitDuration) return [3 /*break*/, 12];
-                return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
+                _g.label = 10;
             case 10:
+                if (!t.waitDuration) return [3 /*break*/, 13];
+                return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
+            case 11:
                 res = _g.sent();
                 console.log('\t', res.data.bizMsg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.waitDuration * 1000)];
-            case 11:
+            case 12:
                 _g.sent();
-                _g.label = 12;
-            case 12: return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 0 })];
-            case 13:
+                _g.label = 13;
+            case 13: return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 0 })];
+            case 14:
                 res = _g.sent();
                 console.log(res.data.bizMsg, res.data.result.score * 1);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1500)];
-            case 14:
-                _g.sent();
-                _g.label = 15;
             case 15:
-                _e++;
-                return [3 /*break*/, 6];
+                _g.sent();
+                _g.label = 16;
             case 16:
+                _e++;
+                return [3 /*break*/, 7];
+            case 17:
                 _c++;
-                return [3 /*break*/, 5];
-            case 17: return [3 /*break*/, 19];
-            case 18:
+                return [3 /*break*/, 6];
+            case 18: return [3 /*break*/, 20];
+            case 19:
                 e_1 = _g.sent();
                 console.log('Error', e_1);
-                return [3 /*break*/, 19];
-            case 19:
+                return [3 /*break*/, 23];
+            case 20: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 21:
+                _g.sent();
+                _g.label = 22;
+            case 22:
+                j++;
+                return [3 /*break*/, 3];
+            case 23:
                 _i++;
                 return [3 /*break*/, 2];
-            case 20: return [2 /*return*/];
+            case 24: return [2 /*return*/];
         }
     });
 }); })();

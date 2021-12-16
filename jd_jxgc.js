@@ -40,11 +40,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var date_fns_1 = require("date-fns");
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var sendNotify_1 = require("./sendNotify");
 var path = require("path");
+var date_fns_1 = require("date-fns");
+var sendNotify_1 = require("./sendNotify");
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, except, i, productionId, factoryId, investedElectric, needElectric, progress, flag, j, _i, _a, t, j;
@@ -69,15 +69,7 @@ var cookie = '', res = '', UserName, index;
                     console.log('已设置跳过');
                     return [3 /*break*/, 31];
                 }
-                return [4 /*yield*/, api('userinfo/GetUserInfo', '_time,materialTuanId,materialTuanPin,needPickSiteInfo,pin,sharePin,shareType,source,zone', {
-                        pin: '',
-                        sharePin: '',
-                        shareType: '',
-                        materialTuanPin: '',
-                        materialTuanId: '',
-                        needPickSiteInfo: 0,
-                        source: ''
-                    })];
+                return [4 /*yield*/, api('userinfo/GetUserInfo', '_time,materialTuanId,materialTuanPin,needPickSiteInfo,pin,sharePin,shareType,source,zone', { pin: '', sharePin: '', shareType: '', materialTuanPin: '', materialTuanId: '', needPickSiteInfo: 0, source: '' })];
             case 4:
                 res = _b.sent();
                 productionId = 0, factoryId = 0;
@@ -275,25 +267,34 @@ function task() {
 }
 function api(fn, stk, params) {
     if (params === void 0) { params = {}; }
-    return new Promise(function (resolve, reject) {
-        var url = '';
-        if (['GetUserTaskStatusList', 'DoTask', 'Award'].indexOf(fn) > -1)
-            url = "https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?source=dreamfactory&_time=").concat(Date.now(), "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
-        else
-            url = "https://m.jingxi.com/dreamfactory/".concat(fn, "?zone=dream_factory&_time=").concat(Date.now(), "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2");
-        url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10001);
-        axios_1["default"].get(url, {
-            headers: {
-                'Cookie': cookie,
-                'Host': 'm.jingxi.com',
-                'User-Agent': 'jdpingou;',
-                'Referer': 'https://st.jingxi.com/pingou/dream_factory/index.html'
+    return __awaiter(this, void 0, void 0, function () {
+        var url, t, data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    t = Date.now();
+                    if (['GetUserTaskStatusList', 'DoTask', 'Award'].includes(fn)) {
+                        url = "https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?source=dreamfactory&_time=").concat(t, "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(t + 3, "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls");
+                    }
+                    else {
+                        url = "https://m.jingxi.com/dreamfactory/".concat(fn, "?zone=dream_factory&_time=").concat(t, "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(t + 3, "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls");
+                    }
+                    url = (0, TS_USER_AGENTS_1.h5st)(url, stk, params, 10001);
+                    return [4 /*yield*/, axios_1["default"].get(url, {
+                            headers: {
+                                'Host': 'm.jingxi.com',
+                                'Accept': '*/*',
+                                'Connection': 'keep-alive',
+                                'User-Agent': "jdpingou;iPhone;5.14.2;".concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(12, 15), ".").concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, 3), ";").concat((0, TS_USER_AGENTS_1.randomString)(40), ";"),
+                                'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+                                'Referer': 'https://st.jingxi.com/',
+                                'Cookie': cookie
+                            }
+                        })];
+                case 1:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, JSON.parse(data.match(/try.?{jsonpCBK.?\((.*)/)[1])];
             }
-        }).then(function (res) {
-            resolve(res.data);
-        })["catch"](function (err) {
-            console.log('err:', err);
-            reject(err);
         });
     });
 }

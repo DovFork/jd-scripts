@@ -64,7 +64,7 @@ var cookie = '', res = '', UserName, index, token = {};
                 j = 0;
                 _a.label = 4;
             case 4:
-                if (!(j < 3)) return [3 /*break*/, 18];
+                if (!(j < 1)) return [3 /*break*/, 18];
                 token = (0, TS_USER_AGENTS_1.getJxToken)(cookie);
                 return [4 /*yield*/, api('user/ComposePearlState', '', { __t: Date.now(), dwGetType: 0 })];
             case 5:

@@ -57,7 +57,7 @@ var token = require('./utils/jd_jxmc.js').token;
 var cookie = '', res = '', shareCodes = [], homePageInfo, jxToken, UserName, index;
 var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index_1, value, j, lastgettime, food, petid, coins, petNum, petids, e_1, tasks, _c, _d, t, j, drawTimes, j, _e, _f, card, e_2, e_3, _g, _h, day, j, _j, _k, t, e_4, e_5, _l, _m, _o, index_2, value, data, e_6, _p, shareCodes_1, code, _q, _r, _s, index_3, value, data, e_7, _t, shareCodes_2, code;
+    var cookiesArr, _i, _a, _b, index_1, value, j, lastgettime, food, petid, coins, petNum, petids, e_1, tasks, _c, _d, t, j, drawTimes, j, _e, _f, card, e_2, e_3, _g, _h, day, j, _j, _k, t, j, e_4, j, e_5, _l, _m, _o, index_2, value, data, e_6, _p, shareCodes_1, code, _q, _r, _s, index_3, value, data, e_7, _t, shareCodes_2, code;
     var _u, _v;
     return __generator(this, function (_w) {
         switch (_w.label) {
@@ -119,6 +119,7 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                     petids = homePageInfo.data.petinfo.map(function (pet) {
                         return pet.petid;
                     });
+                    console.log('当前🐔🐔：', petids);
                     petNum = homePageInfo.data.petinfo.length;
                     coins = homePageInfo.data.coins;
                 }
@@ -455,9 +456,10 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
             case 91:
                 _w.sent();
                 console.log('除草...start');
+                j = 0;
                 _w.label = 92;
             case 92:
-                if (!1) return [3 /*break*/, 101];
+                if (!(j < 30)) return [3 /*break*/, 101];
                 _w.label = 93;
             case 93:
                 _w.trys.push([93, 99, , 100]);
@@ -482,15 +484,18 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
             case 98: return [3 /*break*/, 100];
             case 99:
                 e_4 = _w.sent();
-                console.log('除草 Error:', e_4);
+                console.log('除草 Error:', e_4.response);
                 return [3 /*break*/, 101];
-            case 100: return [3 /*break*/, 92];
+            case 100:
+                j++;
+                return [3 /*break*/, 92];
             case 101: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 102:
                 _w.sent();
+                j = 0;
                 _w.label = 103;
             case 103:
-                if (!1) return [3 /*break*/, 109];
+                if (!(j < 30)) return [3 /*break*/, 109];
                 _w.label = 104;
             case 104:
                 _w.trys.push([104, 107, , 108]);
@@ -506,9 +511,11 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
                 return [3 /*break*/, 108];
             case 107:
                 e_5 = _w.sent();
-                console.log('挑逗 Error:', e_5);
+                console.log('挑逗 Error:', e_5.response);
                 return [3 /*break*/, 109];
-            case 108: return [3 /*break*/, 103];
+            case 108:
+                j++;
+                return [3 /*break*/, 103];
             case 109:
                 _i++;
                 return [3 /*break*/, 3];
@@ -520,11 +527,10 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
             case 112:
                 if (!(_l < _m.length)) return [3 /*break*/, 124];
                 _o = _m[_l], index_2 = _o[0], value = _o[1];
-                return [4 /*yield*/, getCodes()
-                    // 获取随机红包码
-                ];
+                if (!(shareCodesHbHw.length === 0)) return [3 /*break*/, 114];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('jxmchb')];
             case 113:
-                _w.sent();
+                shareCodesHbHw = _w.sent();
                 _w.label = 114;
             case 114:
                 _w.trys.push([114, 116, , 117]);
@@ -579,11 +585,10 @@ var shareCodesHbSelf = [], shareCodesHbHw = [], shareCodesSelf = [], shareCodesH
             case 125:
                 if (!(_q < _r.length)) return [3 /*break*/, 137];
                 _s = _r[_q], index_3 = _s[0], value = _s[1];
-                return [4 /*yield*/, getCodes()
-                    // 获取随机助力码
-                ];
+                if (!(shareCodesHW.length === 0)) return [3 /*break*/, 127];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('jxmc')];
             case 126:
-                _w.sent();
+                shareCodesHW = _w.sent();
                 _w.label = 127;
             case 127:
                 _w.trys.push([127, 129, , 130]);
@@ -704,8 +709,7 @@ function api(fn, stk, params, temporary) {
                             headers: {
                                 'Host': 'm.jingxi.com',
                                 'Accept': '*/*',
-                                'Connection': 'keep-alive',
-                                'User-Agent': "jdpingou;iPhone;5.14.2;".concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(12, 16), ".").concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, 3), ";").concat((0, TS_USER_AGENTS_1.randomString)(40), ";"),
+                                'User-Agent': 'jdpingou;iPhone;5.15.0;15.1;3271867e5dc749cc8cc76aa5aa6a084eea8e7920;network/wifi;model/iPhone11,6;appBuild/100779;ADID/;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/15;pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
                                 'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
                                 'Referer': 'https://st.jingxi.com/',
                                 'Cookie': cookie
@@ -772,27 +776,6 @@ function makeShareCodesHb(code) {
                     console.log(e_9);
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
-            }
-        });
-    });
-}
-function getCodes() {
-    return __awaiter(this, void 0, void 0, function () {
-        var data, e_10;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/HW_CODES')];
-                case 1:
-                    data = (_a.sent()).data;
-                    shareCodesHW = data.jxmc || [];
-                    shareCodesHbHw = data.jxmchb || [];
-                    return [3 /*break*/, 3];
-                case 2:
-                    e_10 = _a.sent();
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
             }
         });
     });

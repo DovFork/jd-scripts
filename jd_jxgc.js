@@ -285,7 +285,7 @@ function api(fn, stk, params) {
                                 'Host': 'm.jingxi.com',
                                 'Accept': '*/*',
                                 'Connection': 'keep-alive',
-                                'User-Agent': "jdpingou;iPhone;5.14.2;".concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(12, 15), ".").concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, 3), ";").concat((0, TS_USER_AGENTS_1.randomString)(40), ";"),
+                                'User-Agent': "jdpingou;",
                                 'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
                                 'Referer': 'https://st.jingxi.com/',
                                 'Cookie': cookie

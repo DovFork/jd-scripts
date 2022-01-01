@@ -47,14 +47,15 @@ var path = require("path");
 var cookie = '', res = '', UserName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, except, _i, _a, _b, index, value, j, _c, _d, t, _e, _f, tp, e_1;
-    return __generator(this, function (_g) {
-        switch (_g.label) {
+    var _g;
+    return __generator(this, function (_h) {
+        switch (_h.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _g.sent();
+                cookiesArr = _h.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 _i = 0, _a = cookiesArr.entries();
-                _g.label = 2;
+                _h.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 24];
                 _b = _a[_i], index = _b[0], value = _b[1];
@@ -66,24 +67,24 @@ var cookie = '', res = '', UserName;
                     return [3 /*break*/, 23];
                 }
                 j = 0;
-                _g.label = 3;
+                _h.label = 3;
             case 3:
                 if (!(j < 3)) return [3 /*break*/, 23];
                 return [4 /*yield*/, api('jdhealth_getTaskDetail', { "buildingId": "", "taskId": "", "channelId": 1 })];
             case 4:
-                res = _g.sent();
-                _g.label = 5;
+                res = _h.sent();
+                _h.label = 5;
             case 5:
-                _g.trys.push([5, 19, , 20]);
+                _h.trys.push([5, 19, , 20]);
                 _c = 0, _d = res.data.result.taskVos;
-                _g.label = 6;
+                _h.label = 6;
             case 6:
                 if (!(_c < _d.length)) return [3 /*break*/, 18];
                 t = _d[_c];
                 if (!(t.status === 1 || t.status === 3)) return [3 /*break*/, 17];
                 console.log(t.taskName);
                 _e = 0, _f = t.productInfoVos || t.followShopVo || t.shoppingActivityVos || [];
-                _g.label = 7;
+                _h.label = 7;
             case 7:
                 if (!(_e < _f.length)) return [3 /*break*/, 17];
                 tp = _f[_e];
@@ -92,30 +93,30 @@ var cookie = '', res = '', UserName;
                 if (!(t.taskName.includes('早睡打卡') && t.taskBeginTime < Date.now() && t.taskEndTime > Date.now())) return [3 /*break*/, 10];
                 return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
             case 8:
-                res = _g.sent();
+                res = _h.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 9:
-                _g.sent();
+                _h.sent();
                 console.log('\t', res.data.bizMsg);
-                _g.label = 10;
+                _h.label = 10;
             case 10:
                 if (!t.waitDuration) return [3 /*break*/, 13];
                 return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
             case 11:
-                res = _g.sent();
+                res = _h.sent();
                 console.log('\t', res.data.bizMsg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.waitDuration * 1000)];
             case 12:
-                _g.sent();
-                _g.label = 13;
+                _h.sent();
+                _h.label = 13;
             case 13: return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 0 })];
             case 14:
-                res = _g.sent();
-                console.log(res.data.bizMsg, res.data.result.score * 1);
+                res = _h.sent();
+                console.log(res.data.bizMsg, ((_g = res.data.result) === null || _g === void 0 ? void 0 : _g.score) * 1 || res.data);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1500)];
             case 15:
-                _g.sent();
-                _g.label = 16;
+                _h.sent();
+                _h.label = 16;
             case 16:
                 _e++;
                 return [3 /*break*/, 7];
@@ -124,13 +125,13 @@ var cookie = '', res = '', UserName;
                 return [3 /*break*/, 6];
             case 18: return [3 /*break*/, 20];
             case 19:
-                e_1 = _g.sent();
+                e_1 = _h.sent();
                 console.log('Error', e_1);
                 return [3 /*break*/, 23];
             case 20: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 21:
-                _g.sent();
-                _g.label = 22;
+                _h.sent();
+                _h.label = 22;
             case 22:
                 j++;
                 return [3 /*break*/, 3];

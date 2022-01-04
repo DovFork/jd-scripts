@@ -360,7 +360,7 @@ var shareCodesSelf = [], shareCodesHW = [];
                 _s.sent();
                 _s.label = 66;
             case 66:
-                if (!(coins >= 5000)) return [3 /*break*/, 69];
+                if (!(coins >= 5000 && food <= 500)) return [3 /*break*/, 69];
                 return [4 /*yield*/, api('operservice/Buy', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,type', { type: '1' })];
             case 67:
                 res = _s.sent();

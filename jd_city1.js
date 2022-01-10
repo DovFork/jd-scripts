@@ -40,29 +40,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', shareCodes = [], UserName = '', shareCodesSelf = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, _c, _d, _e, index, value, temp, _f, shareCodes_1, code, toasts, _g, _h, _j, index, value, _k, _l, t, lotteryNum, i;
-    var _m;
-    return __generator(this, function (_o) {
-        switch (_o.label) {
+    var cookiesArr, _i, _a, _b, index, value, _c, _d, _e, index, value, _f, _g, _h, index_1, t;
+    return __generator(this, function (_j) {
+        switch (_j.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _o.sent();
+                cookiesArr = _j.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _o.label = 2;
+                _j.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 6];
                 _b = _a[_i], index = _b[0], value = _b[1];
@@ -73,7 +63,7 @@ var cookie = '', res = '', shareCodes = [], UserName = '', shareCodesSelf = [], 
                     // o2s(res)
                 ];
             case 3:
-                res = _o.sent();
+                res = _j.sent();
                 // o2s(res)
                 console.log('助力码：', res.data.result.userActBaseInfo.inviteId);
                 shareCodesSelf.push(res.data.result.userActBaseInfo.inviteId);
@@ -81,125 +71,79 @@ var cookie = '', res = '', shareCodes = [], UserName = '', shareCodesSelf = [], 
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 4:
                 // break
-                _o.sent();
-                _o.label = 5;
+                _j.sent();
+                _j.label = 5;
             case 5:
                 _i++;
                 return [3 /*break*/, 2];
             case 6:
-                // 助力
-                shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
                 _c = 0, _d = cookiesArr.entries();
-                _o.label = 7;
+                _j.label = 7;
             case 7:
                 if (!(_c < _d.length)) return [3 /*break*/, 16];
                 _e = _d[_c], index = _e[0], value = _e[1];
-                if (!(shareCodesHW.length === 0)) return [3 /*break*/, 9];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)("city")];
-            case 8:
-                shareCodesHW = _o.sent();
-                _o.label = 9;
-            case 9: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getShareCodePool)("city", 30)];
-            case 10:
-                temp = _o.sent();
-                shareCodes = Array.from(new Set(__spreadArray(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true), temp, true)));
-                _f = 0, shareCodes_1 = shareCodes;
-                _o.label = 11;
-            case 11:
-                if (!(_f < shareCodes_1.length)) return [3 /*break*/, 15];
-                code = shareCodes_1[_f];
-                cookie = value;
-                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log("\u8D26\u53F7".concat(index + 1, " \u53BB\u52A9\u529B ").concat(code, " ").concat(shareCodesSelf.includes(code) ? '(内部)' : ''));
-                return [4 /*yield*/, api('city_getHomeDatav1', { "lbsCity": "", "realLbsCity": "", "inviteId": code, "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": "" })];
-            case 12:
-                res = _o.sent();
-                toasts = (_m = res.data.result) === null || _m === void 0 ? void 0 : _m.toasts;
-                if (toasts) {
-                    if (toasts[0].status === '3') {
-                        console.log('上限');
-                        return [3 /*break*/, 15];
-                    }
-                    else {
-                        console.log('status:', toasts[0].status, toasts[0].msg);
-                    }
-                }
-                else {
-                    console.log('不助力自己？');
-                }
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 13:
-                _o.sent();
-                _o.label = 14;
-            case 14:
-                _f++;
-                return [3 /*break*/, 11];
-            case 15:
-                _c++;
-                return [3 /*break*/, 7];
-            case 16:
-                _g = 0, _h = cookiesArr.entries();
-                _o.label = 17;
-            case 17:
-                if (!(_g < _h.length)) return [3 /*break*/, 33];
-                _j = _h[_g], index = _j[0], value = _j[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api('city_getHomeDatav1', { "lbsCity": "", "realLbsCity": "", "inviteId": "", "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": "" })];
-            case 18:
+            case 8:
                 // 打开红包
-                res = _o.sent();
-                _k = 0, _l = res.data.result.mainInfos;
-                _o.label = 19;
-            case 19:
-                if (!(_k < _l.length)) return [3 /*break*/, 23];
-                t = _l[_k];
-                if (!(t.remaingAssistNum === 0 && t.status === '1')) return [3 /*break*/, 22];
+                res = _j.sent();
+                console.log('可打开：', res.data.result.mainInfos.length, '个红包');
+                _f = 0, _g = res.data.result.mainInfos.entries();
+                _j.label = 9;
+            case 9:
+                if (!(_f < _g.length)) return [3 /*break*/, 13];
+                _h = _g[_f], index_1 = _h[0], t = _h[1];
+                if (!(t.remaingAssistNum === 0 && t.status === '1')) return [3 /*break*/, 12];
                 return [4 /*yield*/, api("city_receiveCash", { "cashType": 1, "roundNum": t.roundNum })];
-            case 20:
-                res = _o.sent();
-                console.log("\u6253\u5F00\u7EA2\u5305<".concat(t.roundNum + '', "> \u83B7\u5F97\uFF1A"), res.data.result.currentTimeCash * 1, '累计：', res.data.result.totalCash * 1);
+            case 10:
+                res = _j.sent();
+                console.log("\u6253\u5F00\u7EA2\u5305(".concat(index_1 + 1, "-").concat(t.roundNum + '', ") \u83B7\u5F97\uFF1A"), res.data.result.currentTimeCash * 1, '累计：', res.data.result.totalCash * 1);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 21:
-                _o.sent();
-                _o.label = 22;
-            case 22:
-                _k++;
-                return [3 /*break*/, 19];
-            case 23: return [4 /*yield*/, api("city_getLotteryInfo", {})];
-            case 24:
+            case 11:
+                _j.sent();
+                _j.label = 12;
+            case 12:
+                _f++;
+                return [3 /*break*/, 9];
+            case 13: 
+            // 抽奖
+            // res = await api("city_getLotteryInfo", {})
+            // let lotteryNum = res.data.result.lotteryNum
+            // console.log(`可以抽奖${lotteryNum}次`)
+            // for (let i = 0; i < lotteryNum; i++) {
+            //   res = await api("city_lotteryAward", {})
+            //   if (res.code === 0 && res.data.bizCode === 0) {
+            //     console.log('抽奖成功：', res.data.result.prizeId)
+            //     await wait(5000)
+            //   } else {
+            //     console.log('抽奖出错', JSON.stringify(res))
+            //     break
+            //   }
+            // }
+            return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 14:
                 // 抽奖
-                res = _o.sent();
-                lotteryNum = res.data.result.lotteryNum;
-                console.log("\u53EF\u4EE5\u62BD\u5956".concat(lotteryNum, "\u6B21"));
-                i = 0;
-                _o.label = 25;
-            case 25:
-                if (!(i < lotteryNum)) return [3 /*break*/, 30];
-                return [4 /*yield*/, api("city_lotteryAward", {})];
-            case 26:
-                res = _o.sent();
-                if (!(res.code === 0 && res.data.bizCode === 0)) return [3 /*break*/, 28];
-                console.log('抽奖成功：', res.data.result.prizeId);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 27:
-                _o.sent();
-                return [3 /*break*/, 29];
-            case 28:
-                console.log('抽奖出错', JSON.stringify(res));
-                return [3 /*break*/, 30];
-            case 29:
-                i++;
-                return [3 /*break*/, 25];
-            case 30: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 31:
-                _o.sent();
-                _o.label = 32;
-            case 32:
-                _g++;
-                return [3 /*break*/, 17];
-            case 33: return [2 /*return*/];
+                // res = await api("city_getLotteryInfo", {})
+                // let lotteryNum = res.data.result.lotteryNum
+                // console.log(`可以抽奖${lotteryNum}次`)
+                // for (let i = 0; i < lotteryNum; i++) {
+                //   res = await api("city_lotteryAward", {})
+                //   if (res.code === 0 && res.data.bizCode === 0) {
+                //     console.log('抽奖成功：', res.data.result.prizeId)
+                //     await wait(5000)
+                //   } else {
+                //     console.log('抽奖出错', JSON.stringify(res))
+                //     break
+                //   }
+                // }
+                _j.sent();
+                _j.label = 15;
+            case 15:
+                _c++;
+                return [3 /*break*/, 7];
+            case 16: return [2 /*return*/];
         }
     });
 }); })();

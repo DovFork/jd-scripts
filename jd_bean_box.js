@@ -65,7 +65,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 i = 0;
                 _f.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 32];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 25];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -160,72 +160,48 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
             case 23:
                 j++;
                 return [3 /*break*/, 9];
-            case 24: return [4 /*yield*/, qjd('signBeanGroupStageIndex', { "monitor_refer": "", "rnVersion": "3.9", "fp": "-1", "shshshfp": "-1", "shshshfpa": "-1", "referUrl": "-1", "userAgent": "-1", "jda": "-1", "monitor_source": "bean_m_bean_index" })];
-            case 25:
-                // 抢京豆
-                res = _f.sent();
-                if (!!res.data.shareCode) return [3 /*break*/, 29];
-                console.log('抢京豆 init...');
-                return [4 /*yield*/, qjd('signGroupHit', { "activeType": 2 })];
-            case 26:
-                res = _f.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 27:
-                _f.sent();
-                return [4 /*yield*/, qjd('signBeanGroupStageIndex', { "monitor_refer": "", "rnVersion": "3.9", "fp": "-1", "shshshfp": "-1", "shshshfpa": "-1", "referUrl": "-1", "userAgent": "-1", "jda": "-1", "monitor_source": "bean_m_bean_index" })];
-            case 28:
-                res = _f.sent();
-                _f.label = 29;
-            case 29:
-                if (!res.data.shareCode) return [3 /*break*/, 31];
-                console.log('助力码', res.data.shareCode);
-                shareCodeSelf.push({ shareCode: res.data.shareCode, groupCode: res.data.groupCode, activeId: res.data.jklInfo.keyId });
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 30:
-                _f.sent();
-                _f.label = 31;
-            case 31:
+            case 24:
                 i++;
                 return [3 /*break*/, 2];
-            case 32:
+            case 25:
                 console.log('内部助力', shareCodeSelf);
                 i = 0;
-                _f.label = 33;
-            case 33:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 41];
-                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 35];
+                _f.label = 26;
+            case 26:
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 34];
+                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 28];
                 return [4 /*yield*/, getShareCodeHW()];
-            case 34:
+            case 27:
                 _f.sent();
-                _f.label = 35;
-            case 35:
+                _f.label = 28;
+            case 28:
                 shareCode = __spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true);
                 uuid = randomString(40);
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 _b = 0, shareCode_1 = shareCode;
-                _f.label = 36;
-            case 36:
-                if (!(_b < shareCode_1.length)) return [3 /*break*/, 40];
+                _f.label = 29;
+            case 29:
+                if (!(_b < shareCode_1.length)) return [3 /*break*/, 33];
                 code = shareCode_1[_b];
                 console.log("".concat(UserName, " \u53BB\u52A9\u529B ").concat(code.shareCode));
                 return [4 /*yield*/, qjd('signGroupHelp', { "activeType": 2, "groupCode": code.groupCode, "shareCode": code.shareCode, "activeId": code.activeId, "source": "guest" })];
-            case 37:
+            case 30:
                 res = _f.sent();
                 console.log((_e = res.data) === null || _e === void 0 ? void 0 : _e.helpToast);
                 if (res.data.respCode === 'SG209')
-                    return [3 /*break*/, 40];
+                    return [3 /*break*/, 33];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 38:
+            case 31:
                 _f.sent();
-                _f.label = 39;
-            case 39:
+                _f.label = 32;
+            case 32:
                 _b++;
-                return [3 /*break*/, 36];
-            case 40:
+                return [3 /*break*/, 29];
+            case 33:
                 i++;
-                return [3 /*break*/, 33];
-            case 41: return [2 /*return*/];
+                return [3 /*break*/, 26];
+            case 34: return [2 /*return*/];
         }
     });
 }); })();

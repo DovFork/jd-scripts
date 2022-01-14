@@ -42,7 +42,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
 var cookie = '', res = '', shareCodes = [], UserName = '', shareCodesSelf = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, _c, _d, _e, index, value, _f, _g, _h, index_1, t, lotterySum, lotteryNum, i;
@@ -80,9 +80,7 @@ var cookie = '', res = '', shareCodes = [], UserName = '', shareCodesSelf = [], 
                 return [4 /*yield*/, api('city_receiveCash', { "cashType": "4" })];
             case 6:
                 res = _k.sent();
-                res.data.bizMsg === 'success'
-                    ? console.log('领取赏金成功：', res.data.result.masterInfo.cash * 1)
-                    : console.log('领取赏金失败：', (0, TS_USER_AGENTS_1.stringify)(res));
+                (0, TS_USER_AGENTS_1.o2s)(res);
                 _k.label = 7;
             case 7: 
             // break

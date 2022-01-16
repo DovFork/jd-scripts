@@ -42,66 +42,70 @@ exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var shareCodesTool_1 = require("./utils/shareCodesTool");
 var cookie = '', UserName, index;
+var beans = '', farms = '', healths = '', pets = '', factorys = '', jxfactorys = '', sgmhs = '', s = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
-    return __generator(this, function (_0) {
-        switch (_0.label) {
+    var cookiesArr, i;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _0.sent();
+                cookiesArr = _a.sent();
                 i = 0;
-                _0.label = 2;
+                _a.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 12];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 11];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
-                _b = (_a = console).log;
-                _c = ['种豆得豆:'];
                 return [4 /*yield*/, (0, shareCodesTool_1.bean)(cookie)];
             case 3:
-                _b.apply(_a, _c.concat([_0.sent()]));
-                _e = (_d = console).log;
-                _f = ['东东农场:'];
+                s = _a.sent();
+                s ? beans += s + '&' : '';
+                console.log('种豆得豆:', s);
                 return [4 /*yield*/, (0, shareCodesTool_1.farm)(cookie)];
             case 4:
-                _e.apply(_d, _f.concat([_0.sent()]));
-                _h = (_g = console).log;
-                _j = ['京东健康:'];
+                s = _a.sent();
+                s ? farms += s + '&' : '';
+                console.log('东东农场:', s);
                 return [4 /*yield*/, (0, shareCodesTool_1.health)(cookie)];
             case 5:
-                _h.apply(_g, _j.concat([_0.sent()]));
-                _l = (_k = console).log;
-                _m = ['东东萌宠:'];
+                s = _a.sent();
+                s ? healths += s + '&' : '';
+                console.log('京东健康:', s);
                 return [4 /*yield*/, (0, shareCodesTool_1.pet)(cookie)];
             case 6:
-                _l.apply(_k, _m.concat([_0.sent()]));
-                _p = (_o = console).log;
-                _q = ['东东工厂:'];
+                s = _a.sent();
+                s ? pets += s + '&' : '';
+                console.log('东东萌宠:', s);
                 return [4 /*yield*/, (0, shareCodesTool_1.factory)(cookie)];
             case 7:
-                _p.apply(_o, _q.concat([_0.sent()]));
-                _s = (_r = console).log;
-                _t = ['京喜工厂:'];
+                s = _a.sent();
+                s ? factorys += s + '&' : '';
+                console.log('东东工厂:', s);
                 return [4 /*yield*/, (0, shareCodesTool_1.jxfactory)(cookie)];
             case 8:
-                _s.apply(_r, _t.concat([_0.sent()]));
-                _v = (_u = console).log;
-                _w = ['闪购盲盒:'];
+                s = _a.sent();
+                s ? jxfactorys += s + '&' : '';
+                console.log('京喜工厂:', s);
                 return [4 /*yield*/, (0, shareCodesTool_1.sgmh)(cookie)];
             case 9:
-                _v.apply(_u, _w.concat([_0.sent()]));
-                _y = (_x = console).log;
-                _z = ['领现金呀:'];
-                return [4 /*yield*/, (0, shareCodesTool_1.cash)(cookie)];
+                s = _a.sent();
+                s ? sgmhs += s + '&' : '';
+                console.log('闪购盲盒:', s);
+                _a.label = 10;
             case 10:
-                _y.apply(_x, _z.concat([_0.sent()]));
-                _0.label = 11;
-            case 11:
                 i++;
                 return [3 /*break*/, 2];
-            case 12: return [2 /*return*/];
+            case 11:
+                console.log('/bean', beans.substring(0, beans.length - 1));
+                console.log('/farm', farms.substring(0, farms.length - 1));
+                console.log('/health', healths.substring(0, healths.length - 1));
+                console.log('/pet', pets.substring(0, pets.length - 1));
+                console.log('/factory', factorys.substring(0, factorys.length - 1));
+                console.log('/jxfactory', jxfactorys.substring(0, jxfactorys.length - 1));
+                console.log('/sgmh', sgmhs.substring(0, sgmhs.length - 1));
+                return [2 /*return*/];
         }
     });
 }); })();

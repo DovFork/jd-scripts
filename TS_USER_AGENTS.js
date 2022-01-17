@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.resetHosts = exports.randomString = exports.exceptCookie = exports.h5st = exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.obj2str = exports.wechat_app_msg = exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.resetHosts = exports.randomString = exports.exceptCookie = exports.h5st = exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var date_fns_1 = require("date-fns");
@@ -102,7 +102,7 @@ function getBeanShareCode(cookie) {
         var data;
         return __generator(this, function (_c) {
             switch (_c.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action', "functionId=plantBeanIndex&body=".concat(escape(JSON.stringify({ version: "9.0.0.1", "monitor_source": "plant_app_plant_index", "monitor_refer": "" })), "&appid=ld&client=apple&area=5_274_49707_49973&build=167283&clientVersion=9.1.0"), {
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action', "functionId=plantBeanIndex&body=".concat(encodeURIComponent(JSON.stringify({ version: "9.0.0.1", "monitor_source": "plant_app_plant_index", "monitor_refer": "" })), "&appid=ld&client=apple&area=5_274_49707_49973&build=167283&clientVersion=9.1.0"), {
                         headers: {
                             Cookie: cookie,
                             Host: "api.m.jd.com",
@@ -128,7 +128,7 @@ function getFarmShareCode(cookie) {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action?functionId=initForFarm', "body=".concat(escape(JSON.stringify({ "version": 4 })), "&appid=wh5&clientVersion=9.1.0"), {
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action?functionId=initForFarm', "body=".concat(encodeURIComponent(JSON.stringify({ "version": 4 })), "&appid=wh5&clientVersion=9.1.0"), {
                         headers: {
                             "cookie": cookie,
                             "origin": "https://home.m.jd.com",
@@ -216,7 +216,6 @@ function requestAlgo(appId) {
                                 data = (_a.sent()).data;
                                 if (data['status'] === 200) {
                                     token = data.data.result.tk;
-                                    console.log('token:', token);
                                     enCryptMethodJDString = data.data.result.algo;
                                     if (enCryptMethodJDString)
                                         enCryptMethodJD = new Function("return ".concat(enCryptMethodJDString))();
@@ -246,7 +245,7 @@ function getQueryString(url, name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = url.split('?')[1].match(reg);
     if (r != null)
-        return unescape(r[2]);
+        return decodeURIComponent(r[2]);
     return '';
 }
 function decrypt(stk, url, appId) {
@@ -343,7 +342,7 @@ function randomNumString(e) {
 }
 exports.randomNumString = randomNumString;
 function randomWord() {
-    var t = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', a = t.length, n = "";
+    var t = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', a = t.length;
     return t.charAt(Math.floor(Math.random() * a));
 }
 exports.randomWord = randomWord;
@@ -424,4 +423,42 @@ function getShareCodePool(key, num) {
     });
 }
 exports.getShareCodePool = getShareCodePool;
+function wechat_app_msg(title, content, user) {
+    return __awaiter(this, void 0, void 0, function () {
+        var corpid, corpsecret, gettoken, access_token, send;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    corpid = "", corpsecret = "";
+                    return [4 /*yield*/, axios_1["default"].get("https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=".concat(corpid, "&corpsecret=").concat(corpsecret))];
+                case 1:
+                    gettoken = (_a.sent()).data;
+                    access_token = gettoken.access_token;
+                    return [4 /*yield*/, axios_1["default"].post("https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=".concat(access_token), {
+                            "touser": user,
+                            "msgtype": "text",
+                            "agentid": 1000002,
+                            "text": {
+                                "content": "".concat(title, "\n\n").concat(content)
+                            },
+                            "safe": 0
+                        })];
+                case 2:
+                    send = (_a.sent()).data;
+                    if (send.errcode === 0) {
+                        console.log('企业微信应用消息发送成功');
+                    }
+                    else {
+                        console.log('企业微信应用消息发送失败', send);
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.wechat_app_msg = wechat_app_msg;
+function obj2str(obj) {
+    return JSON.stringify(obj);
+}
+exports.obj2str = obj2str;
 exports["default"] = USER_AGENT;

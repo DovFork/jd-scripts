@@ -54,9 +54,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
+var sendNotify_1 = require("./sendNotify");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName;
 var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
+var min = [0.02, 0.12, 0.3, 0.6, 0.7, 0.8, 1, 2];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodes_1, code, _g, _h, _j, index, value, _k, _l, t, _m, _o, tp, _p, _q, t, j, _r, _s, t, e_2;
     return __generator(this, function (_t) {
@@ -156,11 +158,11 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
                 _g = 0, _h = cookiesArr.entries();
                 _t.label = 20;
             case 20:
-                if (!(_g < _h.length)) return [3 /*break*/, 57];
+                if (!(_g < _h.length)) return [3 /*break*/, 61];
                 _j = _h[_g], index = _j[0], value = _j[1];
                 _t.label = 21;
             case 21:
-                _t.trys.push([21, 55, , 56]);
+                _t.trys.push([21, 59, , 60]);
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
@@ -174,7 +176,7 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
                 _k = 0, _l = res.data.result.taskInfos;
                 _t.label = 24;
             case 24:
-                if (!(_k < _l.length)) return [3 /*break*/, 37];
+                if (!(_k < _l.length)) return [3 /*break*/, 39];
                 t = _l[_k];
                 if (!(!t.alreadyReceivedCount || t.alreadyReceivedCount < t.requireCount)) return [3 /*break*/, 33];
                 if (![2, 3, 4, 5, 8].includes(t.taskType)) return [3 /*break*/, 33];
@@ -209,90 +211,100 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
                 _m++;
                 return [3 /*break*/, 29];
             case 33:
-                if (!(t.innerStatus === 3)) return [3 /*break*/, 36];
+                if (!(t.innerStatus === 3)) return [3 /*break*/, 38];
                 return [4 /*yield*/, api('h5receiveRedpacketAll', { "taskType": t.taskType, "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~138q6w6"), "sceneid": "JLHBhPageh5" })];
             case 34:
                 res = _t.sent();
                 console.log("".concat(t.title, " \u6253\u5F00\u6210\u529F\uFF0C\u83B7\u5F97"), parseFloat(res.data.result.discount));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                if (!!min.includes(parseFloat(res.data.result.discount))) return [3 /*break*/, 36];
+                return [4 /*yield*/, (0, sendNotify_1.sendNotify)("\u9526\u9CA4\u7EA2\u5305", "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(res.data.result.discount))];
             case 35:
                 _t.sent();
                 _t.label = 36;
-            case 36:
+            case 36: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 37:
+                _t.sent();
+                _t.label = 38;
+            case 38:
                 _k++;
                 return [3 /*break*/, 24];
-            case 37: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)
+            case 39: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)
                 // 打开任务红包
             ];
-            case 38:
-                _t.sent();
-                return [4 /*yield*/, api('taskHomePage', {})];
-            case 39:
-                // 打开任务红包
-                res = _t.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 40:
                 _t.sent();
-                _p = 0, _q = res.data.result.taskInfos;
-                _t.label = 41;
+                return [4 /*yield*/, api('taskHomePage', {})];
             case 41:
-                if (!(_p < _q.length)) return [3 /*break*/, 45];
-                t = _q[_p];
-                if (!(t.innerStatus === 3)) return [3 /*break*/, 44];
-                return [4 /*yield*/, api('h5receiveRedpacketAll', { "taskType": t.taskType, "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~138q6w6"), "sceneid": "JLHBhPageh5" })];
+                // 打开任务红包
+                res = _t.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 42:
+                _t.sent();
+                _p = 0, _q = res.data.result.taskInfos;
+                _t.label = 43;
+            case 43:
+                if (!(_p < _q.length)) return [3 /*break*/, 49];
+                t = _q[_p];
+                if (!(t.innerStatus === 3)) return [3 /*break*/, 48];
+                return [4 /*yield*/, api('h5receiveRedpacketAll', { "taskType": t.taskType, "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~138q6w6"), "sceneid": "JLHBhPageh5" })];
+            case 44:
                 res = _t.sent();
                 console.log("".concat(t.title, " \u6253\u5F00\u6210\u529F\uFF0C\u83B7\u5F97"), parseFloat(res.data.result.discount));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 43:
+                if (!!min.includes(parseFloat(res.data.result.discount))) return [3 /*break*/, 46];
+                return [4 /*yield*/, (0, sendNotify_1.sendNotify)("\u9526\u9CA4\u7EA2\u5305", "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(res.data.result.discount))];
+            case 45:
                 _t.sent();
-                _t.label = 44;
-            case 44:
+                _t.label = 46;
+            case 46: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 47:
+                _t.sent();
+                _t.label = 48;
+            case 48:
                 _p++;
-                return [3 /*break*/, 41];
-            case 45: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)
+                return [3 /*break*/, 43];
+            case 49: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)
                 // 打开助力红包
             ];
-            case 46:
+            case 50:
                 _t.sent();
                 j = 1;
                 return [4 /*yield*/, api('h5activityIndex', { "isjdapp": 1 })];
-            case 47:
+            case 51:
                 res = _t.sent();
                 _r = 0, _s = res.data.result.redpacketConfigFillRewardInfo;
-                _t.label = 48;
-            case 48:
-                if (!(_r < _s.length)) return [3 /*break*/, 54];
+                _t.label = 52;
+            case 52:
+                if (!(_r < _s.length)) return [3 /*break*/, 58];
                 t = _s[_r];
-                if (!(t.packetStatus === 2)) return [3 /*break*/, 49];
+                if (!(t.packetStatus === 2)) return [3 /*break*/, 53];
                 console.log("\u7EA2\u5305".concat(j, "\u5DF2\u62C6\u8FC7\uFF0C\u83B7\u5F97"), t.packetAmount);
-                return [3 /*break*/, 52];
-            case 49:
-                if (!(t.packetStatus === 1)) return [3 /*break*/, 52];
+                return [3 /*break*/, 56];
+            case 53:
+                if (!(t.packetStatus === 1)) return [3 /*break*/, 56];
                 console.log("\u7EA2\u5305".concat(j, "\u53EF\u62C6"));
                 return [4 /*yield*/, api('h5receiveRedpacketAll', { "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~0suodw0"), "sceneid": "JLHBhPageh5" })];
-            case 50:
+            case 54:
                 res = _t.sent();
                 console.log(res.data.biz_msg, parseFloat(res.data.result.discount));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 51:
-                _t.sent();
-                _t.label = 52;
-            case 52:
-                j++;
-                _t.label = 53;
-            case 53:
-                _r++;
-                return [3 /*break*/, 48];
-            case 54: return [3 /*break*/, 56];
             case 55:
+                _t.sent();
+                _t.label = 56;
+            case 56:
+                j++;
+                _t.label = 57;
+            case 57:
+                _r++;
+                return [3 /*break*/, 52];
+            case 58: return [3 /*break*/, 60];
+            case 59:
                 e_2 = _t.sent();
                 console.log(e_2);
-                return [3 /*break*/, 56];
-            case 56:
+                return [3 /*break*/, 60];
+            case 60:
                 _g++;
                 return [3 /*break*/, 20];
-            case 57: return [2 /*return*/];
+            case 61: return [2 /*return*/];
         }
     });
 }); })();

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.obj2str = exports.wechat_app_msg = exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.resetHosts = exports.randomString = exports.exceptCookie = exports.h5st = exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.jdpingou = exports.obj2str = exports.wechat_app_msg = exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.resetHosts = exports.randomString = exports.exceptCookie = exports.h5st = exports.getJxToken = exports.decrypt = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var date_fns_1 = require("date-fns");
@@ -461,4 +461,57 @@ function obj2str(obj) {
     return JSON.stringify(obj);
 }
 exports.obj2str = obj2str;
+function getDevice() {
+    return __awaiter(this, void 0, void 0, function () {
+        var data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, axios_1["default"].get('https://betahub.cn/api/apple/devices/iPhone', {
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'
+                        }
+                    })];
+                case 1:
+                    data = (_a.sent()).data;
+                    data = data[getRandomNumberByRange(0, 16)];
+                    return [2 /*return*/, data.identifier];
+            }
+        });
+    });
+}
+function getVersion(device) {
+    return __awaiter(this, void 0, void 0, function () {
+        var data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://betahub.cn/api/apple/firmwares/".concat(device), {
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36'
+                        }
+                    })];
+                case 1:
+                    data = (_a.sent()).data;
+                    data = data[getRandomNumberByRange(0, data.length)];
+                    return [2 /*return*/, data.firmware_info.version];
+            }
+        });
+    });
+}
+function jdpingou() {
+    return __awaiter(this, void 0, void 0, function () {
+        var device, version;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, getDevice()];
+                case 1:
+                    device = _a.sent();
+                    return [4 /*yield*/, getVersion(device)];
+                case 2:
+                    version = _a.sent();
+                    return [2 /*return*/, "jdpingou;iPhone;5.19.0;".concat(version, ";").concat(randomString(40), ";network/wifi;model/").concat(device, ";appBuild/100833;ADID/;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/0;hasOCPay/0;supportBestPay/0;session/").concat(getRandomNumberByRange(10, 90), ";pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148")];
+            }
+        });
+    });
+}
+exports.jdpingou = jdpingou;
 exports["default"] = USER_AGENT;

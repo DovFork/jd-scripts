@@ -43,20 +43,26 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var path = require("path");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var V3_1 = require("./utils/V3");
+var fs_1 = require("fs");
 var cookie = '', res = '', homePageInfo, jxToken, UserName, index;
-var _a = require('./utils/jd_jxmc.js'), cow = _a.cow, token = _a.token;
+var _a = require('./utils/jd_jxmc.js'), cow = _a.cow, token = _a.token, ua = 'jdpingou;';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, i, lastgettime, food, cowToken;
+    var account, cookiesArr, except, i, _i, account_1, acc, lastgettime, food, cowToken;
     var _a, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                try {
-                    (0, TS_USER_AGENTS_1.resetHosts)();
+                account = [];
+                if ((0, fs_1.existsSync)('./utils/account.json')) {
+                    try {
+                        account = JSON.parse((0, fs_1.readFileSync)('./utils/account.json').toString());
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
                 }
-                catch (e) {
-                }
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
+                return [4 /*yield*/, (0, V3_1.requestAlgo)('00df8', 'jdpingou;')];
             case 1:
                 _c.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -75,10 +81,19 @@ var _a = require('./utils/jd_jxmc.js'), cow = _a.cow, token = _a.token;
                     console.log('已设置跳过');
                     return [3 /*break*/, 9];
                 }
+                ua = 'jdpingou;';
+                for (_i = 0, account_1 = account; _i < account_1.length; _i++) {
+                    acc = account_1[_i];
+                    if ((acc === null || acc === void 0 ? void 0 : acc.pt_pin.includes(UserName)) && (acc === null || acc === void 0 ? void 0 : acc.jdpingou)) {
+                        ua = acc.jdpingou;
+                        console.log('指定UA：', ua);
+                        break;
+                    }
+                }
                 return [4 /*yield*/, token(cookie)];
             case 4:
                 jxToken = _c.sent();
-                return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'activeid,activekey,channel,isgift,isqueryinviteicon,isquerypicksite,jxmc_jstoken,phoneid,sceneid,timestamp', { isgift: 1, isquerypicksite: 1, isqueryinviteicon: 1 })];
+                return [4 /*yield*/, api('queryservice/GetHomePageInfo', 'activeid,activekey,channel,isgift,isqueryinviteicon,isquerypicksite,isregionflag,jxmc_jstoken,phoneid,sceneid,timestamp', { isgift: 1, isquerypicksite: 1, isqueryinviteicon: 1, isregionflag: 0, activeid: null })];
             case 5:
                 homePageInfo = _c.sent();
                 lastgettime = void 0;
@@ -99,14 +114,14 @@ var _a = require('./utils/jd_jxmc.js'), cow = _a.cow, token = _a.token;
                 return [4 /*yield*/, cow(lastgettime)];
             case 6:
                 cowToken = _c.sent();
-                return [4 /*yield*/, api('operservice/GetCoin', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,token', { token: cowToken })];
+                return [4 /*yield*/, api('operservice/GetCoin', 'activeid,activekey,channel,commtype,jxmc_jstoken,phoneid,sceneid,timestamp,token', { token: cowToken, commtype: 0, activeid: 'jxmc_active_0001' })];
             case 7:
                 res = _c.sent();
                 if (res.ret === 0)
                     console.log('收牛牛:', res.data.addcoin);
                 else
                     console.log('收牛牛:', res);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 8:
                 _c.sent();
                 _c.label = 9;
@@ -119,36 +134,43 @@ var _a = require('./utils/jd_jxmc.js'), cow = _a.cow, token = _a.token;
 }); })();
 function api(fn, stk, params) {
     return __awaiter(this, void 0, void 0, function () {
-        var url, data, e_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var url, t, _i, _a, _b, key, value, data, e_1;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    if (['GetUserTaskStatusList', 'DoTask', 'Award'].indexOf(fn) > -1) {
-                        url = (0, TS_USER_AGENTS_1.h5st)("https://m.jingxi.com/newtasksys/newtasksys_front/".concat(fn, "?_=").concat(Date.now(), "&source=jxmc&bizCode=jxmc&_stk=").concat(encodeURIComponent(stk), "&_ste=1&sceneval=2"), stk, params, 10028);
+                    t = [
+                        { key: 'activekey', value: 'null' },
+                        { key: 'channel', value: '7' },
+                        { key: 'jxmc_jstoken', value: jxToken.farm_jstoken },
+                        { key: 'phoneid', value: jxToken.phoneid },
+                        { key: 'sceneid', value: '1001' },
+                        { key: 'timestamp', value: jxToken.timestamp.toString() },
+                    ];
+                    url = "https://m.jingxi.com/jxmc/".concat(fn, "?channel=7&sceneid=1001&activekey=null&jxmc_jstoken=").concat(jxToken['farm_jstoken'], "&timestamp=").concat(jxToken.timestamp, "&phoneid=").concat(jxToken.phoneid, "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=jsonpCBK").concat((0, TS_USER_AGENTS_1.randomWord)(), "&g_ty=ls");
+                    for (_i = 0, _a = Object.entries(params); _i < _a.length; _i++) {
+                        _b = _a[_i], key = _b[0], value = _b[1];
+                        t.push({ key: key, value: value });
+                        url += "&".concat(key, "=").concat(value);
                     }
-                    else {
-                        url = (0, TS_USER_AGENTS_1.h5st)("https://m.jingxi.com/jxmc/".concat(fn, "?channel=7&sceneid=1001&activeid=jxmc_active_0001&activekey=null&jxmc_jstoken=").concat(jxToken['farm_jstoken'], "&timestamp=").concat(jxToken['timestamp'], "&phoneid=").concat(jxToken['phoneid'], "&_stk=").concat(encodeURIComponent(stk), "&_ste=1&_=").concat(Date.now() + 2, "&sceneval=2"), stk, params, 10028);
-                    }
-                    _a.label = 1;
+                    url += "&h5st=".concat(encodeURIComponent((0, V3_1.geth5st)(t, '00df8')));
+                    _c.label = 1;
                 case 1:
-                    _a.trys.push([1, 3, , 4]);
+                    _c.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1["default"].get(url, {
                             headers: {
                                 'Host': 'm.jingxi.com',
                                 'Accept': '*/*',
                                 'Connection': 'keep-alive',
-                                'User-Agent': "jdpingou;iPhone;5.9.0;12.4.1;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";network/wifi;"),
+                                'User-Agent': ua,
                                 'Referer': 'https://st.jingxi.com/pingou/jxmc/index.html',
                                 'Cookie': cookie
                             }
                         })];
                 case 2:
-                    data = (_a.sent()).data;
-                    if (typeof data === 'string')
-                        return [2 /*return*/, JSON.parse(data.replace(/jsonpCBK.?\(/, '').split('\n')[0])];
-                    return [2 /*return*/, data];
+                    data = (_c.sent()).data;
+                    return [2 /*return*/, JSON.parse(data.replace(/jsonpCBK.?\(/, '').split('\n')[0])];
                 case 3:
-                    e_1 = _a.sent();
+                    e_1 = _c.sent();
                     console.log('api Error:', e_1);
                     return [2 /*return*/, {}];
                 case 4: return [2 /*return*/];

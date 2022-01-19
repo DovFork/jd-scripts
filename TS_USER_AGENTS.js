@@ -342,7 +342,7 @@ function randomNumString(e) {
 }
 exports.randomNumString = randomNumString;
 function randomWord() {
-    var t = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', a = t.length;
+    var t = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', a = t.length;
     return t.charAt(Math.floor(Math.random() * a));
 }
 exports.randomWord = randomWord;

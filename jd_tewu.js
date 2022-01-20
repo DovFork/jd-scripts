@@ -137,7 +137,7 @@ var cookie = '', UserName = '', res = '', shareCodes = [], shareCodesSelf = [], 
                 _c++;
                 return [3 /*break*/, 6];
             case 17:
-                if (!(new Date().getHours() === 23)) return [3 /*break*/, 23];
+                if (!(new Date().getHours() === 22)) return [3 /*break*/, 23];
                 return [4 /*yield*/, api('superBrandSecondFloorMainPage', { "source": "secondfloor" })];
             case 18:
                 res = _2.sent();
@@ -164,24 +164,19 @@ var cookie = '', UserName = '', res = '', shareCodes = [], shareCodesSelf = [], 
             case 23:
                 _i++;
                 return [3 /*break*/, 2];
-            case 24:
-                console.log('开始助力...');
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10000)];
+            case 24: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tewu')];
             case 25:
-                _2.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tewu')];
-            case 26:
                 shareCodesHW = _2.sent();
                 shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
                 full = [];
                 _e = 0, _f = cookiesArr.entries();
-                _2.label = 27;
-            case 27:
-                if (!(_e < _f.length)) return [3 /*break*/, 33];
+                _2.label = 26;
+            case 26:
+                if (!(_e < _f.length)) return [3 /*break*/, 32];
                 _g = _f[_e], index = _g[0], value = _g[1];
                 cookie = value;
                 return [4 /*yield*/, api('superBrandTaskList', { "source": "secondfloor", "activityId": activityId, "assistInfoFlag": 1 })];
-            case 28:
+            case 27:
                 res = _2.sent();
                 mine = '';
                 for (_h = 0, _j = res.data.result.taskList; _h < _j.length; _h++) {
@@ -229,23 +224,23 @@ var cookie = '', UserName = '', res = '', shareCodes = [], shareCodesSelf = [], 
                     });
                 };
                 _k = 0, shareCodes_1 = shareCodes;
-                _2.label = 29;
-            case 29:
-                if (!(_k < shareCodes_1.length)) return [3 /*break*/, 32];
+                _2.label = 28;
+            case 28:
+                if (!(_k < shareCodes_1.length)) return [3 /*break*/, 31];
                 code = shareCodes_1[_k];
                 return [5 /*yield**/, _loop_1(code)];
-            case 30:
+            case 29:
                 state_1 = _2.sent();
                 if (state_1 === "break")
-                    return [3 /*break*/, 32];
-                _2.label = 31;
-            case 31:
+                    return [3 /*break*/, 31];
+                _2.label = 30;
+            case 30:
                 _k++;
-                return [3 /*break*/, 29];
-            case 32:
+                return [3 /*break*/, 28];
+            case 31:
                 _e++;
-                return [3 /*break*/, 27];
-            case 33: return [2 /*return*/];
+                return [3 /*break*/, 26];
+            case 32: return [2 /*return*/];
         }
     });
 }); })();

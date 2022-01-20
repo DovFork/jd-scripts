@@ -62,26 +62,26 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = ['bdf489af86e5021575040fff
 var HW_Priority = true;
 process.env.HW_Priority === 'false' ? HW_Priority = false : '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, HW_Random, _i, shareCode_1, code, i, _a, _b, t, sqactive, _c, _d, t, _e, _f, t, e_1;
-    return __generator(this, function (_g) {
-        switch (_g.label) {
+    var cookiesArr, i, HW_Random, _i, shareCode_1, code, i, _a, _b, t, _c, _d, t, e_1;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requestAlgo)()];
             case 1:
-                _g.sent();
+                _e.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 2:
-                cookiesArr = _g.sent();
+                cookiesArr = _e.sent();
                 cookie = cookiesArr[0];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F71 ".concat(UserName, "\n"));
                 return [4 /*yield*/, api('query', 'signhb_source,smp,type', {})];
             case 3:
-                res = _g.sent();
+                res = _e.sent();
                 console.log('助力码:', res.smp);
                 shareCodeSelf.push(res.smp);
                 console.log('内部助力:', shareCodeSelf);
                 i = 0;
-                _g.label = 4;
+                _e.label = 4;
             case 4:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 10];
                 HW_Random = shareCodeHW[Math.floor(Math.random() * shareCodeHW.length)];
@@ -94,21 +94,21 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 _i = 0, shareCode_1 = shareCode;
-                _g.label = 5;
+                _e.label = 5;
             case 5:
                 if (!(_i < shareCode_1.length)) return [3 /*break*/, 9];
                 code = shareCode_1[_i];
                 console.log("".concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
                 return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: code, type: 1 })];
             case 6:
-                res = _g.sent();
+                res = _e.sent();
                 console.log('助力码:', res.smp);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 7:
-                _g.sent();
+                _e.sent();
                 if (res.autosign_sendhb !== '0' || res.todaysign === 1)
                     return [3 /*break*/, 9];
-                _g.label = 8;
+                _e.label = 8;
             case 8:
                 _i++;
                 return [3 /*break*/, 5];
@@ -117,20 +117,20 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 return [3 /*break*/, 4];
             case 10:
                 i = 0;
-                _g.label = 11;
+                _e.label = 11;
             case 11:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 38];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 32];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
-                _g.label = 12;
+                _e.label = 12;
             case 12:
-                _g.trys.push([12, 34, , 35]);
+                _e.trys.push([12, 28, , 29]);
                 return [4 /*yield*/, api('query', 'ispp,signhb_source,smp,tk,type', { signhb_source: 5, smp: '', ispp: 0, tk: '', type: 1 })];
             case 13:
                 // 宝箱任务
-                res = _g.sent();
+                res = _e.sent();
                 try {
                     console.log(res.invitesign);
                     console.log(parseFloat(res.invitesign.getmoney));
@@ -140,43 +140,12 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 14:
-                _g.sent();
-                return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })
-                    /*
-                    // 日历
-                    let rili: number = res.riliremind_task.status
-                      "riliremind_task":
-                      {
-                          "domax": 0,
-                          "forwardAlarmTime": "",
-                          "getmoney": "0",
-                          "getniu": "",
-                          "rank": "",
-                          "remindpopTitle": "",
-                          "remindtime": "",
-                          "status": 1,
-                          "task": "",
-                          "taskLink": "",
-                          "taskbtnn": "",
-                          "taskbtny": "",
-                          "taskname": "",
-                          "url": ""
-                      }
-                    console.log(res.riliremind_task.getmoney)
-                    if (rili === 1) {
-                      res = await api(`https://m.jingxi.com/fanxiantask/signhb/dotask?task=rili_remind&signhb_source=5&ispp=0&sqactive=&tk=&_stk=ispp%2Csignhb_source%2Csqactive%2Ctask%2Ctk&_ste=1&_=${Date.now()}&sceneval=2`, 'ispp,signhb_source,sqactive,task,tk')
-                      if (res.ret === 0) {
-                        console.log('日历任务完成')
-                      } else {
-                        console.log('日历任务失败', res)
-                      }
-                    }
-                    */
-                ];
+                _e.sent();
+                return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
             case 15:
-                res = _g.sent();
+                res = _e.sent();
                 _a = 0, _b = res.commontask || [];
-                _g.label = 16;
+                _e.label = 16;
             case 16:
                 if (!(_a < _b.length)) return [3 /*break*/, 20];
                 t = _b[_a];
@@ -184,7 +153,7 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 console.log(t.taskname);
                 return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/dotask?task=".concat(t.task, "&signhb_source=5&_=").concat(Date.now(), "&sceneval=2"), '')];
             case 17:
-                res = _g.sent();
+                res = _e.sent();
                 if (res.ret === 0) {
                     console.log('任务完成，获得：', res.sendhb);
                 }
@@ -193,79 +162,56 @@ process.env.HW_Priority === 'false' ? HW_Priority = false : '';
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 18:
-                _g.sent();
-                _g.label = 19;
+                _e.sent();
+                _e.label = 19;
             case 19:
                 _a++;
                 return [3 /*break*/, 16];
-            case 20: return [4 /*yield*/, api('query', 'ispp,signhb_source,smp,tk,type', { type: 0, signhb_source: 5, smp: '', ispp: 1, tk: '' })];
+            case 20: return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
             case 21:
-                // 喜豆任务
-                res = _g.sent();
-                sqactive = res.sqactive;
-                _c = 0, _d = res.commontask;
-                _g.label = 22;
+                // 开宝箱
+                res = _e.sent();
+                if (!(res.baoxiang_left != 0)) return [3 /*break*/, 26];
+                console.log(res.baoxiang_stage);
+                _c = 0, _d = res.baoxiang_stage;
+                _e.label = 22;
             case 22:
                 if (!(_c < _d.length)) return [3 /*break*/, 26];
                 t = _d[_c];
                 if (!(t.status === 1)) return [3 /*break*/, 25];
-                console.log('喜豆任务：', t.taskbtnn);
-                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/dotask?task=".concat(t.task, "&signhb_source=5&ispp=1&sqactive=").concat(sqactive, "&tk=&_=").concat(Date.now(), "&sceneval=2"), '')];
+                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/bxdraw?_=".concat(Date.now(), "&sceneval=2"), '')];
             case 23:
-                res = _g.sent();
-                console.log('任务完成，获得：', res.sendxd);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                res = _e.sent();
+                console.log('开宝箱，获得：', res.sendhb);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 24:
-                _g.sent();
-                _g.label = 25;
+                _e.sent();
+                _e.label = 25;
             case 25:
                 _c++;
                 return [3 /*break*/, 22];
-            case 26: return [4 /*yield*/, api('query', 'signhb_source,smp,type', { signhb_source: 5, smp: '', type: 1 })];
+            case 26: return [4 /*yield*/, doubleSign()];
             case 27:
-                // 开宝箱
-                res = _g.sent();
-                if (!(res.baoxiang_left != 0)) return [3 /*break*/, 32];
-                console.log(res.baoxiang_stage);
-                _e = 0, _f = res.baoxiang_stage;
-                _g.label = 28;
-            case 28:
-                if (!(_e < _f.length)) return [3 /*break*/, 32];
-                t = _f[_e];
-                if (!(t.status === 1)) return [3 /*break*/, 31];
-                return [4 /*yield*/, api("https://m.jingxi.com/fanxiantask/signhb/bxdraw?_=".concat(Date.now(), "&sceneval=2"), '')];
-            case 29:
-                res = _g.sent();
-                console.log('开宝箱，获得：', res.sendhb);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 30:
-                _g.sent();
-                _g.label = 31;
-            case 31:
-                _e++;
-                return [3 /*break*/, 28];
-            case 32: return [4 /*yield*/, doubleSign()];
-            case 33:
-                res = _g.sent();
+                res = _e.sent();
                 if (res.retCode === 0) {
                     console.log('双签成功');
                 }
                 else {
                     console.log('双签失败', res);
                 }
-                return [3 /*break*/, 35];
-            case 34:
-                e_1 = _g.sent();
+                return [3 /*break*/, 29];
+            case 28:
+                e_1 = _e.sent();
                 console.log(e_1);
-                return [3 /*break*/, 35];
-            case 35: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 36:
-                _g.sent();
-                _g.label = 37;
-            case 37:
+                return [3 /*break*/, 29];
+            case 29: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 30:
+                _e.sent();
+                _e.label = 31;
+            case 31:
                 i++;
                 return [3 /*break*/, 11];
-            case 38: return [2 /*return*/];
+            case 32: return [2 /*return*/];
         }
     });
 }); })();

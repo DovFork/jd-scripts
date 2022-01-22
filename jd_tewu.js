@@ -50,10 +50,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
+var sendNotify_1 = require("./sendNotify");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', UserName = '', res = '', shareCodes = [], shareCodesSelf = [], shareCodesHW = [];
+var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCodesSelf = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, activityId, _i, _a, _b, index, value, encryptProjectId, _c, _d, t, tp, e_1, userStarNum, i, full, _e, _f, _g, index, value, mine, _h, _j, t, _loop_1, _k, shareCodes_1, code, state_1;
+    var cookiesArr, activityId, _i, _a, _b, index, value, encryptProjectId, _c, _d, t, tp, e_1, sum, userStarNum, i, full, _e, _f, _g, index, value, mine, _h, _j, t, _loop_1, _k, shareCodes_1, code, state_1;
     var _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1;
     return __generator(this, function (_2) {
         switch (_2.label) {
@@ -63,7 +64,7 @@ var cookie = '', UserName = '', res = '', shareCodes = [], shareCodesSelf = [], 
                 _i = 0, _a = cookiesArr.entries();
                 _2.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 24];
+                if (!(_i < _a.length)) return [3 /*break*/, 25];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
@@ -137,7 +138,8 @@ var cookie = '', UserName = '', res = '', shareCodes = [], shareCodesSelf = [], 
                 _c++;
                 return [3 /*break*/, 6];
             case 17:
-                if (!(new Date().getHours() === 22)) return [3 /*break*/, 23];
+                if (!(new Date().getHours() === 22)) return [3 /*break*/, 24];
+                sum = 0;
                 return [4 /*yield*/, api('superBrandSecondFloorMainPage', { "source": "secondfloor" })];
             case 18:
                 res = _2.sent();
@@ -150,9 +152,9 @@ var cookie = '', UserName = '', res = '', shareCodes = [], shareCodesSelf = [], 
                 return [4 /*yield*/, api('superBrandTaskLottery', { "source": "secondfloor", "activityId": activityId })];
             case 20:
                 res = _2.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
                 if ((_0 = (_z = (_y = res.data.result) === null || _y === void 0 ? void 0 : _y.rewardComponent) === null || _z === void 0 ? void 0 : _z.beanList) === null || _0 === void 0 ? void 0 : _0.length) {
                     console.log('抽奖获得京豆：', res.data.result.rewardComponent.beanList[0].quantity);
+                    sum += res.data.result.rewardComponent.beanList[0].quantity;
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 21:
@@ -162,21 +164,27 @@ var cookie = '', UserName = '', res = '', shareCodes = [], shareCodesSelf = [], 
                 i++;
                 return [3 /*break*/, 19];
             case 23:
+                message += "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n\u62BD\u5956").concat(userStarNum, "\u6B21\uFF0C\u83B7\u5F97\u4EAC\u8C46").concat(sum, "\n\n");
+                _2.label = 24;
+            case 24:
                 _i++;
                 return [3 /*break*/, 2];
-            case 24: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tewu')];
-            case 25:
+            case 25: return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东-下拉', message)];
+            case 26:
+                _2.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tewu')];
+            case 27:
                 shareCodesHW = _2.sent();
                 shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
                 full = [];
                 _e = 0, _f = cookiesArr.entries();
-                _2.label = 26;
-            case 26:
-                if (!(_e < _f.length)) return [3 /*break*/, 32];
+                _2.label = 28;
+            case 28:
+                if (!(_e < _f.length)) return [3 /*break*/, 34];
                 _g = _f[_e], index = _g[0], value = _g[1];
                 cookie = value;
                 return [4 /*yield*/, api('superBrandTaskList', { "source": "secondfloor", "activityId": activityId, "assistInfoFlag": 1 })];
-            case 27:
+            case 29:
                 res = _2.sent();
                 mine = '';
                 for (_h = 0, _j = res.data.result.taskList; _h < _j.length; _h++) {
@@ -224,23 +232,23 @@ var cookie = '', UserName = '', res = '', shareCodes = [], shareCodesSelf = [], 
                     });
                 };
                 _k = 0, shareCodes_1 = shareCodes;
-                _2.label = 28;
-            case 28:
-                if (!(_k < shareCodes_1.length)) return [3 /*break*/, 31];
-                code = shareCodes_1[_k];
-                return [5 /*yield**/, _loop_1(code)];
-            case 29:
-                state_1 = _2.sent();
-                if (state_1 === "break")
-                    return [3 /*break*/, 31];
                 _2.label = 30;
             case 30:
-                _k++;
-                return [3 /*break*/, 28];
+                if (!(_k < shareCodes_1.length)) return [3 /*break*/, 33];
+                code = shareCodes_1[_k];
+                return [5 /*yield**/, _loop_1(code)];
             case 31:
+                state_1 = _2.sent();
+                if (state_1 === "break")
+                    return [3 /*break*/, 33];
+                _2.label = 32;
+            case 32:
+                _k++;
+                return [3 /*break*/, 30];
+            case 33:
                 _e++;
-                return [3 /*break*/, 26];
-            case 32: return [2 /*return*/];
+                return [3 /*break*/, 28];
+            case 34: return [2 /*return*/];
         }
     });
 }); })();

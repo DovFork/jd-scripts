@@ -279,7 +279,8 @@ function h5st(url, stk, params, appId) {
     return url;
 }
 exports.h5st = h5st;
-function getJxToken(cookie) {
+function getJxToken(cookie, phoneId) {
+    if (phoneId === void 0) { phoneId = ''; }
     function generateStr(input) {
         var src = 'abcdefghijklmnopqrstuvwxyz1234567890';
         var res = '';
@@ -288,7 +289,8 @@ function getJxToken(cookie) {
         }
         return res;
     }
-    var phoneId = generateStr(40);
+    if (!phoneId)
+        phoneId = generateStr(40);
     var timestamp = Date.now().toString();
     var nickname = cookie.match(/pt_pin=([^;]*)/)[1];
     var jstoken = ts_md5_1.Md5.hashStr('' + decodeURIComponent(nickname) + timestamp + phoneId + 'tPOamqCuk9NLgVPAljUyIHcPRmKlVxDy');

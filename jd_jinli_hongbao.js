@@ -3,7 +3,6 @@
  * 京东-锦鲤红包
  * 做任务、助力、开红包
  * cron: 1 0,6,18 * * *
- * 固定log，不知道什么时候会gg
  * CK1助力顺序
  * HW.ts -> 内部
  */
@@ -124,7 +123,7 @@ var min = [0.02, 0.12, 0.3, 0.6, 0.7, 0.8, 1, 2];
                 if (!(_f < shareCodes_1.length)) return [3 /*break*/, 18];
                 code = shareCodes_1[_f];
                 if (!!fullCode.includes(code)) return [3 /*break*/, 16];
-                console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
+                console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code, " ").concat(shareCodesSelf.includes(code) ? '*内部*' : ''));
                 return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, "random": (0, TS_USER_AGENTS_1.getRandomNumberByRange)(36135846, 74613584), "log": "".concat(Date.now(), "~0gga2ik"), "sceneid": "JLHBhPageh5" })];
             case 14:
                 res = _t.sent();

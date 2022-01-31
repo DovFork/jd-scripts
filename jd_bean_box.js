@@ -40,30 +40,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index, uuid;
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, times, j, j, _i, _a, t, e_1, i, _b, shareCode_1, code;
-    var _c, _d, _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    var cookiesArr, i, times, j, j, _i, _a, t, e_1;
+    var _b, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _f.sent();
+                cookiesArr = _d.sent();
                 i = 0;
-                _f.label = 2;
+                _d.label = 2;
             case 2:
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 25];
                 cookie = cookiesArr[i];
@@ -72,17 +63,17 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, initForTurntableFarm()];
             case 3:
-                res = _f.sent();
+                res = _d.sent();
                 times = res.remainLotteryTimes;
                 console.log('剩余抽奖机会:', times);
                 j = 0;
-                _f.label = 4;
+                _d.label = 4;
             case 4:
                 if (!(j < times)) return [3 /*break*/, 8];
                 console.log('开始抽奖...');
                 return [4 /*yield*/, initForTurntableFarm(1)];
             case 5:
-                res = _f.sent();
+                res = _d.sent();
                 if (res.code === '0') {
                     if (res.type === 'thanks') {
                         console.log('抽奖成功，获得：狗屁');
@@ -96,26 +87,26 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 6:
-                _f.sent();
-                _f.label = 7;
+                _d.sent();
+                _d.label = 7;
             case 7:
                 j++;
                 return [3 /*break*/, 4];
             case 8:
                 uuid = randomString(40);
                 j = 0;
-                _f.label = 9;
+                _d.label = 9;
             case 9:
                 if (!(j < 2)) return [3 /*break*/, 24];
                 console.log("Round:".concat(j + 1));
                 return [4 /*yield*/, api('beanTaskList', { "viewChannel": "AppHome" })];
             case 10:
-                res = _f.sent();
-                _f.label = 11;
+                res = _d.sent();
+                _d.label = 11;
             case 11:
-                _f.trys.push([11, 20, , 21]);
+                _d.trys.push([11, 20, , 21]);
                 _i = 0, _a = res.data.taskInfos;
-                _f.label = 12;
+                _d.label = 12;
             case 12:
                 if (!(_i < _a.length)) return [3 /*break*/, 19];
                 t = _a[_i];
@@ -126,82 +117,44 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                         "taskToken": t.subTaskVOS[0].taskToken
                     })];
             case 13:
-                res = _f.sent();
-                ((_c = res.data) === null || _c === void 0 ? void 0 : _c.bizMsg) ? console.log(res.data.bizMsg) : console.log(res);
+                res = _d.sent();
+                ((_b = res.data) === null || _b === void 0 ? void 0 : _b.bizMsg) ? console.log(res.data.bizMsg) : console.log(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.waitDuration * 1000 || 2000)];
             case 14:
-                _f.sent();
+                _d.sent();
                 if (!(t.taskType !== 3)) return [3 /*break*/, 16];
                 return [4 /*yield*/, api('beanDoTask', {
                         "actionType": 0,
                         "taskToken": t.subTaskVOS[0].taskToken
                     })];
             case 15:
-                res = _f.sent();
-                if ((_d = res.data) === null || _d === void 0 ? void 0 : _d.bizMsg)
+                res = _d.sent();
+                if ((_c = res.data) === null || _c === void 0 ? void 0 : _c.bizMsg)
                     console.log(res.data.bizMsg);
-                _f.label = 16;
+                _d.label = 16;
             case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 17:
-                _f.sent();
-                _f.label = 18;
+                _d.sent();
+                _d.label = 18;
             case 18:
                 _i++;
                 return [3 /*break*/, 12];
             case 19: return [3 /*break*/, 21];
             case 20:
-                e_1 = _f.sent();
+                e_1 = _d.sent();
                 console.log('Error!', e_1);
                 return [3 /*break*/, 21];
             case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 22:
-                _f.sent();
-                _f.label = 23;
+                _d.sent();
+                _d.label = 23;
             case 23:
                 j++;
                 return [3 /*break*/, 9];
             case 24:
                 i++;
                 return [3 /*break*/, 2];
-            case 25:
-                console.log('内部助力', shareCodeSelf);
-                i = 0;
-                _f.label = 26;
-            case 26:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 34];
-                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 28];
-                return [4 /*yield*/, getShareCodeHW()];
-            case 27:
-                _f.sent();
-                _f.label = 28;
-            case 28:
-                shareCode = __spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true);
-                uuid = randomString(40);
-                cookie = cookiesArr[i];
-                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                _b = 0, shareCode_1 = shareCode;
-                _f.label = 29;
-            case 29:
-                if (!(_b < shareCode_1.length)) return [3 /*break*/, 33];
-                code = shareCode_1[_b];
-                console.log("".concat(UserName, " \u53BB\u52A9\u529B ").concat(code.shareCode));
-                return [4 /*yield*/, qjd('signGroupHelp', { "activeType": 2, "groupCode": code.groupCode, "shareCode": code.shareCode, "activeId": code.activeId, "source": "guest" })];
-            case 30:
-                res = _f.sent();
-                console.log((_e = res.data) === null || _e === void 0 ? void 0 : _e.helpToast);
-                if (res.data.respCode === 'SG209')
-                    return [3 /*break*/, 33];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 31:
-                _f.sent();
-                _f.label = 32;
-            case 32:
-                _b++;
-                return [3 /*break*/, 29];
-            case 33:
-                i++;
-                return [3 /*break*/, 26];
-            case 34: return [2 /*return*/];
+            case 25: return [2 /*return*/];
         }
     });
 }); })();

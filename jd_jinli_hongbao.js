@@ -111,7 +111,7 @@ var min = [0.02, 0.12, 0.3, 0.6, 0.7, 0.8, 1, 2];
                 shareCodesHW = _t.sent();
                 _t.label = 12;
             case 12:
-                if (index === 0) {
+                if (index === 0 || cookiesArr.length === 2) { // 红包1需2个助力
                     shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
                 }
                 else {

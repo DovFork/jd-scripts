@@ -1,9 +1,7 @@
 "use strict";
 /**
- * 网络测试
- * 1、测试是否能访问助力池
- * 2、助力获取失败、没有统计到运行次数，很大可能因为访问api失败
- * 3、如果出现失败，自行更换设备dns
+ * jd_api_test
+ * cron: * * * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -43,82 +41,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var date_fns_1 = require("date-fns");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var cookie = '', UserName, index;
+var USER_AGENT = "jdapp;android;10.0.2;10;network/wifi;Mozilla/5.0 (Linux; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045230 Mobile Safari/537.36";
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cars, db, num, times, i;
+    var cookiesArr, i;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                console.log("\n==================\u811A\u672C\u6267\u884C- \u5317\u4EAC\u65F6\u95F4(UTC+8)\uFF1A".concat((0, date_fns_1.format)(Date.now(), 'yyyy-MM-dd HH:mm:ss'), "\n\n"));
-                cars = ['bean', 'farm', 'health', 'jxfactory', 'pet'];
-                db = cars[Math.floor(Math.random() * cars.length)];
-                num = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(5, 20);
-                console.log("\u672C\u6B21\u968F\u673A\u9009\u62E9".concat(db, "\u83B7\u53D6").concat(num, "\u4E2A\u968F\u673A\u52A9\u529B\u7801"));
-                return [4 /*yield*/, car(db, num)];
+            case 0: return [4 /*yield*/, requireConfig()];
             case 1:
-                _a.sent();
-                times = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(3, 6);
-                console.log("\u5F00\u59CB\u6D4B\u8BD5".concat(times, "\u6B21\u4E0A\u62A5"));
-                i = 0;
-                _a.label = 2;
-            case 2:
-                if (!(i < times)) return [3 /*break*/, 6];
-                console.log("\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u6D4B\u8BD5"));
-                return [4 /*yield*/, runTimes()];
-            case 3:
-                _a.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)((0, TS_USER_AGENTS_1.getRandomNumberByRange)(2000, 6000))];
-            case 4:
-                _a.sent();
-                _a.label = 5;
-            case 5:
-                i++;
-                return [3 /*break*/, 2];
-            case 6: return [2 /*return*/];
+                cookiesArr = _a.sent();
+                for (i = 0; i < cookiesArr.length; i++) {
+                    cookie = cookiesArr[i];
+                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                    index = i + 1;
+                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
+                    axios_1["default"].get('https://plogin.m.jd.com/cgi-bin/ml/mlogout?appid=300&returnurl=https%3A%2F%2Fm.jd.com%2F', {
+                        headers: {
+                            'authority': 'plogin.m.jd.com',
+                            "User-Agent": USER_AGENT,
+                            'cookie': cookie
+                        }
+                    }).then(function (res) {
+                        console.log(1);
+                    })["catch"](function (e) {
+                        console.log(0);
+                    });
+                }
+                return [2 /*return*/];
         }
     });
 }); })();
-function car(db, num) {
+function requireConfig(index) {
+    if (index === void 0) { index = -1; }
     return __awaiter(this, void 0, void 0, function () {
-        var data, e_1;
+        var cookiesArr, jdCookieNode;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/".concat(db, "/").concat(num))];
-                case 1:
-                    data = (_a.sent()).data;
-                    console.log('获取助力池成功');
-                    console.log(data);
-                    return [3 /*break*/, 3];
-                case 2:
-                    e_1 = _a.sent();
-                    console.log("\u83B7\u53D6\u52A9\u529B\u6C60\u5931\u8D25:", e_1);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+            cookiesArr = [];
+            jdCookieNode = require('./jdCookie.js');
+            Object.keys(jdCookieNode).forEach(function (item) {
+                if (jdCookieNode[item]) {
+                    cookiesArr.push(jdCookieNode[item]);
+                }
+            });
+            console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
+            if (index != -1) {
+                return [2 /*return*/, [cookiesArr[index]]];
             }
-        });
-    });
-}
-function runTimes() {
-    return __awaiter(this, void 0, void 0, function () {
-        var data, e_2;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/runTimes?activityId=bean&sharecode=123")];
-                case 1:
-                    data = (_a.sent()).data;
-                    console.log('测试成功', data);
-                    return [3 /*break*/, 3];
-                case 2:
-                    e_2 = _a.sent();
-                    console.log('测试失败', e_2);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+            else {
+                return [2 /*return*/, cookiesArr];
             }
+            return [2 /*return*/];
         });
     });
 }

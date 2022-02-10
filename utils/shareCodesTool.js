@@ -45,7 +45,7 @@ function bean(cookie) {
         var data;
         return __generator(this, function (_d) {
             switch (_d.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action', "functionId=plantBeanIndex&body=".concat(escape(JSON.stringify({ version: "9.0.0.1", "monitor_source": "plant_app_plant_index", "monitor_refer": "" })), "&appid=ld&client=apple&area=5_274_49707_49973&build=167283&clientVersion=9.1.0"), {
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action', "functionId=plantBeanIndex&body=".concat(decodeURIComponent(JSON.stringify({ version: "9.0.0.1", "monitor_source": "plant_app_plant_index", "monitor_refer": "" })), "&appid=ld&client=apple&area=5_274_49707_49973&build=167283&clientVersion=9.1.0"), {
                         headers: {
                             Cookie: cookie,
                             Host: "api.m.jd.com",
@@ -116,12 +116,14 @@ function pet(cookie) {
         var data;
         return __generator(this, function (_c) {
             switch (_c.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=initPetTown", "body=".concat(escape(JSON.stringify({ version: 2, channel: "app" })), "&appid=wh5&loginWQBiz=pet-town&clientVersion=9.0.4"), {
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action', "functionId=initPetTown&body=".concat(JSON.stringify({ "version": 1 }), "&appid=wh5&client=apple&clientVersion=10.3.6&build=167963&rfs=0000"), {
                         headers: {
-                            'Cookie': cookie,
-                            "User-Agent": TS_USER_AGENTS_1["default"],
-                            'Host': "api.m.jd.com",
-                            "Content-Type": "application/x-www-form-urlencoded"
+                            'Host': 'api.m.jd.com',
+                            'Origin': 'https://h5.m.jd.com',
+                            'User-Agent': TS_USER_AGENTS_1["default"],
+                            'Referer': 'https://h5.m.jd.com/',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Cookie': cookie
                         }
                     })];
                 case 1:

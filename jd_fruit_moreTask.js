@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * 农场补充任务
+ * cron: 0 11,12 * * *
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,87 +40,74 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-/**
- * 农场补充任务
- * cron: 0 11,12 * * *
- */
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var dotenv = require("dotenv");
-var notify = require('./sendNotify');
-dotenv.config();
-var cookie = '', res = '';
-var UserName, index;
+var cookie = '', res = '', UserName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, _a, isLogin, nickName, k, _i, _b, t;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var cookiesArr, _i, _a, _b, index, value, k, _c, _d, t;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _c.sent();
-                i = 0;
-                _c.label = 2;
+                cookiesArr = _e.sent();
+                _i = 0, _a = cookiesArr.entries();
+                _e.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 17];
-                cookie = cookiesArr[i];
+                if (!(_i < _a.length)) return [3 /*break*/, 16];
+                _b = _a[_i], index = _b[0], value = _b[1];
+                cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                index = i + 1;
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
-            case 3:
-                _a = _c.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
-                if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\uFF1A").concat(nickName || UserName));
-                    return [3 /*break*/, 16];
-                }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(nickName || UserName, "\n"));
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 k = 0;
-                _c.label = 4;
-            case 4:
-                if (!(k < 3)) return [3 /*break*/, 16];
+                _e.label = 3;
+            case 3:
+                if (!(k < 3)) return [3 /*break*/, 15];
                 console.log("round:".concat(k + 1));
                 return [4 /*yield*/, api("taskInitForFarm", { "version": 14, "channel": 1, "babelChannel": "120" })];
+            case 4:
+                res = _e.sent();
+                _c = 0, _d = res.gotBrowseTaskAdInit.userBrowseTaskAds;
+                _e.label = 5;
             case 5:
-                res = _c.sent();
-                _i = 0, _b = res.gotBrowseTaskAdInit.userBrowseTaskAds;
-                _c.label = 6;
-            case 6:
-                if (!(_i < _b.length)) return [3 /*break*/, 13];
-                t = _b[_i];
-                if (!(t.limit !== t.hadGotTimes)) return [3 /*break*/, 12];
+                if (!(_c < _d.length)) return [3 /*break*/, 12];
+                t = _d[_c];
+                if (!(t.limit !== t.hadGotTimes)) return [3 /*break*/, 11];
                 if (!(t.hadFinishedTimes !== 0)) return [3 /*break*/, 8];
                 return [4 /*yield*/, api("browseAdTaskForFarm", { "advertId": t.advertId, "type": 1, "version": 14, "channel": 1, "babelChannel": "120" })];
-            case 7:
+            case 6:
                 // 领取
-                res = _c.sent();
+                res = _e.sent();
                 console.log('领取水滴：', res.amount);
-                return [3 /*break*/, 10];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 7:
+                _e.sent();
+                return [3 /*break*/, 11];
             case 8: return [4 /*yield*/, api("browseAdTaskForFarm", { "advertId": t.advertId, "type": 0, "version": 14, "channel": 1, "babelChannel": "120" })];
             case 9:
                 // 做任务
-                res = _c.sent();
+                res = _e.sent();
                 if (res.code === '0')
                     console.log("".concat(t.mainTitle, "\uFF1A\u4EFB\u52A1\u5B8C\u6210"));
                 else
                     console.log("".concat(t.mainTitle, "\uFF1A\u4EFB\u52A1\u5931\u8D25-").concat(res.code));
-                _c.label = 10;
-            case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)((t.time || 3) * 1000)];
+            case 10:
+                _e.sent();
+                _e.label = 11;
             case 11:
-                _c.sent();
-                _c.label = 12;
-            case 12:
-                _i++;
-                return [3 /*break*/, 6];
-            case 13: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+                _c++;
+                return [3 /*break*/, 5];
+            case 12: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 13:
+                _e.sent();
+                _e.label = 14;
             case 14:
-                _c.sent();
-                _c.label = 15;
-            case 15:
                 k++;
-                return [3 /*break*/, 4];
-            case 16:
-                i++;
+                return [3 /*break*/, 3];
+            case 15:
+                _i++;
                 return [3 /*break*/, 2];
-            case 17: return [2 /*return*/];
+            case 16: return [2 /*return*/];
         }
     });
 }); })();

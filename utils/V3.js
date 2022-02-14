@@ -84,8 +84,8 @@ function requestAlgo(appId, USER_AGENT) {
                                 'Content-Type': 'application/json',
                                 "Accept-Encoding": "gzip, deflate, br",
                                 "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-                                'Origin': 'https://prodev.m.jd.com',
-                                'Referer': 'https://prodev.m.jd.com/',
+                                'host': 'cactus.jd.com',
+                                'Referer': 'https://cactus.jd.com',
                                 'User-Agent': USER_AGENT
                             }
                         })];
@@ -93,7 +93,7 @@ function requestAlgo(appId, USER_AGENT) {
                     data = (_b.sent()).data;
                     tk = data.data.result.tk;
                     genKey = new Function("return ".concat(data.data.result.algo))();
-                    return [2 /*return*/];
+                    return [2 /*return*/, { fp: fp, tk: tk, genKey: genKey }];
             }
         });
     });

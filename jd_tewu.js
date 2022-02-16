@@ -160,13 +160,15 @@ var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCo
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tewu')];
             case 22:
                 shareCodesHW = _w.sent();
-                shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
                 full = [];
                 _e = 0, _f = cookiesArr.entries();
                 _w.label = 23;
             case 23:
                 if (!(_e < _f.length)) return [3 /*break*/, 29];
                 _g = _f[_e], index = _g[0], value = _g[1];
+                shareCodes = index === 0
+                    ? Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)))
+                    : Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
                 cookie = value;
                 return [4 /*yield*/, api('superBrandTaskList', { "source": "run", "activityId": activityId, "assistInfoFlag": 1 })];
             case 24:

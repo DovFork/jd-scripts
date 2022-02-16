@@ -68,11 +68,11 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
                 _i = 0, _a = cookiesArr.entries();
                 _k.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 19];
+                if (!(_i < _a.length)) return [3 /*break*/, 25];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 _k.label = 3;
             case 3:
-                _k.trys.push([3, 15, , 16]);
+                _k.trys.push([3, 21, , 22]);
                 return [4 /*yield*/, (0, V3_1.requestAlgo)('d8ac0', USER_AGENT)];
             case 4:
                 _c = _k.sent(), fp = _c.fp, tk = _c.tk, genKey = _c.genKey;
@@ -89,13 +89,13 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
                 _k.sent();
                 if (!(res.data.assistStatus === 1)) return [3 /*break*/, 7];
                 // 已开，没满
-                console.log('已开团，未满，剩余', Math.round(res.data.assistValidMilliseconds / 1000 / 60), '分钟');
+                console.log('已开团，', res.data.assistedRecords.length, '/', res.data.assistNum, '，剩余', Math.round(res.data.assistValidMilliseconds / 1000 / 60), '分钟');
                 shareCodeSelf.push({
                     activityIdEncrypted: res.data.id,
                     assistStartRecordId: res.data.assistStartRecordId,
                     assistedPinEncrypted: res.data.encPin
                 });
-                return [3 /*break*/, 14];
+                return [3 /*break*/, 20];
             case 7:
                 if (!(res.data.assistStatus === 2 && res.data.canStartNewAssist)) return [3 /*break*/, 13];
                 return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
@@ -120,26 +120,54 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
             case 11:
                 _k.sent();
                 _k.label = 12;
-            case 12: return [3 /*break*/, 14];
+            case 12: return [3 /*break*/, 20];
             case 13:
-                if (!res.data.canStartNewAssist) {
-                    console.log('不可开团');
-                }
-                _k.label = 14;
-            case 14: return [3 /*break*/, 16];
+                if (!(res.data.assistedRecords.length === res.data.assistNum)) return [3 /*break*/, 19];
+                console.log('已成团');
+                return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
+            case 14:
+                res = _k.sent();
+                console.log('4', res);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 15:
-                e_1 = _k.sent();
-                console.log(e_1);
-                return [3 /*break*/, 16];
-            case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                _k.sent();
+                if (!res.success) return [3 /*break*/, 18];
+                console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
+                return [4 /*yield*/, api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
+            case 16:
+                res = _k.sent();
+                shareCodeSelf.push({
+                    activityIdEncrypted: res.data.id,
+                    assistStartRecordId: res.data.assistStartRecordId,
+                    assistedPinEncrypted: res.data.encPin
+                });
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 17:
                 _k.sent();
                 _k.label = 18;
-            case 18:
+            case 18: return [3 /*break*/, 20];
+            case 19:
+                if (!res.data.canStartNewAssist) {
+                    console.log('不可开团');
+                }
+                _k.label = 20;
+            case 20: return [3 /*break*/, 22];
+            case 21:
+                e_1 = _k.sent();
+                return [3 /*break*/, 22];
+            case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 23:
+                _k.sent();
+                _k.label = 24;
+            case 24:
                 _i++;
                 return [3 /*break*/, 2];
-            case 19:
-                console.log(shareCodeSelf);
+            case 25:
+                (0, TS_USER_AGENTS_1.o2s)(shareCodeSelf);
+                console.log(shareCodeSelf.length);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 26:
+                _k.sent();
                 shareCodeHW = (0, TS_USER_AGENTS_1.getshareCodeHW)('zjd');
                 if (cookiesArr.length < 4) {
                     temp = Array.from(__spreadArray(__spreadArray([], shareCodeHW, true), shareCodeSelf, true));
@@ -155,64 +183,68 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
                     }
                 }
                 _e = 0, _f = cookiesArr.entries();
-                _k.label = 20;
-            case 20:
-                if (!(_e < _f.length)) return [3 /*break*/, 32];
+                _k.label = 27;
+            case 27:
+                if (!(_e < _f.length)) return [3 /*break*/, 39];
                 _g = _f[_e], index = _g[0], value = _g[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, (0, V3_1.requestAlgo)('d8ac0', USER_AGENT)];
-            case 21:
+            case 28:
                 _h = _k.sent(), fp = _h.fp, tk = _h.tk, genKey = _h.genKey;
                 (0, zjd_1.init)(fp, tk, genKey);
                 _j = 0, shareCode_1 = shareCode;
-                _k.label = 22;
-            case 22:
-                if (!(_j < shareCode_1.length)) return [3 /*break*/, 29];
+                _k.label = 29;
+            case 29:
+                if (!(_j < shareCode_1.length)) return [3 /*break*/, 36];
                 code = shareCode_1[_j];
-                _k.label = 23;
-            case 23:
-                _k.trys.push([23, 25, , 26]);
+                _k.label = 30;
+            case 30:
+                _k.trys.push([30, 32, , 33]);
                 console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code.assistedPinEncrypted.replace('\n', '')));
                 return [4 /*yield*/, api('vvipclub_distributeBean_assist', { "activityIdEncrypted": code.activityIdEncrypted, "assistStartRecordId": code.assistStartRecordId, "assistedPinEncrypted": code.assistedPinEncrypted, "channel": "FISSION_BEAN", "launchChannel": "undefined" })];
-            case 24:
+            case 31:
                 res = _k.sent();
                 if (res.resultCode === '9200008') {
                     console.log('不能助力自己');
                 }
                 else if (res.resultCode === '2400203') {
                     console.log('上限');
-                    return [3 /*break*/, 29];
+                    return [3 /*break*/, 36];
+                }
+                else if (res.resultCode === '2400205') {
+                    console.log('对方已成团');
                 }
                 else if (res.success) {
                     console.log('助力成功');
-                    return [3 /*break*/, 29];
+                    return [3 /*break*/, 36];
                 }
                 else {
-                    (0, TS_USER_AGENTS_1.o2s)(res);
+                    console.log('error', res.resultCode);
+                    // o2s(res)
                 }
-                return [3 /*break*/, 26];
-            case 25:
+                return [3 /*break*/, 33];
+            case 32:
                 e_2 = _k.sent();
                 console.log(e_2);
-                return [3 /*break*/, 29];
-            case 26: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 27:
+                return [3 /*break*/, 36];
+            case 33: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 34:
                 _k.sent();
-                _k.label = 28;
-            case 28:
+                _k.label = 35;
+            case 35:
                 _j++;
-                return [3 /*break*/, 22];
-            case 29:
+                return [3 /*break*/, 29];
+            case 36:
                 console.log();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 30:
+            case 37:
                 _k.sent();
-                _k.label = 31;
-            case 31:
+                _k.label = 38;
+            case 38:
                 _e++;
-                return [3 /*break*/, 20];
-            case 32: return [2 /*return*/];
+                return [3 /*break*/, 27];
+            case 39: return [2 /*return*/];
         }
     });
 }); })();

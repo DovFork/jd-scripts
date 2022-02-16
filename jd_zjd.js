@@ -217,7 +217,6 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
                 }
                 else if (res.success) {
                     console.log('助力成功');
-                    return [3 /*break*/, 36];
                 }
                 else {
                     console.log('error', res.resultCode);

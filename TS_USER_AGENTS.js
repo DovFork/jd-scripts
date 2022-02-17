@@ -343,9 +343,14 @@ function randomNumString(e) {
     return n;
 }
 exports.randomNumString = randomNumString;
-function randomWord() {
+function randomWord(n) {
+    if (n === void 0) { n = 1; }
     var t = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', a = t.length;
-    return t.charAt(Math.floor(Math.random() * a));
+    var rnd = '';
+    for (var i = 0; i < n; i++) {
+        rnd += t.charAt(Math.floor(Math.random() * a));
+    }
+    return rnd;
 }
 exports.randomWord = randomWord;
 function getshareCodeHW(key) {

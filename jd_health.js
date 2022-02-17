@@ -111,11 +111,11 @@ var cookie = '', res = '', UserName;
             case 13: return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 0 })];
             case 14:
                 res = _g.sent();
-                if (!(res.data.bizMsg.indexOf('做完') !== -1)) return [3 /*break*/, 15];
+                if (!res.data.bizMsg.includes('做完')) return [3 /*break*/, 15];
                 console.log(res.data.bizMsg);
                 return [3 /*break*/, 18];
             case 15:
-                console.log(res.data.bizMsg, res.data.result.score);
+                console.log(res.data.bizMsg, parseInt(res.data.result.score));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1500)];
             case 16:
                 _g.sent();

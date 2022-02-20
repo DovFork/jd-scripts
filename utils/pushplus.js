@@ -39,6 +39,7 @@ exports.__esModule = true;
 exports.pushplus = void 0;
 var axios_1 = require("axios");
 var fs_1 = require("fs");
+var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
 var account = JSON.parse((0, fs_1.readFileSync)("./utils/account.json").toString());
 function pushplus(content) {
     return __awaiter(this, void 0, void 0, function () {
@@ -84,6 +85,9 @@ function send(token, content) {
                     data = (_a.sent()).data;
                     if (data.code === 200) {
                         console.log('pushplus发送成功');
+                    }
+                    else {
+                        (0, TS_USER_AGENTS_1.o2s)(data, 'pushplus发送失败');
                     }
                     return [2 /*return*/];
             }

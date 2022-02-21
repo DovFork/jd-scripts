@@ -123,7 +123,8 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
             case 12: return [3 /*break*/, 20];
             case 13:
                 if (!(res.data.assistedRecords.length === res.data.assistNum)) return [3 /*break*/, 19];
-                console.log('已成团');
+                console.log('已成团', JSON.stringify(res));
+                if (!res.data.canStartNewAssist) return [3 /*break*/, 18];
                 return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
             case 14:
                 res = _j.sent();

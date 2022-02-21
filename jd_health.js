@@ -131,7 +131,7 @@ var cookie = '', res = '', UserName;
                 e_1 = _g.sent();
                 console.log('Error', e_1);
                 return [3 /*break*/, 24];
-            case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+            case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10000)];
             case 22:
                 _g.sent();
                 _g.label = 23;

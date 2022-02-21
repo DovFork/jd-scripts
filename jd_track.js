@@ -42,20 +42,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var path = require("path");
+var sendNotify_1 = require("./sendNotify");
 var fs_1 = require("fs");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var pushplus_1 = require("./utils/pushplus");
-var cookie = '', UserName, allMessage = '', res = '', message = '';
+var cookie = '', UserName, allMessage = '', res = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, orders, _i, _a, _b, index, value, markdown, i, _c, _d, order, orderId, orderType, title, t, status_1, carrier, carriageId, account, _e, account_1, acc;
-    var _f, _g;
-    return __generator(this, function (_h) {
-        switch (_h.label) {
+    var cookiesArr, except, orders, pushplusArr, pushplusUser, _i, pushplusArr_1, user, _a, _b, _c, index, value, message, markdown, i, _d, _e, order, orderId, orderType, title, t, status_1, carrier, carriageId, account, _f, account_1, acc;
+    var _g, _h;
+    return __generator(this, function (_j) {
+        switch (_j.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _h.sent();
+                cookiesArr = _j.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
-                orders = {};
+                orders = {}, pushplusUser = [];
+                try {
+                    pushplusArr = JSON.parse((0, fs_1.readFileSync)('./utils/pushplus.json', 'utf-8').toString());
+                }
+                catch (e) {
+                    console.log('utils/pushplus.json 加载错误');
+                    pushplusArr = [];
+                }
+                for (_i = 0, pushplusArr_1 = pushplusArr; _i < pushplusArr_1.length; _i++) {
+                    user = pushplusArr_1[_i];
+                    pushplusUser.push(decodeURIComponent(user.pt_pin));
+                }
                 if ((0, fs_1.existsSync)('./json')) {
                     if ((0, fs_1.existsSync)('./json/jd_track.json')) {
                         orders = JSON.parse((0, fs_1.readFileSync)('./json/jd_track.json').toString() || '{}');
@@ -68,11 +80,11 @@ var cookie = '', UserName, allMessage = '', res = '', message = '';
                     (0, fs_1.mkdirSync)('./json');
                     (0, fs_1.writeFileSync)('./json/jd_track.json', '{}');
                 }
-                _i = 0, _a = cookiesArr.entries();
-                _h.label = 2;
+                _a = 0, _b = cookiesArr.entries();
+                _j.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 13];
-                _b = _a[_i], index = _b[0], value = _b[1];
+                if (!(_a < _b.length)) return [3 /*break*/, 13];
+                _c = _b[_a], index = _c[0], value = _c[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
@@ -80,27 +92,26 @@ var cookie = '', UserName, allMessage = '', res = '', message = '';
                     console.log('已设置跳过');
                     return [3 /*break*/, 12];
                 }
-                message = '';
-                markdown = "", i = 1;
+                message = '', markdown = "", i = 1;
                 return [4 /*yield*/, getOrderList()];
             case 3:
-                res = _h.sent();
+                res = _j.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 4:
-                _h.sent();
-                _c = 0, _d = res.orderList;
-                _h.label = 5;
+                _j.sent();
+                _d = 0, _e = res.orderList;
+                _j.label = 5;
             case 5:
-                if (!(_c < _d.length)) return [3 /*break*/, 8];
-                order = _d[_c];
+                if (!(_d < _e.length)) return [3 /*break*/, 8];
+                order = _e[_d];
                 orderId = order.orderId;
                 orderType = order.orderType;
                 title = order.productList[0].title;
-                t = ((_f = order.progressInfo) === null || _f === void 0 ? void 0 : _f.tip) || null;
-                status_1 = ((_g = order.progressInfo) === null || _g === void 0 ? void 0 : _g.content) || null;
+                t = ((_g = order.progressInfo) === null || _g === void 0 ? void 0 : _g.tip) || null;
+                status_1 = ((_h = order.progressInfo) === null || _h === void 0 ? void 0 : _h.content) || null;
                 return [4 /*yield*/, getWuliu(orderId, orderType)];
             case 6:
-                res = _h.sent();
+                res = _j.sent();
                 carrier = res.carrier, carriageId = res.carriageId;
                 if (t && status_1) {
                     if (status_1.match(/(?=签收|已取走|已暂存)/))
@@ -109,8 +120,14 @@ var cookie = '', UserName, allMessage = '', res = '', message = '';
                     console.log('\t', t, status_1);
                     console.log();
                     if (Object.keys(orders).indexOf(orderId) > -1 && orders[orderId]['status'] !== status_1) {
-                        message += "".concat(title, "\n").concat(carrier, "  ").concat(carriageId, "\n").concat(t, "  ").concat(status_1, "\n\n");
-                        markdown += "".concat(i++, ". ").concat(title, "\n\t- ").concat(carrier, "  ").concat(carriageId, "\n\t- ").concat(t, "  ").concat(status_1, "\n");
+                        if (pushplusUser.includes(UserName)) {
+                            console.log('+ pushplus');
+                            markdown += "".concat(i++, ". ").concat(title, "\n\t- ").concat(carrier, "  ").concat(carriageId, "\n\t- ").concat(t, "  ").concat(status_1, "\n");
+                        }
+                        else {
+                            console.log('+ sendNotify');
+                            message += "".concat(title, "\n").concat(carrier, "  ").concat(carriageId, "\n").concat(t, "  ").concat(status_1, "\n\n");
+                        }
                     }
                     orders[orderId] = {
                         user: UserName,
@@ -121,39 +138,42 @@ var cookie = '', UserName, allMessage = '', res = '', message = '';
                         carriageId: carriageId
                     };
                 }
-                _h.label = 7;
+                _j.label = 7;
             case 7:
-                _c++;
+                _d++;
                 return [3 /*break*/, 5];
             case 8:
-                console.log(markdown);
-                if (!(message || markdown)) return [3 /*break*/, 10];
-                message = "<\u4EAC\u4E1C\u8D26\u53F7".concat(i + 1, ">  ").concat(UserName, "\n\n").concat(message);
+                if (message) {
+                    message = "<\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, ">  ").concat(UserName, "\n\n").concat(message);
+                    allMessage += message;
+                }
+                if (!markdown) return [3 /*break*/, 10];
                 markdown = "#### <".concat(UserName, ">\n").concat(markdown);
-                // await pushplus(message)
-                return [4 /*yield*/, (0, pushplus_1.pushplus)('京东快递更新', markdown, 'markdown')
-                    // allMessage += message
-                ];
+                return [4 /*yield*/, (0, pushplus_1.pushplus)('京东快递更新', markdown, 'markdown')];
             case 9:
-                // await pushplus(message)
-                _h.sent();
-                _h.label = 10;
+                _j.sent();
+                _j.label = 10;
             case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 11:
-                _h.sent();
-                _h.label = 12;
+                _j.sent();
+                _j.label = 12;
             case 12:
-                _i++;
+                _a++;
                 return [3 /*break*/, 2];
             case 13:
                 orders = JSON.stringify(orders, null, 2);
                 account = JSON.parse((0, fs_1.readFileSync)('./utils/account.json').toString() || '[]') || [];
-                for (_e = 0, account_1 = account; _e < account_1.length; _e++) {
-                    acc = account_1[_e];
+                for (_f = 0, account_1 = account; _f < account_1.length; _f++) {
+                    acc = account_1[_f];
                     orders = orders.replace(new RegExp(decodeURIComponent(acc['pt_pin']), 'g'), acc['remarks']);
                 }
                 (0, fs_1.writeFileSync)('./json/jd_track.json', orders);
-                return [2 /*return*/];
+                if (!allMessage) return [3 /*break*/, 15];
+                return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东快递更新', allMessage)];
+            case 14:
+                _j.sent();
+                _j.label = 15;
+            case 15: return [2 /*return*/];
         }
     });
 }); })();

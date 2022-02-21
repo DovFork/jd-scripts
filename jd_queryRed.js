@@ -81,7 +81,7 @@ var date = (0, date_fns_1.getDate)(new Date());
                 console.log(parseFloat(jdRed.toFixed(2)), parseFloat(jdRedExp.toFixed(2)));
                 message = "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011 ").concat(UserName, "\n\u4EAC\u4E1C\u7EA2\u5305  ").concat(jdRed.toFixed(2), "\n\u4ECA\u65E5\u8FC7\u671F  ").concat(jdRedExp.toFixed(2), "\n\n");
                 allMessage += message;
-                return [4 /*yield*/, (0, pushplus_1.pushplus)(message)];
+                return [4 /*yield*/, (0, pushplus_1.pushplus)('京东红包', message)];
             case 4:
                 _e.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];

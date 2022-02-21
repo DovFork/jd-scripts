@@ -116,9 +116,14 @@ var cookie = '', UserName, allMessage = '', res = '';
                 if (t && status_1) {
                     if (status_1.match(/(?=签收|已取走|已暂存)/))
                         return [3 /*break*/, 7];
-                    console.log(title);
-                    console.log('\t', t, status_1);
-                    console.log();
+                    if (!pushplusUser.includes(UserName)) {
+                        console.log(title);
+                        console.log('\t', t, status_1);
+                        console.log();
+                    }
+                    else {
+                        console.log('隐私保护，不显示日志');
+                    }
                     if (Object.keys(orders).indexOf(orderId) > -1 && orders[orderId]['status'] !== status_1) {
                         if (pushplusUser.includes(UserName)) {
                             console.log('+ pushplus');

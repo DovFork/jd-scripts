@@ -124,7 +124,7 @@ var cookie = '', UserName, allMessage = '', res = '';
                     else {
                         console.log('隐私保护，不显示日志');
                     }
-                    if (Object.keys(orders).indexOf(orderId) > -1 && orders[orderId]['status'] !== status_1) {
+                    if (!Object.keys(orders).includes(orderId) || orders[orderId]['status'] !== status_1) {
                         if (pushplusUser.includes(UserName)) {
                             console.log('+ pushplus');
                             markdown += "".concat(i++, ". ").concat(title, "\n\t- ").concat(carrier, "  ").concat(carriageId, "\n\t- ").concat(t, "  ").concat(status_1, "\n");
@@ -166,11 +166,27 @@ var cookie = '', UserName, allMessage = '', res = '';
                 _a++;
                 return [3 /*break*/, 2];
             case 13:
+                account = [];
+                try {
+                    account = JSON.parse((0, fs_1.readFileSync)('./utils/account.json').toString());
+                }
+                catch (e) {
+                    console.log('utils/account.json load failed');
+                }
+                // 删除已签收
+                Object.keys(orders).map(function (key) {
+                    if (orders[key].status.match(/(?=签收|已取走|已暂存)/)) {
+                        delete orders[key];
+                    }
+                    if (pushplusUser.includes(orders[key].user)) {
+                        orders[key].title = '******';
+                    }
+                });
+                // 替换通知中的用户名为备注
                 orders = JSON.stringify(orders, null, 2);
-                account = JSON.parse((0, fs_1.readFileSync)('./utils/account.json').toString() || '[]') || [];
                 for (_f = 0, account_1 = account; _f < account_1.length; _f++) {
                     acc = account_1[_f];
-                    orders = orders.replace(new RegExp(decodeURIComponent(acc['pt_pin']), 'g'), acc['remarks']);
+                    orders = orders.replace(new RegExp(decodeURIComponent(acc.pt_pin), 'g'), acc.remarks);
                 }
                 (0, fs_1.writeFileSync)('./json/jd_track.json', orders);
                 if (!allMessage) return [3 /*break*/, 15];

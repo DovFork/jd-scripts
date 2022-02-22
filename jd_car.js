@@ -54,35 +54,34 @@ var cookie = '', res = '', UserName;
                 _i = 0, _a = cookiesArr.entries();
                 _o.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 9];
+                if (!(_i < _a.length)) return [3 /*break*/, 8];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 _o.label = 3;
             case 3:
-                _o.trys.push([3, 7, , 8]);
+                _o.trys.push([3, 6, , 7]);
                 return [4 /*yield*/, api()];
             case 4:
                 res = _o.sent();
                 console.log(((_d = (_c = res.data) === null || _c === void 0 ? void 0 : _c.dailyAward) === null || _d === void 0 ? void 0 : _d.title) || ((_f = (_e = res.data) === null || _e === void 0 ? void 0 : _e.continuityAward) === null || _f === void 0 ? void 0 : _f.title));
                 console.log('获得京豆', ((_j = (_h = (_g = res.data) === null || _g === void 0 ? void 0 : _g.dailyAward) === null || _h === void 0 ? void 0 : _h.beanAward) === null || _j === void 0 ? void 0 : _j.beanCount) * 1 || ((_m = (_l = (_k = res.data) === null || _k === void 0 ? void 0 : _k.continuityAward) === null || _l === void 0 ? void 0 : _l.beanAward) === null || _m === void 0 ? void 0 : _m.beanCount) * 1);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)
+                    // res = await cgame()
+                    // console.log('获得京豆', res.data.beanNum)
+                ];
             case 5:
                 _o.sent();
-                return [4 /*yield*/, cgame()];
+                return [3 /*break*/, 7];
             case 6:
-                res = _o.sent();
-                console.log('获得京豆', res.data.beanNum);
-                return [3 /*break*/, 8];
-            case 7:
                 e_1 = _o.sent();
                 console.log(e_1);
-                return [3 /*break*/, 8];
-            case 8:
+                return [3 /*break*/, 7];
+            case 7:
                 _i++;
                 return [3 /*break*/, 2];
-            case 9: return [2 /*return*/];
+            case 8: return [2 /*return*/];
         }
     });
 }); })();

@@ -58,15 +58,15 @@ var cookie = '', UserName, allMessage = '', res = '';
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 orders = {}, pushplusUser = [];
                 try {
-                    pushplusArr = JSON.parse((0, fs_1.readFileSync)('./utils/pushplus.json', 'utf-8').toString());
+                    pushplusArr = JSON.parse((0, fs_1.readFileSync)('./utils/account.json').toString());
                 }
                 catch (e) {
-                    console.log('utils/pushplus.json 加载错误');
-                    pushplusArr = [];
+                    console.log('utils/pushplus.json load failed');
                 }
                 for (_i = 0, pushplusArr_1 = pushplusArr; _i < pushplusArr_1.length; _i++) {
                     user = pushplusArr_1[_i];
-                    pushplusUser.push(decodeURIComponent(user.pt_pin));
+                    if (user.pushplus)
+                        pushplusUser.push(decodeURIComponent(user.pt_pin));
                 }
                 if ((0, fs_1.existsSync)('./json')) {
                     if ((0, fs_1.existsSync)('./json/jd_track.json')) {
@@ -92,7 +92,7 @@ var cookie = '', UserName, allMessage = '', res = '';
                     console.log('已设置跳过');
                     return [3 /*break*/, 12];
                 }
-                message = '', markdown = "", i = 1;
+                message = '', markdown = '', i = 1;
                 return [4 /*yield*/, getOrderList()];
             case 3:
                 res = _j.sent();

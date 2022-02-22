@@ -43,6 +43,7 @@ var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index;
 var UA = "jdapp;JD4iPhone/167724 (iPhone; iOS ".concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(12, 16), ".").concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, 4), "; Scale/3.00)");
+process.env.deleteCart = 'true';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, areaId, traceId, delCount, cartCount, venderCart, _i, venderCart_1, vender, _a, _b, sortedItem, pid, postBody, _c, _d, p, commlist, name_1, skuUuid;
     var _e, _f;

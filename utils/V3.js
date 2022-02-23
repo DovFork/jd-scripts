@@ -43,42 +43,22 @@ var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
 var ts_md5_1 = require("ts-md5");
 var CryptoJS = require('crypto-js');
 var fp = '', tk = '', genKey = null;
-function getRandomIDPro() {
-    var e, a = 10, n = 'number', i = '';
-    switch (n) {
-        case 'alphabet':
-            e = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            break;
-        case 'max':
-            e = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
-            break;
-        case 'number':
-        default:
-            e = '0123456789';
-    }
-    for (; a--;)
-        i += e[(Math.random() * e.length) | 0];
-    return i;
-}
-function requestAlgo(appId, USER_AGENT, fingerPrint) {
+function requestAlgo(appId, USER_AGENT) {
     if (USER_AGENT === void 0) { USER_AGENT = 'jdpingou;'; }
-    if (fingerPrint === void 0) { fingerPrint = ''; }
     return __awaiter(this, void 0, void 0, function () {
-        var s, a, u, c, ss, _i, _a, i, data;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        function generateFp() {
+            var e = "0123456789";
+            var a = 13;
+            var i = '';
+            for (; a--;)
+                i += e[Math.random() * e.length | 0];
+            return (i + Date.now()).slice(0, 16);
+        }
+        var data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
-                    s = "", a = "0123456789", u = a, c = (Math.random() * 10) | 0;
-                    do {
-                        ss = getRandomIDPro() + "";
-                        if (s.indexOf(ss) == -1)
-                            s += ss;
-                    } while (s.length < 3);
-                    for (_i = 0, _a = s.slice(); _i < _a.length; _i++) {
-                        i = _a[_i];
-                        u = u.replace(i, '');
-                    }
-                    fp = fingerPrint || getRandomIDPro() + "" + s + getRandomIDPro() + c + "";
+                    fp = generateFp();
                     return [4 /*yield*/, axios_1["default"].post("https://cactus.jd.com/request_algo?g_ty=ajax", "{\"version\":\"3.0\",\"fp\":\"".concat(fp, "\",\"appId\":\"").concat(appId, "\",\"timestamp\":").concat(Date.now(), ",\"platform\":\"web\",\"expandParams\":\"\"}"), {
                             headers: {
                                 'Accept': 'application/json',
@@ -91,7 +71,7 @@ function requestAlgo(appId, USER_AGENT, fingerPrint) {
                             }
                         })];
                 case 1:
-                    data = (_b.sent()).data;
+                    data = (_a.sent()).data;
                     tk = data.data.result.tk;
                     genKey = new Function("return ".concat(data.data.result.algo))();
                     return [2 /*return*/, { fp: fp, tk: tk, genKey: genKey }];

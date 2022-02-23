@@ -136,6 +136,9 @@ var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCo
                     console.log('抽奖获得京豆：', res.data.result.rewardComponent.beanList[0].quantity);
                     sum += res.data.result.rewardComponent.beanList[0].quantity;
                 }
+                else {
+                    console.log('没抽到？', JSON.stringify(res));
+                }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 15:
                 _z.sent();

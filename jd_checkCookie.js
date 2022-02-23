@@ -36,72 +36,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-/**
- * 每天检测cookie是否有效
- * cron: 10 * * * *
- */
-var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var notify = require('./sendNotify');
-var cookie = '', UserName, index, errMsg = '';
+var cookie = '', UserName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var cookiesArr, _i, _a, _b, index, value;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _a.sent();
-                i = 0;
-                _a.label = 2;
-            case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 5];
-                cookie = cookiesArr[i];
-                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                index = i + 1;
-                return [4 /*yield*/, api(index, cookie, UserName)];
-            case 3:
-                _a.sent();
-                _a.label = 4;
-            case 4:
-                i++;
-                return [3 /*break*/, 2];
-            case 5:
-                if (!errMsg) return [3 /*break*/, 7];
-                return [4 /*yield*/, notify.sendNotify("Cookie失效", errMsg, '', '你好，世界！')];
-            case 6:
-                _a.sent();
-                _a.label = 7;
-            case 7: return [2 /*return*/];
+                cookiesArr = _c.sent();
+                for (_i = 0, _a = cookiesArr.entries(); _i < _a.length; _i++) {
+                    _b = _a[_i], index = _b[0], value = _b[1];
+                    cookie = value;
+                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                    console.log(index + 1, UserName);
+                }
+                return [2 /*return*/];
         }
     });
 }); })();
-function api(index, cookie, username) {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://me-api.jd.com/user_new/info/GetJDUserInfoUnion", {
-                        headers: {
-                            Host: "me-api.jd.com",
-                            Connection: "keep-alive",
-                            Cookie: cookie,
-                            "User-Agent": TS_USER_AGENTS_1["default"],
-                            "Accept-Language": "zh-cn",
-                            "Referer": "https://home.m.jd.com/myJd/newhome.action?sceneval=2&ufc=&",
-                            "Accept-Encoding": "gzip, deflate, br"
-                        }
-                    })];
-                case 1:
-                    data = (_a.sent()).data;
-                    if (data.retcode === '0') {
-                        console.log(index, '✅', username);
-                    }
-                    else {
-                        console.log(index, '❌', username);
-                        errMsg += "".concat(index, " ").concat(username, "\n");
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    });
-}

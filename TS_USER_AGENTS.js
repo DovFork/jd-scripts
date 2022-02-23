@@ -41,7 +41,6 @@ var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var dotenv = require("dotenv");
 var fs_1 = require("fs");
-var sendNotify_1 = require("./sendNotify");
 dotenv.config();
 var fingerprint, token = '', enCryptMethodJD;
 var USER_AGENTS = [
@@ -150,37 +149,24 @@ function getFarmShareCode(cookie) {
 exports.getFarmShareCode = getFarmShareCode;
 function requireConfig() {
     return __awaiter(this, void 0, void 0, function () {
-        var cookiesArr, jdCookieNode, keys, i, cookie, username;
+        var cookiesArr, jdCookieNode, keys, i, cookie;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    cookiesArr = [];
-                    jdCookieNode = require('./jdCookie.js');
-                    keys = Object.keys(jdCookieNode);
-                    i = 0;
-                    _a.label = 1;
-                case 1:
-                    if (!(i < keys.length)) return [3 /*break*/, 6];
-                    cookie = jdCookieNode[keys[i]];
-                    return [4 /*yield*/, checkCookie(cookie)];
-                case 2:
-                    if (!_a.sent()) return [3 /*break*/, 3];
-                    cookiesArr.push(cookie);
-                    return [3 /*break*/, 5];
-                case 3:
-                    username = decodeURIComponent(jdCookieNode[keys[i]].match(/pt_pin=([^;]*)/)[1]);
-                    console.log('Cookie失效', username);
-                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('Cookie失效', '【京东账号】' + username)];
-                case 4:
-                    _a.sent();
-                    _a.label = 5;
-                case 5:
-                    i++;
-                    return [3 /*break*/, 1];
-                case 6:
-                    console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
-                    return [2 /*return*/, cookiesArr];
+            cookiesArr = [];
+            jdCookieNode = require('./jdCookie.js');
+            keys = Object.keys(jdCookieNode);
+            for (i = 0; i < keys.length; i++) {
+                cookie = jdCookieNode[keys[i]];
+                cookiesArr.push(cookie);
+                // if (await checkCookie(cookie)) {
+                //   cookiesArr.push(cookie)
+                // } else {
+                //   let username = decodeURIComponent(jdCookieNode[keys[i]].match(/pt_pin=([^;]*)/)![1])
+                //   console.log('Cookie失效', username)
+                //   await sendNotify('Cookie失效', '【京东账号】' + username)
+                // }
             }
+            console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
+            return [2 /*return*/, cookiesArr];
         });
     });
 }

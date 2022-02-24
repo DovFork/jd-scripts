@@ -51,7 +51,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var V3_1 = require("./utils/V3");
 var zjd_1 = require("./utils/zjd");
@@ -240,7 +239,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
 }); })();
 function api(fn, params) {
     return __awaiter(this, void 0, void 0, function () {
-        var h5st, data;
+        var h5st;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -250,18 +249,14 @@ function api(fn, params) {
                     else {
                         h5st = (0, zjd_1.zjdTool)(params);
                     }
-                    return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/api?functionId=".concat(fn, "&fromType=wxapp&timestamp=").concat(Date.now()), "body=".concat(decodeURIComponent(JSON.stringify(params)), "&appid=swat_miniprogram&h5st=").concat(h5st, "&client=tjj_m&clientVersion=3.1.3"), {
-                            headers: {
-                                "Content-Type": "application/x-www-form-urlencoded; Charset=UTF-8",
-                                "Host": "api.m.jd.com",
-                                "Referer": "https://servicewechat.com/wxa5bf5ee667d91626/182/page-frame.html",
-                                "Cookie": cookie,
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat'
-                            }
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/api?functionId=".concat(fn, "&fromType=wxapp&timestamp=").concat(Date.now()), "body=".concat(decodeURIComponent(JSON.stringify(params)), "&appid=swat_miniprogram&h5st=").concat(h5st, "&client=tjj_m&clientVersion=3.1.3"), {
+                            "Content-Type": "application/x-www-form-urlencoded; Charset=UTF-8",
+                            "Host": "api.m.jd.com",
+                            "Referer": "https://servicewechat.com/wxa5bf5ee667d91626/182/page-frame.html",
+                            "Cookie": cookie,
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat'
                         })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });

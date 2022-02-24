@@ -40,7 +40,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var path = require("path");
 var sendNotify_1 = require("./sendNotify");
 var fs_1 = require("fs");
@@ -48,7 +47,7 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var pushplus_1 = require("./utils/pushplus");
 var cookie = '', UserName, allMessage = '', res = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, orders, pushplusArr, pushplusUser, _i, pushplusArr_1, user, _a, _b, _c, index, value, message, markdown, i, _d, _e, order, orderId, orderType, title, t, status_1, carrier, carriageId, account, _f, account_1, acc;
+    var cookiesArr, except, orders, pushplusArr, pushplusUser, _i, pushplusArr_1, user, _a, _b, _c, index, value, message, markdown, i, headers, _d, _e, order, orderId, orderType, title, t, status_1, carrier, carriageId, account, _f, account_1, acc;
     var _g, _h;
     return __generator(this, function (_j) {
         switch (_j.label) {
@@ -93,7 +92,13 @@ var cookie = '', UserName, allMessage = '', res = '';
                     return [3 /*break*/, 12];
                 }
                 message = '', markdown = '', i = 1;
-                return [4 /*yield*/, getOrderList()];
+                headers = {
+                    'authority': 'wq.jd.com',
+                    'user-agent': TS_USER_AGENTS_1["default"],
+                    'referer': 'https://wqs.jd.com/',
+                    'cookie': cookie
+                };
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://wq.jd.com/bases/orderlist/list?order_type=2&start_page=1&last_page=0&page_size=10&callersource=mainorder&t=".concat(Date.now(), "&sceneval=2&_=").concat(Date.now(), "&sceneval=2"), '', headers)];
             case 3:
                 res = _j.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
@@ -109,7 +114,7 @@ var cookie = '', UserName, allMessage = '', res = '';
                 title = order.productList[0].title;
                 t = ((_g = order.progressInfo) === null || _g === void 0 ? void 0 : _g.tip) || null;
                 status_1 = ((_h = order.progressInfo) === null || _h === void 0 ? void 0 : _h.content) || null;
-                return [4 /*yield*/, getWuliu(orderId, orderType)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://wq.jd.com/bases/wuliudetail/dealloglist?deal_id=".concat(orderId, "&orderstate=15&ordertype=").concat(orderType, "&t=").concat(Date.now(), "&sceneval=2"), '', headers)];
             case 6:
                 res = _j.sent();
                 carrier = res.carrier, carriageId = res.carriageId;
@@ -198,48 +203,3 @@ var cookie = '', UserName, allMessage = '', res = '';
         }
     });
 }); })();
-function getOrderList() {
-    return __awaiter(this, void 0, void 0, function () {
-        var t, data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    t = Date.now();
-                    return [4 /*yield*/, axios_1["default"].get("https://wq.jd.com/bases/orderlist/list?order_type=2&start_page=1&last_page=0&page_size=10&callersource=mainorder&t=".concat(t, "&sceneval=2&_=").concat(t + 1, "&sceneval=2"), {
-                            headers: {
-                                'authority': 'wq.jd.com',
-                                'user-agent': TS_USER_AGENTS_1["default"],
-                                'referer': 'https://wqs.jd.com/',
-                                'cookie': cookie
-                            }
-                        })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
-            }
-        });
-    });
-}
-function getWuliu(orderId, orderType) {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://wq.jd.com/bases/wuliudetail/dealloglist?deal_id=".concat(orderId, "&orderstate=15&ordertype=").concat(orderType, "&t=").concat(Date.now(), "&sceneval=2"), {
-                        headers: {
-                            'authority': 'wq.jd.com',
-                            'user-agent': TS_USER_AGENTS_1["default"],
-                            'referer': 'https://wqs.jd.com/',
-                            'cookie': cookie
-                        }
-                    })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 2:
-                    _a.sent();
-                    return [2 /*return*/, data];
-            }
-        });
-    });
-}

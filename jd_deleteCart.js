@@ -1,6 +1,6 @@
 "use strict";
 /**
- * process.env.deleteCart="true"
+ * 清空购物车
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -43,15 +43,12 @@ var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index;
 var UA = "jdapp;JD4iPhone/167724 (iPhone; iOS ".concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(12, 16), ".").concat((0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, 4), "; Scale/3.00)");
-process.env.deleteCart = 'true';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, areaId, traceId, delCount, cartCount, venderCart, _i, venderCart_1, vender, _a, _b, sortedItem, pid, postBody, _c, _d, p, commlist, name_1, skuUuid;
     var _e, _f;
     return __generator(this, function (_g) {
         switch (_g.label) {
-            case 0:
-                if (!(process.env.deleteCart === 'true')) return [3 /*break*/, 13];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _g.sent();
                 i = 0;
@@ -88,7 +85,15 @@ process.env.deleteCart = 'true';
                     else
                         postBody = "pingouchannel=0&commlist=".concat(commlist, ",,1,").concat(commlist, ",1,,0,skuUuid:").concat(skuUuid, "@@useUuid:0&type=0&checked=0&locationid=").concat(areaId, "&templete=1&reg=1&scene=0&version=20190418&traceid=").concat(traceId, "&tabMenuType=1&sceneval=2");
                 }
-                return [4 /*yield*/, rmvCmdy(postBody)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://wq.jd.com/deal/mshopcart/rmvCmdy?sceneval=2&g_login_type=1&g_ty=ajax', postBody, {
+                        'authority': 'wq.jd.com',
+                        'accept': 'application/json',
+                        'user-agent': UA,
+                        'content-type': 'application/x-www-form-urlencoded',
+                        'origin': 'https://p.m.jd.com',
+                        'referer': 'https://p.m.jd.com/',
+                        'cookie': cookie
+                    })];
             case 6:
                 res = _g.sent();
                 if (!(res.errId === '0')) return [3 /*break*/, 8];
@@ -136,29 +141,6 @@ function getCartData() {
                     data = (_a.sent()).data;
                     data = data.match(/window\.cartData =([\s\S]*)window\._PFM_TIMING\[2] /)[1].replace(/\s*/g, '');
                     return [2 /*return*/, JSON.parse(data)];
-            }
-        });
-    });
-}
-function rmvCmdy(body) {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://wq.jd.com/deal/mshopcart/rmvCmdy?sceneval=2&g_login_type=1&g_ty=ajax', body, {
-                        headers: {
-                            'authority': 'wq.jd.com',
-                            'accept': 'application/json',
-                            'user-agent': UA,
-                            'content-type': 'application/x-www-form-urlencoded',
-                            'origin': 'https://p.m.jd.com',
-                            'referer': 'https://p.m.jd.com/',
-                            'cookie': cookie
-                        }
-                    })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
             }
         });
     });

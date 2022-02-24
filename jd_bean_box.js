@@ -44,9 +44,9 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index, uuid;
-var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
+// let shareCodeSelf: { shareCode: string, groupCode: string, activeId: string }[] = [], shareCode: { shareCode: string, groupCode: string, activeId: string }[] = [], shareCodeHW: { shareCode: string, groupCode: string, activeId: string }[] = []
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, times, j, j, _i, _a, t, e_1;
+    var cookiesArr, i, headers, times, j, j, _i, _a, t, e_1;
     var _b, _c;
     return __generator(this, function (_d) {
         switch (_d.label) {
@@ -61,7 +61,14 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, initForTurntableFarm()];
+                headers = {
+                    'Host': 'api.m.jd.com',
+                    'Origin': 'https://h5.m.jd.com',
+                    'User-Agent': TS_USER_AGENTS_1["default"],
+                    'Referer': 'https://h5.m.jd.com/',
+                    'Cookie': cookie
+                };
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)('https://api.m.jd.com/client.action?functionId=initForTurntableFarm&body=%7B%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5', '', headers)];
             case 3:
                 res = _d.sent();
                 times = res.remainLotteryTimes;
@@ -71,7 +78,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
             case 4:
                 if (!(j < times)) return [3 /*break*/, 8];
                 console.log('开始抽奖...');
-                return [4 /*yield*/, initForTurntableFarm(1)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)('https://api.m.jd.com/client.action?functionId=lotteryForTurntableFarm&body=%7B%22type%22%3A1%2C%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5', '', headers)];
             case 5:
                 res = _d.sent();
                 if (res.code === '0') {
@@ -93,7 +100,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 j++;
                 return [3 /*break*/, 4];
             case 8:
-                uuid = randomString(40);
+                uuid = (0, TS_USER_AGENTS_1.randomNumString)(40);
                 j = 0;
                 _d.label = 9;
             case 9:
@@ -179,78 +186,14 @@ function api(fn, body) {
         });
     });
 }
-function qjd(fn, body) {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&appid=ld&client=apple&clientVersion=10.0.8&uuid=").concat(uuid, "&openudid=").concat(uuid), {
-                        headers: {
-                            'Host': 'api.m.jd.com',
-                            'User-Agent': TS_USER_AGENTS_1["default"],
-                            'Referer': 'https://h5.m.jd.com/rn/3MQXMdRUTeat9xqBSZDSCCAE9Eqz/index.html',
-                            'Cookie': cookie
-                        }
-                    })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
-            }
-        });
-    });
-}
-function randomString(e) {
-    e = e || 32;
-    var t = '0123456789', a = t.length, n = "";
-    for (var i = 0; i < e; i++)
-        n += t.charAt(Math.floor(Math.random() * a));
-    return n;
-}
-function initForTurntableFarm(type) {
-    if (type === void 0) { type = 0; }
-    return __awaiter(this, void 0, void 0, function () {
-        var url, data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    url = type === 0
-                        ? 'https://api.m.jd.com/client.action?functionId=initForTurntableFarm&body=%7B%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5'
-                        : 'https://api.m.jd.com/client.action?functionId=lotteryForTurntableFarm&body=%7B%22type%22%3A1%2C%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5';
-                    return [4 /*yield*/, axios_1["default"].get(url, {
-                            headers: {
-                                'Host': 'api.m.jd.com',
-                                'Origin': 'https://h5.m.jd.com',
-                                'User-Agent': TS_USER_AGENTS_1["default"],
-                                'Referer': 'https://h5.m.jd.com/',
-                                'Cookie': cookie
-                            }
-                        })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
-            }
-        });
-    });
-}
-function getShareCodeHW() {
-    return __awaiter(this, void 0, void 0, function () {
-        var data, e_2;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/HW_CODES")];
-                case 1:
-                    data = (_a.sent()).data;
-                    console.log('获取HW_CODES成功(api)');
-                    shareCodeHW = data['qjd'];
-                    return [3 /*break*/, 3];
-                case 2:
-                    e_2 = _a.sent();
-                    console.log('获取HW_CODES失败(api)');
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    });
-}
+/*async function qjd(fn: string, body?: object) {
+  let {data} = await axios.get(`https://api.m.jd.com/client.action?functionId=${fn}&body=${encodeURIComponent(JSON.stringify(body))}&appid=ld&client=apple&clientVersion=10.0.8&uuid=${uuid}&openudid=${uuid}`, {
+    headers: {
+      'Host': 'api.m.jd.com',
+      'User-Agent': USER_AGENT,
+      'Referer': 'https://h5.m.jd.com/rn/3MQXMdRUTeat9xqBSZDSCCAE9Eqz/index.html',
+      'Cookie': cookie
+    }
+  })
+  return data
+}*/

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.jdpingou = exports.obj2str = exports.wechat_app_msg = exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.resetHosts = exports.randomString = exports.exceptCookie = exports.getJxToken = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.post = exports.get = exports.jdpingou = exports.obj2str = exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.randomString = exports.exceptCookie = exports.getJxToken = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var dotenv = require("dotenv");
@@ -332,14 +332,6 @@ function randomString(e, word) {
     return n;
 }
 exports.randomString = randomString;
-function resetHosts() {
-    try {
-        (0, fs_1.writeFileSync)('/etc/hosts', '');
-    }
-    catch (e) {
-    }
-}
-exports.resetHosts = resetHosts;
 function o2s(arr, title) {
     if (title === void 0) { title = ''; }
     title ? console.log(title, JSON.stringify(arr)) : console.log(JSON.stringify(arr));
@@ -440,40 +432,26 @@ function getShareCodePool(key, num) {
     });
 }
 exports.getShareCodePool = getShareCodePool;
-function wechat_app_msg(title, content, user) {
-    return __awaiter(this, void 0, void 0, function () {
-        var corpid, corpsecret, gettoken, access_token, send;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    corpid = "", corpsecret = "";
-                    return [4 /*yield*/, axios_1["default"].get("https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=".concat(corpid, "&corpsecret=").concat(corpsecret))];
-                case 1:
-                    gettoken = (_a.sent()).data;
-                    access_token = gettoken.access_token;
-                    return [4 /*yield*/, axios_1["default"].post("https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=".concat(access_token), {
-                            "touser": user,
-                            "msgtype": "text",
-                            "agentid": 1000002,
-                            "text": {
-                                "content": "".concat(title, "\n\n").concat(content)
-                            },
-                            "safe": 0
-                        })];
-                case 2:
-                    send = (_a.sent()).data;
-                    if (send.errcode === 0) {
-                        console.log('企业微信应用消息发送成功');
-                    }
-                    else {
-                        console.log('企业微信应用消息发送失败', send);
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-exports.wechat_app_msg = wechat_app_msg;
+/*async function wechat_app_msg(title: string, content: string, user: string) {
+  let corpid: string = "", corpsecret: string = ""
+  let {data: gettoken} = await axios.get(`https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${corpid}&corpsecret=${corpsecret}`)
+  let access_token: string = gettoken.access_token
+
+  let {data: send} = await axios.post(`https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=${access_token}`, {
+    "touser": user,
+    "msgtype": "text",
+    "agentid": 1000002,
+    "text": {
+      "content": `${title}\n\n${content}`
+    },
+    "safe": 0
+  })
+  if (send.errcode === 0) {
+    console.log('企业微信应用消息发送成功')
+  } else {
+    console.log('企业微信应用消息发送失败', send)
+  }
+}*/
 function obj2str(obj) {
     return JSON.stringify(obj);
 }
@@ -531,4 +509,32 @@ function jdpingou() {
     });
 }
 exports.jdpingou = jdpingou;
+function get(url, prarms, headers) {
+    return axios_1["default"].get(url, {
+        params: prarms,
+        headers: headers
+    })
+        .then(function (res) {
+        if (typeof res.data === 'string' && res.data.match(/^jsonpCBK/)) {
+            return JSON.parse(res.data.match(/jsonpCBK.?\(([\w\W]*)\);/)[1]);
+        }
+        else {
+            return res.data;
+        }
+    })["catch"](function (err) {
+        var _a, _b;
+        console.log((_a = err === null || err === void 0 ? void 0 : err.response) === null || _a === void 0 ? void 0 : _a.status, (_b = err === null || err === void 0 ? void 0 : err.response) === null || _b === void 0 ? void 0 : _b.statusText);
+    });
+}
+exports.get = get;
+function post(url, prarms, headers) {
+    return axios_1["default"].post(url, prarms, {
+        headers: headers
+    })
+        .then(function (res) { return res.data; })["catch"](function (err) {
+        var _a, _b;
+        console.log((_a = err === null || err === void 0 ? void 0 : err.response) === null || _a === void 0 ? void 0 : _a.status, (_b = err === null || err === void 0 ? void 0 : err.response) === null || _b === void 0 ? void 0 : _b.statusText);
+    });
+}
+exports.post = post;
 exports["default"] = USER_AGENT;

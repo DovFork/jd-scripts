@@ -40,7 +40,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -62,7 +61,13 @@ var cookie = '', res = '', UserName;
                 _o.label = 3;
             case 3:
                 _o.trys.push([3, 6, , 7]);
-                return [4 /*yield*/, api()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.m.jd.com/client.action', 'functionId=signBeanIndex&appid=ld', {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        'Host': 'api.m.jd.com',
+                        'Origin': 'https://api.m.jd.com',
+                        'Referer': 'https://api.m.jd.com',
+                        'Cookie': cookie
+                    })];
             case 4:
                 res = _o.sent();
                 console.log(((_d = (_c = res.data) === null || _c === void 0 ? void 0 : _c.dailyAward) === null || _d === void 0 ? void 0 : _d.title) || ((_f = (_e = res.data) === null || _e === void 0 ? void 0 : _e.continuityAward) === null || _f === void 0 ? void 0 : _f.title));
@@ -85,50 +90,20 @@ var cookie = '', res = '', UserName;
         }
     });
 }); })();
-function api() {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action', 'functionId=signBeanIndex&appid=ld', {
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                            'Host': 'api.m.jd.com',
-                            'Origin': 'https://api.m.jd.com',
-                            'Referer': 'https://api.m.jd.com',
-                            'Cookie': cookie
-                        }
-                    })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
-            }
-        });
-    });
-}
-function cgame() {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://cgame-stadium.jd.com/api/v1/sign', '', {
-                        headers: {
-                            'Connection': 'keep-alive',
-                            'Accept-Encoding': 'gzip, deflate, br',
-                            'Content-Type': 'application/json',
-                            'Origin': 'https://pro.m.jd.com',
-                            'ActivityId': '7c51826be9f241c1ad9733df34d242c5',
-                            'Host': 'cgame-stadium.jd.com',
-                            'Referer': 'https://pro.m.jd.com/mall/active/dj6us2JJRLMMBb4iDaSK4wxvBMt/index.html',
-                            'Accept-Language': 'zh-cn',
-                            'Accept': 'application/json',
-                            'Cookie': cookie
-                        }
-                    })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
-            }
-        });
-    });
-}
+/*async function cgame() {
+  let {data} = await axios.post('https://cgame-stadium.jd.com/api/v1/sign', '', {
+    headers: {
+      'Connection': 'keep-alive',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Content-Type': 'application/json',
+      'Origin': 'https://pro.m.jd.com',
+      'ActivityId': '7c51826be9f241c1ad9733df34d242c5',
+      'Host': 'cgame-stadium.jd.com',
+      'Referer': 'https://pro.m.jd.com/mall/active/dj6us2JJRLMMBb4iDaSK4wxvBMt/index.html',
+      'Accept-Language': 'zh-cn',
+      'Accept': 'application/json',
+      'Cookie': cookie
+    }
+  })
+  return data
+}*/ 

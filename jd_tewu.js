@@ -1,7 +1,7 @@
 "use strict";
 /**
  * 京东-下拉
- * cron: 15 1,15,22 * * *
+ * cron: 15 8,20 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -49,7 +49,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCodesSelf = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -118,7 +117,7 @@ var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCo
                 _c++;
                 return [3 /*break*/, 6];
             case 11:
-                if (!(new Date().getHours() === 23)) return [3 /*break*/, 18];
+                if (!(new Date().getHours() === 20)) return [3 /*break*/, 18];
                 sum = 0;
                 return [4 /*yield*/, api('superBrandSecondFloorMainPage', { "source": "secondfloor" })];
             case 12:
@@ -240,10 +239,9 @@ var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCo
 }); })();
 function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/api?functionId=".concat(fn, "&appid=ProductZ4Brand&client=wh5&t=").concat(Date.now(), "&body=").concat(encodeURIComponent(JSON.stringify(body))), '', {
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/api?functionId=".concat(fn, "&appid=ProductZ4Brand&client=wh5&t=").concat(Date.now(), "&body=").concat(encodeURIComponent(JSON.stringify(body))), '', {
                         headers: {
                             'Host': 'api.m.jd.com',
                             'Origin': 'https://pro.m.jd.com',
@@ -253,9 +251,7 @@ function api(fn, body) {
                             'Cookie': cookie
                         }
                     })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });

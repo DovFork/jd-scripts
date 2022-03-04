@@ -1,345 +1,235 @@
-/*
-闪购盲盒
-长期活动，一人每天5次助力机会，10次被助机会，被助力一次获得一次抽奖机会，前几次必中京豆
-修改自 @yangtingxiao 抽奖机脚本
-活动入口：京东APP首页-闪购-闪购盲盒
-网页地址：https://h5.m.jd.com/babelDiy/Zeus/3vzA7uGuWL2QeJ5UeecbbAVKXftQ/index.html
-更新地址：jd_sgmh.js
-已支持IOS双京东账号, Node.js支持N个京东账号
-脚本兼容: QuantumultX, Surge, Loon, 小火箭，JSBox, Node.js
-============Quantumultx===============
-[task_local]
-#闪购盲盒
-20 8 * * * jd_sgmh.js, tag=闪购盲盒, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
-
-================Loon==============
-[Script]
-cron "20 8 * * *" script-path=jd_sgmh.js, tag=闪购盲盒
-
-===============Surge=================
-闪购盲盒 = type=cron,cronexp="20 8 * * *",wake-system=1,timeout=3600,script-path=jd_sgmh.js
-
-============小火箭=========
-闪购盲盒 = type=cron,script-path=jd_sgmh.js, cronexpr="20 8 * * *", timeout=3600, enable=true
-
+"use strict";
+/**
+ * 闪购盲盒
+ * cron: 20 8 * * *
  */
-const $ = new Env('闪购盲盒');
-
-console.log('\n====================Hello World====================\n')
-
-//Node.js用户请在jdCookie.js处填写京东ck;
-const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-let appId = '1EFRXxg' , homeDataFunPrefix = 'interact_template', collectScoreFunPrefix = 'harmony', message = ''
-let lotteryResultFunPrefix = homeDataFunPrefix, browseTime = 6
-const inviteCodes = [''];
-const randomCount = $.isNode() ? 20 : 5;
-const notify = $.isNode() ? require('./sendNotify') : '';
-let merge = {}
-//IOS等用户直接用NobyDa的jd cookie
-let cookiesArr = [], cookie = '';
-if ($.isNode()) {
-  Object.keys(jdCookieNode).forEach((item) => {
-    cookiesArr.push(jdCookieNode[item])
-  })
-  if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
-} else {
-  cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
-}
-
-const JD_API_HOST = `https://api.m.jd.com/client.action`;
-!(async () => {
-  if (!cookiesArr[0]) {
-    $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
-    return;
-  }
-  await requireConfig();
-  for (let i = 0; i < cookiesArr.length; i++) {
-    cookie = cookiesArr[i];
-    if (cookie) {
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      $.index = i + 1;
-      $.isLogin = true;
-      $.nickName = $.UserName;
-      $.beans = 0
-      message = ''
-      await shareCodesFormat();
-      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-      await interact_template_getHomeData()
-      await showMsg();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-  }
-})()
-  .catch((e) => {
-    $.log("", `❌ ${$.name}, 失败! 原因: ${e}!`, "");
-  })
-  .finally(() => {
-    $.done();
-  });
-
-//获取活动信息
-function interact_template_getHomeData(timeout = 0) {
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}`,
-        headers : {
-          'Origin' : `https://h5.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Referer' : `https://h5.m.jd.com/babelDiy/Zeus/2WBcKYkn8viyxv7MoKKgfzmu7Dss/index.html`,
-          'Host' : `api.m.jd.com`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=${homeDataFunPrefix}_getHomeData&body={"appId":"${appId}","taskToken":""}&client=wh5&clientVersion=1.0.0`
-      }
-
-      $.post(url, async (err, resp, data) => {
-        try {
-          data = JSON.parse(data);
-          if (data.data.bizCode !== 0) {
-            console.log(data.data.bizMsg);
-            return
-          }
-          scorePerLottery = data.data.result.userInfo.scorePerLottery||data.data.result.userInfo.lotteryMinusScore
-          if (data.data.result.raiseInfo&&data.data.result.raiseInfo.levelList) scorePerLottery = data.data.result.raiseInfo.levelList[data.data.result.raiseInfo.scoreLevel];
-          //console.log(scorePerLottery)
-          for (let i = 0;i < data.data.result.taskVos.length;i ++) {
-            console.log("\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName  + '-' + (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成"))
-            //签到
-            if (data.data.result.taskVos[i].taskName === '邀请好友助力') {
-              console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data.data.result.taskVos[i].assistTaskDetailVo.taskToken}\n`);
-              for (let code of $.newShareCodes) {
-                if (!code) continue
-                let res = await harmony_collectScore(code, data.data.result.taskVos[i].taskId);
-                if(res === '已达到助力上限')
-                  break
-                await $.wait(2000)
-              }
-            }
-            else if (data.data.result.taskVos[i].status === 3) {
-              console.log('开始抽奖')
-              await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
-            }
-            else if ([0,13].includes(data.data.result.taskVos[i].taskType)) {
-              if (data.data.result.taskVos[i].status === 1) {
-                await harmony_collectScore(data.data.result.taskVos[i].simpleRecordInfoVo.taskToken,data.data.result.taskVos[i].taskId);
-              }
-            }
-            else if ([14,6].includes(data.data.result.taskVos[i].taskType)) {
-              //console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
-              for (let j = 0;j <(data.data.result.userInfo.lotteryNum||0);j++) {
-                if (appId === "1EFRTxQ") {
-                  await ts_smashGoldenEggs()
-                }  else {
-                  await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+exports.__esModule = true;
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var axios_1 = require("axios");
+var cookie = '', UserName, res;
+var shareCodeSelf = [], shareCode = [], shareCodePool = [];
+!(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var cookiesArr, _i, _a, _b, index, value, _c, _d, t, i, tp, _e, _f, _g, index, value, _h, shareCode_1, code, _j, _k, _l, index, value, lotteryNum, i;
+    var _m, _o, _p;
+    return __generator(this, function (_q) {
+        switch (_q.label) {
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 1:
+                cookiesArr = _q.sent();
+                _i = 0, _a = cookiesArr.entries();
+                _q.label = 2;
+            case 2:
+                if (!(_i < _a.length)) return [3 /*break*/, 14];
+                _b = _a[_i], index = _b[0], value = _b[1];
+                cookie = value;
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1EFRXxg", "taskToken": "", "channelId": 1 })];
+            case 3:
+                res = _q.sent();
+                (0, TS_USER_AGENTS_1.o2s)(res);
+                _c = 0, _d = res.data.result.taskVos;
+                _q.label = 4;
+            case 4:
+                if (!(_c < _d.length)) return [3 /*break*/, 13];
+                t = _d[_c];
+                if (t.taskType === 14) {
+                    console.log('助力码', (_m = t.assistTaskDetailVo) === null || _m === void 0 ? void 0 : _m.taskToken);
+                    shareCodeSelf.push((_o = t.assistTaskDetailVo) === null || _o === void 0 ? void 0 : _o.taskToken);
                 }
-              }
-            }
-            let list = data.data.result.taskVos[i].productInfoVos || data.data.result.taskVos[i].followShopVo || data.data.result.taskVos[i].shoppingActivityVos || data.data.result.taskVos[i].browseShopVo
-            for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
-              for (let j in list) {
-                if (list[j].status === 1) {
-                  //console.log(list[j].simpleRecordInfoVo||list[j].assistTaskDetailVo)
-                  console.log("\n" + (list[j].title || list[j].shopName||list[j].skuName))
-                  //console.log(list[j].itemId)
-                  if (list[j].itemId) {
-                    await harmony_collectScore(list[j].taskToken,data.data.result.taskVos[i].taskId,list[j].itemId,1);
-                    if (k === data.data.result.taskVos[i].maxTimes - 1) await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
-                  } else {
-                    await harmony_collectScore(list[j].taskToken,data.data.result.taskVos[i].taskId)
-                  }
-                  list[j].status = 2;
-                  break;
+                if (!((t.browseShopVo || t.productInfoVos || t.shoppingActivityVos) && t.times < t.maxTimes)) return [3 /*break*/, 12];
+                i = 0;
+                _q.label = 5;
+            case 5:
+                if (!(i < t.maxTimes - t.times)) return [3 /*break*/, 12];
+                tp = [];
+                if (t.productInfoVos)
+                    tp = t.productInfoVos;
+                else if (t.browseShopVo)
+                    tp = t.browseShopVo;
+                else if (t.shoppingActivityVos)
+                    tp = t.shoppingActivityVos;
+                console.log(tp[i].shopName || tp[i].skuName || tp[i].title);
+                if (!!t.shoppingActivityVos) return [3 /*break*/, 8];
+                return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": tp[i].taskToken, "taskId": t.taskId, "actionType": 1 })];
+            case 6:
+                res = _q.sent();
+                console.log(res.data.bizMsg);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.waitDuration * 1000 || 2000)];
+            case 7:
+                _q.sent();
+                _q.label = 8;
+            case 8: return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": tp[i].taskToken, "taskId": t.taskId, "actionType": 0 })];
+            case 9:
+                res = _q.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 10:
+                _q.sent();
+                if (res.data.bizMsg === 'success') {
+                    console.log('任务完成');
                 }
-              }
+                else {
+                    return [3 /*break*/, 12];
+                }
+                _q.label = 11;
+            case 11:
+                i++;
+                return [3 /*break*/, 5];
+            case 12:
+                _c++;
+                return [3 /*break*/, 4];
+            case 13:
+                _i++;
+                return [3 /*break*/, 2];
+            case 14:
+                _e = 0, _f = cookiesArr.entries();
+                _q.label = 15;
+            case 15:
+                if (!(_e < _f.length)) return [3 /*break*/, 22];
+                _g = _f[_e], index = _g[0], value = _g[1];
+                cookie = value;
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getShareCodePool)('sgmh', 30)];
+            case 16:
+                shareCodePool = _q.sent();
+                shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodePool, true)));
+                _h = 0, shareCode_1 = shareCode;
+                _q.label = 17;
+            case 17:
+                if (!(_h < shareCode_1.length)) return [3 /*break*/, 21];
+                code = shareCode_1[_h];
+                console.log('去助力', code);
+                return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": code, "taskId": 3 })];
+            case 18:
+                res = _q.sent();
+                if (res.data.bizCode === 0) {
+                    console.log('助力成功');
+                }
+                else if (res.data.bizCode === 108) {
+                    console.log('上限');
+                    return [3 /*break*/, 21];
+                }
+                else {
+                    console.log('助力失败', res.data.bizMsg);
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 19:
+                _q.sent();
+                _q.label = 20;
+            case 20:
+                _h++;
+                return [3 /*break*/, 17];
+            case 21:
+                _e++;
+                return [3 /*break*/, 15];
+            case 22:
+                _j = 0, _k = cookiesArr.entries();
+                _q.label = 23;
+            case 23:
+                if (!(_j < _k.length)) return [3 /*break*/, 31];
+                _l = _k[_j], index = _l[0], value = _l[1];
+                cookie = value;
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1EFRXxg", "taskToken": "", "channelId": 1 })];
+            case 24:
+                res = _q.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 25:
+                _q.sent();
+                lotteryNum = parseInt(res.data.result.userInfo.lotteryNum);
+                console.log('可以抽奖', lotteryNum, '次');
+                i = 0;
+                _q.label = 26;
+            case 26:
+                if (!(i < lotteryNum)) return [3 /*break*/, 30];
+                return [4 /*yield*/, api('interact_template_getLotteryResult', { "appId": "1EFRXxg" })];
+            case 27:
+                res = _q.sent();
+                if (res.data.result.userAwardsCacheDto.type === 0) {
+                    console.log('抽奖成功 空气');
+                }
+                else {
+                    console.log('抽奖成功', (_p = res.data.result.userAwardsCacheDto.jBeanAwardVo) === null || _p === void 0 ? void 0 : _p.prizeName);
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 28:
+                _q.sent();
+                _q.label = 29;
+            case 29:
+                i++;
+                return [3 /*break*/, 26];
+            case 30:
+                _j++;
+                return [3 /*break*/, 23];
+            case 31: return [2 /*return*/];
+        }
+    });
+}); })();
+function api(fn, body) {
+    return __awaiter(this, void 0, void 0, function () {
+        var data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action', "functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&client=wh5&clientVersion=1.0.0"), {
+                        headers: {
+                            'Host': 'api.m.jd.com',
+                            'Origin': 'https://h5.m.jd.com',
+                            'User-Agent': 'jdapp;iPhone;10.4.3;',
+                            'Referer': 'https://h5.m.jd.com/',
+                            'Cookie': cookie
+                        }
+                    })];
+                case 1:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, data];
             }
-          }
-          if (scorePerLottery) await interact_template_getLotteryResult();
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
+        });
+    });
 }
-//做任务
-function harmony_collectScore(taskToken,taskId,itemId = "",actionType = 0,timeout = 0) {
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}`,
-        headers : {
-          'Origin' : `https://h5.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Referer' : `https://h5.m.jd.com/babelDiy/Zeus/2WBcKYkn8viyxv7MoKKgfzmu7Dss/index.html`,//?inviteId=P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ?inviteId=${shareCode}
-          'Host' : `api.m.jd.com`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=${collectScoreFunPrefix}_collectScore&body={"appId":"${appId}","taskToken":"${taskToken}","taskId":${taskId}${itemId ? ',"itemId":"'+itemId+'"' : ''},"actionType":${actionType}&client=wh5&clientVersion=1.0.0`
-      }
-      //console.log(url.body)
-      //if (appId === "1EFRTxQ") url.body += "&appid=golden-egg"
-      $.post(url, async (err, resp, data) => {
-        try {
-          data = JSON.parse(data);
-          if (data.data.bizMsg === "任务领取成功") {
-            await harmony_collectScore(taskToken,taskId,itemId,0,parseInt(browseTime) * 1000);
-          } else{
-            console.log(data.data.bizMsg)
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve(data.data.bizMsg)
-        }
-      })
-    },timeout)
-  })
-}
-//抽奖
-function interact_template_getLotteryResult(taskId,timeout = 0) {
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}`,
-        headers : {
-          'Origin' : `https://h5.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Referer' : `https://h5.m.jd.com/babelDiy/Zeus/2WBcKYkn8viyxv7MoKKgfzmu7Dss/index.html?inviteId=P04z54XCjVXmYaW5m9cZ2f433tIlGBj3JnLHD0`,//?inviteId=P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ
-          'Host' : `api.m.jd.com`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `functionId=${lotteryResultFunPrefix}_getLotteryResult&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0`
-      }
-      //console.log(url.body)
-      //if (appId === "1EFRTxQ") url.body = `functionId=ts_getLottery&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0&appid=golden-egg`
-      $.post(url, async (err, resp, data) => {
-        try {
-          if (!timeout) console.log('\n开始抽奖')
-          data = JSON.parse(data);
-          if (data.data.bizCode === 0) {
-            if (data.data.result.userAwardsCacheDto.jBeanAwardVo) {
-              console.log('京豆:' + data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
-              $.beans += parseInt(data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
-            }
-            if (data.data.result.raiseInfo) scorePerLottery = parseInt(data.data.result.raiseInfo.nextLevelScore);
-            if (parseInt(data.data.result.userScore) >= scorePerLottery && scorePerLottery) {
-              await interact_template_getLotteryResult(1000)
-            }
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
-
-
-//通知
-function showMsg() {
-  message += `任务已完成，本次运行获得京豆${$.beans}`
-  return new Promise(resolve => {
-    if ($.beans) $.msg($.name, '', `【京东账号${$.index}】${$.nickName}\n${message}`);
-    $.log(`【京东账号${$.index}】${$.nickName}\n${message}`);
-    resolve()
-  })
-}
-
-function requireConfig() {
-  return new Promise(async resolve => {
-    console.log(`开始获取${$.name}配置文件\n`);
-    //Node.js用户请在jdCookie.js处填写京东ck;
-    let shareCodes = $.isNode() ? require('./jdSgmhShareCodes.js') : []
-    console.log(`共${cookiesArr.length}个京东账号\n`);
-    if ($.isNode() && process.env.JDSGMH_SHARECODES) {
-      if (process.env.JDSGMH_SHARECODES.indexOf('\n') > -1) {
-        shareCodes = process.env.JDSGMH_SHARECODES.split('\n');
-      } else {
-        shareCodes = process.env.JDSGMH_SHARECODES.split('&');
-      }
-    }
-    $.shareCodesArr = [];
-    if ($.isNode()) {
-      Object.keys(shareCodes).forEach((item) => {
-        if (shareCodes[item]) {
-          $.shareCodesArr.push(shareCodes[item])
-        }
-      })
-    }
-    console.log(`您提供了${$.shareCodesArr.length}个账号的${$.name}助力码\n`);
-    resolve()
-  })
-}
-
-//格式化助力码
-function shareCodesFormat() {
-  return new Promise(async resolve => {
-    // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
-    $.newShareCodes = [];
-    if ($.shareCodesArr[$.index - 1]) {
-      $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-    } else {
-      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
-    }
-    const readShareCodeRes = await readShareCode();
-    // console.log(readShareCodeRes)
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    }
-    console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
-    resolve();
-  })
-}
-
-function readShareCode() {
-  console.log(`开始`)
-  return new Promise(async resolve => {
-    $.get({
-      url: `https://api.jdsharecode.xyz/api/sgmh/${randomCount}`, 'timeout': 10000}, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (data) {
-            console.log(`随机取${randomCount}个码放到您固定的互助码后面(不影响已有固定互助)`)
-            data = JSON.parse(data);
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-    await $.wait(2000);
-    resolve()
-  })
-}
-function jsonParse(str) {
-  if (typeof str == "string") {
-    try {
-      return JSON.parse(str);
-    } catch (e) {
-      console.log(e);
-      $.msg($.name, '', '请勿随意在BoxJs输入框修改内容\n建议通过脚本去获取cookie')
-      return [];
-    }
-  }
-}
-function Env(t,e){class s{constructor(t){this.env=t}send(t,e="GET"){t="string"==typeof t?{url:t}:t;let s=this.get;return"POST"===e&&(s=this.post),new Promise((e,i)=>{s.call(this,t,(t,s,r)=>{t?i(t):e(s)})})}get(t){return this.send.call(this.env,t)}post(t){return this.send.call(this.env,t,"POST")}}return new class{constructor(t,e){this.name=t,this.http=new s(this),this.data=null,this.dataFile="box.dat",this.logs=[],this.isMute=!1,this.isNeedRewrite=!1,this.logSeparator="\n",this.startTime=(new Date).getTime(),Object.assign(this,e),this.log("",`\ud83d\udd14${this.name}, \u5f00\u59cb!`)}isNode(){return"undefined"!=typeof module&&!!module.exports}isQuanX(){return"undefined"!=typeof $task}isSurge(){return"undefined"!=typeof $httpClient&&"undefined"==typeof $loon}isLoon(){return"undefined"!=typeof $loon}toObj(t,e=null){try{return JSON.parse(t)}catch{return e}}toStr(t,e=null){try{return JSON.stringify(t)}catch{return e}}getjson(t,e){let s=e;const i=this.getdata(t);if(i)try{s=JSON.parse(this.getdata(t))}catch{}return s}setjson(t,e){try{return this.setdata(JSON.stringify(t),e)}catch{return!1}}getScript(t){return new Promise(e=>{this.get({url:t},(t,s,i)=>e(i))})}runScript(t,e){return new Promise(s=>{let i=this.getdata("@chavy_boxjs_userCfgs.httpapi");i=i?i.replace(/\n/g,"").trim():i;let r=this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");r=r?1*r:20,r=e&&e.timeout?e.timeout:r;const[o,h]=i.split("@"),a={url:`http://${h}/v1/scripting/evaluate`,body:{script_text:t,mock_type:"cron",timeout:r},headers:{"X-Key":o,Accept:"*/*"}};this.post(a,(t,e,i)=>s(i))}).catch(t=>this.logErr(t))}loaddata(){if(!this.isNode())return{};{this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e);if(!s&&!i)return{};{const i=s?t:e;try{return JSON.parse(this.fs.readFileSync(i))}catch(t){return{}}}}}writedata(){if(this.isNode()){this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e),r=JSON.stringify(this.data);s?this.fs.writeFileSync(t,r):i?this.fs.writeFileSync(e,r):this.fs.writeFileSync(t,r)}}lodash_get(t,e,s){const i=e.replace(/\[(\d+)\]/g,".$1").split(".");let r=t;for(const t of i)if(r=Object(r)[t],void 0===r)return s;return r}lodash_set(t,e,s){return Object(t)!==t?t:(Array.isArray(e)||(e=e.toString().match(/[^.[\]]+/g)||[]),e.slice(0,-1).reduce((t,s,i)=>Object(t[s])===t[s]?t[s]:t[s]=Math.abs(e[i+1])>>0==+e[i+1]?[]:{},t)[e[e.length-1]]=s,t)}getdata(t){let e=this.getval(t);if(/^@/.test(t)){const[,s,i]=/^@(.*?)\.(.*?)$/.exec(t),r=s?this.getval(s):"";if(r)try{const t=JSON.parse(r);e=t?this.lodash_get(t,i,""):e}catch(t){e=""}}return e}setdata(t,e){let s=!1;if(/^@/.test(e)){const[,i,r]=/^@(.*?)\.(.*?)$/.exec(e),o=this.getval(i),h=i?"null"===o?null:o||"{}":"{}";try{const e=JSON.parse(h);this.lodash_set(e,r,t),s=this.setval(JSON.stringify(e),i)}catch(e){const o={};this.lodash_set(o,r,t),s=this.setval(JSON.stringify(o),i)}}else s=this.setval(t,e);return s}getval(t){return this.isSurge()||this.isLoon()?$persistentStore.read(t):this.isQuanX()?$prefs.valueForKey(t):this.isNode()?(this.data=this.loaddata(),this.data[t]):this.data&&this.data[t]||null}setval(t,e){return this.isSurge()||this.isLoon()?$persistentStore.write(t,e):this.isQuanX()?$prefs.setValueForKey(t,e):this.isNode()?(this.data=this.loaddata(),this.data[e]=t,this.writedata(),!0):this.data&&this.data[e]||null}initGotEnv(t){this.got=this.got?this.got:require("got"),this.cktough=this.cktough?this.cktough:require("tough-cookie"),this.ckjar=this.ckjar?this.ckjar:new this.cktough.CookieJar,t&&(t.headers=t.headers?t.headers:{},void 0===t.headers.Cookie&&void 0===t.cookieJar&&(t.cookieJar=this.ckjar))}get(t,e=(()=>{})){t.headers&&(delete t.headers["Content-Type"],delete t.headers["Content-Length"]),this.isSurge()||this.isLoon()?(this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient.get(t,(t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status),e(t,s,i)})):this.isQuanX()?(this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t))):this.isNode()&&(this.initGotEnv(t),this.got(t).on("redirect",(t,e)=>{try{if(t.headers["set-cookie"]){const s=t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();this.ckjar.setCookieSync(s,null),e.cookieJar=this.ckjar}}catch(t){this.logErr(t)}}).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>{const{message:s,response:i}=t;e(s,i,i&&i.body)}))}post(t,e=(()=>{})){if(t.body&&t.headers&&!t.headers["Content-Type"]&&(t.headers["Content-Type"]="application/x-www-form-urlencoded"),t.headers&&delete t.headers["Content-Length"],this.isSurge()||this.isLoon())this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient.post(t,(t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status),e(t,s,i)});else if(this.isQuanX())t.method="POST",this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t));else if(this.isNode()){this.initGotEnv(t);const{url:s,...i}=t;this.got.post(s,i).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>{const{message:s,response:i}=t;e(s,i,i&&i.body)})}}time(t){let e={"M+":(new Date).getMonth()+1,"d+":(new Date).getDate(),"H+":(new Date).getHours(),"m+":(new Date).getMinutes(),"s+":(new Date).getSeconds(),"q+":Math.floor(((new Date).getMonth()+3)/3),S:(new Date).getMilliseconds()};/(y+)/.test(t)&&(t=t.replace(RegExp.$1,((new Date).getFullYear()+"").substr(4-RegExp.$1.length)));for(let s in e)new RegExp("("+s+")").test(t)&&(t=t.replace(RegExp.$1,1==RegExp.$1.length?e[s]:("00"+e[s]).substr((""+e[s]).length)));return t}msg(e=t,s="",i="",r){const o=t=>{if(!t)return t;if("string"==typeof t)return this.isLoon()?t:this.isQuanX()?{"open-url":t}:this.isSurge()?{url:t}:void 0;if("object"==typeof t){if(this.isLoon()){let e=t.openUrl||t.url||t["open-url"],s=t.mediaUrl||t["media-url"];return{openUrl:e,mediaUrl:s}}if(this.isQuanX()){let e=t["open-url"]||t.url||t.openUrl,s=t["media-url"]||t.mediaUrl;return{"open-url":e,"media-url":s}}if(this.isSurge()){let e=t.url||t.openUrl||t["open-url"];return{url:e}}}};this.isMute||(this.isSurge()||this.isLoon()?$notification.post(e,s,i,o(r)):this.isQuanX()&&$notify(e,s,i,o(r)));let h=["","==============\ud83d\udce3\u7cfb\u7edf\u901a\u77e5\ud83d\udce3=============="];h.push(e),s&&h.push(s),i&&h.push(i),console.log(h.join("\n")),this.logs=this.logs.concat(h)}log(...t){t.length>0&&(this.logs=[...this.logs,...t]),console.log(t.join(this.logSeparator))}logErr(t,e){const s=!this.isSurge()&&!this.isQuanX()&&!this.isLoon();s?this.log("",`\u2757\ufe0f${this.name}, \u9519\u8bef!`,t.stack):this.log("",`\u2757\ufe0f${this.name}, \u9519\u8bef!`,t)}wait(t){return new Promise(e=>setTimeout(e,t))}done(t={}){const e=(new Date).getTime(),s=(e-this.startTime)/1e3;this.log("",`\ud83d\udd14${this.name}, \u7ed3\u675f! \ud83d\udd5b ${s} \u79d2`),this.log(),(this.isSurge()||this.isQuanX()||this.isLoon())&&$done(t)}}(t,e)}

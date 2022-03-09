@@ -81,12 +81,15 @@ function requestAlgo(appId, USER_AGENT) {
 }
 exports.requestAlgo = requestAlgo;
 function geth5st(t, appId) {
-    var a = t.map(function (e) {
-        return e["key"] + ":" + e["value"];
-    })["join"]("&");
+    var a = '';
+    t.forEach(function (_a) {
+        var key = _a.key, value = _a.value;
+        a += "".concat(key, ":").concat(value, "&");
+    });
+    a = a.slice(0, -1);
     var time = Date.now();
     var timestamp = (0, date_fns_1.format)(time, "yyyyMMddhhmmssSSS");
-    var hash1 = genKey(tk, fp.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString();
+    var hash1 = genKey(tk, fp.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);
     var hash2 = CryptoJS.HmacSHA256(a, hash1).toString();
     return ["".concat(timestamp.toString()), "".concat(fp.toString()), "".concat(appId.toString()), "".concat(tk), "".concat(hash2), "3.0", "".concat(time.toString())].join(";");
 }

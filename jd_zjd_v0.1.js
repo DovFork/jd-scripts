@@ -1,9 +1,8 @@
 "use strict";
 /**
- * jd_zjd
- * Cookie >= 4 内部
- * Cookie <  4 HW.ts -> 内部
- * cron: 15 0,1,23 * * *
+ * v0.1
+ * cron: 15 0,1 * * *
+ * CK1 优先助力HW.ts
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -51,41 +50,40 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
+var axios_1 = require("axios");
+var jd_zjd_tool_js_1 = require("./utils/jd_zjd_tool.js");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var V3_1 = require("./utils/V3");
-var zjd_1 = require("./utils/zjd");
+var crypto_js_1 = require("crypto-js");
 var cookie = '', res = '', UserName;
-var USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat';
-var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
+var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, _c, fp, tk, genKey, e_1, _d, _e, _f, index, value, _g, fp, tk, genKey, _h, shareCode_1, code, e_2;
-    return __generator(this, function (_j) {
-        switch (_j.label) {
+    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCode_1, code, e_2;
+    return __generator(this, function (_g) {
+        switch (_g.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _j.sent();
+                cookiesArr = _g.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _j.label = 2;
+                _g.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 25];
                 _b = _a[_i], index = _b[0], value = _b[1];
-                _j.label = 3;
+                _g.label = 3;
             case 3:
-                _j.trys.push([3, 21, , 22]);
-                return [4 /*yield*/, (0, V3_1.requestAlgo)('d8ac0', USER_AGENT)];
+                _g.trys.push([3, 21, , 22]);
+                return [4 /*yield*/, (0, jd_zjd_tool_js_1.zjdInit)()];
             case 4:
-                _c = _j.sent(), fp = _c.fp, tk = _c.tk, genKey = _c.genKey;
-                (0, zjd_1.init)(fp, tk, genKey);
+                _g.sent();
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
             case 5:
-                res = _j.sent();
+                res = _g.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 6:
-                _j.sent();
+                _g.sent();
                 if (!(res.data.assistStatus === 1)) return [3 /*break*/, 7];
                 // 已开，没满
                 console.log('已开团，', res.data.assistedRecords.length, '/', res.data.assistNum, '，剩余', Math.round(res.data.assistValidMilliseconds / 1000 / 60), '分钟');
@@ -100,16 +98,16 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
                 return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
             case 8:
                 // 没开团
-                res = _j.sent();
+                res = _g.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 9:
-                _j.sent();
+                _g.sent();
                 if (!res.success) return [3 /*break*/, 12];
                 console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
                 return [4 /*yield*/, api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
             case 10:
-                res = _j.sent();
+                res = _g.sent();
                 shareCodeSelf.push({
                     activityIdEncrypted: res.data.id,
                     assistStartRecordId: res.data.assistStartRecordId,
@@ -117,8 +115,8 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
                 });
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 11:
-                _j.sent();
-                _j.label = 12;
+                _g.sent();
+                _g.label = 12;
             case 12: return [3 /*break*/, 20];
             case 13:
                 if (!(res.data.assistedRecords.length === res.data.assistNum)) return [3 /*break*/, 19];
@@ -126,16 +124,16 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
                 if (!res.data.canStartNewAssist) return [3 /*break*/, 18];
                 return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
             case 14:
-                res = _j.sent();
+                res = _g.sent();
                 console.log('4', res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 15:
-                _j.sent();
+                _g.sent();
                 if (!res.success) return [3 /*break*/, 18];
                 console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
                 return [4 /*yield*/, api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
             case 16:
-                res = _j.sent();
+                res = _g.sent();
                 shareCodeSelf.push({
                     activityIdEncrypted: res.data.id,
                     assistStartRecordId: res.data.assistStartRecordId,
@@ -143,59 +141,58 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
                 });
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 17:
-                _j.sent();
-                _j.label = 18;
+                _g.sent();
+                _g.label = 18;
             case 18: return [3 /*break*/, 20];
             case 19:
                 if (!res.data.canStartNewAssist) {
                     console.log('不可开团');
                 }
-                _j.label = 20;
+                _g.label = 20;
             case 20: return [3 /*break*/, 22];
             case 21:
-                e_1 = _j.sent();
+                e_1 = _g.sent();
                 return [3 /*break*/, 24];
             case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 23:
-                _j.sent();
-                _j.label = 24;
+                _g.sent();
+                _g.label = 24;
             case 24:
                 _i++;
                 return [3 /*break*/, 2];
             case 25:
                 (0, TS_USER_AGENTS_1.o2s)(shareCodeSelf);
-                _d = 0, _e = cookiesArr.entries();
-                _j.label = 26;
+                _c = 0, _d = cookiesArr.entries();
+                _g.label = 26;
             case 26:
-                if (!(_d < _e.length)) return [3 /*break*/, 40];
-                _f = _e[_d], index = _f[0], value = _f[1];
+                if (!(_c < _d.length)) return [3 /*break*/, 40];
+                _e = _d[_c], index = _e[0], value = _e[1];
                 if (!(shareCodeHW.length === 0)) return [3 /*break*/, 28];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('zjd')];
             case 27:
-                shareCodeHW = _j.sent();
-                _j.label = 28;
+                shareCodeHW = _g.sent();
+                _g.label = 28;
             case 28:
                 shareCode = index === 0
                     ? Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), shareCodeSelf, true)))
                     : Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                return [4 /*yield*/, (0, V3_1.requestAlgo)('d8ac0', USER_AGENT)];
+                return [4 /*yield*/, (0, jd_zjd_tool_js_1.zjdInit)()];
             case 29:
-                _g = _j.sent(), fp = _g.fp, tk = _g.tk, genKey = _g.genKey;
-                (0, zjd_1.init)(fp, tk, genKey);
-                _h = 0, shareCode_1 = shareCode;
-                _j.label = 30;
+                _g.sent();
+                _f = 0, shareCode_1 = shareCode;
+                _g.label = 30;
             case 30:
-                if (!(_h < shareCode_1.length)) return [3 /*break*/, 37];
-                code = shareCode_1[_h];
-                _j.label = 31;
+                if (!(_f < shareCode_1.length)) return [3 /*break*/, 37];
+                code = shareCode_1[_f];
+                _g.label = 31;
             case 31:
-                _j.trys.push([31, 33, , 34]);
+                _g.trys.push([31, 33, , 34]);
                 console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code.assistedPinEncrypted.replace('\n', '')));
                 return [4 /*yield*/, api('vvipclub_distributeBean_assist', { "activityIdEncrypted": code.activityIdEncrypted, "assistStartRecordId": code.assistStartRecordId, "assistedPinEncrypted": code.assistedPinEncrypted, "channel": "FISSION_BEAN", "launchChannel": "undefined" })];
             case 32:
-                res = _j.sent();
+                res = _g.sent();
                 if (res.resultCode === '9200008') {
                     console.log('不能助力自己');
                 }
@@ -214,49 +211,54 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], encPin = [];
                 }
                 return [3 /*break*/, 34];
             case 33:
-                e_2 = _j.sent();
+                e_2 = _g.sent();
                 console.log(e_2);
                 return [3 /*break*/, 37];
             case 34: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 35:
-                _j.sent();
-                _j.label = 36;
+                _g.sent();
+                _g.label = 36;
             case 36:
-                _h++;
+                _f++;
                 return [3 /*break*/, 30];
             case 37:
                 console.log();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 38:
-                _j.sent();
-                _j.label = 39;
+                _g.sent();
+                _g.label = 39;
             case 39:
-                _d++;
+                _c++;
                 return [3 /*break*/, 26];
             case 40: return [2 /*return*/];
         }
     });
 }); })();
-function api(fn, params) {
+function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
-        var h5st;
+        var h5st, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (fn === 'vvipclub_distributeBean_assist') {
-                        h5st = (0, zjd_1.zjdTool)({ "activityIdEncrypted": params.activityIdEncrypted, "channel": "FISSION_BEAN" });
-                    }
-                    else {
-                        h5st = (0, zjd_1.zjdTool)(params);
-                    }
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/api?functionId=".concat(fn, "&fromType=wxapp&timestamp=").concat(Date.now()), "body=".concat(decodeURIComponent(JSON.stringify(params)), "&appid=swat_miniprogram&h5st=").concat(h5st, "&client=tjj_m&clientVersion=3.1.3"), {
-                            "Content-Type": "application/x-www-form-urlencoded; Charset=UTF-8",
-                            "Host": "api.m.jd.com",
-                            "Referer": "https://servicewechat.com/wxa5bf5ee667d91626/182/page-frame.html",
-                            "Cookie": cookie,
-                            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat'
+                    h5st = (0, jd_zjd_tool_js_1.zjdH5st)({
+                        'fromType': 'wxapp',
+                        'timestamp': Date.now(),
+                        'body0': JSON.stringify(body),
+                        'appid': 'swat_miniprogram',
+                        'body': (0, crypto_js_1.SHA256)(JSON.stringify(body)).toString(),
+                        'functionId': fn
+                    });
+                    return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/api?functionId=".concat(fn, "&fromType=wxapp&timestamp=").concat(Date.now()), "functionId=distributeBeanActivityInfo&body=".concat(encodeURIComponent(JSON.stringify(body)), "&appid=swat_miniprogram&h5st=").concat(encodeURIComponent(h5st)), {
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded',
+                                'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac',
+                                'referer': 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html',
+                                'Cookie': cookie
+                            }
                         })];
-                case 1: return [2 /*return*/, _a.sent()];
+                case 1:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, data];
             }
         });
     });

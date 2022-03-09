@@ -49,62 +49,78 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
+var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCodesSelf = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, activityId, _i, _a, _b, index, value, encryptProjectId, _c, _d, t, tp, sum, userStarNum, i, full, _e, _f, _g, index, value, mine, _h, _j, t, _loop_1, _k, shareCodes_1, code, state_1;
-    var _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
-    return __generator(this, function (_z) {
-        switch (_z.label) {
+    var _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1;
+    return __generator(this, function (_2) {
+        switch (_2.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _z.sent();
+                cookiesArr = _2.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _z.label = 2;
+                _2.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 19];
+                if (!(_i < _a.length)) return [3 /*break*/, 25];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, api('superBrandSecondFloorMainPage', { "source": "secondfloor" })];
+                return [4 /*yield*/, api('showSecondFloorCardInfo', { "source": "secondfloor" })];
             case 3:
-                res = _z.sent();
+                res = _2.sent();
                 activityId = res.data.result.activityBaseInfo.activityId;
                 encryptProjectId = res.data.result.activityBaseInfo.encryptProjectId;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)
                     // 任务
                 ];
             case 4:
-                _z.sent();
+                _2.sent();
                 return [4 /*yield*/, api('superBrandTaskList', { "source": "secondfloor", "activityId": activityId, "assistInfoFlag": 1 })];
             case 5:
                 // 任务
-                res = _z.sent();
+                res = _2.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 _c = 0, _d = res.data.result.taskList;
-                _z.label = 6;
+                _2.label = 6;
             case 6:
-                if (!(_c < _d.length)) return [3 /*break*/, 11];
+                if (!(_c < _d.length)) return [3 /*break*/, 15];
                 t = _d[_c];
-                if (!(t.completionCnt !== t.assignmentTimesLimit)) return [3 /*break*/, 9];
+                if (!(t.completionCnt !== t.assignmentTimesLimit)) return [3 /*break*/, 13];
                 if (!(((_l = t.ext) === null || _l === void 0 ? void 0 : _l.shoppingActivity) || ((_m = t.ext) === null || _m === void 0 ? void 0 : _m.followShop))) return [3 /*break*/, 9];
                 tp = ((_o = t.ext) === null || _o === void 0 ? void 0 : _o.shoppingActivity) || ((_p = t.ext) === null || _p === void 0 ? void 0 : _p.followShop);
                 tp = tp[0];
                 console.log(tp.title || tp.shopName, tp.itemId);
                 return [4 /*yield*/, api('superBrandDoTask', { "source": "secondfloor", "activityId": activityId, "encryptProjectId": encryptProjectId, "encryptAssignmentId": t.encryptAssignmentId, "assignmentType": t.assignmentType, "itemId": tp.itemId, "actionType": 0 })];
             case 7:
-                res = _z.sent();
+                res = _2.sent();
                 console.log((_q = res.data) === null || _q === void 0 ? void 0 : _q.bizMsg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 8:
-                _z.sent();
-                _z.label = 9;
+                _2.sent();
+                _2.label = 9;
             case 9:
+                if (!((_r = t.ext) === null || _r === void 0 ? void 0 : _r.sign2)) return [3 /*break*/, 13];
+                if (!(t.ext.currentSectionStatus !== 1)) return [3 /*break*/, 12];
+                return [4 /*yield*/, api('superBrandDoTask', { "source": "secondfloor", "activityId": activityId, "encryptProjectId": encryptProjectId, "encryptAssignmentId": t.encryptAssignmentId, "assignmentType": t.assignmentType, "itemId": t.ext.currentSectionItemId, "actionType": 0 })];
+            case 10:
+                res = _2.sent();
+                console.log((_s = res.data) === null || _s === void 0 ? void 0 : _s.bizMsg);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 11:
+                _2.sent();
+                console.log('下拉任务', (_t = t.ext) === null || _t === void 0 ? void 0 : _t.sign2);
+                return [3 /*break*/, 13];
+            case 12:
+                console.log('下拉任务 已经完成');
+                _2.label = 13;
+            case 13:
                 // 助力码
-                if ((_r = t.ext) === null || _r === void 0 ? void 0 : _r.assistTaskDetail) {
+                if ((_u = t.ext) === null || _u === void 0 ? void 0 : _u.assistTaskDetail) {
                     console.log('助力码：', t.ext.assistTaskDetail.itemId);
-                    console.log('收到助力：', (_u = (_t = (_s = t.ext) === null || _s === void 0 ? void 0 : _s.assistList) === null || _t === void 0 ? void 0 : _t.length) !== null && _u !== void 0 ? _u : 0);
+                    console.log('收到助力：', (_x = (_w = (_v = t.ext) === null || _v === void 0 ? void 0 : _v.assistList) === null || _w === void 0 ? void 0 : _w.length) !== null && _x !== void 0 ? _x : 0);
                     shareCodesSelf.push({
                         activityId: activityId,
                         encryptProjectId: encryptProjectId,
@@ -112,26 +128,26 @@ var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCo
                         itemId: t.ext.assistTaskDetail.itemId
                     });
                 }
-                _z.label = 10;
-            case 10:
+                _2.label = 14;
+            case 14:
                 _c++;
                 return [3 /*break*/, 6];
-            case 11:
-                if (!(new Date().getHours() === 20)) return [3 /*break*/, 18];
+            case 15:
+                if (!(new Date().getHours() === 20)) return [3 /*break*/, 22];
                 sum = 0;
                 return [4 /*yield*/, api('superBrandSecondFloorMainPage', { "source": "secondfloor" })];
-            case 12:
-                res = _z.sent();
+            case 16:
+                res = _2.sent();
                 userStarNum = res.data.result.activityUserInfo.userStarNum;
                 console.log('可以抽奖', userStarNum, '次');
                 i = 0;
-                _z.label = 13;
-            case 13:
-                if (!(i < userStarNum)) return [3 /*break*/, 17];
+                _2.label = 17;
+            case 17:
+                if (!(i < userStarNum)) return [3 /*break*/, 21];
                 return [4 /*yield*/, api('superBrandTaskLottery', { "source": "secondfloor", "activityId": activityId })];
-            case 14:
-                res = _z.sent();
-                if ((_x = (_w = (_v = res.data.result) === null || _v === void 0 ? void 0 : _v.rewardComponent) === null || _w === void 0 ? void 0 : _w.beanList) === null || _x === void 0 ? void 0 : _x.length) {
+            case 18:
+                res = _2.sent();
+                if ((_0 = (_z = (_y = res.data.result) === null || _y === void 0 ? void 0 : _y.rewardComponent) === null || _z === void 0 ? void 0 : _z.beanList) === null || _0 === void 0 ? void 0 : _0.length) {
                     console.log('抽奖获得京豆：', res.data.result.rewardComponent.beanList[0].quantity);
                     sum += res.data.result.rewardComponent.beanList[0].quantity;
                 }
@@ -139,54 +155,54 @@ var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCo
                     console.log('没抽到？', JSON.stringify(res));
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 15:
-                _z.sent();
-                _z.label = 16;
-            case 16:
+            case 19:
+                _2.sent();
+                _2.label = 20;
+            case 20:
                 i++;
-                return [3 /*break*/, 13];
-            case 17:
+                return [3 /*break*/, 17];
+            case 21:
                 message += "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n\u62BD\u5956").concat(userStarNum, "\u6B21\uFF0C\u83B7\u5F97\u4EAC\u8C46").concat(sum, "\n\n");
-                _z.label = 18;
-            case 18:
+                _2.label = 22;
+            case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 23:
+                _2.sent();
+                _2.label = 24;
+            case 24:
                 _i++;
                 return [3 /*break*/, 2];
-            case 19:
-                // await sendNotify('京东-下拉', message)
+            case 25:
                 console.log(shareCodesSelf);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 20:
-                _z.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('tewu')];
-            case 21:
-                shareCodesHW = _z.sent();
+            case 26:
+                shareCodesHW = _2.sent();
                 shareCodes = __spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true);
                 full = [];
                 _e = 0, _f = cookiesArr.entries();
-                _z.label = 22;
-            case 22:
-                if (!(_e < _f.length)) return [3 /*break*/, 28];
+                _2.label = 27;
+            case 27:
+                if (!(_e < _f.length)) return [3 /*break*/, 33];
                 _g = _f[_e], index = _g[0], value = _g[1];
                 cookie = value;
                 return [4 /*yield*/, api('superBrandTaskList', { "source": "secondfloor", "activityId": activityId, "assistInfoFlag": 1 })];
-            case 23:
-                res = _z.sent();
+            case 28:
+                res = _2.sent();
                 mine = '';
                 for (_h = 0, _j = res.data.result.taskList; _h < _j.length; _h++) {
                     t = _j[_h];
-                    if ((_y = t.ext) === null || _y === void 0 ? void 0 : _y.assistTaskDetail) {
+                    if ((_1 = t.ext) === null || _1 === void 0 ? void 0 : _1.assistTaskDetail) {
                         mine = t.ext.assistTaskDetail.itemId;
                     }
                 }
                 _loop_1 = function (code) {
-                    return __generator(this, function (_0) {
-                        switch (_0.label) {
+                    return __generator(this, function (_3) {
+                        switch (_3.label) {
                             case 0:
                                 if (!(code.itemId !== mine && !full.includes(code.itemId))) return [3 /*break*/, 3];
                                 console.log("\u8D26\u53F7".concat(index + 1, " \u53BB\u52A9\u529B ").concat(code.itemId, " ").concat(shareCodesSelf.some(function (self) { return self.itemId === code.itemId; }) ? '*内部*' : ''));
                                 return [4 /*yield*/, api('superBrandDoTask', { "source": "secondfloor", "activityId": code.activityId, "encryptProjectId": code.encryptProjectId, "encryptAssignmentId": code.encryptAssignmentId, "assignmentType": 2, "itemId": code.itemId, "actionType": 0 })];
                             case 1:
-                                res = _0.sent();
+                                res = _3.sent();
                                 if (res.data.bizCode === '0') {
                                     console.log('助力成功');
                                 }
@@ -207,41 +223,42 @@ var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCo
                                 }
                                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
                             case 2:
-                                _0.sent();
+                                _3.sent();
                                 return [3 /*break*/, 4];
                             case 3:
                                 console.log('助力满了，跳过');
-                                _0.label = 4;
+                                _3.label = 4;
                             case 4: return [2 /*return*/];
                         }
                     });
                 };
                 _k = 0, shareCodes_1 = shareCodes;
-                _z.label = 24;
-            case 24:
-                if (!(_k < shareCodes_1.length)) return [3 /*break*/, 27];
+                _2.label = 29;
+            case 29:
+                if (!(_k < shareCodes_1.length)) return [3 /*break*/, 32];
                 code = shareCodes_1[_k];
                 return [5 /*yield**/, _loop_1(code)];
-            case 25:
-                state_1 = _z.sent();
+            case 30:
+                state_1 = _2.sent();
                 if (state_1 === "break")
-                    return [3 /*break*/, 27];
-                _z.label = 26;
-            case 26:
+                    return [3 /*break*/, 32];
+                _2.label = 31;
+            case 31:
                 _k++;
-                return [3 /*break*/, 24];
-            case 27:
+                return [3 /*break*/, 29];
+            case 32:
                 _e++;
-                return [3 /*break*/, 22];
-            case 28: return [2 /*return*/];
+                return [3 /*break*/, 27];
+            case 33: return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
+        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/api?functionId=".concat(fn, "&appid=ProductZ4Brand&client=wh5&t=").concat(Date.now(), "&body=").concat(encodeURIComponent(JSON.stringify(body))), '', {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/api?functionId=".concat(fn, "&appid=ProductZ4Brand&client=wh5&t=").concat(Date.now(), "&body=").concat(encodeURIComponent(JSON.stringify(body))), '', {
                         headers: {
                             'Host': 'api.m.jd.com',
                             'Origin': 'https://pro.m.jd.com',
@@ -251,7 +268,9 @@ function api(fn, body) {
                             'Cookie': cookie
                         }
                     })];
-                case 1: return [2 /*return*/, _a.sent()];
+                case 1:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, data];
             }
         });
     });

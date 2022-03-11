@@ -72,7 +72,6 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1EFRXxg", "taskToken": "", "channelId": 1 })];
             case 3:
                 res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
                 _c = 0, _d = res.data.result.taskVos;
                 _q.label = 4;
             case 4:
@@ -81,6 +80,14 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 if (t.taskType === 14) {
                     console.log('助力码', (_m = t.assistTaskDetailVo) === null || _m === void 0 ? void 0 : _m.taskToken);
                     shareCodeSelf.push((_o = t.assistTaskDetailVo) === null || _o === void 0 ? void 0 : _o.taskToken);
+                    // for (let k = 0; k < 3; k++) {
+                    //   try {
+                    //     await runTimes(t.assistTaskDetailVo?.taskToken)
+                    //     break
+                    //   } catch (e) {
+                    //   }
+                    //   await wait(Math.floor(Math.random() * 10 + 3) * 1000)
+                    // }
                 }
                 if (!((t.browseShopVo || t.productInfoVos || t.shoppingActivityVos) && t.times < t.maxTimes)) return [3 /*break*/, 12];
                 i = 0;
@@ -233,3 +240,11 @@ function api(fn, body) {
         });
     });
 }
+// async function runTimes(code: string) {
+//   try {
+//     let {data} = await axios.get(`https://api.jdsharecode.xyz/api/runTimes?activityId=sgmh&sharecode=${code}`)
+//     console.log(data)
+//   } catch (e) {
+//     console.log('上报失败')
+//   }
+// }

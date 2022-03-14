@@ -38,69 +38,71 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', UserName, index;
+var cookie = '', res = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, i, finishCount, maxTaskCount, j, tasks, _i, _a, t;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var cookiesArr, _i, _a, _b, index, value, UserName, finishCount, maxTaskCount, i, tasks, _c, tasks_1, t;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _b.sent();
-                i = 0;
-                _b.label = 2;
+                cookiesArr = _d.sent();
+                _i = 0, _a = cookiesArr.entries();
+                _d.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 16];
-                cookie = cookiesArr[i];
+                if (!(_i < _a.length)) return [3 /*break*/, 16];
+                _b = _a[_i], index = _b[0], value = _b[1];
+                cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                index = i + 1;
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api('getTaskFinishCount')];
             case 3:
-                res = _b.sent();
+                res = _d.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 4:
-                _b.sent();
-                finishCount = res.content.finishCount, maxTaskCount = res.content.maxTaskCount;
+                _d.sent();
+                finishCount = res.content.content.finishCount, maxTaskCount = res.content.content.maxTaskCount;
                 console.log(finishCount, '/', maxTaskCount);
-                j = 0;
-                _b.label = 5;
+                i = finishCount;
+                _d.label = 5;
             case 5:
-                if (!(j < maxTaskCount - finishCount)) return [3 /*break*/, 15];
+                if (!(i < maxTaskCount)) return [3 /*break*/, 15];
                 return [4 /*yield*/, api('getTaskList')];
             case 6:
-                tasks = _b.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                tasks = _d.sent();
+                tasks = tasks.content;
+                tasks = tasks.sort(compare('rewardBeans'));
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 7:
-                _b.sent();
-                _i = 0, _a = tasks.content;
-                _b.label = 8;
+                _d.sent();
+                _c = 0, tasks_1 = tasks;
+                _d.label = 8;
             case 8:
-                if (!(_i < _a.length)) return [3 /*break*/, 14];
-                t = _a[_i];
+                if (!(_c < tasks_1.length)) return [3 /*break*/, 14];
+                t = tasks_1[_c];
                 if (!(t.statusName !== '活动结束' && t.status !== 2)) return [3 /*break*/, 13];
-                return [4 /*yield*/, taskApi('saveTaskRecord', { taskId: t.taskId, taskType: t.taskType, businessId: t.businessId })];
+                return [4 /*yield*/, taskApi('saveTaskRecord', { "taskId": null, "taskType": 2, "businessId": null })];
             case 9:
-                res = _b.sent();
+                res = _d.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.watchTime * 1000 + 500)];
             case 10:
-                _b.sent();
+                _d.sent();
                 return [4 /*yield*/, taskApi('saveTaskRecord', { taskId: t.taskId, taskType: t.taskType, businessId: t.businessId, uid: res.content.uid, tt: res.content.tt })];
             case 11:
-                res = _b.sent();
+                res = _d.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 12:
-                _b.sent();
-                _b.label = 13;
+                _d.sent();
+                _d.label = 13;
             case 13:
-                _i++;
+                _c++;
                 return [3 /*break*/, 8];
             case 14:
-                j++;
+                i++;
                 return [3 /*break*/, 5];
             case 15:
-                i++;
+                _i++;
                 return [3 /*break*/, 2];
             case 16: return [2 /*return*/];
         }
@@ -114,8 +116,8 @@ function api(fn) {
                 case 0: return [4 /*yield*/, axios_1["default"].get("https://ifanli.m.jd.com/rebateapi/task/".concat(fn), {
                         headers: {
                             "Host": "ifanli.m.jd.com",
-                            "User-Agent": TS_USER_AGENTS_1["default"],
-                            "Referer": "https://ifanli.m.jd.com/rebate/earnBean.html?paltform=null",
+                            'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1',
+                            'referer': 'https://ifanli.m.jd.com/rebate/earnBean.html?paltform=null',
                             "Cookie": cookie,
                             "Content-Type": "application/json;charset=UTF-8"
                         }
@@ -135,14 +137,9 @@ function taskApi(fn, body) {
                 case 0: return [4 /*yield*/, axios_1["default"].post("https://ifanli.m.jd.com/rebateapi/task/".concat(fn), JSON.stringify(body), {
                         headers: {
                             'authority': 'ifanli.m.jd.com',
-                            'user-agent': TS_USER_AGENTS_1["default"],
-                            'content-type': 'application/json;charset=UTF-8',
-                            'accept': 'application/json, text/plain, */*',
-                            'origin': 'https://ifanli.m.jd.com',
+                            'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1',
                             'referer': 'https://ifanli.m.jd.com/rebate/earnBean.html?paltform=null',
-                            'accept-language': 'zh-CN,zh;q=0.9',
-                            'cookie': cookie,
-                            'Content-Type': 'application/json; charset=UTF-8'
+                            'cookie': cookie
                         }
                     })];
                 case 1:
@@ -151,4 +148,11 @@ function taskApi(fn, body) {
             }
         });
     });
+}
+function compare(property) {
+    return function (a, b) {
+        var value1 = a[property];
+        var value2 = b[property];
+        return value2 - value1;
+    };
 }

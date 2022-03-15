@@ -56,7 +56,7 @@ var V3_1 = require("./utils/V3");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var token = require('./utils/jd_jxmc.js').token;
 var cookie = '', res = '', UserName, UA = '';
-var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], jxToken;
+var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], jxToken, data;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, strUserPin, dwHelpedTimes, _c, _d, _e, index, value, strUserPin, _f, shareCodes_1, code, _g, _h, _j, index, value, dwHelpedTimes, _k, _l, t;
     var _m;
@@ -106,26 +106,29 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], jxToken;
                 _c = 0, _d = cookiesArr.entries();
                 _o.label = 11;
             case 11:
-                if (!(_c < _d.length)) return [3 /*break*/, 22];
+                if (!(_c < _d.length)) return [3 /*break*/, 23];
                 _e = _d[_c], index = _e[0], value = _e[1];
+                return [4 /*yield*/, (0, V3_1.requestAlgo)('e395f')];
+            case 12:
+                _o.sent();
                 cookie = value;
                 return [4 /*yield*/, token(cookie)];
-            case 12:
+            case 13:
                 jxToken = _o.sent();
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, api('GetUserInfo', 'activeId', { activeId: '529439' })];
-            case 13:
+            case 14:
                 res = _o.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 14:
+            case 15:
                 _o.sent();
                 strUserPin = res.Data.strUserPin;
-                if (!(shareCodesHW.length === 0)) return [3 /*break*/, 16];
+                if (!(shareCodesHW.length === 0)) return [3 /*break*/, 17];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('88hb')];
-            case 15:
-                shareCodesHW = _o.sent();
-                _o.label = 16;
             case 16:
+                shareCodesHW = _o.sent();
+                _o.label = 17;
+            case 17:
                 if (index === 0) {
                     shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
                 }
@@ -133,11 +136,11 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], jxToken;
                     shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
                 }
                 _f = 0, shareCodes_1 = shareCodes;
-                _o.label = 17;
-            case 17:
-                if (!(_f < shareCodes_1.length)) return [3 /*break*/, 21];
+                _o.label = 18;
+            case 18:
+                if (!(_f < shareCodes_1.length)) return [3 /*break*/, 22];
                 code = shareCodes_1[_f];
-                if (!(code !== strUserPin)) return [3 /*break*/, 20];
+                if (!(code !== strUserPin)) return [3 /*break*/, 21];
                 console.log("\u8D26\u53F7 ".concat(UserName, " \u53BB\u52A9\u529B ").concat(code));
                 return [4 /*yield*/, api('EnrollFriend', 'phoneid,stepreward_jstoken,strPin,timestamp', {
                         phoneid: jxToken.phoneid,
@@ -145,84 +148,89 @@ var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], jxToken;
                         strPin: code,
                         timestamp: jxToken.timestamp
                     })];
-            case 18:
+            case 19:
                 res = _o.sent();
                 if (res.iRet === 0) {
                     console.log('成功');
                 }
                 else if (res.iRet === 2015) {
                     console.log('上限');
-                    return [3 /*break*/, 21];
+                    return [3 /*break*/, 22];
                 }
                 else if (res.iRet === 2016) {
                     console.log('火爆');
-                    return [3 /*break*/, 21];
+                    return [3 /*break*/, 22];
                 }
                 else {
                     console.log('其他错误:', res);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 19:
-                _o.sent();
-                _o.label = 20;
             case 20:
-                _f++;
-                return [3 /*break*/, 17];
+                _o.sent();
+                _o.label = 21;
             case 21:
+                _f++;
+                return [3 /*break*/, 18];
+            case 22:
                 _c++;
                 return [3 /*break*/, 11];
-            case 22:
-                _g = 0, _h = cookiesArr.entries();
-                _o.label = 23;
             case 23:
-                if (!(_g < _h.length)) return [3 /*break*/, 33];
+                _g = 0, _h = cookiesArr.entries();
+                _o.label = 24;
+            case 24:
+                if (!(_g < _h.length)) return [3 /*break*/, 35];
                 _j = _h[_g], index = _j[0], value = _j[1];
+                return [4 /*yield*/, (0, V3_1.requestAlgo)('e395f')];
+            case 25:
+                _o.sent();
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 return [4 /*yield*/, token(cookie)];
-            case 24:
+            case 26:
                 jxToken = _o.sent();
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, " \u62C6\u7EA2\u5305\n"));
                 return [4 /*yield*/, api('GetUserInfo', 'activeId', { activeId: '529439' })];
-            case 25:
+            case 27:
                 res = _o.sent();
                 dwHelpedTimes = res.Data.dwHelpedTimes;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 26:
+            case 28:
                 _o.sent();
                 _k = 0, _l = res.Data.gradeConfig;
-                _o.label = 27;
-            case 27:
-                if (!(_k < _l.length)) return [3 /*break*/, 32];
+                _o.label = 29;
+            case 29:
+                if (!(_k < _l.length)) return [3 /*break*/, 34];
                 t = _l[_k];
-                if (!(dwHelpedTimes >= t.dwHelpTimes && !t.dwIsHasDraw)) return [3 /*break*/, 30];
+                if (!(dwHelpedTimes >= t.dwHelpTimes && t.dwIsHasDraw === 1)) return [3 /*break*/, 32];
                 return [4 /*yield*/, api('DoGradeDraw', 'grade', { grade: t.dwGrade })];
-            case 28:
+            case 30:
                 res = _o.sent();
                 if (res.iRet === 0)
                     console.log("\u7B49\u7EA7".concat(t.dwGrade, "\u7EA2\u5305\u6253\u5F00\u6210\u529F"));
                 else {
                     console.log('其他错误', (_m = res.sErrMsg) !== null && _m !== void 0 ? _m : JSON.stringify(res));
-                    return [3 /*break*/, 32];
+                    return [3 /*break*/, 34];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(15000)];
-            case 29:
-                _o.sent();
-                return [3 /*break*/, 31];
-            case 30: return [3 /*break*/, 32];
             case 31:
-                _k++;
-                return [3 /*break*/, 27];
+                _o.sent();
+                return [3 /*break*/, 33];
             case 32:
+                console.log("\u7B49\u7EA7".concat(t.dwGrade, "\u7EA2\u5305\u5DF2\u6253\u5F00"));
+                _o.label = 33;
+            case 33:
+                _k++;
+                return [3 /*break*/, 29];
+            case 34:
                 _g++;
-                return [3 /*break*/, 23];
-            case 33: return [2 /*return*/];
+                return [3 /*break*/, 24];
+            case 35: return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, stk, params) {
     return __awaiter(this, void 0, void 0, function () {
-        var timestamp, url, t, _i, _a, _b, key, value, h5st, data, e_1;
+        var timestamp, url, t, _i, _a, _b, key, value, h5st, data_1, e_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -249,8 +257,8 @@ function api(fn, stk, params) {
                             }
                         })];
                 case 2:
-                    data = (_c.sent()).data;
-                    return [2 /*return*/, JSON.parse(data.match(/jsonpCBK.?\((.*)/)[1])];
+                    data_1 = (_c.sent()).data;
+                    return [2 /*return*/, JSON.parse(data_1.match(/jsonpCBK.?\((.*)/)[1])];
                 case 3:
                     e_1 = _c.sent();
                     return [2 /*return*/, {}];

@@ -1,7 +1,7 @@
 "use strict";
 /**
- * v0.1
- * cron: 15 0,1 * * *
+ * v0.2
+ * cron: 15,30,45 0 * * *
  * CK1 优先助力HW.ts
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -55,7 +55,7 @@ var jd_zjd_tool_js_1 = require("./utils/jd_zjd_tool.js");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var crypto_js_1 = require("crypto-js");
 var cookie = '', res = '', UserName;
-var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
+var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCode_1, code, e_2;
     return __generator(this, function (_g) {
@@ -125,7 +125,6 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
             case 14:
                 res = _g.sent();
-                console.log('4', res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 15:
                 _g.sent();
@@ -165,7 +164,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 _c = 0, _d = cookiesArr.entries();
                 _g.label = 26;
             case 26:
-                if (!(_c < _d.length)) return [3 /*break*/, 40];
+                if (!(_c < _d.length)) return [3 /*break*/, 41];
                 _e = _d[_c], index = _e[0], value = _e[1];
                 if (!(shareCodeHW.length === 0)) return [3 /*break*/, 28];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('zjd')];
@@ -184,8 +183,9 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 _f = 0, shareCode_1 = shareCode;
                 _g.label = 30;
             case 30:
-                if (!(_f < shareCode_1.length)) return [3 /*break*/, 37];
+                if (!(_f < shareCode_1.length)) return [3 /*break*/, 38];
                 code = shareCode_1[_f];
+                if (!!full.includes(code.assistedPinEncrypted)) return [3 /*break*/, 36];
                 _g.label = 31;
             case 31:
                 _g.trys.push([31, 33, , 34]);
@@ -198,10 +198,11 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 }
                 else if (res.resultCode === '2400203') {
                     console.log('上限');
-                    return [3 /*break*/, 37];
+                    return [3 /*break*/, 38];
                 }
                 else if (res.resultCode === '2400205') {
                     console.log('对方已成团');
+                    full.push(code.assistedPinEncrypted);
                 }
                 else if (res.success) {
                     console.log('助力成功');
@@ -213,24 +214,27 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
             case 33:
                 e_2 = _g.sent();
                 console.log(e_2);
-                return [3 /*break*/, 37];
+                return [3 /*break*/, 38];
             case 34: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 35:
                 _g.sent();
-                _g.label = 36;
+                return [3 /*break*/, 37];
             case 36:
+                console.log('full');
+                _g.label = 37;
+            case 37:
                 _f++;
                 return [3 /*break*/, 30];
-            case 37:
+            case 38:
                 console.log();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 38:
-                _g.sent();
-                _g.label = 39;
             case 39:
+                _g.sent();
+                _g.label = 40;
+            case 40:
                 _c++;
                 return [3 /*break*/, 26];
-            case 40: return [2 /*return*/];
+            case 41: return [2 /*return*/];
         }
     });
 }); })();

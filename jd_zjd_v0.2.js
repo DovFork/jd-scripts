@@ -55,7 +55,7 @@ var jd_zjd_tool_js_1 = require("./utils/jd_zjd_tool.js");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var crypto_js_1 = require("crypto-js");
 var cookie = '', res = '', UserName;
-var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
+var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCode_1, code, e_2;
     return __generator(this, function (_g) {
@@ -77,12 +77,15 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
+                return [4 /*yield*/, api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })
+                    // o2s(res)
+                ];
             case 5:
                 res = _g.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                // o2s(res)
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 6:
+                // o2s(res)
                 _g.sent();
                 if (!(res.data.assistStatus === 1)) return [3 /*break*/, 7];
                 // 已开，没满
@@ -95,13 +98,16 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 return [3 /*break*/, 20];
             case 7:
                 if (!(res.data.assistStatus === 2 && res.data.canStartNewAssist)) return [3 /*break*/, 13];
-                return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
+                return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })
+                    // o2s(res)
+                ];
             case 8:
                 // 没开团
                 res = _g.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                // o2s(res)
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 9:
+                // o2s(res)
                 _g.sent();
                 if (!res.success) return [3 /*break*/, 12];
                 console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
@@ -120,7 +126,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
             case 12: return [3 /*break*/, 20];
             case 13:
                 if (!(res.data.assistedRecords.length === res.data.assistNum)) return [3 /*break*/, 19];
-                console.log('已成团', JSON.stringify(res));
+                console.log('已成团');
                 if (!res.data.canStartNewAssist) return [3 /*break*/, 18];
                 return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
             case 14:
@@ -188,6 +194,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
             case 31:
                 if (!(_f < shareCode_1.length)) return [3 /*break*/, 38];
                 code = shareCode_1[_f];
+                if (!!full.includes(code.assistedPinEncrypted)) return [3 /*break*/, 37];
                 _g.label = 32;
             case 32:
                 _g.trys.push([32, 34, , 35]);
@@ -204,6 +211,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 }
                 else if (res.resultCode === '2400205') {
                     console.log('对方已成团');
+                    full.push(code.assistedPinEncrypted);
                 }
                 else if (res.resultCode === '9200011') {
                     console.log('已助力过');

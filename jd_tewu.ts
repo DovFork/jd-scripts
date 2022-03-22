@@ -25,8 +25,12 @@ let cookie: string = '', UserName: string = '', res: any = '', message: string =
     console.log(`\n开始【京东账号${index + 1}】${UserName}\n`)
 
     res = await api('showSecondFloorCardInfo', {"source": "secondfloor"})
-
-    activityId = res.data.result.activityBaseInfo.activityId
+    try {
+      activityId = res.data.result.activityBaseInfo.activityId
+    } catch (e) {
+      console.log('黑号')
+      continue
+    }
     let encryptProjectId: string = res.data.result.activityBaseInfo.encryptProjectId
     await wait(1000)
 
@@ -101,6 +105,10 @@ let cookie: string = '', UserName: string = '', res: any = '', message: string =
     cookie = value
     res = await api('superBrandTaskList', {"source": "secondfloor", "activityId": activityId, "assistInfoFlag": 1})
     let mine: string = ''
+    if (!res.data.result?.taskList) {
+      console.log('黑号')
+      continue
+    }
     for (let t of res.data.result.taskList) {
       if (t.ext?.assistTaskDetail) {
         mine = t.ext.assistTaskDetail.itemId
@@ -125,8 +133,6 @@ let cookie: string = '', UserName: string = '', res: any = '', message: string =
           console.log('其他错误', res.data.bizMsg)
         }
         await wait(2000)
-      } else {
-        console.log('助力满了，跳过')
       }
     }
   }

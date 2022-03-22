@@ -263,19 +263,25 @@ function api(fn, body, retry) {
                     })];
                 case 1:
                     data = (_a.sent()).data;
-                    if (!(data.rtn_code === 403 && retry < 3)) return [3 /*break*/, 4];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+                case 2:
+                    _a.sent();
+                    if (!(data.rtn_code === 403 && retry < 3)) return [3 /*break*/, 6];
                     console.log('retry...');
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 2:
+                case 3:
                     _a.sent();
                     log = jinli_log_1.logs[(0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, jinli_log_1.logs.length - 1)];
                     body['random'] = log.match(/"random":"(\d+)"/)[1];
                     body['log'] = log.match(/"log":"(.*)"/)[1];
-                    return [4 /*yield*/, api(fn, body, ++retry)];
-                case 3:
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+                case 4:
                     _a.sent();
-                    _a.label = 4;
-                case 4: return [2 /*return*/, data];
+                    return [4 /*yield*/, api(fn, body, ++retry)];
+                case 5:
+                    _a.sent();
+                    _a.label = 6;
+                case 6: return [2 /*return*/, data];
             }
         });
     });

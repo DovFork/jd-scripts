@@ -171,11 +171,11 @@ function open() {
                     _i = 0, _a = cookiesArr.entries();
                     _e.label = 1;
                 case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 18];
+                    if (!(_i < _a.length)) return [3 /*break*/, 19];
                     _b = _a[_i], index = _b[0], value = _b[1];
                     _e.label = 2;
                 case 2:
-                    _e.trys.push([2, 14, , 15]);
+                    _e.trys.push([2, 15, , 16]);
                     cookie = value;
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
@@ -186,56 +186,74 @@ function open() {
                     return [4 /*yield*/, api('h5activityIndex', { "isjdapp": 1 })];
                 case 3:
                     res = _e.sent();
-                    _c = 0, _d = res.data.result.redpacketConfigFillRewardInfo;
-                    _e.label = 4;
+                    (0, TS_USER_AGENTS_1.o2s)(res);
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
                 case 4:
-                    if (!(_c < _d.length)) return [3 /*break*/, 13];
-                    t = _d[_c];
-                    if (!(t.packetStatus === 2)) return [3 /*break*/, 7];
-                    console.log("\u7EA2\u5305".concat(j, "\u5DF2\u62C6\u8FC7\uFF0C\u83B7\u5F97"), t.packetAmount);
-                    if (!!min.includes(t.packetAmount)) return [3 /*break*/, 6];
-                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('锦鲤红包', "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(t.packetAmount))];
-                case 5:
                     _e.sent();
-                    _e.label = 6;
-                case 6: return [3 /*break*/, 11];
-                case 7:
-                    if (!(t.packetStatus === 1)) return [3 /*break*/, 10];
+                    _c = 0, _d = res.data.result.redpacketConfigFillRewardInfo;
+                    _e.label = 5;
+                case 5:
+                    if (!(_c < _d.length)) return [3 /*break*/, 14];
+                    t = _d[_c];
+                    if (!(t.packetStatus === 2)) return [3 /*break*/, 8];
+                    console.log("\u7EA2\u5305".concat(j, "\u5DF2\u62C6\u8FC7\uFF0C\u83B7\u5F97"), t.packetAmount);
+                    if (!!min.includes(t.packetAmount)) return [3 /*break*/, 7];
+                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('锦鲤红包', "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(t.packetAmount))];
+                case 6:
+                    _e.sent();
+                    _e.label = 7;
+                case 7: return [3 /*break*/, 12];
+                case 8:
+                    if (!(t.packetStatus === 1)) return [3 /*break*/, 11];
                     console.log("\u7EA2\u5305".concat(j, "\u53EF\u62C6"));
                     return [4 /*yield*/, api('h5receiveRedpacketAll', { "random": random, "log": log1, "sceneid": "JLHBhPageh5" })];
-                case 8:
+                case 9:
                     res = _e.sent();
                     console.log(res.data.biz_msg, parseFloat(res.data.result.discount));
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
-                case 9:
-                    _e.sent();
-                    return [3 /*break*/, 11];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10000)];
                 case 10:
-                    console.log("".concat(j), t.hasAssistNum, '/', t.requireAssistNum);
-                    _e.label = 11;
+                    _e.sent();
+                    return [3 /*break*/, 12];
                 case 11:
-                    j++;
+                    console.log("".concat(j), t.hasAssistNum, '/', t.requireAssistNum);
                     _e.label = 12;
                 case 12:
+                    j++;
+                    _e.label = 13;
+                case 13:
                     _c++;
-                    return [3 /*break*/, 4];
-                case 13: return [3 /*break*/, 15];
-                case 14:
+                    return [3 /*break*/, 5];
+                case 14: return [3 /*break*/, 16];
+                case 15:
                     e_3 = _e.sent();
                     console.log(e_3);
-                    return [3 /*break*/, 15];
-                case 15: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-                case 16:
-                    _e.sent();
-                    _e.label = 17;
+                    return [3 /*break*/, 16];
+                case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
                 case 17:
+                    _e.sent();
+                    _e.label = 18;
+                case 18:
                     _i++;
                     return [3 /*break*/, 1];
-                case 18: return [2 /*return*/];
+                case 19: return [2 /*return*/];
             }
         });
     });
 }
+/**
+ * +
+ * 0
+ * 1
+ * 2
+ * 3
+ * 4
+ * 5
+ * 6
+ * 7
+ * 8
+ * 9
+ * 10
+ */
 function help() {
     return __awaiter(this, void 0, void 0, function () {
         var _i, _a, _b, index, value, _c, shareCodes_1, code, random, log1, e_4;
@@ -258,15 +276,12 @@ function help() {
                     shareCodesHW = _d.sent();
                     _d.label = 4;
                 case 4:
-                    // 2 4 9 12
-                    if (index === 0 || cookiesArr.length === 2) { // 红包1需2个助力
+                    // 1 3 5 5 9 15
+                    if (index === 0) {
                         shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
                     }
                     else {
                         shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
-                    }
-                    if (cookiesArr.length > 5 && cookiesArr.length < 8 && index > 4) { // 红包3需要7个助力
-                        shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
                     }
                     _c = 0, shareCodes_1 = shareCodes;
                     _d.label = 5;
@@ -338,6 +353,10 @@ function api(fn, body, retry) {
                     })];
                 case 1:
                     data = (_a.sent()).data;
+                    if (data.rtn_code === 403 && fn === 'h5receiveRedpacketAll') {
+                        console.log('拆红包失败，手动去拆');
+                        return [2 /*return*/, {}];
+                    }
                     if (!(data.rtn_code === 403 && retry < 3)) return [3 /*break*/, 5];
                     console.log('retry...');
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];

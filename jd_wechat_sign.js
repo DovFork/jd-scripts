@@ -65,7 +65,10 @@ var cookie = '', res = '', UserName;
                     })];
             case 3:
                 res = _c.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                if (res.data)
+                    console.log('已签到', res.data.signDays, '天，奖励', res.data.rewardValue, '元');
+                else
+                    console.log(res.message);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 4:
                 _c.sent();

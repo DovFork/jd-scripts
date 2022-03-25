@@ -83,7 +83,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
             case 5:
                 res = _g.sent();
                 // o2s(res)
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 6:
                 // o2s(res)
                 _g.sent();
@@ -105,7 +105,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                 // 没开团
                 res = _g.sent();
                 // o2s(res)
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 9:
                 // o2s(res)
                 _g.sent();
@@ -119,7 +119,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                     assistStartRecordId: res.data.assistStartRecordId,
                     assistedPinEncrypted: res.data.encPin
                 });
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 11:
                 _g.sent();
                 _g.label = 12;
@@ -131,7 +131,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                 return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
             case 14:
                 res = _g.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 15:
                 _g.sent();
                 if (!res.success) return [3 /*break*/, 18];
@@ -144,7 +144,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                     assistStartRecordId: res.data.assistStartRecordId,
                     assistedPinEncrypted: res.data.encPin
                 });
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 17:
                 _g.sent();
                 _g.label = 18;
@@ -158,7 +158,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
             case 21:
                 e_1 = _g.sent();
                 return [3 /*break*/, 24];
-            case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 23:
                 _g.sent();
                 _g.label = 24;
@@ -173,7 +173,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                 _c = 0, _d = cookiesArr.entries();
                 _g.label = 27;
             case 27:
-                if (!(_c < _d.length)) return [3 /*break*/, 41];
+                if (!(_c < _d.length)) return [3 /*break*/, 42];
                 _e = _d[_c], index = _e[0], value = _e[1];
                 if (!(shareCodeHW.length === 0)) return [3 /*break*/, 29];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('zjd')];
@@ -192,7 +192,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                 _f = 0, shareCode_1 = shareCode;
                 _g.label = 31;
             case 31:
-                if (!(_f < shareCode_1.length)) return [3 /*break*/, 38];
+                if (!(_f < shareCode_1.length)) return [3 /*break*/, 39];
                 code = shareCode_1[_f];
                 if (!!full.includes(code.assistedPinEncrypted)) return [3 /*break*/, 37];
                 _g.label = 32;
@@ -207,7 +207,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                 }
                 else if (res.resultCode === '2400203') {
                     console.log('上限');
-                    return [3 /*break*/, 38];
+                    return [3 /*break*/, 39];
                 }
                 else if (res.resultCode === '2400205') {
                     console.log('对方已成团');
@@ -226,24 +226,27 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
             case 34:
                 e_2 = _g.sent();
                 console.log(e_2);
-                return [3 /*break*/, 38];
+                return [3 /*break*/, 39];
             case 35: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 36:
                 _g.sent();
-                _g.label = 37;
+                return [3 /*break*/, 38];
             case 37:
+                console.log('已满', code.assistedPinEncrypted);
+                _g.label = 38;
+            case 38:
                 _f++;
                 return [3 /*break*/, 31];
-            case 38:
+            case 39:
                 console.log();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 39:
-                _g.sent();
-                _g.label = 40;
             case 40:
+                _g.sent();
+                _g.label = 41;
+            case 41:
                 _c++;
                 return [3 /*break*/, 27];
-            case 41: return [2 /*return*/];
+            case 42: return [2 /*return*/];
         }
     });
 }); })();

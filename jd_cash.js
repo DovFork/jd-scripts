@@ -83,7 +83,7 @@ var message = '';
                                 return [4 /*yield*/, api('cash_homePage', {})];
                             case 6:
                                 res = _g.sent();
-                                if (res.data.result.taskInfos.filter(function (item) { return item.doTimes === item.times; }).length === 0) {
+                                if (res.data.result.taskInfos.filter(function (item) { return type.includes(item.type) && item.doTimes === item.times; }).length === taskNum) {
                                     console.log('任务全部完成');
                                     return [3 /*break*/, 14];
                                 }

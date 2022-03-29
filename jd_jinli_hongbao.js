@@ -54,11 +54,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
+var sendNotify_1 = require("./sendNotify");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var ts_md5_1 = require("ts-md5");
 var cookie = '', cookiesArr = [], res = '', UserName, UA = '';
 var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
-// let min: number[] = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6]
+var min = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6];
 var log = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
@@ -74,7 +75,7 @@ var log = '';
             case 3:
                 _a.sent();
                 return [4 /*yield*/, help()
-                    // await open(false)
+                    // await open(true)
                 ];
             case 4:
                 _a.sent();
@@ -165,53 +166,96 @@ function join() {
         });
     });
 }
-/*
-async function open(autoOpen: boolean = false) {
-  let exitOpen: boolean = false
-  for (let [index, value] of cookiesArr.entries()) {
-    if (exitOpen)
-      break
-    try {
-      cookie = value
-      UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)![1])
-      console.log(`\n开始【京东账号${index + 1}】${UserName}\n`);
-
-      let j: number = 1
-      res = await api('h5activityIndex', {"isjdapp": 1})
-      for (let t of res.data.result.redpacketConfigFillRewardInfo) {
-        if (t.packetStatus === 2) {
-          console.log(`红包${j}已拆过，获得`, t.packetAmount)
-          if (!min.includes(t.packetAmount)) {
-            await sendNotify('锦鲤红包', `账号${index + 1} ${UserName}\n${t.packetAmount}`)
-          }
-        } else if (t.packetStatus === 1) {
-          console.log(`红包${j}可拆`)
-          if (autoOpen) {
-            UA = `jdltapp;iPhone;3.1.0;${Math.ceil(Math.random() * 4 + 10)}.${Math.ceil(Math.random() * 4)};${randomString(40)}`
-            log = logs[getRandomNumberByRange(0, logs.length - 1)]
-            let random = log.match(/"random":"(\d+)"/)[1], log1 = log.match(/"log":"(.*)"/)[1]
-            res = await api('h5receiveRedpacketAll', {"random": random, "log": log1, "sceneid": "JLHBhPageh5"})
-            console.log('打开成功', parseFloat(res.data.result.discount))
-            if (!min.includes(parseFloat(res.data.result.discount))) {
-              await sendNotify('锦鲤红包', `账号${index + 1} ${UserName}\n${t.packetAmount}`)
+function open(autoOpen) {
+    if (autoOpen === void 0) { autoOpen = false; }
+    return __awaiter(this, void 0, void 0, function () {
+        var exitOpen, _i, _a, _b, index, value, j, _c, _d, t, random, log1, e_3;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
+                case 0:
+                    exitOpen = false;
+                    _i = 0, _a = cookiesArr.entries();
+                    _e.label = 1;
+                case 1:
+                    if (!(_i < _a.length)) return [3 /*break*/, 22];
+                    _b = _a[_i], index = _b[0], value = _b[1];
+                    if (exitOpen)
+                        return [3 /*break*/, 22];
+                    _e.label = 2;
+                case 2:
+                    _e.trys.push([2, 18, , 19]);
+                    cookie = value;
+                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                    j = 1;
+                    return [4 /*yield*/, api('h5activityIndex', { "isjdapp": 1 })];
+                case 3:
+                    res = _e.sent();
+                    _c = 0, _d = res.data.result.redpacketConfigFillRewardInfo;
+                    _e.label = 4;
+                case 4:
+                    if (!(_c < _d.length)) return [3 /*break*/, 17];
+                    t = _d[_c];
+                    if (!(t.packetStatus === 2)) return [3 /*break*/, 7];
+                    console.log("\u7EA2\u5305".concat(j, "\u5DF2\u62C6\u8FC7\uFF0C\u83B7\u5F97"), t.packetAmount);
+                    if (!!min.includes(t.packetAmount)) return [3 /*break*/, 6];
+                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('锦鲤红包', "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(t.packetAmount))];
+                case 5:
+                    _e.sent();
+                    _e.label = 6;
+                case 6: return [3 /*break*/, 15];
+                case 7:
+                    if (!(t.packetStatus === 1)) return [3 /*break*/, 14];
+                    console.log("\u7EA2\u5305".concat(j, "\u53EF\u62C6"));
+                    if (!autoOpen) return [3 /*break*/, 13];
+                    UA = "jdltapp;iPhone;3.1.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat((0, TS_USER_AGENTS_1.randomString)(40));
+                    return [4 /*yield*/, getLog()];
+                case 8:
+                    log = _e.sent();
+                    random = log.match(/"random":"(\d+)"/)[1], log1 = log.match(/"log":"(.*)"/)[1];
+                    return [4 /*yield*/, api('h5receiveRedpacketAll', { "random": random, "log": log1, "sceneid": "JLHBhPageh5" })];
+                case 9:
+                    res = _e.sent();
+                    console.log('打开成功', parseFloat(res.data.result.discount));
+                    if (!!min.includes(parseFloat(res.data.result.discount))) return [3 /*break*/, 11];
+                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('锦鲤红包', "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(t.packetAmount))];
+                case 10:
+                    _e.sent();
+                    _e.label = 11;
+                case 11: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10000)];
+                case 12:
+                    _e.sent();
+                    _e.label = 13;
+                case 13: return [3 /*break*/, 15];
+                case 14:
+                    console.log("".concat(j), t.hasAssistNum, '/', t.requireAssistNum);
+                    _e.label = 15;
+                case 15:
+                    j++;
+                    _e.label = 16;
+                case 16:
+                    _c++;
+                    return [3 /*break*/, 4];
+                case 17: return [3 /*break*/, 19];
+                case 18:
+                    e_3 = _e.sent();
+                    console.log(e_3);
+                    return [3 /*break*/, 19];
+                case 19: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+                case 20:
+                    _e.sent();
+                    _e.label = 21;
+                case 21:
+                    _i++;
+                    return [3 /*break*/, 1];
+                case 22: return [2 /*return*/];
             }
-            await wait(10000)
-          }
-        } else {
-          console.log(`${j}`, t.hasAssistNum, '/', t.requireAssistNum)
-        }
-        j++
-      }
-    } catch (e) {
-      console.log(e)
-    }
-    await wait(3000)
-  }
+        });
+    });
 }
-*/
 function help() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, _c, shareCodes_1, code, random, log1, e_3;
+        var _i, _a, _b, index, value, _c, shareCodes_1, code, random, log1, e_4;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
@@ -281,8 +325,8 @@ function help() {
                     return [3 /*break*/, 5];
                 case 13: return [3 /*break*/, 15];
                 case 14:
-                    e_3 = _d.sent();
-                    console.log(e_3);
+                    e_4 = _d.sent();
+                    console.log(e_4);
                     return [3 /*break*/, 15];
                 case 15:
                     _i++;
@@ -316,7 +360,7 @@ function api(fn, body) {
 }
 function getLog() {
     return __awaiter(this, void 0, void 0, function () {
-        var farm, bean, pt_pin, e;
+        var farm, bean, pt_pin;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getFarmShareCode)(cookie)];
@@ -329,15 +373,23 @@ function getLog() {
                 case 3:
                     bean = _a.sent();
                     pt_pin = encodeURIComponent(UserName);
-                    e = '"random":"54811600","log":"1648274851050~159nXc2MiBSMDF6WGtBbTAyMQ==.S25feV9NbFN1WUlqWT8ZPwIdET8ePg95E0t0XW1bVmkVcxNLJhU=.81064560~6,1~B2446968989D926D8B5DC49DF3050EC53A26C8F2~19xvf3w~C~ShBHWBELa24fE0ZdWBELa24fE1VBWxELAQsDBR4RRkATChECBwYLBwQFCAYCAQQKDAABAREfE0VWURELEkdHRVRVU0ZXEh8RRldSFwkTRFVHUEdHQFITHBFDVVwRD2gEHAIEBR4KGQIBHAEfAW8fF1lbEgkAHRBQRhELEgICBwcDDFACBwZWCAdXAQAFBwYFCQQCB1BSCAoFAwJRFx8TXkMRCxB/XF1ESBNLCQRsAwcTHBFHEwgCAwcJAgQHCQcCBQYBHBFZWhAJF1ITHBFVQVARDxETHBFdRxAJF3ReX1RfVBJ6W1AfEh8RX1NFFwkTUxEfE0FQRxELawUDAR4LBQNsHBFBXhAJbhFQEh8RUBAfF1ITHBFSEx4RVBEdElIRHRBSF24dElpcUBAJF1VXVlVVV0ZHFx8TUVkRCxBGFx8TU1oRCxBEBh0DHgcRHRBQU2xHEgkRAQARGRFTVBEJE0BSW1deXQ4GBQoCBAUBABEfE19ZFwlqAB8DHQJuGRFTXFxUEwgRVBEdEl5AVhAJF1ITTQ==~0f67kov"';
                     if (!(farm.length > 0 && bean.length > 0)) return [3 /*break*/, 5];
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb_log?farm=".concat(farm, "&bean=").concat(bean, "&pin=").concat(ts_md5_1.Md5.hashStr(pt_pin)))];
                 case 4:
                     res = _a.sent();
-                    if (res === 1)
-                        return [2 /*return*/];
-                    return [2 /*return*/, e];
-                case 5: return [2 /*return*/, e];
+                    if (res === 1) {
+                        console.log('一致性验证失败，脚本退出');
+                        process.exit(0);
+                    }
+                    else {
+                        return [2 /*return*/, res];
+                    }
+                    return [3 /*break*/, 6];
+                case 5:
+                    console.log('获取账号助力码失败，脚本退出');
+                    process.exit(0);
+                    _a.label = 6;
+                case 6: return [2 /*return*/];
             }
         });
     });

@@ -173,7 +173,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                 _c = 0, _d = cookiesArr.entries();
                 _g.label = 27;
             case 27:
-                if (!(_c < _d.length)) return [3 /*break*/, 42];
+                if (!(_c < _d.length)) return [3 /*break*/, 41];
                 _e = _d[_c], index = _e[0], value = _e[1];
                 if (!(shareCodeHW.length === 0)) return [3 /*break*/, 29];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('zjd')];
@@ -192,7 +192,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                 _f = 0, shareCode_1 = shareCode;
                 _g.label = 31;
             case 31:
-                if (!(_f < shareCode_1.length)) return [3 /*break*/, 39];
+                if (!(_f < shareCode_1.length)) return [3 /*break*/, 38];
                 code = shareCode_1[_f];
                 if (!!full.includes(code.assistedPinEncrypted)) return [3 /*break*/, 37];
                 _g.label = 32;
@@ -207,7 +207,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                 }
                 else if (res.resultCode === '2400203') {
                     console.log('上限');
-                    return [3 /*break*/, 39];
+                    return [3 /*break*/, 38];
                 }
                 else if (res.resultCode === '2400205') {
                     console.log('对方已成团');
@@ -226,27 +226,22 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
             case 34:
                 e_2 = _g.sent();
                 console.log(e_2);
-                return [3 /*break*/, 39];
+                return [3 /*break*/, 38];
             case 35: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 36:
                 _g.sent();
-                return [3 /*break*/, 38];
+                _g.label = 37;
             case 37:
-                console.log('已满', code.assistedPinEncrypted);
-                _g.label = 38;
-            case 38:
                 _f++;
                 return [3 /*break*/, 31];
+            case 38: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 39:
-                console.log();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 40:
                 _g.sent();
-                _g.label = 41;
-            case 41:
+                _g.label = 40;
+            case 40:
                 _c++;
                 return [3 /*break*/, 27];
-            case 42: return [2 /*return*/];
+            case 41: return [2 /*return*/];
         }
     });
 }); })();

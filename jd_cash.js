@@ -41,16 +41,16 @@ var cookie = '', res = '', data, UserName;
 var message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _loop_1, _i, _a, _b, index, value;
-    var _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
+    var _c, _d, _e;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _d.sent();
+                cookiesArr = _f.sent();
                 _loop_1 = function (index, value) {
-                    var type, otherTaskNum, taskNum, i, _e, _f, t;
-                    return __generator(this, function (_g) {
-                        switch (_g.label) {
+                    var type, otherTaskNum, taskNum, i, _g, _h, t;
+                    return __generator(this, function (_j) {
+                        switch (_j.label) {
                             case 0:
                                 cookie = value;
                                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
@@ -58,80 +58,85 @@ var message = '';
                                 message += "\u3010\u8D26\u53F7".concat(index + 1, "\u3011  ").concat(UserName, "\n");
                                 return [4 /*yield*/, api('cash_homePage', {})];
                             case 1:
-                                res = _g.sent();
+                                res = _j.sent();
                                 (0, TS_USER_AGENTS_1.o2s)(res);
                                 if (!(res.data.result.signedStatus !== 1)) return [3 /*break*/, 4];
                                 console.log('今日未签到');
                                 return [4 /*yield*/, api('cash_sign', { "remind": 0, "inviteCode": "", "type": 0, "breakReward": 0 })];
                             case 2:
-                                data = _g.sent();
+                                data = _j.sent();
                                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
                             case 3:
-                                _g.sent();
+                                _j.sent();
                                 (0, TS_USER_AGENTS_1.o2s)(data, '签到成功');
-                                _g.label = 4;
-                            case 4:
+                                _j.label = 4;
+                            case 4: return [4 /*yield*/, api('cash_homePage', {})];
+                            case 5:
+                                res = _j.sent();
+                                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                            case 6:
+                                _j.sent();
                                 type = [2, 4, 31, 16, 3, 5, 17, 21];
                                 otherTaskNum = res.data.result.taskInfos.filter(function (item) { return !type.includes(item.type); }).length;
                                 taskNum = res.data.result.taskInfos.filter(function (item) { return type.includes(item.type); }).length;
-                                console.log(otherTaskNum);
-                                console.log(taskNum);
+                                console.log(taskNum, otherTaskNum);
                                 i = 0;
-                                _g.label = 5;
-                            case 5:
-                                if (!(i < 10)) return [3 /*break*/, 14];
+                                _j.label = 7;
+                            case 7:
+                                if (!(i < 10)) return [3 /*break*/, 16];
                                 return [4 /*yield*/, api('cash_homePage', {})];
-                            case 6:
-                                res = _g.sent();
+                            case 8:
+                                res = _j.sent();
+                                (0, TS_USER_AGENTS_1.o2s)(res);
                                 if (res.data.result.taskInfos.filter(function (item) { return type.includes(item.type) && item.doTimes === item.times; }).length === taskNum) {
                                     console.log('任务全部完成');
-                                    return [3 /*break*/, 14];
+                                    return [3 /*break*/, 16];
                                 }
-                                _e = 0, _f = res.data.result.taskInfos;
-                                _g.label = 7;
-                            case 7:
-                                if (!(_e < _f.length)) return [3 /*break*/, 11];
-                                t = _f[_e];
-                                if (!(t.doTimes < t.times && t.type !== 7)) return [3 /*break*/, 10];
+                                _g = 0, _h = ((_d = (_c = res === null || res === void 0 ? void 0 : res.data) === null || _c === void 0 ? void 0 : _c.result) === null || _d === void 0 ? void 0 : _d.taskInfos) || [];
+                                _j.label = 9;
+                            case 9:
+                                if (!(_g < _h.length)) return [3 /*break*/, 13];
+                                t = _h[_g];
+                                if (!(t.doTimes < t.times && t.type !== 7)) return [3 /*break*/, 12];
                                 console.log(t.name);
                                 return [4 /*yield*/, api('cash_doTask', { "type": t.type, "taskInfo": t.desc })];
-                            case 8:
-                                data = _g.sent();
+                            case 10:
+                                data = _j.sent();
                                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.duration * 1000 || 1000)];
-                            case 9:
-                                _g.sent();
+                            case 11:
+                                _j.sent();
                                 if (data.data.bizCode === 0) {
-                                    console.log('任务完成', (_c = data.data.result.totalMoney) !== null && _c !== void 0 ? _c : '');
-                                    return [3 /*break*/, 11];
+                                    console.log('任务完成', (_e = data.data.result.totalMoney) !== null && _e !== void 0 ? _e : '');
+                                    return [3 /*break*/, 13];
                                 }
                                 else {
                                     (0, TS_USER_AGENTS_1.o2s)(data, '任务失败');
-                                    return [3 /*break*/, 11];
+                                    return [3 /*break*/, 13];
                                 }
-                                _g.label = 10;
-                            case 10:
-                                _e++;
-                                return [3 /*break*/, 7];
-                            case 11: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                                _j.label = 12;
                             case 12:
-                                _g.sent();
-                                _g.label = 13;
-                            case 13:
+                                _g++;
+                                return [3 /*break*/, 9];
+                            case 13: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                            case 14:
+                                _j.sent();
+                                _j.label = 15;
+                            case 15:
                                 i++;
-                                return [3 /*break*/, 5];
-                            case 14: return [2 /*return*/];
+                                return [3 /*break*/, 7];
+                            case 16: return [2 /*return*/];
                         }
                     });
                 };
                 _i = 0, _a = cookiesArr.entries();
-                _d.label = 2;
+                _f.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 5];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 return [5 /*yield**/, _loop_1(index, value)];
             case 3:
-                _d.sent();
-                _d.label = 4;
+                _f.sent();
+                _f.label = 4;
             case 4:
                 _i++;
                 return [3 /*break*/, 2];
@@ -140,13 +145,18 @@ var message = '';
     });
 }); })();
 function api(fn, body) {
+    var _a;
     return __awaiter(this, void 0, void 0, function () {
         var sign;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.jds.codes/jd/sign', { fn: fn, body: body })];
                 case 1:
-                    sign = _a.sent();
+                    sign = _b.sent();
+                    if (!((_a = sign === null || sign === void 0 ? void 0 : sign.data) === null || _a === void 0 ? void 0 : _a.sign)) {
+                        (0, TS_USER_AGENTS_1.o2s)(sign, 'getSign Error');
+                        return [2 /*return*/, {}];
+                    }
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/client.action?functionId=".concat(fn), sign.data.sign, {
                             'Host': 'api.m.jd.com',
                             'Cookie': cookie,
@@ -154,7 +164,7 @@ function api(fn, body) {
                             'user-agent': TS_USER_AGENTS_1["default"],
                             'referer': ''
                         })];
-                case 2: return [2 /*return*/, _a.sent()];
+                case 2: return [2 /*return*/, _b.sent()];
             }
         });
     });

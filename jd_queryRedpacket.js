@@ -43,13 +43,14 @@ var cookie = '', res = '', UserName;
 var message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, day, jdRed, jdRedExp, _c, _d, j, text;
-    return __generator(this, function (_e) {
-        switch (_e.label) {
+    var _e;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _e.sent();
+                cookiesArr = _f.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _e.label = 2;
+                _f.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 7];
                 _b = _a[_i], index = _b[0], value = _b[1];
@@ -63,9 +64,9 @@ var message = '';
                         'User-Agent': TS_USER_AGENTS_1["default"]
                     })];
             case 3:
-                res = _e.sent();
+                res = _f.sent();
                 day = new Date().getDay(), jdRed = 0, jdRedExp = 0;
-                for (_c = 0, _d = res.data.useRedInfo.redList; _c < _d.length; _c++) {
+                for (_c = 0, _d = ((_e = res.data.useRedInfo) === null || _e === void 0 ? void 0 : _e.redList) || []; _c < _d.length; _c++) {
                     j = _d[_c];
                     if (j.orgLimitStr.includes('京喜')) {
                     }
@@ -83,18 +84,18 @@ var message = '';
                 text = "\u3010\u8D26\u53F7\u3011  ".concat(UserName, "\n\u4EAC\u4E1C\u7EA2\u5305  ").concat(jdRed, "\n\u4ECA\u65E5\u8FC7\u671F  ").concat(jdRedExp);
                 return [4 /*yield*/, (0, pushplus_1.pushplus)('京东红包', text)];
             case 4:
-                _e.sent();
+                _f.sent();
                 message += "".concat(text, "\n\n");
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 5:
-                _e.sent();
-                _e.label = 6;
+                _f.sent();
+                _f.label = 6;
             case 6:
                 _i++;
                 return [3 /*break*/, 2];
             case 7: return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东红包', message)];
             case 8:
-                _e.sent();
+                _f.sent();
                 return [2 /*return*/];
         }
     });

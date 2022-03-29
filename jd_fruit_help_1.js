@@ -5,7 +5,7 @@
  * 内部 -> 助力池
  * 和jd_fruit.js同方法自己设置内部码
  * 如果没有添加内部码，直接助力助力池
- * cron: 45 0,5 * * *
+ * cron: 35 0,1,2 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -57,7 +57,7 @@ var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', data, UserName;
 var shareCodeSelf = [], shareCodePool = [], shareCode = [], shareCodeFile = require('./jdFruitShareCodes');
-var message = '';
+var message = '', log = { help: '', runTimes: '' };
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, i, e_1, e_2, _c, shareCodeSelf_1, code, farmAssistInit_waterEnergy, _d, _e, t;
     return __generator(this, function (_f) {
@@ -74,6 +74,8 @@ var message = '';
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 message += "\u3010\u8D26\u53F7".concat(index + 1, "\u3011  ").concat(UserName, "\n");
+                log.help += "\u3010\u8D26\u53F7".concat(index + 1, "\u3011  ").concat(UserName, "\n");
+                log.runTimes += "\u3010\u8D26\u53F7".concat(index + 1, "\u3011  ").concat(UserName, "\n");
                 if (Object.keys(shareCodeFile)[index]) {
                     shareCodeSelf = shareCodeFile[Object.keys(shareCodeFile)[index]].split('@');
                 }
@@ -96,10 +98,12 @@ var message = '';
             case 7:
                 res = _f.sent();
                 console.log(res);
+                log.runTimes += "\u7B2C".concat(i + 1, "\u6B21").concat(res, "\n");
                 return [3 /*break*/, 11];
             case 8:
                 e_1 = _f.sent();
                 console.log("\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25"));
+                log.runTimes += "\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25\n");
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)((0, TS_USER_AGENTS_1.getRandomNumberByRange)(10000, 30000))];
             case 9:
                 _f.sent();
@@ -139,6 +143,7 @@ var message = '';
                 }
                 else if (res.helpResult.code === '0') {
                     console.log('助力成功,获得', res.helpResult.salveHelpAddWater);
+                    log.help += "\u52A9\u529B\u6210\u529F ".concat(code, " ").concat(shareCodeSelf.includes(code) ? '*内部*' : '', "\n");
                 }
                 else if (res.helpResult.code === '8') {
                     console.log('上限');
@@ -146,6 +151,7 @@ var message = '';
                 }
                 else if (res.helpResult.code === '9') {
                     console.log('已助力');
+                    log.help += "\u5DF2\u52A9\u529B ".concat(code, " ").concat(shareCodeSelf.includes(code) ? '*内部*' : '', "\n");
                 }
                 else if (res.helpResult.code === '10') {
                     console.log('已满');
@@ -212,6 +218,8 @@ var message = '';
                     console.log(message);
                     console.log('===================');
                 }
+                console.log(log.help);
+                console.log(log.runTimes);
                 return [2 /*return*/];
         }
     });

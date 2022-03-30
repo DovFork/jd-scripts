@@ -59,6 +59,7 @@ var message = '';
                                 return [4 /*yield*/, api('cash_homePage', {})];
                             case 1:
                                 res = _j.sent();
+                                (0, TS_USER_AGENTS_1.o2s)(res);
                                 if (!(res.data.result.signedStatus !== 1)) return [3 /*break*/, 4];
                                 console.log('今日未签到');
                                 return [4 /*yield*/, api('cash_sign', { "remind": 0, "inviteCode": "", "type": 0, "breakReward": 0 })];
@@ -67,9 +68,7 @@ var message = '';
                                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
                             case 3:
                                 _j.sent();
-                                if (res.data.bizCode === 0) {
-                                    console.log('签到成功');
-                                }
+                                (0, TS_USER_AGENTS_1.o2s)(data, '签到成功');
                                 _j.label = 4;
                             case 4: return [4 /*yield*/, api('cash_homePage', {})];
                             case 5:

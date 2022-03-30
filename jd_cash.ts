@@ -12,13 +12,13 @@ let message: string = ''
     message += `【账号${index + 1}】  ${UserName}\n`
 
     res = await api('cash_homePage', {})
-
-    o2s(res)
     if (res.data.result.signedStatus !== 1) {
       console.log('今日未签到')
       data = await api('cash_sign', {"remind": 0, "inviteCode": "", "type": 0, "breakReward": 0})
       await wait(1000)
-      o2s(data, '签到成功')
+      if (res.data.bizCode === 0) {
+        console.log('签到成功')
+      }
     }
     res = await api('cash_homePage', {})
     await wait(1000)

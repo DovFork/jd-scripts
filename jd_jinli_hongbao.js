@@ -56,7 +56,6 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var sendNotify_1 = require("./sendNotify");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var ts_md5_1 = require("ts-md5");
 var cookie = '', cookiesArr = [], res = '', UserName, UA = '';
 var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
 var min = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6];
@@ -74,10 +73,11 @@ var log = '';
                 return [4 /*yield*/, getShareCodeSelf()];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, help()
-                    // await open(true)
-                ];
+                return [4 /*yield*/, help()];
             case 4:
+                _a.sent();
+                return [4 /*yield*/, open(false)];
+            case 5:
                 _a.sent();
                 return [2 /*return*/];
         }
@@ -126,42 +126,59 @@ function getShareCodeSelf() {
 }
 function join() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, random, log1, e_2;
+        var _i, _a, _b, index, value, i, random, log1, e_2, e_3;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     _i = 0, _a = cookiesArr.entries();
                     _c.label = 1;
                 case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 8];
+                    if (!(_i < _a.length)) return [3 /*break*/, 14];
                     _b = _a[_i], index = _b[0], value = _b[1];
                     _c.label = 2;
                 case 2:
-                    _c.trys.push([2, 6, , 7]);
+                    _c.trys.push([2, 12, , 13]);
                     cookie = value;
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                    i = 0;
+                    _c.label = 3;
+                case 3:
+                    if (!(i < 5)) return [3 /*break*/, 11];
+                    _c.label = 4;
+                case 4:
+                    _c.trys.push([4, 8, , 10]);
                     UA = "jdltapp;iPhone;3.1.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat((0, TS_USER_AGENTS_1.randomString)(40));
                     return [4 /*yield*/, getLog()];
-                case 3:
+                case 5:
                     log = _c.sent();
                     random = log.match(/"random":"(\d+)"/)[1], log1 = log.match(/"log":"(.*)"/)[1];
                     return [4 /*yield*/, api('h5launch', { "followShop": 0, "random": random, "log": log1, "sceneid": "JLHBhPageh5" })];
-                case 4:
+                case 6:
                     res = _c.sent();
                     console.log('活动初始化：', res.data.result.statusDesc);
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 5:
-                    _c.sent();
-                    return [3 /*break*/, 7];
-                case 6:
-                    e_2 = _c.sent();
-                    console.log(e_2);
-                    return [3 /*break*/, 7];
                 case 7:
+                    _c.sent();
+                    return [3 /*break*/, 11];
+                case 8:
+                    e_2 = _c.sent();
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+                case 9:
+                    _c.sent();
+                    return [3 /*break*/, 10];
+                case 10:
+                    i++;
+                    return [3 /*break*/, 3];
+                case 11: return [3 /*break*/, 13];
+                case 12:
+                    e_3 = _c.sent();
+                    console.log(e_3);
+                    return [3 /*break*/, 13];
+                case 13:
                     _i++;
                     return [3 /*break*/, 1];
-                case 8: return [2 /*return*/];
+                case 14: return [2 /*return*/];
             }
         });
     });
@@ -169,7 +186,7 @@ function join() {
 function open(autoOpen) {
     if (autoOpen === void 0) { autoOpen = false; }
     return __awaiter(this, void 0, void 0, function () {
-        var exitOpen, _i, _a, _b, index, value, j, _c, _d, t, random, log1, e_3;
+        var exitOpen, _i, _a, _b, index, value, j, _c, _d, t, random, log1, e_4;
         return __generator(this, function (_e) {
             switch (_e.label) {
                 case 0:
@@ -238,8 +255,8 @@ function open(autoOpen) {
                     return [3 /*break*/, 4];
                 case 17: return [3 /*break*/, 19];
                 case 18:
-                    e_3 = _e.sent();
-                    console.log(e_3);
+                    e_4 = _e.sent();
+                    console.log(e_4);
                     return [3 /*break*/, 19];
                 case 19: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
                 case 20:
@@ -255,18 +272,18 @@ function open(autoOpen) {
 }
 function help() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, _c, shareCodes_1, code, random, log1, e_4;
+        var _i, _a, _b, index, value, _c, shareCodes_1, code, i, random, log1, e_5, e_6;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
                     _i = 0, _a = cookiesArr.entries();
                     _d.label = 1;
                 case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 16];
+                    if (!(_i < _a.length)) return [3 /*break*/, 21];
                     _b = _a[_i], index = _b[0], value = _b[1];
                     _d.label = 2;
                 case 2:
-                    _d.trys.push([2, 14, , 15]);
+                    _d.trys.push([2, 19, , 20]);
                     cookie = value;
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     if (!(shareCodesHW.length === 0)) return [3 /*break*/, 4];
@@ -285,29 +302,36 @@ function help() {
                     _c = 0, shareCodes_1 = shareCodes;
                     _d.label = 5;
                 case 5:
-                    if (!(_c < shareCodes_1.length)) return [3 /*break*/, 13];
+                    if (!(_c < shareCodes_1.length)) return [3 /*break*/, 18];
                     code = shareCodes_1[_c];
-                    if (!!fullCode.includes(code)) return [3 /*break*/, 12];
+                    if (!!fullCode.includes(code)) return [3 /*break*/, 17];
+                    i = 0;
+                    _d.label = 6;
+                case 6:
+                    if (!(i < 5)) return [3 /*break*/, 17];
+                    _d.label = 7;
+                case 7:
+                    _d.trys.push([7, 13, , 14]);
                     UA = "jdltapp;iPhone;3.1.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat((0, TS_USER_AGENTS_1.randomString)(40));
                     return [4 /*yield*/, getLog()];
-                case 6:
+                case 8:
                     log = _d.sent();
                     random = log.match(/"random":"(\d+)"/)[1], log1 = log.match(/"log":"(.*)"/)[1];
                     console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code, " ").concat(shareCodesSelf.includes(code) ? '*内部*' : ''));
                     return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, "random": random, "log": log1, "sceneid": "JLHBhPageh5" })];
-                case 7:
+                case 9:
                     res = _d.sent();
                     (0, TS_USER_AGENTS_1.o2s)(res, 'jinli_h5assist');
-                    if (!(res.data.result.status === 0)) return [3 /*break*/, 9];
+                    if (!(res.data.result.status === 0)) return [3 /*break*/, 11];
                     console.log('助力成功：', parseFloat(res.data.result.assistReward.discount));
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(20000)];
-                case 8:
+                case 10:
                     _d.sent();
-                    return [3 /*break*/, 13];
-                case 9:
+                    return [3 /*break*/, 17];
+                case 11:
                     if (res.data.result.status === 3) {
                         console.log('今日助力次数已满');
-                        return [3 /*break*/, 13];
+                        return [3 /*break*/, 17];
                     }
                     else {
                         console.log('助力结果：', res.data.result.statusDesc);
@@ -315,23 +339,31 @@ function help() {
                             fullCode.push(code);
                         }
                     }
-                    _d.label = 10;
-                case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(20000)];
-                case 11:
-                    _d.sent();
                     _d.label = 12;
-                case 12:
+                case 12: return [3 /*break*/, 17];
+                case 13:
+                    e_5 = _d.sent();
+                    console.log('log无效');
+                    return [3 /*break*/, 14];
+                case 14: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(20000)];
+                case 15:
+                    _d.sent();
+                    _d.label = 16;
+                case 16:
+                    i++;
+                    return [3 /*break*/, 6];
+                case 17:
                     _c++;
                     return [3 /*break*/, 5];
-                case 13: return [3 /*break*/, 15];
-                case 14:
-                    e_4 = _d.sent();
-                    console.log(e_4);
-                    return [3 /*break*/, 15];
-                case 15:
+                case 18: return [3 /*break*/, 20];
+                case 19:
+                    e_6 = _d.sent();
+                    console.log(e_6);
+                    return [3 /*break*/, 20];
+                case 20:
                     _i++;
                     return [3 /*break*/, 1];
-                case 16: return [2 /*return*/];
+                case 21: return [2 /*return*/];
             }
         });
     });
@@ -360,22 +392,16 @@ function api(fn, body) {
 }
 function getLog() {
     return __awaiter(this, void 0, void 0, function () {
-        var farm, bean, pt_pin;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getFarmShareCode)(cookie)];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb_log?farm=farm&bean=bean&pin=pin")];
                 case 1:
-                    farm = _a.sent();
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 2:
-                    _a.sent();
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.getBeanShareCode)(cookie)];
-                case 3:
-                    bean = _a.sent();
-                    pt_pin = encodeURIComponent(UserName);
-                    if (!(farm.length > 0 && bean.length > 0)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb_log?farm=".concat(farm, "&bean=").concat(bean, "&pin=").concat(ts_md5_1.Md5.hashStr(pt_pin)))];
-                case 4:
+                    // let farm: string = await getFarmShareCode(cookie)
+                    // await wait(1000)
+                    // let bean: string = await getBeanShareCode(cookie)
+                    // let pt_pin: string = encodeURIComponent(UserName)
+                    // if (farm.length > 0 && bean.length > 0) {
+                    //   res = await get(`https://api.jdsharecode.xyz/api/jlhb_log?farm=${farm}&bean=${bean}&pin=${Md5.hashStr(pt_pin)}`)
                     res = _a.sent();
                     if (res === 1) {
                         console.log('一致性验证失败，脚本退出');
@@ -384,12 +410,7 @@ function getLog() {
                     else {
                         return [2 /*return*/, res];
                     }
-                    return [3 /*break*/, 6];
-                case 5:
-                    console.log('获取账号助力码失败，脚本退出');
-                    process.exit(0);
-                    _a.label = 6;
-                case 6: return [2 /*return*/];
+                    return [2 /*return*/];
             }
         });
     });

@@ -73,11 +73,10 @@ var log = '';
                 return [4 /*yield*/, getShareCodeSelf()];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, help()];
+                return [4 /*yield*/, help()
+                    // await open(false)
+                ];
             case 4:
-                _a.sent();
-                return [4 /*yield*/, open(false)];
-            case 5:
                 _a.sent();
                 return [2 /*return*/];
         }
@@ -272,7 +271,7 @@ function open(autoOpen) {
 }
 function help() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, _c, shareCodes_1, code, i, random, log1, e_5, e_6;
+        var _i, _a, _b, index, value, remain, _c, shareCodes_1, code, i, random, log1, e_5;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
@@ -299,53 +298,57 @@ function help() {
                     else {
                         shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
                     }
+                    remain = 1;
                     _c = 0, shareCodes_1 = shareCodes;
                     _d.label = 5;
                 case 5:
                     if (!(_c < shareCodes_1.length)) return [3 /*break*/, 18];
                     code = shareCodes_1[_c];
                     if (!!fullCode.includes(code)) return [3 /*break*/, 17];
+                    if (!remain) {
+                        return [3 /*break*/, 18];
+                    }
                     i = 0;
                     _d.label = 6;
                 case 6:
                     if (!(i < 5)) return [3 /*break*/, 17];
-                    _d.label = 7;
-                case 7:
-                    _d.trys.push([7, 13, , 14]);
                     UA = "jdltapp;iPhone;3.1.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat((0, TS_USER_AGENTS_1.randomString)(40));
                     return [4 /*yield*/, getLog()];
-                case 8:
+                case 7:
                     log = _d.sent();
                     random = log.match(/"random":"(\d+)"/)[1], log1 = log.match(/"log":"(.*)"/)[1];
                     console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code, " ").concat(shareCodesSelf.includes(code) ? '*内部*' : ''));
-                    return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, "random": random, "log": log1, "sceneid": "JLHBhPageh5" })];
-                case 9:
+                    return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, "random": random, "log": log1, "sceneid": "JLHBhPageh5" })
+                        // o2s(res, 'jinli_h5assist')
+                    ];
+                case 8:
                     res = _d.sent();
-                    (0, TS_USER_AGENTS_1.o2s)(res, 'jinli_h5assist');
-                    if (!(res.data.result.status === 0)) return [3 /*break*/, 11];
-                    console.log('助力成功：', parseFloat(res.data.result.assistReward.discount));
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(20000)];
-                case 10:
-                    _d.sent();
-                    return [3 /*break*/, 17];
-                case 11:
-                    if (res.data.result.status === 3) {
-                        console.log('今日助力次数已满');
-                        return [3 /*break*/, 17];
-                    }
-                    else {
-                        console.log('助力结果：', res.data.result.statusDesc);
-                        if (res.data.result.statusDesc === '啊偶，TA的助力已满，开启自己的红包活动吧~') {
-                            fullCode.push(code);
-                        }
-                    }
-                    _d.label = 12;
-                case 12: return [3 /*break*/, 17];
-                case 13:
-                    e_5 = _d.sent();
+                    if (!(res.rtn_code !== 0)) return [3 /*break*/, 9];
                     console.log('log无效');
                     return [3 /*break*/, 14];
-                case 14: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(20000)];
+                case 9:
+                    if (!(res.data.result.status === 0)) return [3 /*break*/, 11];
+                    console.log('助力成功：', parseFloat(res.data.result.assistReward.discount));
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
+                case 10:
+                    _d.sent();
+                    remain = 0;
+                    return [3 /*break*/, 17];
+                case 11:
+                    if (!(res.data.result.status === 3)) return [3 /*break*/, 13];
+                    console.log('今日助力次数已满');
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
+                case 12:
+                    _d.sent();
+                    remain = 0;
+                    return [3 /*break*/, 17];
+                case 13:
+                    console.log('助力结果：', res.data.result.statusDesc);
+                    if (res.data.result.statusDesc === '啊偶，TA的助力已满，开启自己的红包活动吧~') {
+                        fullCode.push(code);
+                    }
+                    _d.label = 14;
+                case 14: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
                 case 15:
                     _d.sent();
                     _d.label = 16;
@@ -357,8 +360,8 @@ function help() {
                     return [3 /*break*/, 5];
                 case 18: return [3 /*break*/, 20];
                 case 19:
-                    e_6 = _d.sent();
-                    console.log(e_6);
+                    e_5 = _d.sent();
+                    console.log(e_5);
                     return [3 /*break*/, 20];
                 case 20:
                     _i++;

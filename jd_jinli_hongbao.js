@@ -278,11 +278,11 @@ function help() {
                     _i = 0, _a = cookiesArr.entries();
                     _d.label = 1;
                 case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 21];
+                    if (!(_i < _a.length)) return [3 /*break*/, 23];
                     _b = _a[_i], index = _b[0], value = _b[1];
                     _d.label = 2;
                 case 2:
-                    _d.trys.push([2, 19, , 20]);
+                    _d.trys.push([2, 21, , 22]);
                     cookie = value;
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     if (!(shareCodesHW.length === 0)) return [3 /*break*/, 4];
@@ -302,16 +302,16 @@ function help() {
                     _c = 0, shareCodes_1 = shareCodes;
                     _d.label = 5;
                 case 5:
-                    if (!(_c < shareCodes_1.length)) return [3 /*break*/, 18];
+                    if (!(_c < shareCodes_1.length)) return [3 /*break*/, 20];
                     code = shareCodes_1[_c];
-                    if (!!fullCode.includes(code)) return [3 /*break*/, 17];
+                    if (!!fullCode.includes(code)) return [3 /*break*/, 19];
                     if (!remain) {
-                        return [3 /*break*/, 18];
+                        return [3 /*break*/, 20];
                     }
                     i = 0;
                     _d.label = 6;
                 case 6:
-                    if (!(i < 5)) return [3 /*break*/, 17];
+                    if (!(i < 5)) return [3 /*break*/, 19];
                     UA = "jdltapp;iPhone;3.1.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat((0, TS_USER_AGENTS_1.randomString)(40));
                     return [4 /*yield*/, getLog()];
                 case 7:
@@ -325,7 +325,7 @@ function help() {
                     res = _d.sent();
                     if (!(res.rtn_code !== 0)) return [3 /*break*/, 9];
                     console.log('log无效');
-                    return [3 /*break*/, 14];
+                    return [3 /*break*/, 16];
                 case 9:
                     if (!(res.data.result.status === 0)) return [3 /*break*/, 11];
                     console.log('助力成功：', parseFloat(res.data.result.assistReward.discount));
@@ -333,7 +333,7 @@ function help() {
                 case 10:
                     _d.sent();
                     remain = 0;
-                    return [3 /*break*/, 17];
+                    return [3 /*break*/, 19];
                 case 11:
                     if (!(res.data.result.status === 3)) return [3 /*break*/, 13];
                     console.log('今日助力次数已满');
@@ -341,32 +341,40 @@ function help() {
                 case 12:
                     _d.sent();
                     remain = 0;
-                    return [3 /*break*/, 17];
+                    return [3 /*break*/, 19];
                 case 13:
+                    if (!(res.data.result.statusDesc === '抱歉，你不能为自己助力哦')) return [3 /*break*/, 15];
+                    console.log('不能助力自己');
+                    remain = 0;
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
+                case 14:
+                    _d.sent();
+                    return [3 /*break*/, 19];
+                case 15:
                     console.log('助力结果：', res.data.result.statusDesc);
                     if (res.data.result.statusDesc === '啊偶，TA的助力已满，开启自己的红包活动吧~') {
                         fullCode.push(code);
                     }
-                    _d.label = 14;
-                case 14: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
-                case 15:
-                    _d.sent();
                     _d.label = 16;
-                case 16:
+                case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
+                case 17:
+                    _d.sent();
+                    _d.label = 18;
+                case 18:
                     i++;
                     return [3 /*break*/, 6];
-                case 17:
+                case 19:
                     _c++;
                     return [3 /*break*/, 5];
-                case 18: return [3 /*break*/, 20];
-                case 19:
+                case 20: return [3 /*break*/, 22];
+                case 21:
                     e_5 = _d.sent();
                     console.log(e_5);
-                    return [3 /*break*/, 20];
-                case 20:
+                    return [3 /*break*/, 22];
+                case 22:
                     _i++;
                     return [3 /*break*/, 1];
-                case 21: return [2 /*return*/];
+                case 23: return [2 /*return*/];
             }
         });
     });
@@ -383,7 +391,7 @@ function api(fn, body) {
                             "referer": "https://h5.m.jd.com/babelDiy/Zeus/2NUvze9e1uWf4amBhe1AV6ynmSuH/index.html",
                             'Content-Type': 'application/x-www-form-urlencoded',
                             "X-Requested-With": "com.jingdong.app.mall",
-                            "User-Agent": UA
+                            "User-Agent": "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1"
                         }
                     })];
                 case 1:

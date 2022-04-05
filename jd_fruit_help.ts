@@ -36,7 +36,7 @@ let message: string = '', log: { help: string, runTimes: string } = {help: '', r
       console.log('助力码', res.farmUserPro.shareCode)
       for (let i = 0; i < 5; i++) {
         try {
-          res = await get(`https://api.jdsharecode.xyz/api/runTime1s?activityId=farm&sharecode=${res.farmUserPro.shareCode}`)
+          res = await get(`https://api.jdsharecode.xyz/api/runTimes?activityId=farm&sharecode=${res.farmUserPro.shareCode}`)
           console.log(res)
           log.runTimes += `第${i + 1}次${res}\n`
           break

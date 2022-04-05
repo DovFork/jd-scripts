@@ -98,7 +98,7 @@ var message = '', log = { help: '', runTimes: '' };
                 _f.label = 7;
             case 7:
                 _f.trys.push([7, 9, , 11]);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTime1s?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode))];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTimes?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode))];
             case 8:
                 res = _f.sent();
                 console.log(res);

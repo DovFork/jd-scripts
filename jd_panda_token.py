@@ -1,12 +1,17 @@
 import asyncio
+from dotenv import load_dotenv
+import os
 import re
 import threading
-
 from telethon import TelegramClient
 from telethon.helpers import TotalList
 
-api_id = 0
-api_hash = ''
+api_id = int(os.getenv("TG_API_ID") or 0)
+api_hash = os.getenv("TG_API_HASH") or ''
+
+if not api_id and not api_hash:
+    print("请设置TG_API_ID和TG_API_HASH")
+    exit()
 client = TelegramClient('anon', api_id, api_hash, proxy=('http', '127.0.0.1', 1080))
 
 
@@ -16,7 +21,20 @@ async def click(msg):
 
 
 async def main():
-    msg = await client.get_messages('@pang_da_bot', ids=39861)
+    env_path = '.env'
+    load_dotenv(env_path)
+    new_msg_id = ''
+
+    if os.getenv('PANDA_BUTTON_MSG_ID'):
+        msg_id = int(os.getenv('PANDA_BUTTON_MSG_ID'))
+    else:
+        msg = await client.send_message('@pang_da_bot', '/start')
+        msg_id = msg.id + 1
+        new_msg_id = msg.id + 1
+    await asyncio.sleep(2)
+
+    msg = await client.get_messages('@pang_da_bot', ids=msg_id)
+    print('get_messages', msg)
     if type(msg) == list:
         msg = msg[0]
     t = threading.Thread(target=asyncio.run, args=(click(msg),))
@@ -32,10 +50,16 @@ async def main():
     token = re.search(r"你的Token (.*)\n", msg.message).group(1)
     print('token:', token)
 
-    with open('.env', 'r') as f:
+    if not os.path.exists('.env'):
+        print('create .env')
+        os.system('cp .env.example .env')
+    with open(env_path, 'r') as f:
         txt = f.read()
         txt = txt.replace(re.search(r'(PANDA_TOKEN=".*")', txt).group(1), f'PANDA_TOKEN="{token}"')
-    with open('.env', 'w') as f:
+        if new_msg_id:
+            print('获取到新msg_id')
+            txt = txt.replace(re.search(r'(PANDA_BUTTON_MSG_ID=".*")', txt).group(1), f'PANDA_BUTTON_MSG_ID="{new_msg_id}"')
+    with open(env_path, 'w') as f:
         f.write(txt)
 
 

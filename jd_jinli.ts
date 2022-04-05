@@ -1,7 +1,6 @@
 /**
  * 京东-锦鲤红包
  * 6点后做全部CK
- * 助力、做任务、开红包
  * cron: 5 0,1,6 * * *
  * CK1     HW.ts -> 内部
  * CK2～n  内部   -> HW.ts
@@ -11,7 +10,7 @@ import axios from 'axios'
 import {sendNotify} from './sendNotify'
 import {get, getshareCodeHW, o2s, randomString, requireConfig, wait} from "./TS_USER_AGENTS"
 
-let cookie: string, cookiesArr: string[] = [], res: any, data: any, UserName: string
+let cookie: string, cookiesArr: string[] = [], res: any, UserName: string
 let shareCodesSelf: string[] = [], shareCodes: string[] = [], shareCodesHW: string[] = [], fullCode: string[] = []
 let min: number[] = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], needLog: boolean = true
 
@@ -23,9 +22,6 @@ let min: number[] = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], needL
   await join()
   await getShareCodeSelf()
   await help()
-  needLog = false
-  await task()
-  // needLog = true
   // await open(true)
 })()
 
@@ -164,50 +160,6 @@ async function help() {
   }
 }
 
-async function task() {
-  for (let [index, value] of cookiesArr.entries()) {
-    try {
-      cookie = value
-      UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)![1])
-      console.log(`\n开始【京东账号${index + 1}】${UserName}\n`)
-      console.log('浏览和领券任务自己手动')
-
-      res = await api('h5activityIndex', {"isjdapp": 1})
-      let shopId: number = res.data.result.shopId
-
-      res = await api('taskHomePage', {})
-      o2s(res)
-      await wait(1000)
-
-      for (let t of res.data.result.taskInfos) {
-        if ([2, 3, 4, 5, 8].includes(t.taskType) && t.innerStatus !== 3) {
-          res = await api('startTask', {taskType: t.taskType})
-          console.log(t.panelTitle, res.data.biz_msg)
-          res = await api('getTaskDetailForColor', {taskType: t.taskType})
-
-          if (t.taskType === 4) {
-            data = await api('h5redpacket_followShop', {"shopId": shopId, "operator": "2"})
-            o2s(data, 'h5redpacket_followShop')
-          }
-
-          for (let tp of res.data.result.advertDetails) {
-            if (tp.status === 0) {
-              console.log(t.panelTitle, tp.name)
-              data = await api('taskReportForColor', {taskType: t.taskType, detailId: tp.id})
-              console.log(res.data.biz_msg)
-              data = await api('h5redpacket_followShop', {"shopId": shopId, "operator": "2"})
-              await wait(3000)
-            }
-          }
-        }
-      }
-    } catch (e) {
-      console.log(e)
-    }
-    await wait(3000)
-  }
-}
-
 async function api(fn: string, body: object) {
   if (needLog || fn === 'startTask') {
     let log: string = await getLog()
@@ -216,6 +168,7 @@ async function api(fn: string, body: object) {
       log: log.match(/"log":"(.*)"/)[1]
     })
   }
+  console.log(fn, body)
   let {data} = await axios.post(`https://api.m.jd.com/api?appid=jinlihongbao&functionId=${fn}&loginType=2&client=jinlihongbao&clientVersion=10.2.4&osVersion=AndroidOS&d_brand=Xiaomi&d_model=Xiaomi`, `body=${encodeURIComponent(JSON.stringify(body))}`, {
     headers: {
       "origin": "https://h5.m.jd.com",
@@ -229,7 +182,11 @@ async function api(fn: string, body: object) {
   return data
 }
 
-async function getLog() {
+async function getLog(): Promise<string> {
   let yuuuu: any = await get(`https://api.yuuuu.xyz/newlog.php`)
-  return `"random":"${yuuuu.random}","log":"${yuuuu.log}"`
+  if (yuuuu.random && yuuuu.log) {
+    return `"random":"${yuuuu.random}","log":"${yuuuu.log}"`
+  } else {
+    return await get(`https://api.jdsharecode.xyz/api/jlhb_log`)
+  }
 }

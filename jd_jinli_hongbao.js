@@ -82,50 +82,9 @@ var log = '';
         }
     });
 }); })();
-function getShareCodeSelf() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, e_1;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    _i = 0, _a = cookiesArr.entries();
-                    _c.label = 1;
-                case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 7];
-                    _b = _a[_i], index = _b[0], value = _b[1];
-                    _c.label = 2;
-                case 2:
-                    _c.trys.push([2, 5, , 6]);
-                    cookie = value;
-                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                    UA = "jdltapp;iPhone;3.1.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat((0, TS_USER_AGENTS_1.randomString)(40));
-                    return [4 /*yield*/, api('h5activityIndex', { "isjdapp": 1 })];
-                case 3:
-                    res = _c.sent();
-                    console.log('红包ID：', res.data.result.redpacketInfo.id);
-                    shareCodesSelf.push(res.data.result.redpacketInfo.id);
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 4:
-                    _c.sent();
-                    return [3 /*break*/, 6];
-                case 5:
-                    e_1 = _c.sent();
-                    console.log(e_1);
-                    return [3 /*break*/, 6];
-                case 6:
-                    _i++;
-                    return [3 /*break*/, 1];
-                case 7:
-                    (0, TS_USER_AGENTS_1.o2s)(shareCodesSelf);
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
 function join() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, i, random, log1, e_2, e_3;
+        var _i, _a, _b, index, value, i, random, log1, e_1, e_2;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -159,9 +118,15 @@ function join() {
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
                 case 7:
                     _c.sent();
-                    return [3 /*break*/, 11];
+                    if (res.rtn_code !== 403) {
+                        return [3 /*break*/, 11];
+                    }
+                    else {
+                    }
+                    return [3 /*break*/, 10];
                 case 8:
-                    e_2 = _c.sent();
+                    e_1 = _c.sent();
+                    console.log('error');
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
                 case 9:
                     _c.sent();
@@ -171,13 +136,54 @@ function join() {
                     return [3 /*break*/, 3];
                 case 11: return [3 /*break*/, 13];
                 case 12:
-                    e_3 = _c.sent();
-                    console.log(e_3);
+                    e_2 = _c.sent();
+                    console.log(e_2);
                     return [3 /*break*/, 13];
                 case 13:
                     _i++;
                     return [3 /*break*/, 1];
                 case 14: return [2 /*return*/];
+            }
+        });
+    });
+}
+function getShareCodeSelf() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _i, _a, _b, index, value, e_3;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _i = 0, _a = cookiesArr.entries();
+                    _c.label = 1;
+                case 1:
+                    if (!(_i < _a.length)) return [3 /*break*/, 7];
+                    _b = _a[_i], index = _b[0], value = _b[1];
+                    _c.label = 2;
+                case 2:
+                    _c.trys.push([2, 5, , 6]);
+                    cookie = value;
+                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                    UA = "jdltapp;iPhone;3.1.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat((0, TS_USER_AGENTS_1.randomString)(40));
+                    return [4 /*yield*/, api('h5activityIndex', { "isjdapp": 1 })];
+                case 3:
+                    res = _c.sent();
+                    console.log('红包ID：', res.data.result.redpacketInfo.id);
+                    shareCodesSelf.push(res.data.result.redpacketInfo.id);
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 4:
+                    _c.sent();
+                    return [3 /*break*/, 6];
+                case 5:
+                    e_3 = _c.sent();
+                    console.log(e_3);
+                    return [3 /*break*/, 6];
+                case 6:
+                    _i++;
+                    return [3 /*break*/, 1];
+                case 7:
+                    (0, TS_USER_AGENTS_1.o2s)(shareCodesSelf);
+                    return [2 /*return*/];
             }
         });
     });
@@ -271,18 +277,18 @@ function open(autoOpen) {
 }
 function help() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, remain, _c, shareCodes_1, code, i, random, log1, e_5;
+        var _i, _a, _b, index, value, _c, shareCodes_1, code, random, log1, e_5;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
                     _i = 0, _a = cookiesArr.entries();
                     _d.label = 1;
                 case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 23];
+                    if (!(_i < _a.length)) return [3 /*break*/, 14];
                     _b = _a[_i], index = _b[0], value = _b[1];
                     _d.label = 2;
                 case 2:
-                    _d.trys.push([2, 21, , 22]);
+                    _d.trys.push([2, 12, , 13]);
                     cookie = value;
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     if (!(shareCodesHW.length === 0)) return [3 /*break*/, 4];
@@ -298,83 +304,55 @@ function help() {
                     else {
                         shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
                     }
-                    remain = 1;
                     _c = 0, shareCodes_1 = shareCodes;
                     _d.label = 5;
                 case 5:
-                    if (!(_c < shareCodes_1.length)) return [3 /*break*/, 20];
+                    if (!(_c < shareCodes_1.length)) return [3 /*break*/, 11];
                     code = shareCodes_1[_c];
-                    if (!!fullCode.includes(code)) return [3 /*break*/, 19];
-                    if (!remain) {
-                        return [3 /*break*/, 20];
-                    }
-                    i = 0;
-                    _d.label = 6;
-                case 6:
-                    if (!(i < 5)) return [3 /*break*/, 19];
+                    if (!!fullCode.includes(code)) return [3 /*break*/, 8];
                     UA = "jdltapp;iPhone;3.1.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat((0, TS_USER_AGENTS_1.randomString)(40));
                     return [4 /*yield*/, getLog()];
-                case 7:
+                case 6:
                     log = _d.sent();
                     random = log.match(/"random":"(\d+)"/)[1], log1 = log.match(/"log":"(.*)"/)[1];
                     console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code, " ").concat(shareCodesSelf.includes(code) ? '*内部*' : ''));
-                    return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, "random": random, "log": log1, "sceneid": "JLHBhPageh5" })
-                        // o2s(res, 'jinli_h5assist')
-                    ];
-                case 8:
+                    return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, "random": random, "log": log1, "sceneid": "JLHBhPageh5" })];
+                case 7:
                     res = _d.sent();
-                    if (!(res.rtn_code !== 0)) return [3 /*break*/, 9];
-                    console.log('log无效');
-                    return [3 /*break*/, 16];
-                case 9:
-                    if (!(res.data.result.status === 0)) return [3 /*break*/, 11];
-                    console.log('助力成功：', parseFloat(res.data.result.assistReward.discount));
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
-                case 10:
-                    _d.sent();
-                    remain = 0;
-                    return [3 /*break*/, 19];
-                case 11:
-                    if (!(res.data.result.status === 3)) return [3 /*break*/, 13];
-                    console.log('今日助力次数已满');
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
-                case 12:
-                    _d.sent();
-                    remain = 0;
-                    return [3 /*break*/, 19];
-                case 13:
-                    if (!(res.data.result.statusDesc === '抱歉，你不能为自己助力哦')) return [3 /*break*/, 15];
-                    console.log('不能助力自己');
-                    remain = 0;
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
-                case 14:
-                    _d.sent();
-                    return [3 /*break*/, 19];
-                case 15:
-                    console.log('助力结果：', res.data.result.statusDesc);
-                    if (res.data.result.statusDesc === '啊偶，TA的助力已满，开启自己的红包活动吧~') {
-                        fullCode.push(code);
+                    if (res.data.result.status === 0) {
+                        console.log('助力成功：', parseFloat(res.data.result.assistReward.discount));
+                        return [3 /*break*/, 11];
                     }
-                    _d.label = 16;
-                case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
-                case 17:
+                    else if (res.data.result.status === 3) {
+                        console.log('今日助力次数已满');
+                        return [3 /*break*/, 11];
+                    }
+                    else if (res.data.result.statusDesc === '抱歉，你不能为自己助力哦') {
+                        console.log('不能助力自己');
+                    }
+                    else {
+                        console.log('助力结果：', res.data.result.statusDesc);
+                        if (res.data.result.statusDesc === '啊偶，TA的助力已满，开启自己的红包活动吧~') {
+                            fullCode.push(code);
+                        }
+                    }
+                    _d.label = 8;
+                case 8: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
+                case 9:
                     _d.sent();
-                    _d.label = 18;
-                case 18:
-                    i++;
-                    return [3 /*break*/, 6];
-                case 19:
+                    _d.label = 10;
+                case 10:
                     _c++;
                     return [3 /*break*/, 5];
-                case 20: return [3 /*break*/, 22];
-                case 21:
+                case 11: return [3 /*break*/, 13];
+                case 12:
                     e_5 = _d.sent();
                     console.log(e_5);
-                    return [3 /*break*/, 22];
-                case 22:
+                    return [3 /*break*/, 13];
+                case 13:
                     _i++;
                     return [3 /*break*/, 1];
-                case 23: return [2 /*return*/];
+                case 14: return [2 /*return*/];
             }
         });
     });
@@ -386,12 +364,12 @@ function api(fn, body) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/api?appid=jinlihongbao&functionId=".concat(fn, "&loginType=2&client=jinlihongbao&clientVersion=10.2.4&osVersion=AndroidOS&d_brand=Xiaomi&d_model=Xiaomi"), "body=".concat(encodeURIComponent(JSON.stringify(body))), {
                         headers: {
-                            "Cookie": cookie,
                             "origin": "https://h5.m.jd.com",
                             "referer": "https://h5.m.jd.com/babelDiy/Zeus/2NUvze9e1uWf4amBhe1AV6ynmSuH/index.html",
                             'Content-Type': 'application/x-www-form-urlencoded',
                             "X-Requested-With": "com.jingdong.app.mall",
-                            "User-Agent": "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1"
+                            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36",
+                            "Cookie": cookie
                         }
                     })];
                 case 1:
@@ -405,23 +383,10 @@ function getLog() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb_log?farm=farm&bean=bean&pin=pin")];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.yuuuu.xyz/newlog.php")];
                 case 1:
-                    // let farm: string = await getFarmShareCode(cookie)
-                    // await wait(1000)
-                    // let bean: string = await getBeanShareCode(cookie)
-                    // let pt_pin: string = encodeURIComponent(UserName)
-                    // if (farm.length > 0 && bean.length > 0) {
-                    //   res = await get(`https://api.jdsharecode.xyz/api/jlhb_log?farm=${farm}&bean=${bean}&pin=${Md5.hashStr(pt_pin)}`)
                     res = _a.sent();
-                    if (res === 1) {
-                        console.log('一致性验证失败，脚本退出');
-                        process.exit(0);
-                    }
-                    else {
-                        return [2 /*return*/, res];
-                    }
-                    return [2 /*return*/];
+                    return [2 /*return*/, "\"random\":\"".concat(res.random, "\",\"log\":\"").concat(res.log, "\"")];
             }
         });
     });

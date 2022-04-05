@@ -98,7 +98,7 @@ var message = '', log = { help: '', runTimes: '' };
                 _f.label = 7;
             case 7:
                 _f.trys.push([7, 9, , 11]);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTimes?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode))];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTime1s?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode))];
             case 8:
                 res = _f.sent();
                 console.log(res);
@@ -106,8 +106,8 @@ var message = '', log = { help: '', runTimes: '' };
                 return [3 /*break*/, 12];
             case 9:
                 e_1 = _f.sent();
-                console.log("\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25"));
-                log.runTimes += "\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25\n");
+                console.log("\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25"), e_1);
+                log.runTimes += "\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25 ").concat(typeof e_1 === 'object' ? JSON.stringify(e_1) : e_1, "\n");
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)((0, TS_USER_AGENTS_1.getRandomNumberByRange)(10000, 30000))];
             case 10:
                 _f.sent();

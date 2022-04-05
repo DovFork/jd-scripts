@@ -36,13 +36,13 @@ let message: string = '', log: { help: string, runTimes: string } = {help: '', r
       console.log('助力码', res.farmUserPro.shareCode)
       for (let i = 0; i < 5; i++) {
         try {
-          res = await get(`https://api.jdsharecode.xyz/api/runTimes?activityId=farm&sharecode=${res.farmUserPro.shareCode}`)
+          res = await get(`https://api.jdsharecode.xyz/api/runTime1s?activityId=farm&sharecode=${res.farmUserPro.shareCode}`)
           console.log(res)
           log.runTimes += `第${i + 1}次${res}\n`
           break
         } catch (e) {
-          console.log(`第${i + 1}次上报失败`)
-          log.runTimes += `第${i + 1}次上报失败\n`
+          console.log(`第${i + 1}次上报失败`, e)
+          log.runTimes += `第${i + 1}次上报失败 ${typeof e === 'object' ? JSON.stringify(e) : e}\n`
           await wait(getRandomNumberByRange(10000, 30000))
         }
       }

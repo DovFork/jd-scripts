@@ -510,20 +510,24 @@ function jdpingou() {
 }
 exports.jdpingou = jdpingou;
 function get(url, prarms, headers) {
-    return axios_1["default"].get(url, {
-        params: prarms,
-        headers: headers
-    })
-        .then(function (res) {
-        if (typeof res.data === 'string' && res.data.includes('jsonpCBK')) {
-            return JSON.parse(res.data.match(/jsonpCBK.?\(([\w\W]*)\);?/)[1]);
-        }
-        else {
-            return res.data;
-        }
-    })["catch"](function (err) {
-        var _a, _b;
-        console.log((_a = err === null || err === void 0 ? void 0 : err.response) === null || _a === void 0 ? void 0 : _a.status, (_b = err === null || err === void 0 ? void 0 : err.response) === null || _b === void 0 ? void 0 : _b.statusText);
+    return new Promise(function (resolve, reject) {
+        axios_1["default"].get(url, {
+            params: prarms,
+            headers: headers
+        }).then(function (res) {
+            if (typeof res.data === 'string' && res.data.includes('jsonpCBK')) {
+                resolve(JSON.parse(res.data.match(/jsonpCBK.?\(([\w\W]*)\);?/)[1]));
+            }
+            else {
+                resolve(res.data);
+            }
+        })["catch"](function (err) {
+            var _a, _b;
+            reject({
+                code: ((_a = err === null || err === void 0 ? void 0 : err.response) === null || _a === void 0 ? void 0 : _a.status) || -1,
+                msg: ((_b = err === null || err === void 0 ? void 0 : err.response) === null || _b === void 0 ? void 0 : _b.statusText) || err.message || 'error'
+            });
+        });
     });
 }
 exports.get = get;

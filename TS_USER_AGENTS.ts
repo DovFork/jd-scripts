@@ -341,20 +341,23 @@ async function jdpingou() {
 }
 
 function get(url: string, prarms?: string, headers?: any) {
-  return axios.get(url, {
-    params: prarms,
-    headers: headers
-  })
-    .then(res => {
+  return new Promise((resolve, reject) => {
+    axios.get(url, {
+      params: prarms,
+      headers: headers
+    }).then(res => {
       if (typeof res.data === 'string' && res.data.includes('jsonpCBK')) {
-        return JSON.parse(res.data.match(/jsonpCBK.?\(([\w\W]*)\);?/)[1])
+        resolve(JSON.parse(res.data.match(/jsonpCBK.?\(([\w\W]*)\);?/)[1]))
       } else {
-        return res.data
+        resolve(res.data)
       }
+    }).catch(err => {
+      reject({
+        code: err?.response?.status || -1,
+        msg: err?.response?.statusText || err.message || 'error'
+      })
     })
-    .catch(err => {
-      console.log(err?.response?.status, err?.response?.statusText)
-    });
+  })
 }
 
 function post(url: string, prarms?: string | object, headers?: any): Promise<any> {

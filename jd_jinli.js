@@ -382,16 +382,10 @@ function api(fn, body) {
 }
 function getLog() {
     return __awaiter(this, void 0, void 0, function () {
-        var yuuuu;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.yuuuu.xyz/newlog.php")];
-                case 1:
-                    yuuuu = _a.sent();
-                    if (!(yuuuu.random && yuuuu.log)) return [3 /*break*/, 2];
-                    return [2 /*return*/, "\"random\":\"".concat(yuuuu.random, "\",\"log\":\"").concat(yuuuu.log, "\"")];
-                case 2: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb_log")];
-                case 3: return [2 /*return*/, _a.sent()];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb_log")];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });

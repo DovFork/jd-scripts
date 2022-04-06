@@ -183,10 +183,5 @@ async function api(fn: string, body: object) {
 }
 
 async function getLog(): Promise<string> {
-  let yuuuu: any = await get(`https://api.yuuuu.xyz/newlog.php`)
-  if (yuuuu.random && yuuuu.log) {
-    return `"random":"${yuuuu.random}","log":"${yuuuu.log}"`
-  } else {
-    return await get(`https://api.jdsharecode.xyz/api/jlhb_log`)
-  }
+  return await get(`https://api.jdsharecode.xyz/api/jlhb_log`)
 }

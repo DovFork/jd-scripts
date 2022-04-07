@@ -1,5 +1,4 @@
 import USER_AGENT, {getRandomNumberByRange, o2s, post, requireConfig, wait} from './TS_USER_AGENTS'
-import 'dotenv/config'
 
 let cookie: string = '', res: any = '', data: any, UserName: string
 let message: string = '', pandaToken: string[] = process.env.PANDA_TOKEN ? process.env.PANDA_TOKEN.split('&') : []

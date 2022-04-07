@@ -91,7 +91,7 @@ function geth5st(t, appId) {
     var timestamp = (0, date_fns_1.format)(time, "yyyyMMddhhmmssSSS");
     var hash1 = genKey(tk, fp.toString(), timestamp.toString(), appId.toString(), CryptoJS).toString(CryptoJS.enc.Hex);
     var hash2 = CryptoJS.HmacSHA256(a, hash1).toString();
-    return ["".concat(timestamp.toString()), "".concat(fp.toString()), "".concat(appId.toString()), "".concat(tk), "".concat(hash2), "3.0", "".concat(time.toString())].join(";");
+    return encodeURIComponent(["".concat(timestamp.toString()), "".concat(fp.toString()), "".concat(appId.toString()), "".concat(tk), "".concat(hash2), "3.0", "".concat(time.toString())].join(";"));
 }
 exports.geth5st = geth5st;
 function get(fn, stk, params, jxToken, cookie, ua) {

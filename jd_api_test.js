@@ -42,40 +42,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var date_fns_1 = require("date-fns");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cars, db, num, times, i;
+    var cars, db, num, j, i, db_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 console.log("\n==================\u811A\u672C\u6267\u884C- \u5317\u4EAC\u65F6\u95F4(UTC+8)\uFF1A".concat((0, date_fns_1.format)(Date.now(), 'yyyy-MM-dd HH:mm:ss'), "\n\n"));
                 cars = ['bean', 'farm', 'health', 'jxfactory', 'pet'];
                 db = cars[Math.floor(Math.random() * cars.length)];
-                num = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(5, 20);
+                num = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(30, 50);
                 console.log("\u672C\u6B21\u968F\u673A\u9009\u62E9".concat(db, "\u83B7\u53D6").concat(num, "\u4E2A\u968F\u673A\u52A9\u529B\u7801"));
                 return [4 /*yield*/, car(db, num)];
             case 1:
                 _a.sent();
-                times = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(3, 6);
-                console.log("\u5F00\u59CB\u6D4B\u8BD5".concat(times, "\u6B21\u4E0A\u62A5"));
-                i = 0;
+                j = 0;
                 _a.label = 2;
             case 2:
-                if (!(i < times)) return [3 /*break*/, 6];
-                console.log("\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u6D4B\u8BD5"));
-                return [4 /*yield*/, runTimes()];
+                if (!(j < cars.length)) return [3 /*break*/, 8];
+                i = 1;
+                _a.label = 3;
             case 3:
-                _a.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)((0, TS_USER_AGENTS_1.getRandomNumberByRange)(2000, 6000))];
+                if (!(i < 3)) return [3 /*break*/, 7];
+                db_1 = cars[j];
+                return [4 /*yield*/, runTimes(db_1, i)];
             case 4:
                 _a.sent();
-                _a.label = 5;
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)((0, TS_USER_AGENTS_1.getRandomNumberByRange)(1000, 3000))];
             case 5:
+                _a.sent();
+                _a.label = 6;
+            case 6:
                 i++;
+                return [3 /*break*/, 3];
+            case 7:
+                j++;
                 return [3 /*break*/, 2];
-            case 6: return [2 /*return*/];
+            case 8: return [2 /*return*/];
         }
     });
 }); })();
@@ -86,11 +90,11 @@ function car(db, num) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/".concat(db, "/").concat(num))];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/".concat(db, "/").concat(num))];
                 case 1:
                     data = (_a.sent()).data;
                     console.log('获取助力池成功');
-                    console.log(data);
+                    console.log(data.length, data);
                     return [3 /*break*/, 3];
                 case 2:
                     e_1 = _a.sent();
@@ -101,21 +105,21 @@ function car(db, num) {
         });
     });
 }
-function runTimes() {
+function runTimes(db, i) {
     return __awaiter(this, void 0, void 0, function () {
-        var data, e_2;
+        var e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/runTimes?activityId=bean&sharecode=123")];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTimes?activityId=".concat(db, "&sharecode=123"))];
                 case 1:
-                    data = (_a.sent()).data;
-                    console.log('测试成功', data);
+                    _a.sent();
+                    console.log("".concat(db, "\u4E0A\u62A5\u6D4B\u8BD5\u6210\u529F ").concat(i));
                     return [3 /*break*/, 3];
                 case 2:
                     e_2 = _a.sent();
-                    console.log('测试失败', e_2);
+                    console.log("".concat(db, "\u4E0A\u62A5\u6D4B\u8BD5\u5931\u8D25 ").concat(i), e_2);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }

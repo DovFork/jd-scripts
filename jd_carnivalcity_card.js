@@ -42,7 +42,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', UserName;
+var cookie = '', res = '', UserName, shareCodeSelf = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, i;
     return __generator(this, function (_c) {
@@ -53,55 +53,66 @@ var cookie = '', res = '', UserName;
                 _i = 0, _a = cookiesArr.entries();
                 _c.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 17];
+                if (!(_i < _a.length)) return [3 /*break*/, 21];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                i = 0;
-                _c.label = 3;
+                if (!(new Date().getMinutes() < 10)) return [3 /*break*/, 5];
+                return [4 /*yield*/, api({ "apiMapping": "/khc/task/getSupport" })];
             case 3:
-                if (!(i < 30)) return [3 /*break*/, 14];
-                return [4 /*yield*/, api({ "apiMapping": "/khc/index/headInfo" })];
+                res = _c.sent();
+                console.log('助力码', res.data.shareId);
+                shareCodeSelf.push(res.data.shareId);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 4:
+                _c.sent();
+                return [3 /*break*/, 20];
+            case 5:
+                i = 0;
+                _c.label = 6;
+            case 6:
+                if (!(i < 30)) return [3 /*break*/, 17];
+                return [4 /*yield*/, api({ "apiMapping": "/khc/index/headInfo" })];
+            case 7:
                 res = _c.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res.data);
-                if (!(res.data.taskType === '14')) return [3 /*break*/, 7];
+                if (!(res.data.taskType === '14')) return [3 /*break*/, 10];
                 return [4 /*yield*/, api({ "taskId": res.data.taskId, "taskIndex": res.data.taskIndex, "apiMapping": "/khc/task/getHeadJoinPrize" })];
-            case 5:
+            case 8:
                 res = _c.sent();
                 console.log('加购', res.msg, res.data.jingBean);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 6:
-                _c.sent();
-                return [3 /*break*/, 13];
-            case 7:
-                if (!['13', '15'].includes(res.data.taskType)) return [3 /*break*/, 12];
-                return [4 /*yield*/, api({ "taskIndex": res.data.taskIndex, "taskId": res.data.taskId, "taskType": res.data.taskType, "apiMapping": "/khc/task/doBrowseHead" })];
-            case 8:
-                res = _c.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
             case 9:
                 _c.sent();
-                return [4 /*yield*/, api({ "browseId": res.data.browseId, "apiMapping": "/khc/task/getHeadBrowsePrize" })];
+                return [3 /*break*/, 16];
             case 10:
+                if (!['13', '15'].includes(res.data.taskType)) return [3 /*break*/, 15];
+                return [4 /*yield*/, api({ "taskIndex": res.data.taskIndex, "taskId": res.data.taskId, "taskType": res.data.taskType, "apiMapping": "/khc/task/doBrowseHead" })];
+            case 11:
+                res = _c.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
+            case 12:
+                _c.sent();
+                return [4 /*yield*/, api({ "browseId": res.data.browseId, "apiMapping": "/khc/task/getHeadBrowsePrize" })];
+            case 13:
                 res = _c.sent();
                 console.log('浏览', res.msg, res.data.jingBean);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 11:
+            case 14:
                 _c.sent();
-                return [3 /*break*/, 13];
-            case 12:
+                return [3 /*break*/, 16];
+            case 15:
                 if (!res.data.taskType) {
                     console.log('任务全部完成');
-                    return [3 /*break*/, 14];
+                    return [3 /*break*/, 17];
                 }
-                _c.label = 13;
-            case 13:
+                _c.label = 16;
+            case 16:
                 i++;
-                return [3 /*break*/, 3];
-            case 14: return [4 /*yield*/, api({ "apiMapping": "/khc/rank/dayRank" })];
-            case 15:
+                return [3 /*break*/, 6];
+            case 17: return [4 /*yield*/, api({ "apiMapping": "/khc/rank/dayRank" })];
+            case 18:
                 res = _c.sent();
                 console.log('我的积分', parseInt(res.data.myRank.integral));
                 console.log('我的排名', parseInt(res.data.myRank.rank));
@@ -110,11 +121,18 @@ var cookie = '', res = '', UserName;
                     console.log('TOP1 ', parseInt(res.data.rankList[0].integral));
                     console.log('TOP10', parseInt(res.data.rankList[9].integral));
                 }
-                _c.label = 16;
-            case 16:
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 19:
+                _c.sent();
+                _c.label = 20;
+            case 20:
                 _i++;
                 return [3 /*break*/, 2];
-            case 17: return [2 /*return*/];
+            case 21:
+                if (shareCodeSelf.length !== 0) {
+                    (0, TS_USER_AGENTS_1.o2s)(shareCodeSelf);
+                }
+                return [2 /*return*/];
         }
     });
 }); })();

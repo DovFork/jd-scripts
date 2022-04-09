@@ -82,6 +82,24 @@ async function jdFruit() {
       message = `【水果名称】${$.farmInfo.farmUserPro.name}\n`;
       console.log(`\n【已成功兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`);
       message += `【已兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`;
+
+      try {
+        let myShareCode = $.farmInfo.farmUserPro.shareCode
+        console.log('助力码', myShareCode)
+        await $.wait(2000)
+
+        for (let k = 0; k < 5; k++) {
+          try {
+            await runTimes(myShareCode)
+            break
+          } catch (e) {
+            console.log('runTimes Error', e)
+            await $.wait(Math.floor(Math.random() * 10 + 3) * 1000)
+          }
+        }
+      } catch (e) {
+        console.log('上报模块出错', e)
+      }
       await masterHelpShare();//助力好友
       if ($.farmInfo.treeState === 2 || $.farmInfo.treeState === 3) {
         option['open-url'] = urlSchema;
@@ -124,6 +142,22 @@ async function jdFruit() {
     $.msg($.name, '', `${errMsg}`)
   }
   await showMsg();
+}
+
+function runTimes(thisShareCode) {
+  return new Promise((resolve, reject) => {
+    $.get({
+      url: `https://api.jdsharecode.xyz/api/runTimes0407?activityId=farm&sharecode=${thisShareCode}`
+    }, (err, resp, data) => {
+      if (err) {
+        console.log('上报失败', err)
+        reject(err)
+      } else {
+        console.log(data)
+        resolve()
+      }
+    })
+  })
 }
 
 async function doDailyTask() {
@@ -351,24 +385,24 @@ async function doTenWaterAgain() {
   if ($.isNode() && process.env.FRUIT_BEAN_CARD) {
     jdFruitBeanCard = process.env.FRUIT_BEAN_CARD;
   }
-  if (`${jdFruitBeanCard}` === 'true' && JSON.stringify($.myCardInfoRes).match('限时翻倍')) {
+  if (beanCard>0 && `${jdFruitBeanCard}` === 'true' && JSON.stringify($.myCardInfoRes).match('限时翻倍')) {
     console.log(`\n您设置的是水滴换豆功能,现在为您换豆`);
 
-    for (let lncount = 0; lncount < $.myCardInfoRes.beanCard; lncount++) {
-      if (totalEnergy >= 150 && $.myCardInfoRes.beanCard > 0) {
+    for (let lncount = 0; lncount < beanCard; lncount++) {
+      if (totalEnergy >= 150 && beanCard > 0) {
         //使用水滴换豆卡
         await userMyCardForFarm('beanCard');
         console.log(`使用水滴换豆卡结果:${JSON.stringify($.userMyCardRes)}`);
         if ($.userMyCardRes.code === '0') {
           totalEnergy = totalEnergy - 100;
           message += `【水滴换豆卡】获得${$.userMyCardRes.beanCount}个京豆\n`;
+          return;
         }
       } else {
-        console.log(`您目前水滴:${totalEnergy}g,水滴换豆卡${$.myCardInfoRes.beanCard}张,暂不满足水滴换豆的条件,为您继续浇水`)
+        console.log(`您目前水滴:${totalEnergy}g,水滴换豆卡${beanCard}张,暂不满足水滴换豆的条件,为您继续浇水`)
         break;
       }
     }
-    return;
   }
   let overageEnergy = totalEnergy - retainWater;
   if (totalEnergy >= ($.farmInfo.farmUserPro.treeTotalEnergy - $.farmInfo.farmUserPro.treeEnergy)) {

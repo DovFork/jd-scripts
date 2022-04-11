@@ -186,6 +186,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [], full = [];
                     : Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, (0, jd_zjd_tool_js_1.zjdInit)()];
             case 30:
                 _g.sent();

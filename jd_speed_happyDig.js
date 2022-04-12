@@ -57,7 +57,7 @@ var crypto_js_1 = require("crypto-js");
 var cookie = '', res = '', UserName, data;
 var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodesSelf_1, code, e_2, _g, _h, _j, index, value, blood;
+    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodesSelf_1, code, e_2, _g, _h, _j, index, value, blood, i, j;
     return __generator(this, function (_k) {
         switch (_k.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()
@@ -173,7 +173,7 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                 _g = 0, _h = cookiesArr.entries();
                 _k.label = 30;
             case 30:
-                if (!(_g < _h.length)) return [3 /*break*/, 33];
+                if (!(_g < _h.length)) return [3 /*break*/, 41];
                 _j = _h[_g], index = _j[0], value = _j[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
@@ -182,11 +182,60 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
             case 31:
                 _k.sent();
                 blood = res.data.blood;
+                i = 0;
                 _k.label = 32;
             case 32:
+                if (!(i < 4)) return [3 /*break*/, 40];
+                if (blood <= 1) {
+                    console.log('能量剩余1，跳过 A');
+                    return [3 /*break*/, 40];
+                }
+                j = 0;
+                _k.label = 33;
+            case 33:
+                if (!(j < 4)) return [3 /*break*/, 39];
+                if (blood <= 1) {
+                    console.log('能量剩余1，跳过 B');
+                    return [3 /*break*/, 39];
+                }
+                return [4 /*yield*/, api('happyDigDo', { "round": 1, "rowIdx": i, "colIdx": j, "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
+            case 34:
+                res = _k.sent();
+                (0, TS_USER_AGENTS_1.o2s)(res);
+                if (res.data.chunk.type === 1) {
+                    console.log('挖到👎');
+                }
+                else if (res.data.chunk.type === 2) {
+                    console.log('挖到🧧', parseFloat(res.data.chunk.value));
+                }
+                else if (res.data.chunk.type === 4) {
+                    console.log('挖到💣');
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 35:
+                _k.sent();
+                return [4 /*yield*/, api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
+            case 36:
+                res = _k.sent();
+                if (res.data.blood === 1) {
+                    blood = 1;
+                    console.log('能量剩余1，退出');
+                    return [3 /*break*/, 39];
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 37:
+                _k.sent();
+                _k.label = 38;
+            case 38:
+                j++;
+                return [3 /*break*/, 33];
+            case 39:
+                i++;
+                return [3 /*break*/, 32];
+            case 40:
                 _g++;
                 return [3 /*break*/, 30];
-            case 33: return [2 /*return*/];
+            case 41: return [2 /*return*/];
         }
     });
 }); })();

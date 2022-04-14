@@ -53,7 +53,7 @@ var beans = '', farms = '', healths = '', pets = '', factorys = '', jxfactorys =
                 i = 0;
                 _a.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 11];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 12];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -93,11 +93,14 @@ var beans = '', farms = '', healths = '', pets = '', factorys = '', jxfactorys =
                 s = _a.sent();
                 s ? sgmhs += s + '&' : '';
                 console.log('闪购盲盒:', s);
-                _a.label = 10;
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 10:
+                _a.sent();
+                _a.label = 11;
+            case 11:
                 i++;
                 return [3 /*break*/, 2];
-            case 11:
+            case 12:
                 console.log('/bean', beans.substring(0, beans.length - 1));
                 console.log('/farm', farms.substring(0, farms.length - 1));
                 console.log('/health', healths.substring(0, healths.length - 1));

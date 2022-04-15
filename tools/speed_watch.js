@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var sendNotify_1 = require("./sendNotify");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var sendNotify_1 = require("../sendNotify");
+var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
 var CryptoJS = require('crypto-js');
 var cookie = '', UserName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {

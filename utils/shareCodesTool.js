@@ -71,7 +71,7 @@ function farm(cookie) {
         var data;
         return __generator(this, function (_c) {
             switch (_c.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action?functionId=initForFarm', "body=".concat(escape(JSON.stringify({ "version": 4 })), "&appid=wh5&clientVersion=9.1.0"), {
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/client.action?functionId=initForFarm', "body=".concat(encodeURIComponent(JSON.stringify({ "version": 4 })), "&appid=wh5&clientVersion=9.1.0"), {
                         headers: {
                             "cookie": cookie,
                             "origin": "https://home.m.jd.com",
@@ -94,7 +94,7 @@ function health(cookie) {
         var data;
         return __generator(this, function (_d) {
             switch (_d.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action/client.action?functionId=jdhealth_getTaskDetail&body=".concat(escape(JSON.stringify({ "buildingId": "", taskId: 6, "channelId": 1 })), "&client=wh5&clientVersion=1.0.0"), {
+                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action/client.action?functionId=jdhealth_getTaskDetail&body=".concat(encodeURIComponent(JSON.stringify({ "buildingId": "", taskId: 6, "channelId": 1 })), "&client=wh5&clientVersion=1.0.0"), {
                         headers: {
                             "Cookie": cookie,
                             "origin": "https://h5.m.jd.com",
@@ -141,7 +141,7 @@ function factory(cookie) {
         var data, _i, _c, t;
         return __generator(this, function (_d) {
             switch (_d.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=jdfactory_getTaskDetail", "functionId=jdfactory_getTaskDetail&body=".concat(escape(JSON.stringify({})), "&client=wh5&clientVersion=9.1.0"), {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=jdfactory_getTaskDetail", "functionId=jdfactory_getTaskDetail&body=".concat(encodeURIComponent(JSON.stringify({})), "&client=wh5&clientVersion=9.1.0"), {
                         headers: {
                             Cookie: cookie,
                             origin: "https://h5.m.jd.com",

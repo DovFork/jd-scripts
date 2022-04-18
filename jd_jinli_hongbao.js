@@ -68,23 +68,24 @@ var min = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
                 return [4 /*yield*/, join()];
             case 2:
                 _a.sent();
-                return [4 /*yield*/, getShareCodeSelf()];
+                return [4 /*yield*/, help()];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, help()];
+                cookiesArr = cookiesArr.slice(0, 9);
+                return [4 /*yield*/, join()];
             case 4:
                 _a.sent();
-                cookiesArr = cookiesArr.slice(1, 9);
-                return [4 /*yield*/, join()];
+                return [4 /*yield*/, getShareCodeSelf()];
             case 5:
                 _a.sent();
-                return [4 /*yield*/, getShareCodeSelf()];
+                return [4 /*yield*/, help()];
             case 6:
                 _a.sent();
-                return [4 /*yield*/, help()
-                    // await open(true)
-                ];
+                return [4 /*yield*/, task()];
             case 7:
+                _a.sent();
+                return [4 /*yield*/, open(false)];
+            case 8:
                 _a.sent();
                 return [2 /*return*/];
         }
@@ -180,7 +181,7 @@ function getShareCodeSelf(one) {
                     return [4 /*yield*/, api('h5activityIndex', { "isjdapp": 1 })];
                 case 5:
                     res = _f.sent();
-                    console.log('红包ID：', res.data.result.redpacketInfo.id);
+                    console.log('ID：', res.data.result.redpacketInfo.id);
                     shareCodesSelf.push(res.data.result.redpacketInfo.id);
                     return [3 /*break*/, 7];
                 case 6:
@@ -230,10 +231,10 @@ function open(autoOpen) {
                     for (_c = 0, _d = res.data.result.redpacketConfigFillRewardInfo; _c < _d.length; _c++) {
                         t = _d[_c];
                         if (t.packetStatus === 1) {
-                            console.log("\u7EA2\u5305".concat(j, "\u53EF\u62C6"));
+                            console.log("".concat(j, " \u53EF\u62C6"));
                         }
                         else if (t.packetStatus === 2) {
-                            console.log("\u7EA2\u5305".concat(j, "\u5DF2\u62C6"));
+                            console.log("".concat(j, " \u5DF2\u62C6"));
                         }
                         j++;
                     }
@@ -245,7 +246,7 @@ function open(autoOpen) {
                     if (!(_e < _f.length)) return [3 /*break*/, 14];
                     t = _f[_e];
                     if (!(t.packetStatus === 1)) return [3 /*break*/, 11];
-                    console.log("\u7EA2\u5305".concat(j, "\u53EF\u62C6"));
+                    console.log("".concat(j, " \u53EF\u62C6"));
                     if (!autoOpen) return [3 /*break*/, 10];
                     return [4 /*yield*/, getLog()];
                 case 5:
@@ -374,6 +375,140 @@ function help() {
                     _i++;
                     return [3 /*break*/, 1];
                 case 20: return [2 /*return*/];
+            }
+        });
+    });
+}
+function task() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _i, _a, _b, index, value, _c, _d, t, _e, _f, tp, _g, _h, t, e_6;
+        return __generator(this, function (_j) {
+            switch (_j.label) {
+                case 0:
+                    _i = 0, _a = cookiesArr.entries();
+                    _j.label = 1;
+                case 1:
+                    if (!(_i < _a.length)) return [3 /*break*/, 37];
+                    _b = _a[_i], index = _b[0], value = _b[1];
+                    _j.label = 2;
+                case 2:
+                    _j.trys.push([2, 35, , 36]);
+                    cookie = value;
+                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                    return [4 /*yield*/, api('taskHomePage', {})];
+                case 3:
+                    res = _j.sent();
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 4:
+                    _j.sent();
+                    _c = 0, _d = res.data.result.taskInfos;
+                    _j.label = 5;
+                case 5:
+                    if (!(_c < _d.length)) return [3 /*break*/, 22];
+                    t = _d[_c];
+                    if (!(!t.alreadyReceivedCount || t.alreadyReceivedCount < t.requireCount)) return [3 /*break*/, 15];
+                    if (![2, 3, 4, 5, 8].includes(t.taskType)) return [3 /*break*/, 15];
+                    return [4 /*yield*/, getLog()];
+                case 6:
+                    log = _j.sent();
+                    return [4 /*yield*/, api('startTask', { "taskType": t.taskType, random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
+                case 7:
+                    res = _j.sent();
+                    console.log(t.title, res.data.biz_msg);
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 8:
+                    _j.sent();
+                    return [4 /*yield*/, api('getTaskDetailForColor', { taskType: t.taskType })];
+                case 9:
+                    res = _j.sent();
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 10:
+                    _j.sent();
+                    _e = 0, _f = res.data.result.advertDetails;
+                    _j.label = 11;
+                case 11:
+                    if (!(_e < _f.length)) return [3 /*break*/, 15];
+                    tp = _f[_e];
+                    if (!(tp.status === 0)) return [3 /*break*/, 14];
+                    return [4 /*yield*/, api('taskReportForColor', { "taskType": t.taskType, "detailId": tp.id })];
+                case 12:
+                    res = _j.sent();
+                    console.log(t.title, tp.name, res.data.biz_msg);
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 13:
+                    _j.sent();
+                    _j.label = 14;
+                case 14:
+                    _e++;
+                    return [3 /*break*/, 11];
+                case 15:
+                    if (!(t.innerStatus === 3)) return [3 /*break*/, 21];
+                    return [4 /*yield*/, getLog()];
+                case 16:
+                    log = _j.sent();
+                    return [4 /*yield*/, api('h5receiveRedpacketAll', { "taskType": t.taskType, random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
+                case 17:
+                    res = _j.sent();
+                    console.log("".concat(t.title, " \u6253\u5F00\u6210\u529F\uFF0C\u83B7\u5F97"), parseFloat(res.data.result.discount));
+                    if (!!min.includes(parseFloat(res.data.result.discount))) return [3 /*break*/, 19];
+                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)("\u9526\u9CA4\u7EA2\u5305", "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(res.data.result.discount))];
+                case 18:
+                    _j.sent();
+                    _j.label = 19;
+                case 19: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 20:
+                    _j.sent();
+                    _j.label = 21;
+                case 21:
+                    _c++;
+                    return [3 /*break*/, 5];
+                case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 23:
+                    _j.sent();
+                    return [4 /*yield*/, api('taskHomePage', {})];
+                case 24:
+                    res = _j.sent();
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 25:
+                    _j.sent();
+                    _g = 0, _h = res.data.result.taskInfos;
+                    _j.label = 26;
+                case 26:
+                    if (!(_g < _h.length)) return [3 /*break*/, 33];
+                    t = _h[_g];
+                    if (!(t.innerStatus === 3)) return [3 /*break*/, 32];
+                    return [4 /*yield*/, getLog()];
+                case 27:
+                    log = _j.sent();
+                    return [4 /*yield*/, api('h5receiveRedpacketAll', { "taskType": t.taskType, random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
+                case 28:
+                    res = _j.sent();
+                    console.log("".concat(t.title, " \u6253\u5F00\u6210\u529F\uFF0C\u83B7\u5F97"), parseFloat(res.data.result.discount));
+                    if (!!min.includes(parseFloat(res.data.result.discount))) return [3 /*break*/, 30];
+                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)("\u9526\u9CA4\u7EA2\u5305", "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(res.data.result.discount))];
+                case 29:
+                    _j.sent();
+                    _j.label = 30;
+                case 30: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+                case 31:
+                    _j.sent();
+                    _j.label = 32;
+                case 32:
+                    _g++;
+                    return [3 /*break*/, 26];
+                case 33: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                case 34:
+                    _j.sent();
+                    return [3 /*break*/, 36];
+                case 35:
+                    e_6 = _j.sent();
+                    console.log(e_6);
+                    return [3 /*break*/, 36];
+                case 36:
+                    _i++;
+                    return [3 /*break*/, 1];
+                case 37: return [2 /*return*/];
             }
         });
     });

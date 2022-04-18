@@ -47,13 +47,13 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var pushplus_1 = require("./utils/pushplus");
 var cookie = '', UserName, allMessage = '', res = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, orders, pushplusArr, pushplusUser, _i, pushplusArr_1, user, _a, _b, _c, index, value, message, markdown, i, headers, _d, _e, order, orderId, orderType, title, t, status_1, carrier, carriageId, account, _f, account_1, acc;
-    var _g, _h;
-    return __generator(this, function (_j) {
-        switch (_j.label) {
+    var cookiesArr, except, orders, pushplusArr, pushplusUser, _i, pushplusArr_1, user, _a, _b, _c, index, value, message, markdown, i, headers, _d, _e, order, orderId, orderType, title, t, status_1, shopName, carrier, carriageId, account, _f, account_1, acc;
+    var _g, _h, _j;
+    return __generator(this, function (_k) {
+        switch (_k.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _j.sent();
+                cookiesArr = _k.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
                 orders = {}, pushplusUser = [];
                 try {
@@ -80,7 +80,7 @@ var cookie = '', UserName, allMessage = '', res = '';
                     (0, fs_1.writeFileSync)('./json/jd_track.json', '{}');
                 }
                 _a = 0, _b = cookiesArr.entries();
-                _j.label = 2;
+                _k.label = 2;
             case 2:
                 if (!(_a < _b.length)) return [3 /*break*/, 14];
                 _c = _b[_a], index = _c[0], value = _c[1];
@@ -100,12 +100,12 @@ var cookie = '', UserName, allMessage = '', res = '';
                 };
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://wq.jd.com/bases/orderlist/list?order_type=2&start_page=1&last_page=0&page_size=10&callersource=mainorder&t=".concat(Date.now(), "&sceneval=2&_=").concat(Date.now(), "&sceneval=2"), '', headers)];
             case 3:
-                res = _j.sent();
+                res = _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 4:
-                _j.sent();
+                _k.sent();
                 _d = 0, _e = res.orderList;
-                _j.label = 5;
+                _k.label = 5;
             case 5:
                 if (!(_d < _e.length)) return [3 /*break*/, 9];
                 order = _e[_d];
@@ -114,18 +114,19 @@ var cookie = '', UserName, allMessage = '', res = '';
                 title = order.productList[0].title;
                 t = ((_g = order.progressInfo) === null || _g === void 0 ? void 0 : _g.tip) || null;
                 status_1 = ((_h = order.progressInfo) === null || _h === void 0 ? void 0 : _h.content) || null;
+                shopName = order.shopInfo.shopName;
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://wq.jd.com/bases/wuliudetail/dealloglist?deal_id=".concat(orderId, "&orderstate=15&ordertype=").concat(orderType, "&t=").concat(Date.now(), "&sceneval=2"), '', headers)];
             case 6:
-                res = _j.sent();
+                res = _k.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 7:
-                _j.sent();
+                _k.sent();
                 carrier = res.carrier, carriageId = res.carriageId;
                 if (t && status_1) {
                     if (status_1.match(/(?=签收|已取走|已暂存)/))
                         return [3 /*break*/, 8];
                     if (!pushplusUser.includes(UserName)) {
-                        console.log(title);
+                        console.log("<".concat(shopName, ">\t").concat(title));
                         console.log('\t', t, status_1);
                         console.log();
                     }
@@ -139,11 +140,12 @@ var cookie = '', UserName, allMessage = '', res = '';
                         }
                         else {
                             console.log('+ sendNotify');
-                            message += "".concat(title, "\n").concat(carrier, "  ").concat(carriageId, "\n").concat(t, "  ").concat(status_1, "\n\n");
+                            message += "<".concat(shopName, ">\t").concat(title, "\n").concat(carrier, "  ").concat(carriageId, "\n").concat(t, "  ").concat(status_1, "\n\n");
                         }
                     }
                     orders[orderId] = {
                         user: UserName,
+                        shopName: shopName,
                         title: title,
                         t: t,
                         status: status_1,
@@ -151,7 +153,7 @@ var cookie = '', UserName, allMessage = '', res = '';
                         carriageId: carriageId
                     };
                 }
-                _j.label = 8;
+                _k.label = 8;
             case 8:
                 _d++;
                 return [3 /*break*/, 5];
@@ -164,12 +166,12 @@ var cookie = '', UserName, allMessage = '', res = '';
                 markdown = "#### <".concat(UserName, ">\n").concat(markdown);
                 return [4 /*yield*/, (0, pushplus_1.pushplus)('京东快递更新', markdown, 'markdown')];
             case 10:
-                _j.sent();
-                _j.label = 11;
+                _k.sent();
+                _k.label = 11;
             case 11: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 12:
-                _j.sent();
-                _j.label = 13;
+                _k.sent();
+                _k.label = 13;
             case 13:
                 _a++;
                 return [3 /*break*/, 2];
@@ -194,14 +196,14 @@ var cookie = '', UserName, allMessage = '', res = '';
                 orders = JSON.stringify(orders, null, 2);
                 for (_f = 0, account_1 = account; _f < account_1.length; _f++) {
                     acc = account_1[_f];
-                    orders = orders.replace(new RegExp(decodeURIComponent(acc.pt_pin), 'g'), acc.remarks);
+                    orders = orders.replace(new RegExp(decodeURIComponent(acc.pt_pin), 'g'), (_j = acc.remarks) !== null && _j !== void 0 ? _j : acc.pt_pin);
                 }
                 (0, fs_1.writeFileSync)('./json/jd_track.json', orders);
                 if (!allMessage) return [3 /*break*/, 16];
                 return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东快递更新', allMessage)];
             case 15:
-                _j.sent();
-                _j.label = 16;
+                _k.sent();
+                _k.label = 16;
             case 16: return [2 /*return*/];
         }
     });

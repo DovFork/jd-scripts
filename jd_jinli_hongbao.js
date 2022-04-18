@@ -71,21 +71,24 @@ var min = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
                 return [4 /*yield*/, help()];
             case 3:
                 _a.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)(false)];
+            case 4:
+                cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 9);
                 return [4 /*yield*/, join()];
-            case 4:
-                _a.sent();
-                return [4 /*yield*/, getShareCodeSelf()];
             case 5:
                 _a.sent();
-                return [4 /*yield*/, help()];
+                return [4 /*yield*/, getShareCodeSelf()];
             case 6:
                 _a.sent();
-                return [4 /*yield*/, task()];
+                return [4 /*yield*/, help()];
             case 7:
                 _a.sent();
-                return [4 /*yield*/, open(false)];
+                return [4 /*yield*/, task()];
             case 8:
+                _a.sent();
+                return [4 /*yield*/, open(false)];
+            case 9:
                 _a.sent();
                 return [2 /*return*/];
         }

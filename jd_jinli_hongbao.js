@@ -61,7 +61,7 @@ var min = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)(false)];
             case 1:
                 cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 1);
@@ -71,11 +71,11 @@ var min = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
                 return [4 /*yield*/, help()];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)(false)];
             case 4:
                 cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 9);
-                if (!(new Date().getHours() === 0)) return [3 /*break*/, 6];
+                if (!(new Date().getHours() !== 6)) return [3 /*break*/, 6];
                 return [4 /*yield*/, join()];
             case 5:
                 _a.sent();
@@ -86,7 +86,7 @@ var min = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
                 return [4 /*yield*/, help()];
             case 8:
                 _a.sent();
-                return [4 /*yield*/, open(0)];
+                return [4 /*yield*/, open(1)];
             case 9:
                 _a.sent();
                 return [2 /*return*/];
@@ -113,7 +113,7 @@ function join() {
                     i = 0;
                     _c.label = 3;
                 case 3:
-                    if (!(i < 5)) return [3 /*break*/, 10];
+                    if (!(i < 3)) return [3 /*break*/, 10];
                     _c.label = 4;
                 case 4:
                     _c.trys.push([4, 7, , 9]);
@@ -292,7 +292,7 @@ function open(autoOpen) {
 }
 function help() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, me, success, _c, shareCodes_1, code, i, e_5;
+        var _i, _a, _b, index, value, me, remain, _c, shareCodes_1, code, success, i, e_5;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
@@ -320,21 +320,23 @@ function help() {
                     }
                     return [4 /*yield*/, getShareCodeSelf(true)];
                 case 5:
-                    me = _d.sent();
-                    success = false;
+                    me = _d.sent(), remain = true;
                     _c = 0, shareCodes_1 = shareCodes;
                     _d.label = 6;
                 case 6:
                     if (!(_c < shareCodes_1.length)) return [3 /*break*/, 19];
                     code = shareCodes_1[_c];
-                    if (success)
+                    if (!remain)
                         return [3 /*break*/, 19];
+                    success = false;
                     if (!(!fullCode.includes(code) && code !== me)) return [3 /*break*/, 18];
                     console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code, " ").concat(shareCodesSelf.includes(code) ? '*内部*' : ''));
                     i = 0;
                     _d.label = 7;
                 case 7:
                     if (!(i < 5)) return [3 /*break*/, 18];
+                    if (success)
+                        return [3 /*break*/, 18];
                     return [4 /*yield*/, getLog()];
                 case 8:
                     log = _d.sent();
@@ -348,17 +350,18 @@ function help() {
                     _d.sent();
                     return [3 /*break*/, 17];
                 case 11:
+                    success = true;
                     if (!(res.data.result.status === 0)) return [3 /*break*/, 13];
                     console.log('助力成功：', parseFloat(res.data.result.assistReward.discount));
-                    success = true;
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
                 case 12:
                     _d.sent();
+                    remain = false;
                     return [3 /*break*/, 18];
                 case 13:
                     if (!(res.data.result.status === 3)) return [3 /*break*/, 15];
                     console.log('今日助力次数已满');
-                    success = true;
+                    remain = false;
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
                 case 14:
                     _d.sent();

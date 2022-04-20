@@ -507,7 +507,7 @@ function api(fn, stk, params) {
                         url += "&".concat(key, "=").concat(value);
                     }
                     h5st = (0, V3_1.geth5st)(t, '00df8');
-                    url += "&h5st=".concat(encodeURIComponent(h5st));
+                    url += "&h5st=".concat(h5st);
                     _c.label = 1;
                 case 1:
                     _c.trys.push([1, 3, , 4]);

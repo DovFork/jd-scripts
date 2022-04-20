@@ -832,7 +832,7 @@ function api(fn, stk, params, taskPosition) {
                                 'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
                                 'User-Agent': ua,
                                 'Referer': 'https://st.jingxi.com/',
-                                'Cookie': cookie
+                                'Cookie': cookie + 'cid=4;'
                             }
                         })];
                 case 1:

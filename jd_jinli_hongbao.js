@@ -61,7 +61,7 @@ var min = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)(false)];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 1);
@@ -71,23 +71,22 @@ var min = [0.02, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
                 return [4 /*yield*/, help()];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)(false)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 4:
                 cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 9);
+                if (!(new Date().getHours() === 0)) return [3 /*break*/, 6];
                 return [4 /*yield*/, join()];
             case 5:
                 _a.sent();
-                return [4 /*yield*/, getShareCodeSelf()];
-            case 6:
-                _a.sent();
-                return [4 /*yield*/, help()];
+                _a.label = 6;
+            case 6: return [4 /*yield*/, getShareCodeSelf()];
             case 7:
                 _a.sent();
-                return [4 /*yield*/, task()];
+                return [4 /*yield*/, help()];
             case 8:
                 _a.sent();
-                return [4 /*yield*/, open(false)];
+                return [4 /*yield*/, open(0)];
             case 9:
                 _a.sent();
                 return [2 /*return*/];
@@ -207,15 +206,11 @@ function getShareCodeSelf(one) {
     });
 }
 function open(autoOpen) {
-    if (autoOpen === void 0) { autoOpen = false; }
     return __awaiter(this, void 0, void 0, function () {
         var _i, _a, _b, index, value, j, _c, _d, t, _e, _f, t, e_4;
         return __generator(this, function (_g) {
             switch (_g.label) {
                 case 0:
-                    if (new Date().getHours() === 18) {
-                        autoOpen = true;
-                    }
                     _i = 0, _a = cookiesArr.entries();
                     _g.label = 1;
                 case 1:
@@ -249,7 +244,6 @@ function open(autoOpen) {
                     if (!(_e < _f.length)) return [3 /*break*/, 14];
                     t = _f[_e];
                     if (!(t.packetStatus === 1)) return [3 /*break*/, 11];
-                    console.log("".concat(j, " \u53EF\u62C6"));
                     if (!autoOpen) return [3 /*break*/, 10];
                     return [4 /*yield*/, getLog()];
                 case 5:
@@ -284,7 +278,7 @@ function open(autoOpen) {
                     e_4 = _g.sent();
                     console.log(e_4);
                     return [3 /*break*/, 16];
-                case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
+                case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
                 case 17:
                     _g.sent();
                     _g.label = 18;
@@ -298,18 +292,18 @@ function open(autoOpen) {
 }
 function help() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, me, _c, shareCodes_1, code, e_5;
+        var _i, _a, _b, index, value, me, success, _c, shareCodes_1, code, i, e_5;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
                     _i = 0, _a = cookiesArr.entries();
                     _d.label = 1;
                 case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 20];
+                    if (!(_i < _a.length)) return [3 /*break*/, 24];
                     _b = _a[_i], index = _b[0], value = _b[1];
                     _d.label = 2;
                 case 2:
-                    _d.trys.push([2, 16, , 17]);
+                    _d.trys.push([2, 20, , 21]);
                     cookie = value;
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                     if (!(shareCodesHW.length === 0)) return [3 /*break*/, 4];
@@ -318,7 +312,7 @@ function help() {
                     shareCodesHW = _d.sent();
                     _d.label = 4;
                 case 4:
-                    if (index === 0 && cookiesArr.length === 1) {
+                    if (index === 0) {
                         shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
                     }
                     else {
@@ -327,191 +321,76 @@ function help() {
                     return [4 /*yield*/, getShareCodeSelf(true)];
                 case 5:
                     me = _d.sent();
+                    success = false;
                     _c = 0, shareCodes_1 = shareCodes;
                     _d.label = 6;
                 case 6:
-                    if (!(_c < shareCodes_1.length)) return [3 /*break*/, 15];
+                    if (!(_c < shareCodes_1.length)) return [3 /*break*/, 19];
                     code = shareCodes_1[_c];
-                    if (!(!fullCode.includes(code) && code !== me)) return [3 /*break*/, 14];
+                    if (success)
+                        return [3 /*break*/, 19];
+                    if (!(!fullCode.includes(code) && code !== me)) return [3 /*break*/, 18];
                     console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code, " ").concat(shareCodesSelf.includes(code) ? '*内部*' : ''));
-                    return [4 /*yield*/, getLog()];
+                    i = 0;
+                    _d.label = 7;
                 case 7:
+                    if (!(i < 5)) return [3 /*break*/, 18];
+                    return [4 /*yield*/, getLog()];
+                case 8:
                     log = _d.sent();
                     return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
-                case 8:
-                    res = _d.sent();
-                    if (!(res.data.result.status === 0)) return [3 /*break*/, 10];
-                    console.log('助力成功：', parseFloat(res.data.result.assistReward.discount));
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
                 case 9:
-                    _d.sent();
-                    return [3 /*break*/, 15];
+                    res = _d.sent();
+                    if (!(res.rtn_code === 403)) return [3 /*break*/, 11];
+                    console.log('log error');
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
                 case 10:
-                    if (!(res.data.result.status === 3)) return [3 /*break*/, 12];
-                    console.log('今日助力次数已满');
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
-                case 11:
                     _d.sent();
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 17];
+                case 11:
+                    if (!(res.data.result.status === 0)) return [3 /*break*/, 13];
+                    console.log('助力成功：', parseFloat(res.data.result.assistReward.discount));
+                    success = true;
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
                 case 12:
+                    _d.sent();
+                    return [3 /*break*/, 18];
+                case 13:
+                    if (!(res.data.result.status === 3)) return [3 /*break*/, 15];
+                    console.log('今日助力次数已满');
+                    success = true;
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
+                case 14:
+                    _d.sent();
+                    return [3 /*break*/, 18];
+                case 15:
                     console.log('助力结果：', res.data.result.statusDesc);
                     if (res.data.result.statusDesc === '啊偶，TA的助力已满，开启自己的红包活动吧~') {
                         fullCode.push(code);
                     }
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(45000)];
-                case 13:
+                case 16:
                     _d.sent();
-                    _d.label = 14;
-                case 14:
+                    _d.label = 17;
+                case 17:
+                    i++;
+                    return [3 /*break*/, 7];
+                case 18:
                     _c++;
                     return [3 /*break*/, 6];
-                case 15: return [3 /*break*/, 17];
-                case 16:
+                case 19: return [3 /*break*/, 21];
+                case 20:
                     e_5 = _d.sent();
                     console.log(e_5);
-                    return [3 /*break*/, 17];
-                case 17: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
-                case 18:
+                    return [3 /*break*/, 21];
+                case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
+                case 22:
                     _d.sent();
-                    _d.label = 19;
-                case 19:
-                    _i++;
-                    return [3 /*break*/, 1];
-                case 20: return [2 /*return*/];
-            }
-        });
-    });
-}
-function task() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, _c, _d, t, _e, _f, tp, _g, _h, t, e_6;
-        return __generator(this, function (_j) {
-            switch (_j.label) {
-                case 0:
-                    _i = 0, _a = cookiesArr.entries();
-                    _j.label = 1;
-                case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 37];
-                    _b = _a[_i], index = _b[0], value = _b[1];
-                    _j.label = 2;
-                case 2:
-                    _j.trys.push([2, 35, , 36]);
-                    cookie = value;
-                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                    return [4 /*yield*/, api('taskHomePage', {})];
-                case 3:
-                    res = _j.sent();
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 4:
-                    _j.sent();
-                    _c = 0, _d = res.data.result.taskInfos;
-                    _j.label = 5;
-                case 5:
-                    if (!(_c < _d.length)) return [3 /*break*/, 22];
-                    t = _d[_c];
-                    if (!(!t.alreadyReceivedCount || t.alreadyReceivedCount < t.requireCount)) return [3 /*break*/, 15];
-                    if (![2, 3, 4, 5, 8].includes(t.taskType)) return [3 /*break*/, 15];
-                    return [4 /*yield*/, getLog()];
-                case 6:
-                    log = _j.sent();
-                    return [4 /*yield*/, api('startTask', { "taskType": t.taskType, random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
-                case 7:
-                    res = _j.sent();
-                    console.log(t.title, res.data.biz_msg);
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 8:
-                    _j.sent();
-                    return [4 /*yield*/, api('getTaskDetailForColor', { taskType: t.taskType })];
-                case 9:
-                    res = _j.sent();
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 10:
-                    _j.sent();
-                    _e = 0, _f = res.data.result.advertDetails;
-                    _j.label = 11;
-                case 11:
-                    if (!(_e < _f.length)) return [3 /*break*/, 15];
-                    tp = _f[_e];
-                    if (!(tp.status === 0)) return [3 /*break*/, 14];
-                    return [4 /*yield*/, api('taskReportForColor', { "taskType": t.taskType, "detailId": tp.id })];
-                case 12:
-                    res = _j.sent();
-                    console.log(t.title, tp.name, res.data.biz_msg);
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 13:
-                    _j.sent();
-                    _j.label = 14;
-                case 14:
-                    _e++;
-                    return [3 /*break*/, 11];
-                case 15:
-                    if (!(t.innerStatus === 3)) return [3 /*break*/, 21];
-                    return [4 /*yield*/, getLog()];
-                case 16:
-                    log = _j.sent();
-                    return [4 /*yield*/, api('h5receiveRedpacketAll', { "taskType": t.taskType, random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
-                case 17:
-                    res = _j.sent();
-                    console.log("".concat(t.title, " \u6253\u5F00\u6210\u529F\uFF0C\u83B7\u5F97"), parseFloat(res.data.result.discount));
-                    if (!!min.includes(parseFloat(res.data.result.discount))) return [3 /*break*/, 19];
-                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)("\u9526\u9CA4\u7EA2\u5305", "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(res.data.result.discount))];
-                case 18:
-                    _j.sent();
-                    _j.label = 19;
-                case 19: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 20:
-                    _j.sent();
-                    _j.label = 21;
-                case 21:
-                    _c++;
-                    return [3 /*break*/, 5];
-                case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                    _d.label = 23;
                 case 23:
-                    _j.sent();
-                    return [4 /*yield*/, api('taskHomePage', {})];
-                case 24:
-                    res = _j.sent();
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 25:
-                    _j.sent();
-                    _g = 0, _h = res.data.result.taskInfos;
-                    _j.label = 26;
-                case 26:
-                    if (!(_g < _h.length)) return [3 /*break*/, 33];
-                    t = _h[_g];
-                    if (!(t.innerStatus === 3)) return [3 /*break*/, 32];
-                    return [4 /*yield*/, getLog()];
-                case 27:
-                    log = _j.sent();
-                    return [4 /*yield*/, api('h5receiveRedpacketAll', { "taskType": t.taskType, random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
-                case 28:
-                    res = _j.sent();
-                    console.log("".concat(t.title, " \u6253\u5F00\u6210\u529F\uFF0C\u83B7\u5F97"), parseFloat(res.data.result.discount));
-                    if (!!min.includes(parseFloat(res.data.result.discount))) return [3 /*break*/, 30];
-                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)("\u9526\u9CA4\u7EA2\u5305", "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(res.data.result.discount))];
-                case 29:
-                    _j.sent();
-                    _j.label = 30;
-                case 30: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-                case 31:
-                    _j.sent();
-                    _j.label = 32;
-                case 32:
-                    _g++;
-                    return [3 /*break*/, 26];
-                case 33: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-                case 34:
-                    _j.sent();
-                    return [3 /*break*/, 36];
-                case 35:
-                    e_6 = _j.sent();
-                    console.log(e_6);
-                    return [3 /*break*/, 36];
-                case 36:
                     _i++;
                     return [3 /*break*/, 1];
-                case 37: return [2 /*return*/];
+                case 24: return [2 /*return*/];
             }
         });
     });

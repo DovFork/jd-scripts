@@ -91,6 +91,7 @@ function TotalBean(cookie) {
 }
 exports.TotalBean = TotalBean;
 function getRandomNumberByRange(start, end) {
+    end <= start && (end = start + 100);
     return Math.floor(Math.random() * (end - start) + start);
 }
 exports.getRandomNumberByRange = getRandomNumberByRange;

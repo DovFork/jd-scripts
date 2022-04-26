@@ -1,4 +1,12 @@
 "use strict";
+/**
+ * 京东-领现金
+ * 兼容panda api和本地sign
+ *
+ * 使用panda sign
+ * export PANDA_TOKEN=""
+ * 本地sign算法 import {getSign} from './test/sign'
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,8 +45,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var sign_1 = require("./test/sign");
-var cookie = '', res = '', data, UserName;
+var fs_1 = require("fs");
+var cookie = '', res = '', data, UserName, PANDA_TOKEN = undefined, getSign = undefined;
+if ((0, fs_1.existsSync)('./test/sign.ts')) {
+    getSign = require('./test/sign').getSign;
+    console.log('使用本地sign');
+}
+else {
+    console.log('未找到本地sign');
+    PANDA_TOKEN = process.env.PANDA_TOKEN;
+    if (PANDA_TOKEN) {
+        console.log('使用panda api');
+        getSign = function (fn, body) { return __awaiter(void 0, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.jds.codes/jd/sign', { 'fn': fn, 'body': body }, {
+                            'Authorization': "Bearer ".concat(PANDA_TOKEN)
+                        })];
+                    case 1:
+                        data = (_a.sent()).data;
+                        return [2 /*return*/, data.sign];
+                }
+            });
+        }); };
+    }
+    else {
+        console.log('未设置PANDA_TOKEN\n脚本退出');
+        process.exit(0);
+    }
+}
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _loop_1, _i, _a, _b, index, value;
     var _c, _d, _e;
@@ -143,11 +179,20 @@ var cookie = '', res = '', data, UserName;
 }); })();
 function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
-        var sign;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var sign, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    sign = (0, sign_1.getSign)(fn, body);
+                    if (!PANDA_TOKEN) return [3 /*break*/, 2];
+                    return [4 /*yield*/, getSign(fn, body)];
+                case 1:
+                    _a = _b.sent();
+                    return [3 /*break*/, 3];
+                case 2:
+                    _a = getSign(fn, body);
+                    _b.label = 3;
+                case 3:
+                    sign = _a;
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/client.action?functionId=".concat(fn), sign, {
                             'Host': 'api.m.jd.com',
                             'Cookie': cookie,
@@ -155,7 +200,7 @@ function api(fn, body) {
                             'user-agent': TS_USER_AGENTS_1["default"],
                             'referer': ''
                         })];
-                case 1: return [2 /*return*/, _a.sent()];
+                case 4: return [2 /*return*/, _b.sent()];
             }
         });
     });

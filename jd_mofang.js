@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * 京东-新品-魔方
+ * log自备
+ * cron: 10 9,12,15 * * *
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,7 +41,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var mf_log_1 = require("./test/mf_log");
 var cookie = '', res = '', UserName, index, log = '';
@@ -60,10 +64,11 @@ var cookie = '', res = '', UserName, index, log = '';
             case 3:
                 res = _q.sent();
                 sign = res.result.taskConfig.projectId;
-                return [4 /*yield*/, api("functionId=queryInteractiveInfo&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+                return [4 /*yield*/, api("functionId=queryInteractiveInfo&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))
+                    // o2s(res)
+                ];
             case 4:
                 res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
                 _i = 0, _a = res.assignmentList;
                 _q.label = 5;
             case 5:
@@ -99,6 +104,9 @@ var cookie = '', res = '', UserName, index, log = '';
             case 10:
                 res = _q.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
+                if (res.msg === '任务已完成') {
+                    return [3 /*break*/, 12];
+                }
                 _q.label = 11;
             case 11:
                 _b++;
@@ -170,6 +178,9 @@ var cookie = '', res = '', UserName, index, log = '';
             case 26:
                 res = _q.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
+                if (res.msg === '任务已完成') {
+                    return [3 /*break*/, 28];
+                }
                 _q.label = 27;
             case 27:
                 _h++;
@@ -191,25 +202,20 @@ var cookie = '', res = '', UserName, index, log = '';
 }); })();
 function api(params) {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action", params, {
-                        headers: {
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/client.action", params, {
                             'Content-Type': 'application/x-www-form-urlencoded',
                             "User-Agent": "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1",
                             'Referer': 'https://h5.m.jd.com/babelDiy/Zeus/2bf3XEEyWG11pQzPGkKpKX2GxJz2/index.html',
                             'Origin': 'https://h5.m.jd.com',
                             'Host': 'api.m.jd.com',
                             'Cookie': cookie
-                        }
-                    })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                case 2:
-                    _a.sent();
-                    return [2 /*return*/, data];
+                        })];
+                case 2: return [2 /*return*/, _a.sent()];
             }
         });
     });

@@ -125,7 +125,7 @@ var cookie = '', res = '', data, UserName;
                         }
                     });
                 };
-                _i = 0, _a = Object.entries(cookiesArr);
+                _i = 0, _a = cookiesArr.entries();
                 _f.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 5];

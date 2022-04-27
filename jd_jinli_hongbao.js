@@ -52,16 +52,20 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var sendNotify_1 = require("./sendNotify");
+var dotenv = require("dotenv");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '';
 var cookie, cookiesArr = [], res, UserName;
+var ua = "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1";
 var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
 var min = [0.02, 0.03, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)(false)];
+            case 0:
+                dotenv.config();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)(false)];
             case 1:
                 cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 1);
@@ -400,32 +404,29 @@ function help() {
 }
 function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/api?appid=jinlihongbao&functionId=".concat(fn, "&loginType=2&client=jinlihongbao&clientVersion=10.2.4&osVersion=AndroidOS&d_brand=Xiaomi&d_model=Xiaomi"), "body=".concat(encodeURIComponent(JSON.stringify(body))), {
-                        headers: {
-                            "origin": "https://h5.m.jd.com",
-                            "referer": "https://h5.m.jd.com/babelDiy/Zeus/2NUvze9e1uWf4amBhe1AV6ynmSuH/index.html",
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            "X-Requested-With": "com.jingdong.app.mall",
-                            "User-Agent": "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1",
-                            "Cookie": cookie
-                        }
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/api?appid=jinlihongbao&functionId=".concat(fn, "&loginType=2&client=jinlihongbao&clientVersion=10.2.4&osVersion=AndroidOS&d_brand=Xiaomi&d_model=Xiaomi"), "body=".concat(encodeURIComponent(JSON.stringify(body))), {
+                        "origin": "https://h5.m.jd.com",
+                        "referer": "https://h5.m.jd.com/babelDiy/Zeus/2NUvze9e1uWf4amBhe1AV6ynmSuH/index.html",
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        "X-Requested-With": "com.jingdong.app.mall",
+                        "User-Agent": ua,
+                        "Cookie": cookie
                     })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });
 }
 function getLog() {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
+        var data, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb")];
+                case 0:
+                    if (!(!rabbitToken && !tg_id)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb")];
                 case 1:
                     data = _a.sent();
                     if (data !== 1 && data !== '1') {
@@ -435,7 +436,12 @@ function getLog() {
                         console.log('No log');
                         process.exit(0);
                     }
-                    return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 2: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("http://www.madrabbit.cf:8080/license/log?tg_id=".concat(tg_id, "&token=").concat(rabbitToken))];
+                case 3:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, "'\"random\":\"".concat(data.random, "\",\"log\":\"").concat(data.log, "\"'")];
+                case 4: return [2 /*return*/];
             }
         });
     });

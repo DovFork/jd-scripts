@@ -86,7 +86,7 @@ var min = [0.02, 0.03, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
                 return [4 /*yield*/, help()];
             case 8:
                 _a.sent();
-                return [4 /*yield*/, open(1)];
+                return [4 /*yield*/, open(0)];
             case 9:
                 _a.sent();
                 return [2 /*return*/];

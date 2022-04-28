@@ -1,7 +1,7 @@
 "use strict";
 /**
  * 京东-新品-魔方
- * log自备
+ * 本地log或rabbit log
  * cron: 10 9,12,15 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -42,20 +42,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var mf_log_1 = require("./test/mf_log");
+var fs_1 = require("fs");
+var dotenv = require("dotenv");
 var cookie = '', res = '', UserName, index, log = '';
+var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '', mf_logs;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, sign, _i, _a, t, signDay, type, _b, _c, proInfo, _d, _e, proInfo, _f, _g, proInfo, _h, _j, proInfo;
     var _k, _l, _m, _o, _p;
     return __generator(this, function (_q) {
         switch (_q.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0:
+                dotenv.config();
+                if ((0, fs_1.existsSync)('./test/mf_log.ts')) {
+                    mf_logs = require('./test/mf_log').mf_logs;
+                }
+                else {
+                    console.log('./test/mf_log not found');
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
                 cookiesArr = _q.sent();
                 i = 0;
                 _q.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 32];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 39];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -72,131 +82,145 @@ var cookie = '', res = '', UserName, index, log = '';
                 _i = 0, _a = res.assignmentList;
                 _q.label = 5;
             case 5:
-                if (!(_i < _a.length)) return [3 /*break*/, 31];
+                if (!(_i < _a.length)) return [3 /*break*/, 38];
                 t = _a[_i];
-                if (!(t.completionCnt < t.assignmentTimesLimit)) return [3 /*break*/, 30];
-                if (!t.ext) return [3 /*break*/, 29];
-                if (!(t.assignmentName === '每日签到')) return [3 /*break*/, 8];
-                if (!(t.ext.sign1.status === 1)) return [3 /*break*/, 7];
+                if (!(t.completionCnt < t.assignmentTimesLimit)) return [3 /*break*/, 37];
+                if (!t.ext) return [3 /*break*/, 36];
+                if (!(t.assignmentName === '每日签到')) return [3 /*break*/, 9];
+                if (!(t.ext.sign1.status === 1)) return [3 /*break*/, 8];
                 signDay = ((_k = t.ext.sign1.signList) === null || _k === void 0 ? void 0 : _k.length) || 0, type = t.rewards[signDay].rewardType;
                 console.log(signDay, type);
-                log = getLog();
+                return [4 /*yield*/, getLog()];
+            case 6:
+                log = _q.sent();
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(JSON.stringify({
                         "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": "1", "actionType": "", "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" }
                     }), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
-            case 6:
+            case 7:
                 res = _q.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res, '签到成功');
-                return [3 /*break*/, 8];
-            case 7:
-                console.log('已签到');
-                _q.label = 8;
+                return [3 /*break*/, 9];
             case 8:
-                _b = 0, _c = (_l = t.ext.productsInfo) !== null && _l !== void 0 ? _l : [];
+                console.log('已签到');
                 _q.label = 9;
             case 9:
-                if (!(_b < _c.length)) return [3 /*break*/, 12];
-                proInfo = _c[_b];
-                if (!(proInfo.status === 1)) return [3 /*break*/, 11];
-                console.log(t.assignmentName);
-                log = getLog();
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 0, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+                _b = 0, _c = (_l = t.ext.productsInfo) !== null && _l !== void 0 ? _l : [];
+                _q.label = 10;
             case 10:
+                if (!(_b < _c.length)) return [3 /*break*/, 14];
+                proInfo = _c[_b];
+                if (!(proInfo.status === 1)) return [3 /*break*/, 13];
+                console.log(t.assignmentName);
+                return [4 /*yield*/, getLog()];
+            case 11:
+                log = _q.sent();
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 0, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+            case 12:
                 res = _q.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 if (res.msg === '任务已完成') {
-                    return [3 /*break*/, 12];
+                    return [3 /*break*/, 14];
                 }
-                _q.label = 11;
-            case 11:
-                _b++;
-                return [3 /*break*/, 9];
-            case 12:
-                _d = 0, _e = (_m = t.ext.shoppingActivity) !== null && _m !== void 0 ? _m : [];
                 _q.label = 13;
             case 13:
-                if (!(_d < _e.length)) return [3 /*break*/, 18];
-                proInfo = _e[_d];
-                if (!(proInfo.status === 1)) return [3 /*break*/, 17];
-                console.log(t.assignmentName);
-                log = getLog();
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 1, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+                _b++;
+                return [3 /*break*/, 10];
             case 14:
+                _d = 0, _e = (_m = t.ext.shoppingActivity) !== null && _m !== void 0 ? _m : [];
+                _q.label = 15;
+            case 15:
+                if (!(_d < _e.length)) return [3 /*break*/, 22];
+                proInfo = _e[_d];
+                if (!(proInfo.status === 1)) return [3 /*break*/, 21];
+                console.log(t.assignmentName);
+                return [4 /*yield*/, getLog()];
+            case 16:
+                log = _q.sent();
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 1, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+            case 17:
                 res = _q.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.ext.waitDuration * 1000)];
-            case 15:
-                _q.sent();
-                log = getLog();
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 0, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
-            case 16:
-                res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
-                _q.label = 17;
-            case 17:
-                _d++;
-                return [3 /*break*/, 13];
             case 18:
-                _f = 0, _g = (_o = t.ext.browseShop) !== null && _o !== void 0 ? _o : [];
-                _q.label = 19;
+                _q.sent();
+                return [4 /*yield*/, getLog()];
             case 19:
-                if (!(_f < _g.length)) return [3 /*break*/, 24];
-                proInfo = _g[_f];
-                if (!(proInfo.status === 1)) return [3 /*break*/, 23];
-                console.log(t.assignmentName);
-                log = getLog();
-                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(JSON.stringify({
-                        "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 1, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" }
-                    }), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+                log = _q.sent();
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 0, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 20:
                 res = _q.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.ext.waitDuration * 1000)];
+                _q.label = 21;
             case 21:
+                _d++;
+                return [3 /*break*/, 15];
+            case 22:
+                _f = 0, _g = (_o = t.ext.browseShop) !== null && _o !== void 0 ? _o : [];
+                _q.label = 23;
+            case 23:
+                if (!(_f < _g.length)) return [3 /*break*/, 30];
+                proInfo = _g[_f];
+                if (!(proInfo.status === 1)) return [3 /*break*/, 29];
+                console.log(t.assignmentName);
+                return [4 /*yield*/, getLog()];
+            case 24:
+                log = _q.sent();
+                return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(JSON.stringify({
+                        "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 1, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" }
+                    }), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+            case 25:
+                res = _q.sent();
+                (0, TS_USER_AGENTS_1.o2s)(res);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.ext.waitDuration * 1000)];
+            case 26:
                 _q.sent();
-                log = getLog();
+                return [4 /*yield*/, getLog()];
+            case 27:
+                log = _q.sent();
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(JSON.stringify({
                         "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 0, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" }
                     }), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
-            case 22:
+            case 28:
                 res = _q.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
-                _q.label = 23;
-            case 23:
+                _q.label = 29;
+            case 29:
                 _f++;
-                return [3 /*break*/, 19];
-            case 24:
+                return [3 /*break*/, 23];
+            case 30:
                 _h = 0, _j = (_p = t.ext.addCart) !== null && _p !== void 0 ? _p : [];
-                _q.label = 25;
-            case 25:
-                if (!(_h < _j.length)) return [3 /*break*/, 28];
+                _q.label = 31;
+            case 31:
+                if (!(_h < _j.length)) return [3 /*break*/, 35];
                 proInfo = _j[_h];
-                if (!(proInfo.status === 1)) return [3 /*break*/, 27];
+                if (!(proInfo.status === 1)) return [3 /*break*/, 34];
                 console.log(t.assignmentName);
-                log = getLog();
+                return [4 /*yield*/, getLog()];
+            case 32:
+                log = _q.sent();
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": "0", "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFJGh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
-            case 26:
+            case 33:
                 res = _q.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 if (res.msg === '任务已完成') {
-                    return [3 /*break*/, 28];
+                    return [3 /*break*/, 35];
                 }
-                _q.label = 27;
-            case 27:
+                _q.label = 34;
+            case 34:
                 _h++;
-                return [3 /*break*/, 25];
-            case 28: return [3 /*break*/, 30];
-            case 29:
+                return [3 /*break*/, 31];
+            case 35: return [3 /*break*/, 37];
+            case 36:
                 if (t.assignmentName === '去新品频道逛逛') {
                 }
-                _q.label = 30;
-            case 30:
+                _q.label = 37;
+            case 37:
                 _i++;
                 return [3 /*break*/, 5];
-            case 31:
+            case 38:
                 i++;
                 return [3 /*break*/, 2];
-            case 32: return [2 /*return*/];
+            case 39: return [2 /*return*/];
         }
     });
 }); })();
@@ -221,5 +245,28 @@ function api(params) {
     });
 }
 function getLog() {
-    return mf_log_1.mf_logs[Math.floor(Math.random() * mf_log_1.mf_logs.length)];
+    return __awaiter(this, void 0, void 0, function () {
+        var data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!(rabbitToken && tg_id)) return [3 /*break*/, 2];
+                    console.log('rabbit log api');
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("http://www.madrabbit.cf:8080/license/log?tg_id=".concat(tg_id, "&token=").concat(rabbitToken))];
+                case 1:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, "'\"random\":\"".concat(data.random, "\",\"log\":\"").concat(data.log, "\"'")];
+                case 2:
+                    if (mf_logs) {
+                        return [2 /*return*/, mf_logs[Math.floor(Math.random() * mf_logs.length)]];
+                    }
+                    else {
+                        console.log('No log');
+                        process.exit(0);
+                    }
+                    _a.label = 3;
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
 }

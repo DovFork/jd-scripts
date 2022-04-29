@@ -40,14 +40,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var path = require("path");
 var ts_md5_1 = require("ts-md5");
 var sendNotify_1 = require("./sendNotify");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var V3_1 = require("./utils/V3");
+var h5st_1 = require("./utils/h5st");
 var fs_1 = require("fs");
+var axios_1 = require("axios");
 var token = require('./utils/jd_jxmc.js').token;
+var h5stTool = new h5st_1.H5ST("00df8", "jdpingou;", "");
 var cookie = '', res = '', shareCodes = [], homePageInfo = '', jxToken = '', UserName = '', ua = null, account = [];
 var shareCodesSelf = [], shareCodesHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -65,15 +66,12 @@ var shareCodesSelf = [], shareCodesHW = [];
                         console.log(e);
                     }
                 }
-                return [4 /*yield*/, (0, V3_1.requestAlgo)('00df8', 'jdpingou;')];
-            case 1:
-                _m.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
-            case 2:
+            case 1:
                 cookiesArr = _m.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _m.label = 3;
-            case 3:
+                _m.label = 2;
+            case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 83];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
@@ -91,6 +89,9 @@ var shareCodesSelf = [], shareCodesHW = [];
                         break;
                     }
                 }
+                return [4 /*yield*/, h5stTool.__genAlgo()];
+            case 3:
+                _m.sent();
                 return [4 /*yield*/, token(cookie)];
             case 4:
                 jxToken = _m.sent();
@@ -431,7 +432,7 @@ var shareCodesSelf = [], shareCodesHW = [];
                 return [3 /*break*/, 76];
             case 82:
                 _i++;
-                return [3 /*break*/, 3];
+                return [3 /*break*/, 2];
             case 83: return [2 /*return*/];
         }
     });
@@ -512,7 +513,7 @@ function api(fn, stk, params) {
                         t.push({ key: key, value: value });
                         url += "&".concat(key, "=").concat(value);
                     }
-                    h5st = (0, V3_1.geth5st)(t, '00df8');
+                    h5st = h5stTool.__genH5st(t);
                     url += "&h5st=".concat(h5st);
                     _c.label = 1;
                 case 1:
@@ -553,9 +554,9 @@ function makeShareCodes(code) {
                 case 2:
                     farm = _a.sent();
                     pin = ts_md5_1.Md5.hashStr(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/autoInsert/jxmc?sharecode=".concat(code, "&bean=").concat(bean, "&farm=").concat(farm, "&pin=").concat(pin))];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/autoInsert/jxmc?sharecode=".concat(code, "&bean=").concat(bean, "&farm=").concat(farm, "&pin=").concat(pin))];
                 case 3:
-                    data = (_a.sent()).data;
+                    data = _a.sent();
                     console.log(data.message);
                     return [3 /*break*/, 5];
                 case 4:

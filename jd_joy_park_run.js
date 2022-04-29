@@ -1,6 +1,6 @@
 "use strict";
 /**
- * 汪汪乐园-跑步
+ * 汪汪乐园-跑步+组队
  * 默认翻倍到0.04红包结束
  * export JD_JOY_PARK_RUN_ASSETS="0.04"
  * cron: 20 * * * *
@@ -43,94 +43,119 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var h5st_1 = require("./h5st");
+var h5st_1 = require("./utils/h5st");
 var cookie = '', res = '', data, UserName;
-var assets = parseFloat(process.env.JD_JOY_PARK_RUN_ASSETS || '0.04');
+var assets = parseFloat(process.env.JD_JOY_PARK_RUN_ASSETS || '0.04'), h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;', '1804945295425750');
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, i;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var cookiesArr, _i, _a, _b, index, value, _c, _d, member, i;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _c.sent();
+                cookiesArr = _e.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _c.label = 2;
+                _e.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 23];
+                if (!(_i < _a.length)) return [3 /*break*/, 28];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, runningPageHome()];
+                return [4 /*yield*/, h5stTool.__genAlgo()];
             case 3:
-                res = _c.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
-                console.log('能量恢复中', secondsToMinutes(res.data.runningHomeInfo.nextRunningTime / 1000), '能量棒', res.data.runningHomeInfo.energy);
-                if (!(res.data.runningHomeInfo.nextRunningTime && res.data.runningHomeInfo.nextRunningTime / 1000 < 300)) return [3 /*break*/, 7];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(res.data.runningHomeInfo.nextRunningTime)];
+                _e.sent();
+                return [4 /*yield*/, team('runningTeamInfo', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
             case 4:
-                _c.sent();
-                return [4 /*yield*/, runningPageHome()];
+                res = _e.sent();
+                (0, TS_USER_AGENTS_1.o2s)(res);
+                if (!(res.data.members.length === 0)) return [3 /*break*/, 6];
+                console.log('未组队');
+                return [4 /*yield*/, team('runningJoinTeam', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "captainId": "" })];
             case 5:
-                res = _c.sent();
+                res = _e.sent();
+                if (res.code === 0) {
+                    console.log('组队成功');
+                    for (_c = 0, _d = res.data.members; _c < _d.length; _c++) {
+                        member = _d[_c];
+                        if (member.captain) {
+                            console.log('队长', member.nickName);
+                            break;
+                        }
+                    }
+                }
+                return [3 /*break*/, 7];
+            case 6:
+                console.log('已组队', res.data.members.length);
+                _e.label = 7;
+            case 7: return [3 /*break*/, 28];
+            case 8:
+                res = _e.sent();
+                console.log('能量恢复中', secondsToMinutes(res.data.runningHomeInfo.nextRunningTime / 1000), '能量棒', res.data.runningHomeInfo.energy);
+                if (!(res.data.runningHomeInfo.nextRunningTime && res.data.runningHomeInfo.nextRunningTime / 1000 < 300)) return [3 /*break*/, 12];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(res.data.runningHomeInfo.nextRunningTime)];
+            case 9:
+                _e.sent();
+                return [4 /*yield*/, runningPageHome()];
+            case 10:
+                res = _e.sent();
                 console.log('能量恢复中', secondsToMinutes(res.data.runningHomeInfo.nextRunningTime / 1000), '能量棒', res.data.runningHomeInfo.energy);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 6:
-                _c.sent();
-                _c.label = 7;
-            case 7:
-                if (!!res.data.runningHomeInfo.nextRunningTime) return [3 /*break*/, 19];
+            case 11:
+                _e.sent();
+                _e.label = 12;
+            case 12:
+                if (!!res.data.runningHomeInfo.nextRunningTime) return [3 /*break*/, 24];
                 console.log('终点目标', assets);
                 i = 0;
-                _c.label = 8;
-            case 8:
-                if (!(i < 10)) return [3 /*break*/, 19];
+                _e.label = 13;
+            case 13:
+                if (!(i < 10)) return [3 /*break*/, 24];
                 return [4 /*yield*/, api('runningOpenBox', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
-            case 9:
-                res = _c.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
-                if (!(parseFloat(res.data.assets) >= assets)) return [3 /*break*/, 11];
+            case 14:
+                res = _e.sent();
+                if (!(parseFloat(res.data.assets) >= assets)) return [3 /*break*/, 16];
                 return [4 /*yield*/, api('runningPreserveAssets', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
-            case 10:
-                res = _c.sent();
+            case 15:
+                res = _e.sent();
+                (0, TS_USER_AGENTS_1.o2s)(res);
                 console.log('领取成功', res.data.prizeValue);
-                return [3 /*break*/, 19];
-            case 11:
-                if (!res.data.doubleSuccess) return [3 /*break*/, 13];
+                return [3 /*break*/, 24];
+            case 16:
+                if (!res.data.doubleSuccess) return [3 /*break*/, 18];
                 console.log('翻倍成功', parseFloat(res.data.assets));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 12:
-                _c.sent();
-                return [3 /*break*/, 16];
-            case 13:
-                if (!(!res.data.doubleSuccess && !res.data.runningHomeInfo.runningFinish)) return [3 /*break*/, 15];
+            case 17:
+                _e.sent();
+                return [3 /*break*/, 21];
+            case 18:
+                if (!(!res.data.doubleSuccess && !res.data.runningHomeInfo.runningFinish)) return [3 /*break*/, 20];
                 console.log('开始跑步', parseFloat(res.data.assets));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 14:
-                _c.sent();
-                return [3 /*break*/, 16];
-            case 15:
-                console.log('翻倍失败');
-                return [3 /*break*/, 19];
-            case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 17:
-                _c.sent();
-                _c.label = 18;
-            case 18:
-                i++;
-                return [3 /*break*/, 8];
-            case 19: return [4 /*yield*/, runningPageHome()];
+            case 19:
+                _e.sent();
+                return [3 /*break*/, 21];
             case 20:
-                res = _c.sent();
+                console.log('翻倍失败');
+                return [3 /*break*/, 24];
+            case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 22:
+                _e.sent();
+                _e.label = 23;
+            case 23:
+                i++;
+                return [3 /*break*/, 13];
+            case 24: return [4 /*yield*/, runningPageHome()];
+            case 25:
+                res = _e.sent();
                 console.log('🧧', res.data.runningHomeInfo.prizeValue);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 21:
-                _c.sent();
-                _c.label = 22;
-            case 22:
+            case 26:
+                _e.sent();
+                _e.label = 27;
+            case 27:
                 _i++;
                 return [3 /*break*/, 2];
-            case 23: return [2 /*return*/];
+            case 28: return [2 /*return*/];
         }
     });
 }); })();
@@ -141,28 +166,26 @@ function api(fn, body) {
             switch (_a.label) {
                 case 0:
                     timestamp = Date.now(), h5st = '';
-                    if (!(fn === 'runningOpenBox')) return [3 /*break*/, 2];
-                    t = [
-                        { key: "appid", value: "activities_platform" },
-                        { key: "body", value: JSON.stringify(body) },
-                        { key: "client", value: "ios" },
-                        { key: "clientVersion", value: "3.1.0" },
-                        { key: "functionId", value: "runningOpenBox" },
-                        { key: "t", value: timestamp.toString() }
-                    ];
-                    return [4 /*yield*/, new h5st_1.H5ST(t, 'b6ac3', 'jdltapp;', '1804945295425750').__run()];
-                case 1:
-                    h5st = _a.sent();
-                    _a.label = 2;
-                case 2: return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.m.jd.com/', "functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&t=").concat(timestamp, "&appid=activities_platform&client=ios&clientVersion=3.1.0&h5st=").concat(h5st, "&cthr=1"), {
-                        'authority': 'api.m.jd.com',
-                        'content-type': 'application/x-www-form-urlencoded',
-                        'cookie': cookie,
-                        'origin': 'https://h5platform.jd.com',
-                        'referer': 'https://h5platform.jd.com/',
-                        'user-agent': 'jdltapp;'
-                    })];
-                case 3: return [2 /*return*/, _a.sent()];
+                    if (fn === 'runningOpenBox') {
+                        t = [
+                            { key: "appid", value: "activities_platform" },
+                            { key: "body", value: JSON.stringify(body) },
+                            { key: "client", value: "ios" },
+                            { key: "clientVersion", value: "3.1.0" },
+                            { key: "functionId", value: "runningOpenBox" },
+                            { key: "t", value: timestamp.toString() }
+                        ];
+                        h5st = h5stTool.__genH5st(t);
+                    }
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.m.jd.com/', "functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&t=").concat(timestamp, "&appid=activities_platform&client=ios&clientVersion=3.1.0&h5st=").concat(h5st, "&cthr=1"), {
+                            'authority': 'api.m.jd.com',
+                            'content-type': 'application/x-www-form-urlencoded',
+                            'cookie': cookie,
+                            'origin': 'https://h5platform.jd.com',
+                            'referer': 'https://h5platform.jd.com/',
+                            'user-agent': 'jdltapp;'
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });
@@ -177,6 +200,27 @@ function runningPageHome() {
                     'Referer': 'https://h5platform.jd.com/',
                     'Cookie': cookie
                 })];
+        });
+    });
+}
+function team(fn, body) {
+    return __awaiter(this, void 0, void 0, function () {
+        var timestamp, h5st;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    timestamp = Date.now();
+                    h5st = '';
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&client=ios&clientVersion=3.1.0&cthr=1&h5st=").concat(h5st), {
+                            'Host': 'api.m.jd.com',
+                            'User-Agent': 'jdltapp;',
+                            'Origin': 'https://h5platform.jd.com',
+                            'X-Requested-With': 'com.jd.jdlite',
+                            'Referer': 'https://h5platform.jd.com/',
+                            'Cookie': cookie
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
         });
     });
 }

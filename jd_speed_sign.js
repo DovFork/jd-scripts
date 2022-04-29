@@ -41,8 +41,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var h5st_1 = require("./h5st");
-var cookie = '', res = '', UserName = '';
+var h5st_1 = require("./utils/h5st");
+var cookie = '', res = '', UserName = '', h5stTool = new h5st_1.H5ST("15097", "jdltapp;", "8317250570595470");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, _c, _d, t, e_1;
     return __generator(this, function (_e) {
@@ -53,17 +53,21 @@ var cookie = '', res = '', UserName = '';
                 _i = 0, _a = cookiesArr.entries();
                 _e.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 16];
+                if (!(_i < _a.length)) return [3 /*break*/, 17];
                 _b = _a[_i], index = _b[0], value = _b[1];
-                _e.label = 3;
-            case 3:
-                _e.trys.push([3, 12, , 13]);
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                return [4 /*yield*/, h5stTool.__genAlgo()];
+            case 3:
+                _e.sent();
                 return [4 /*yield*/, api('apSignIn_day', { "linkId": "9WA12jYGulArzWS7vcrwhw", "serviceName": "dayDaySignGetRedEnvelopeSignService", "business": 1 })];
             case 4:
                 res = _e.sent();
+                (0, TS_USER_AGENTS_1.o2s)(res);
+                _e.label = 5;
+            case 5:
+                _e.trys.push([5, 13, , 14]);
                 if (res.data.retCode === 0) {
                     console.log('签到成功');
                 }
@@ -71,41 +75,41 @@ var cookie = '', res = '', UserName = '';
                     console.log(res.data.retMessage);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 5:
+            case 6:
                 _e.sent();
                 return [4 /*yield*/, api('signPrizeDetailList', { "linkId": "9WA12jYGulArzWS7vcrwhw", "serviceName": "dayDaySignGetRedEnvelopeSignService", "business": 1, "pageSize": 20, "page": 1 })];
-            case 6:
+            case 7:
                 res = _e.sent();
                 _c = 0, _d = res.data.prizeDrawBaseVoPageBean.items;
-                _e.label = 7;
-            case 7:
-                if (!(_c < _d.length)) return [3 /*break*/, 11];
-                t = _d[_c];
-                if (!(t.prizeType === 4 && t.prizeStatus === 0)) return [3 /*break*/, 10];
-                return [4 /*yield*/, api('apCashWithDraw', { "linkId": "9WA12jYGulArzWS7vcrwhw", "businessSource": "DAY_DAY_RED_PACKET_SIGN", "base": { "prizeType": t.prizeType, "business": t.business, "id": t.id, "poolBaseId": t.poolBaseId, "prizeGroupId": t.prizeGroupId, "prizeBaseId": t.prizeBaseId } })];
+                _e.label = 8;
             case 8:
+                if (!(_c < _d.length)) return [3 /*break*/, 12];
+                t = _d[_c];
+                if (!(t.prizeType === 4 && t.prizeStatus === 0)) return [3 /*break*/, 11];
+                return [4 /*yield*/, api('apCashWithDraw', { "linkId": "9WA12jYGulArzWS7vcrwhw", "businessSource": "DAY_DAY_RED_PACKET_SIGN", "base": { "prizeType": t.prizeType, "business": t.business, "id": t.id, "poolBaseId": t.poolBaseId, "prizeGroupId": t.prizeGroupId, "prizeBaseId": t.prizeBaseId } })];
+            case 9:
                 res = _e.sent();
                 console.log(parseFloat(t.prizeValue), res.data.message);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 9:
-                _e.sent();
-                _e.label = 10;
             case 10:
-                _c++;
-                return [3 /*break*/, 7];
-            case 11: return [3 /*break*/, 13];
-            case 12:
-                e_1 = _e.sent();
-                console.log('error', typeof e_1);
-                return [3 /*break*/, 13];
-            case 13: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 14:
                 _e.sent();
-                _e.label = 15;
+                _e.label = 11;
+            case 11:
+                _c++;
+                return [3 /*break*/, 8];
+            case 12: return [3 /*break*/, 14];
+            case 13:
+                e_1 = _e.sent();
+                console.log('error', e_1);
+                return [3 /*break*/, 14];
+            case 14: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 15:
+                _e.sent();
+                _e.label = 16;
+            case 16:
                 _i++;
                 return [3 /*break*/, 2];
-            case 16: return [2 /*return*/];
+            case 17: return [2 /*return*/];
         }
     });
 }); })();
@@ -123,9 +127,7 @@ function api(fn, body) {
                         { key: 'functionId', value: fn },
                         { key: 't', value: timestamp.toString() },
                     ];
-                    return [4 /*yield*/, new h5st_1.H5ST(t, "15097", "jdltapp;", "8317250570595470").__run()];
-                case 1:
-                    h5st = _a.sent();
+                    h5st = h5stTool.__genH5st(t);
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.m.jd.com/', "functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&client=H5&clientVersion=1.0.0&h5st=").concat(h5st), {
                             'Host': 'api.m.jd.com',
                             'User-Agent': 'jdltapp;android;3.8.16;',
@@ -134,7 +136,7 @@ function api(fn, body) {
                             'Content-Type': 'application/x-www-form-urlencoded',
                             'Cookie': cookie
                         })];
-                case 2: return [2 /*return*/, _a.sent()];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });

@@ -42,8 +42,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var sendNotify_1 = require("./sendNotify");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var h5st_1 = require("./h5st");
-var cookie = '', res = '', UserName, msg = '';
+var h5st_1 = require("./utils/h5st");
+var cookie = '', res = '', UserName, msg = '', h5stTool = new h5st_1.H5ST("9a38a", 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN', "6468223550974529");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, timestamp, t, h5st;
     return __generator(this, function (_c) {
@@ -59,6 +59,9 @@ var cookie = '', res = '', UserName, msg = '';
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                return [4 /*yield*/, h5stTool.__genAlgo()];
+            case 3:
+                _c.sent();
                 timestamp = Date.now(), t = [
                     { key: 'appid', value: 'hot_channel' },
                     { key: 'body', value: JSON.stringify({ "activityId": "10002" }) },
@@ -67,9 +70,7 @@ var cookie = '', res = '', UserName, msg = '';
                     { key: 'functionId', value: 'SignComponent_doSignTask' },
                     { key: 't', value: timestamp.toString() },
                 ];
-                return [4 /*yield*/, new h5st_1.H5ST(t, "9a38a", 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN', "6468223550974529").__run()];
-            case 3:
-                h5st = _c.sent();
+                h5st = h5stTool.__genH5st(t);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/signTask/doSignTask?functionId=SignComponent_doSignTask&appid=hot_channel&body={\"activityId\":\"10002\"}&client=android&clientVersion=7.16.250&t=".concat(timestamp, "&h5st=").concat(h5st), '', {
                         'content-type': 'application/json',
                         'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN',

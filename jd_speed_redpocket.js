@@ -40,8 +40,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var h5st_1 = require("./h5st");
-var cookie = '', res = '', UserName = '';
+var h5st_1 = require("./utils/h5st");
+var cookie = '', res = '', UserName = '', h5stTool = new h5st_1.H5ST("07244", "jdltapp;", "5817062902662730");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, remainChance, i;
     return __generator(this, function (_c) {
@@ -52,41 +52,48 @@ var cookie = '', res = '', UserName = '';
                 _i = 0, _a = cookiesArr.entries();
                 _c.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 9];
+                if (!(_i < _a.length)) return [3 /*break*/, 12];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, api('spring_reward_query', { "linkId": "Eu7-E0CUzqYyhZJo9d3YkQ", "inviter": "" })];
+                return [4 /*yield*/, h5stTool.__genAlgo()];
             case 3:
+                _c.sent();
+                return [4 /*yield*/, api('spring_reward_query', { "linkId": "Eu7-E0CUzqYyhZJo9d3YkQ", "inviter": "" })];
+            case 4:
                 res = _c.sent();
                 remainChance = res.data.remainChance;
                 console.log('剩余抽奖次数：', remainChance);
                 i = 0;
-                _c.label = 4;
-            case 4:
-                if (!(i < remainChance)) return [3 /*break*/, 8];
-                return [4 /*yield*/, api('spring_reward_receive', { "inviter": "", "linkId": "Eu7-E0CUzqYyhZJo9d3YkQ" })];
+                _c.label = 5;
             case 5:
+                if (!(i < remainChance)) return [3 /*break*/, 9];
+                return [4 /*yield*/, api('spring_reward_receive', { "inviter": "", "linkId": "Eu7-E0CUzqYyhZJo9d3YkQ" })];
+            case 6:
                 res = _c.sent();
                 try {
                     console.log('抽奖成功', res.data.received.prizeDesc);
                 }
                 catch (e) {
                     console.log('抽奖失败');
-                    return [3 /*break*/, 8];
+                    return [3 /*break*/, 9];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 6:
-                _c.sent();
-                _c.label = 7;
             case 7:
-                i++;
-                return [3 /*break*/, 4];
+                _c.sent();
+                _c.label = 8;
             case 8:
+                i++;
+                return [3 /*break*/, 5];
+            case 9: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 10:
+                _c.sent();
+                _c.label = 11;
+            case 11:
                 _i++;
                 return [3 /*break*/, 2];
-            case 9: return [2 /*return*/];
+            case 12: return [2 /*return*/];
         }
     });
 }); })();
@@ -104,9 +111,7 @@ function api(fn, body) {
                         { key: 'functionId', value: fn },
                         { key: 't', value: timestamp.toString() },
                     ];
-                    return [4 /*yield*/, new h5st_1.H5ST(t, "07244", "jdltapp;", "5817062902662730").__run()];
-                case 1:
-                    h5st = _a.sent();
+                    h5st = h5stTool.__genH5st(t);
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&h5st=").concat(h5st), {
                             'Host': 'api.m.jd.com',
                             'Origin': 'https://prodev.m.jd.com',
@@ -114,7 +119,7 @@ function api(fn, body) {
                             'Referer': 'https://prodev.m.jd.com/',
                             'Cookie': cookie
                         })];
-                case 2: return [2 /*return*/, _a.sent()];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });

@@ -510,10 +510,9 @@ function jdpingou() {
     });
 }
 exports.jdpingou = jdpingou;
-function get(url, prarms, headers) {
+function get(url, headers) {
     return new Promise(function (resolve, reject) {
         axios_1["default"].get(url, {
-            params: prarms,
             headers: headers
         }).then(function (res) {
             if (typeof res.data === 'string' && res.data.includes('jsonpCBK')) {

@@ -68,7 +68,7 @@ var cookie = '', res = '', UserName, index, uuid;
                     'Referer': 'https://h5.m.jd.com/',
                     'Cookie': cookie
                 };
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)('https://api.m.jd.com/client.action?functionId=initForTurntableFarm&body=%7B%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5', '', headers)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)('https://api.m.jd.com/client.action?functionId=initForTurntableFarm&body=%7B%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5', headers)];
             case 3:
                 res = _d.sent();
                 times = res.remainLotteryTimes;
@@ -78,7 +78,7 @@ var cookie = '', res = '', UserName, index, uuid;
             case 4:
                 if (!(j < times)) return [3 /*break*/, 8];
                 console.log('开始抽奖...');
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)('https://api.m.jd.com/client.action?functionId=lotteryForTurntableFarm&body=%7B%22type%22%3A1%2C%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5', '', headers)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)('https://api.m.jd.com/client.action?functionId=lotteryForTurntableFarm&body=%7B%22type%22%3A1%2C%22version%22%3A4%2C%22channel%22%3A1%7D&appid=wh5', headers)];
             case 5:
                 res = _d.sent();
                 if (res.code === '0') {

@@ -1,8 +1,8 @@
 "use strict";
 /**
  * 汪汪乐园-跑步
- * 默认翻倍到0.08红包结束
- * export JD_JOY_PARK_RUN_ASSETS="0.08"
+ * 默认翻倍到0.04红包结束
+ * export JD_JOY_PARK_RUN_ASSETS="0.04"
  * cron: 20 * * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -45,7 +45,7 @@ exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var h5st_1 = require("./h5st");
 var cookie = '', res = '', data, UserName;
-var assets = parseFloat(process.env.JD_JOY_PARK_RUN_ASSETS || '0.08');
+var assets = parseFloat(process.env.JD_JOY_PARK_RUN_ASSETS || '0.04');
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, i;
     return __generator(this, function (_c) {
@@ -170,7 +170,7 @@ function api(fn, body) {
 function runningPageHome() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            return [2 /*return*/, (0, TS_USER_AGENTS_1.get)("https://api.m.jd.com/?functionId=runningPageHome&body=%7B%22linkId%22:%22L-sOanK_5RJCz7I314FpnQ%22,%22isFromJoyPark%22:true,%22joyLinkId%22:%22LsQNxL7iWDlXUs6cFl-AAg%22%7D&t=".concat(Date.now(), "&appid=activities_platform&client=ios&clientVersion=3.1.0"), '', {
+            return [2 /*return*/, (0, TS_USER_AGENTS_1.get)("https://api.m.jd.com/?functionId=runningPageHome&body=%7B%22linkId%22:%22L-sOanK_5RJCz7I314FpnQ%22,%22isFromJoyPark%22:true,%22joyLinkId%22:%22LsQNxL7iWDlXUs6cFl-AAg%22%7D&t=".concat(Date.now(), "&appid=activities_platform&client=ios&clientVersion=3.1.0"), {
                     'Host': 'api.m.jd.com',
                     'Origin': 'https://h5platform.jd.com',
                     'User-Agent': 'jdltapp;',

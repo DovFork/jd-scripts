@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * 极速版-领红包
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,84 +39,83 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var sendNotify_1 = require("./sendNotify");
-var pushplus_1 = require("./utils/pushplus");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', UserName;
-var message = '';
+var h5st_1 = require("./h5st");
+var cookie = '', res = '', UserName = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, day, jdRed, jdRedExp, _c, _d, j, text;
-    var _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    var cookiesArr, _i, _a, _b, index, value, remainChance, i;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _f.sent();
+                cookiesArr = _c.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _f.label = 2;
+                _c.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 7];
+                if (!(_i < _a.length)) return [3 /*break*/, 9];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://m.jingxi.com/user/info/QueryUserRedEnvelopesV2?type=1&orgFlag=JD_PinGou_New&page=1&cashRedType=1&redBalanceFlag=1&channel=1&_=".concat(Date.now(), "&sceneval=2&g_login_type=1&g_ty=ls"), {
-                        'Host': 'm.jingxi.com',
-                        'Referer': 'https://st.jingxi.com/my/redpacket.shtml',
-                        "Cookie": cookie,
-                        'User-Agent': TS_USER_AGENTS_1["default"]
-                    })];
+                return [4 /*yield*/, api('spring_reward_query', { "linkId": "Eu7-E0CUzqYyhZJo9d3YkQ", "inviter": "" })];
             case 3:
-                res = _f.sent();
-                day = new Date().getDay(), jdRed = 0, jdRedExp = 0;
-                for (_c = 0, _d = ((_e = res.data.useRedInfo) === null || _e === void 0 ? void 0 : _e.redList) || []; _c < _d.length; _c++) {
-                    j = _d[_c];
-                    if (j.orgLimitStr.includes('京喜')) {
-                    }
-                    else if (j.activityName.includes('极速版')) {
-                    }
-                    else if (j.orgLimitStr.includes('京东健康')) {
-                    }
-                    else {
-                        jdRed = add(jdRed, j.balance);
-                        if (new Date(j.endTime * 1000).getDay() === day)
-                            jdRedExp = add(jdRedExp, j.balance);
-                    }
-                }
-                console.log(jdRed, '  今日过期：', jdRedExp);
-                text = "\u3010\u8D26\u53F7\u3011  ".concat(UserName, "\n\u4EAC\u4E1C\u7EA2\u5305  ").concat(jdRed, "\n\u4ECA\u65E5\u8FC7\u671F  ").concat(jdRedExp);
-                return [4 /*yield*/, (0, pushplus_1.pushplus)('京东红包', text)];
+                res = _c.sent();
+                remainChance = res.data.remainChance;
+                console.log('剩余抽奖次数：', remainChance);
+                i = 0;
+                _c.label = 4;
             case 4:
-                _f.sent();
-                message += "".concat(text, "\n\n");
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                if (!(i < remainChance)) return [3 /*break*/, 8];
+                return [4 /*yield*/, api('spring_reward_receive', { "inviter": "", "linkId": "Eu7-E0CUzqYyhZJo9d3YkQ" })];
             case 5:
-                _f.sent();
-                _f.label = 6;
+                res = _c.sent();
+                try {
+                    console.log('抽奖成功', res.data.received.prizeDesc);
+                }
+                catch (e) {
+                    console.log('抽奖失败');
+                    return [3 /*break*/, 8];
+                }
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 6:
+                _c.sent();
+                _c.label = 7;
+            case 7:
+                i++;
+                return [3 /*break*/, 4];
+            case 8:
                 _i++;
                 return [3 /*break*/, 2];
-            case 7: return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东红包', message)];
-            case 8:
-                _f.sent();
-                return [2 /*return*/];
+            case 9: return [2 /*return*/];
         }
     });
 }); })();
-function add(arg1, arg2) {
-    var r1, r2, m;
-    try {
-        r1 = arg1.toString().split('.')[1].length;
-    }
-    catch (e) {
-        r1 = 0;
-    }
-    try {
-        r2 = arg2.toString().split('.')[1].length;
-    }
-    catch (e) {
-        r2 = 0;
-    }
-    m = Math.pow(10, Math.max(r1, r2));
-    return parseFloat(((arg1 * m + arg2 * m) / m).toFixed(2));
+function api(fn, body) {
+    return __awaiter(this, void 0, void 0, function () {
+        var timestamp, t, h5st;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    timestamp = Date.now(), t = [
+                        { key: 'appid', value: 'activities_platform' },
+                        { key: 'body', value: JSON.stringify(body) },
+                        { key: 'client', value: 'H5' },
+                        { key: 'clientVersion', value: '1.0.0' },
+                        { key: 'functionId', value: fn },
+                        { key: 't', value: timestamp.toString() },
+                    ];
+                    return [4 /*yield*/, new h5st_1.H5ST(t, "07244", "jdltapp;", "5817062902662730").__run()];
+                case 1:
+                    h5st = _a.sent();
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&h5st=").concat(h5st), {
+                            'Host': 'api.m.jd.com',
+                            'Origin': 'https://prodev.m.jd.com',
+                            'User-Agent': 'jdltapp;',
+                            'Referer': 'https://prodev.m.jd.com/',
+                            'Cookie': cookie
+                        })];
+                case 2: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
 }

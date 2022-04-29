@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * 微信小程序签到红包
+ * cron: 8 0 * * *
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,83 +41,60 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var sendNotify_1 = require("./sendNotify");
-var pushplus_1 = require("./utils/pushplus");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', UserName;
-var message = '';
+var h5st_1 = require("./h5st");
+var cookie = '', res = '', UserName, msg = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, day, jdRed, jdRedExp, _c, _d, j, text;
-    var _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    var cookiesArr, _i, _a, _b, index, value, timestamp, t, h5st;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _f.sent();
+                cookiesArr = _c.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _f.label = 2;
+                _c.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 7];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://m.jingxi.com/user/info/QueryUserRedEnvelopesV2?type=1&orgFlag=JD_PinGou_New&page=1&cashRedType=1&redBalanceFlag=1&channel=1&_=".concat(Date.now(), "&sceneval=2&g_login_type=1&g_ty=ls"), {
-                        'Host': 'm.jingxi.com',
-                        'Referer': 'https://st.jingxi.com/my/redpacket.shtml',
-                        "Cookie": cookie,
-                        'User-Agent': TS_USER_AGENTS_1["default"]
-                    })];
+                timestamp = Date.now(), t = [
+                    { key: 'appid', value: 'hot_channel' },
+                    { key: 'body', value: JSON.stringify({ "activityId": "10002" }) },
+                    { key: 'client', value: 'android' },
+                    { key: 'clientVersion', value: '7.16.250' },
+                    { key: 'functionId', value: 'SignComponent_doSignTask' },
+                    { key: 't', value: timestamp.toString() },
+                ];
+                return [4 /*yield*/, new h5st_1.H5ST(t, "9a38a", 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN', "6468223550974529").__run()];
             case 3:
-                res = _f.sent();
-                day = new Date().getDay(), jdRed = 0, jdRedExp = 0;
-                for (_c = 0, _d = ((_e = res.data.useRedInfo) === null || _e === void 0 ? void 0 : _e.redList) || []; _c < _d.length; _c++) {
-                    j = _d[_c];
-                    if (j.orgLimitStr.includes('京喜')) {
-                    }
-                    else if (j.activityName.includes('极速版')) {
-                    }
-                    else if (j.orgLimitStr.includes('京东健康')) {
-                    }
-                    else {
-                        jdRed = add(jdRed, j.balance);
-                        if (new Date(j.endTime * 1000).getDay() === day)
-                            jdRedExp = add(jdRedExp, j.balance);
-                    }
-                }
-                console.log(jdRed, '  今日过期：', jdRedExp);
-                text = "\u3010\u8D26\u53F7\u3011  ".concat(UserName, "\n\u4EAC\u4E1C\u7EA2\u5305  ").concat(jdRed, "\n\u4ECA\u65E5\u8FC7\u671F  ").concat(jdRedExp);
-                return [4 /*yield*/, (0, pushplus_1.pushplus)('京东红包', text)];
+                h5st = _c.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/signTask/doSignTask?functionId=SignComponent_doSignTask&appid=hot_channel&body={\"activityId\":\"10002\"}&client=android&clientVersion=7.16.250&t=".concat(timestamp, "&h5st=").concat(h5st), '', {
+                        'content-type': 'application/json',
+                        'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN',
+                        'referer': 'https://servicewechat.com/wx91d27dbf599dff74/581/page-frame.html',
+                        'cookie': cookie
+                    })];
             case 4:
-                _f.sent();
-                message += "".concat(text, "\n\n");
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                res = _c.sent();
+                if (res.data) {
+                    console.log('已签到', res.data.signDays, '天，奖励', res.data.rewardValue, '元');
+                    msg += "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011  ").concat(UserName, "\n\u5DF2\u7B7E\u5230  ").concat(res.data.signDays, "\u5929\n\u5956\u52B1  ").concat(res.data.rewardValue, "\u5143\n\n");
+                }
+                else
+                    console.log(res.message);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
             case 5:
-                _f.sent();
-                _f.label = 6;
+                _c.sent();
+                _c.label = 6;
             case 6:
                 _i++;
                 return [3 /*break*/, 2];
-            case 7: return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东红包', message)];
+            case 7: return [4 /*yield*/, (0, sendNotify_1.sendNotify)('微信小程序签到红包', msg)];
             case 8:
-                _f.sent();
+                _c.sent();
                 return [2 /*return*/];
         }
     });
 }); })();
-function add(arg1, arg2) {
-    var r1, r2, m;
-    try {
-        r1 = arg1.toString().split('.')[1].length;
-    }
-    catch (e) {
-        r1 = 0;
-    }
-    try {
-        r2 = arg2.toString().split('.')[1].length;
-    }
-    catch (e) {
-        r2 = 0;
-    }
-    m = Math.pow(10, Math.max(r1, r2));
-    return parseFloat(((arg1 * m + arg2 * m) / m).toFixed(2));
-}

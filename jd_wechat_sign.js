@@ -45,7 +45,7 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var h5st_1 = require("./utils/h5st");
 var cookie = '', res = '', UserName, msg = '', h5stTool = new h5st_1.H5ST("9a38a", 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN', "6468223550974529");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, timestamp, t, h5st;
+    var cookiesArr, _i, _a, _b, index, value, timestamp, h5st;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -62,15 +62,15 @@ var cookie = '', res = '', UserName, msg = '', h5stTool = new h5st_1.H5ST("9a38a
                 return [4 /*yield*/, h5stTool.__genAlgo()];
             case 3:
                 _c.sent();
-                timestamp = Date.now(), t = [
-                    { key: 'appid', value: 'hot_channel' },
-                    { key: 'body', value: JSON.stringify({ "activityId": "10002" }) },
-                    { key: 'client', value: 'android' },
-                    { key: 'clientVersion', value: '7.16.250' },
-                    { key: 'functionId', value: 'SignComponent_doSignTask' },
-                    { key: 't', value: timestamp.toString() },
-                ];
-                h5st = h5stTool.__genH5st(t);
+                timestamp = Date.now();
+                h5st = h5stTool.__genH5st({
+                    appid: 'hot_channel',
+                    body: JSON.stringify({ "activityId": "10002" }),
+                    client: 'android',
+                    clientVersion: '7.16.250',
+                    functionId: 'SignComponent_doSignTask',
+                    t: timestamp.toString()
+                });
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/signTask/doSignTask?functionId=SignComponent_doSignTask&appid=hot_channel&body={\"activityId\":\"10002\"}&client=android&clientVersion=7.16.250&t=".concat(timestamp, "&h5st=").concat(h5st), '', {
                         'content-type': 'application/json',
                         'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN',

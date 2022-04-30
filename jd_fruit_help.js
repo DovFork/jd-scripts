@@ -54,11 +54,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var date_fns_1 = require("date-fns");
+var h5st_1 = require("./utils/h5st");
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', data, UserName;
 var shareCodeSelf = [], shareCodePool = [], shareCode = [], shareCodeFile = require('./jdFruitShareCodes');
-var message = '', log = { help: '', runTimes: '' };
+var message = '', log = { help: '', runTimes: '' }, h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"], "8389547038003203");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, i, today, e_1, e_2, _c, shareCodeSelf_1, code, farmAssistInit_waterEnergy, _d, _e, t;
     return __generator(this, function (_f) {
@@ -69,7 +70,7 @@ var message = '', log = { help: '', runTimes: '' };
                 _i = 0, _a = cookiesArr.entries();
                 _f.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 33];
+                if (!(_i < _a.length)) return [3 /*break*/, 34];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
@@ -77,73 +78,76 @@ var message = '', log = { help: '', runTimes: '' };
                 message += "\u3010\u8D26\u53F7".concat(index + 1, "\u3011  ").concat(UserName, "\n");
                 log.help += "\u3010\u8D26\u53F7".concat(index + 1, "\u3011  ").concat(UserName, "\n");
                 log.runTimes += "\u3010\u8D26\u53F7".concat(index + 1, "\u3011  ").concat(UserName, "\n");
+                return [4 /*yield*/, h5stTool.__genAlgo()];
+            case 3:
+                _f.sent();
                 if (Object.keys(shareCodeFile)[index]) {
                     shareCodeSelf = shareCodeFile[Object.keys(shareCodeFile)[index]].split('@');
                 }
                 (0, TS_USER_AGENTS_1.o2s)(shareCodeSelf, "\u7B2C".concat(index + 1, "\u4E2A\u8D26\u53F7\u83B7\u53D6\u7684\u5185\u90E8\u4E92\u52A9"));
                 return [4 /*yield*/, api('initForFarm', { "version": 11, "channel": 3 })];
-            case 3:
+            case 4:
                 res = _f.sent();
-                if (!(res.code === '6')) return [3 /*break*/, 5];
+                if (!(res.code === '6')) return [3 /*break*/, 6];
                 console.log('黑号');
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 4:
-                _f.sent();
-                return [3 /*break*/, 32];
             case 5:
-                _f.trys.push([5, 13, , 14]);
+                _f.sent();
+                return [3 /*break*/, 33];
+            case 6:
+                _f.trys.push([6, 14, , 15]);
                 console.log('助力码', res.farmUserPro.shareCode);
                 i = 0;
-                _f.label = 6;
-            case 6:
-                if (!(i < 5)) return [3 /*break*/, 12];
                 _f.label = 7;
             case 7:
-                _f.trys.push([7, 9, , 11]);
+                if (!(i < 5)) return [3 /*break*/, 13];
+                _f.label = 8;
+            case 8:
+                _f.trys.push([8, 10, , 12]);
                 today = (0, date_fns_1.getDate)(new Date());
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTimes0407?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode, "&today=").concat(today))];
-            case 8:
+            case 9:
                 res = _f.sent();
                 console.log(res);
                 log.runTimes += "\u7B2C".concat(i + 1, "\u6B21").concat(res, "\n");
-                return [3 /*break*/, 12];
-            case 9:
+                return [3 /*break*/, 13];
+            case 10:
                 e_1 = _f.sent();
                 console.log("\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25"), e_1);
                 log.runTimes += "\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25 ").concat(typeof e_1 === 'object' ? JSON.stringify(e_1) : e_1, "\n");
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)((0, TS_USER_AGENTS_1.getRandomNumberByRange)(10000, 30000))];
-            case 10:
-                _f.sent();
-                return [3 /*break*/, 11];
             case 11:
+                _f.sent();
+                return [3 /*break*/, 12];
+            case 12:
                 i++;
-                return [3 /*break*/, 6];
-            case 12: return [3 /*break*/, 14];
-            case 13:
+                return [3 /*break*/, 7];
+            case 13: return [3 /*break*/, 15];
+            case 14:
                 e_2 = _f.sent();
                 console.log('获取助力码失败，黑号？');
-                return [3 /*break*/, 32];
-            case 14: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)
+                return [3 /*break*/, 33];
+            case 15: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)
                 // 助力
             ];
-            case 15:
+            case 16:
                 _f.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getShareCodePool)('farm', 50)];
-            case 16:
+            case 17:
                 // 助力
                 shareCodePool = _f.sent();
                 shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodePool, true)));
                 _c = 0, shareCodeSelf_1 = shareCodeSelf;
-                _f.label = 17;
-            case 17:
-                if (!(_c < shareCodeSelf_1.length)) return [3 /*break*/, 21];
+                _f.label = 18;
+            case 18:
+                if (!(_c < shareCodeSelf_1.length)) return [3 /*break*/, 22];
                 code = shareCodeSelf_1[_c];
                 console.log("\u8D26\u53F7 ".concat(UserName, " \u53BB\u52A9\u529B ").concat(code, " ").concat(shareCodeSelf.includes(code) ? '*内部*' : ''));
                 return [4 /*yield*/, api('initForFarm', { "mpin": "", "utm_campaign": "t_335139774", "utm_medium": "appshare", "shareCode": code, "utm_term": "Wxfriends", "utm_source": "iosapp", "imageUrl": "", "nickName": "", "version": 14, "channel": 2, "babelChannel": 0 })];
-            case 18:
+            case 19:
                 res = _f.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 19:
+            case 20:
                 _f.sent();
                 if (res.helpResult.code === '7') {
                     console.log('不给自己助力');
@@ -154,7 +158,7 @@ var message = '', log = { help: '', runTimes: '' };
                 }
                 else if (res.helpResult.code === '8') {
                     console.log('上限');
-                    return [3 /*break*/, 21];
+                    return [3 /*break*/, 22];
                 }
                 else if (res.helpResult.code === '9') {
                     console.log('已助力');
@@ -165,61 +169,61 @@ var message = '', log = { help: '', runTimes: '' };
                 }
                 else if (res.helpResult.remainTimes === 0) {
                     console.log('次数用完');
-                    return [3 /*break*/, 21];
+                    return [3 /*break*/, 22];
                 }
-                _f.label = 20;
-            case 20:
+                _f.label = 21;
+            case 21:
                 _c++;
-                return [3 /*break*/, 17];
-            case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)
+                return [3 /*break*/, 18];
+            case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)
                 // 助力奖励
             ];
-            case 22:
+            case 23:
                 _f.sent();
                 return [4 /*yield*/, api('farmAssistInit', { "version": 14, "channel": 1, "babelChannel": "120" })];
-            case 23:
+            case 24:
                 // 助力奖励
                 res = _f.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 24:
+            case 25:
                 _f.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res, 'farmAssistInit');
                 farmAssistInit_waterEnergy = 0;
                 _d = 0, _e = res.assistStageList;
-                _f.label = 25;
-            case 25:
-                if (!(_d < _e.length)) return [3 /*break*/, 30];
-                t = _e[_d];
-                if (!(t.percentage === '100%' && t.stageStaus === 2)) return [3 /*break*/, 28];
-                return [4 /*yield*/, api('receiveStageEnergy', { "version": 14, "channel": 1, "babelChannel": "120" })];
+                _f.label = 26;
             case 26:
+                if (!(_d < _e.length)) return [3 /*break*/, 31];
+                t = _e[_d];
+                if (!(t.percentage === '100%' && t.stageStaus === 2)) return [3 /*break*/, 29];
+                return [4 /*yield*/, api('receiveStageEnergy', { "version": 14, "channel": 1, "babelChannel": "120" })];
+            case 27:
                 data = _f.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 27:
+            case 28:
                 _f.sent();
                 farmAssistInit_waterEnergy += t.waterEnergy;
-                return [3 /*break*/, 29];
-            case 28:
+                return [3 /*break*/, 30];
+            case 29:
                 if (t.stageStaus === 3) {
                     farmAssistInit_waterEnergy += t.waterEnergy;
                 }
-                _f.label = 29;
-            case 29:
-                _d++;
-                return [3 /*break*/, 25];
+                _f.label = 30;
             case 30:
+                _d++;
+                return [3 /*break*/, 26];
+            case 31:
                 console.log('收到助力', res.assistFriendList.length);
                 console.log('助力已领取', farmAssistInit_waterEnergy);
                 message += "\u3010\u52A9\u529B\u5DF2\u9886\u53D6\u3011  ".concat(farmAssistInit_waterEnergy, "\n");
                 message += '\n\n';
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 31:
-                _f.sent();
-                _f.label = 32;
             case 32:
+                _f.sent();
+                _f.label = 33;
+            case 33:
                 _i++;
                 return [3 /*break*/, 2];
-            case 33:
+            case 34:
                 if (message) {
                     console.log('===================');
                     console.log(message);
@@ -233,19 +237,27 @@ var message = '', log = { help: '', runTimes: '' };
 }); })();
 function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
+        var h5st, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&appid=wh5&client=apple&clientVersion=10.2.4"), {
-                        headers: {
-                            "Host": "api.m.jd.com",
-                            "Origin": "https://carry.m.jd.com",
-                            "User-Agent": TS_USER_AGENTS_1["default"],
-                            "Accept-Language": "zh-CN,zh-Hans;q=0.9",
-                            "Referer": "https://carry.m.jd.com/",
-                            "Cookie": cookie
-                        }
-                    })];
+                case 0:
+                    h5st = h5stTool.__genH5st({
+                        'appid': 'wh5',
+                        'body': JSON.stringify(body),
+                        'client': 'apple',
+                        'clientVersion': '10.2.4',
+                        'functionId': fn
+                    });
+                    return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&appid=wh5&client=apple&clientVersion=10.2.4&h5st=").concat(h5st), {
+                            headers: {
+                                "Host": "api.m.jd.com",
+                                "Origin": "https://carry.m.jd.com",
+                                "User-Agent": TS_USER_AGENTS_1["default"],
+                                "Accept-Language": "zh-CN,zh-Hans;q=0.9",
+                                "Referer": "https://carry.m.jd.com/",
+                                "Cookie": cookie
+                            }
+                        })];
                 case 1:
                     data = (_a.sent()).data;
                     return [2 /*return*/, data];

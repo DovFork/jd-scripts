@@ -99,19 +99,19 @@ var cookie = '', res = '', UserName = '', h5stTool = new h5st_1.H5ST("07244", "j
 }); })();
 function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
-        var timestamp, t, h5st;
+        var timestamp, h5st;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    timestamp = Date.now(), t = [
-                        { key: 'appid', value: 'activities_platform' },
-                        { key: 'body', value: JSON.stringify(body) },
-                        { key: 'client', value: 'H5' },
-                        { key: 'clientVersion', value: '1.0.0' },
-                        { key: 'functionId', value: fn },
-                        { key: 't', value: timestamp.toString() },
-                    ];
-                    h5st = h5stTool.__genH5st(t);
+                    timestamp = Date.now();
+                    h5st = h5stTool.__genH5st({
+                        appid: 'activities_platform',
+                        body: JSON.stringify(body),
+                        client: 'H5',
+                        clientVersion: '1.0.0',
+                        functionId: fn,
+                        t: timestamp.toString()
+                    });
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&h5st=").concat(h5st), {
                             'Host': 'api.m.jd.com',
                             'Origin': 'https://prodev.m.jd.com',

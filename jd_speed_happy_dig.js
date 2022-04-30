@@ -1,6 +1,8 @@
 "use strict";
 /**
- * cron: 15 0,1,6,18 * * *
+ * 极速版-挖宝
+ * 助力，挖宝，任务，提现
+ * cron: 2 0,1,18 * * *
  * CK1     HW.ts -> 内部
  * CK2～n  内部   -> HW.ts
  */
@@ -50,49 +52,47 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var V3_1 = require("./utils/V3");
-var crypto_js_1 = require("crypto-js");
-var cookie = '', res = '', UserName, data;
+var h5st_1 = require("./utils/h5st");
+var cookie = '', res = '', UserName, data, h5stTool = new h5st_1.H5ST("ce6c2", "jdltapp;", "9929056438203725");
 var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodesSelf_1, code, e_2, _g, _h, _j, index, value, blood, i, j;
-    return __generator(this, function (_k) {
-        switch (_k.label) {
+    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodesSelf_1, code, e_2, _g, _h, _j, index, value, blood, i, j, _k, _l, t, _m, _o, t, j;
+    return __generator(this, function (_p) {
+        switch (_p.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()
                 // 获取助力码
             ];
             case 1:
-                cookiesArr = _k.sent();
+                cookiesArr = _p.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _k.label = 2;
+                _p.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 10];
                 _b = _a[_i], index = _b[0], value = _b[1];
-                _k.label = 3;
+                _p.label = 3;
             case 3:
-                _k.trys.push([3, 6, , 7]);
+                _p.trys.push([3, 6, , 7]);
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, (0, V3_1.requestAlgo)('ce6c2', 'jdltapp;')];
+                return [4 /*yield*/, h5stTool.__genAlgo()];
             case 4:
-                _k.sent();
+                _p.sent();
                 return [4 /*yield*/, api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
             case 5:
-                res = _k.sent();
+                res = _p.sent();
                 console.log('助力码', res.data.markedPin, res.data.inviteCode);
                 shareCodesSelf.push({ inviter: res.data.markedPin, inviteCode: res.data.inviteCode });
                 return [3 /*break*/, 7];
             case 6:
-                e_1 = _k.sent();
+                e_1 = _p.sent();
                 console.log('error', e_1);
                 return [3 /*break*/, 7];
             case 7: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 8:
-                _k.sent();
-                _k.label = 9;
+                _p.sent();
+                _p.label = 9;
             case 9:
                 _i++;
                 return [3 /*break*/, 2];
@@ -100,24 +100,24 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                 console.log('内部助力');
                 (0, TS_USER_AGENTS_1.o2s)(shareCodesSelf);
                 _c = 0, _d = cookiesArr.entries();
-                _k.label = 11;
+                _p.label = 11;
             case 11:
-                if (!(_c < _d.length)) return [3 /*break*/, 29];
+                if (!(_c < _d.length)) return [3 /*break*/, 30];
                 _e = _d[_c], index = _e[0], value = _e[1];
-                _k.label = 12;
+                _p.label = 12;
             case 12:
-                _k.trys.push([12, 26, , 28]);
+                _p.trys.push([12, 27, , 29]);
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, (0, V3_1.requestAlgo)('ce6c2', 'jdltapp;')];
+                return [4 /*yield*/, h5stTool.__genAlgo()];
             case 13:
-                _k.sent();
+                _p.sent();
                 if (!(shareCodesHW.length === 0)) return [3 /*break*/, 15];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('fcwb')];
             case 14:
-                shareCodesHW = _k.sent();
-                _k.label = 15;
+                shareCodesHW = _p.sent();
+                _p.label = 15;
             case 15:
                 if (index === 0 && cookiesArr.length === 1) {
                     shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
@@ -126,81 +126,87 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                     shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
                 }
                 _f = 0, shareCodesSelf_1 = shareCodesSelf;
-                _k.label = 16;
+                _p.label = 16;
             case 16:
-                if (!(_f < shareCodesSelf_1.length)) return [3 /*break*/, 25];
+                if (!(_f < shareCodesSelf_1.length)) return [3 /*break*/, 26];
                 code = shareCodesSelf_1[_f];
                 console.log("\u53BB\u52A9\u529B ".concat(code.inviteCode));
                 return [4 /*yield*/, api('happyDigHelp', { "linkId": "pTTvJeSTrpthgk9ASBVGsw", "inviter": code.inviter, "inviteCode": code.inviteCode })];
             case 17:
-                res = _k.sent();
-                if (!(res.code === 0)) return [3 /*break*/, 18];
+                res = _p.sent();
+                if (!(res.code === 0)) return [3 /*break*/, 19];
                 console.log('助力成功');
-                return [3 /*break*/, 22];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 18:
-                if (!(res.code === 16143)) return [3 /*break*/, 19];
-                console.log('已助力');
-                return [3 /*break*/, 22];
+                _p.sent();
+                return [3 /*break*/, 26];
             case 19:
-                if (!(res.code === 16144)) return [3 /*break*/, 21];
+                if (!(res.code === 16143)) return [3 /*break*/, 20];
+                console.log('已助力');
+                return [3 /*break*/, 23];
+            case 20:
+                if (!(res.code === 16144)) return [3 /*break*/, 22];
                 console.log('上限');
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 20:
-                _k.sent();
-                return [3 /*break*/, 25];
             case 21:
+                _p.sent();
+                return [3 /*break*/, 26];
+            case 22:
                 (0, TS_USER_AGENTS_1.o2s)(res);
-                _k.label = 22;
-            case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 23:
-                _k.sent();
-                _k.label = 24;
+                _p.label = 23;
+            case 23: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 24:
+                _p.sent();
+                _p.label = 25;
+            case 25:
                 _f++;
                 return [3 /*break*/, 16];
-            case 25: return [3 /*break*/, 28];
-            case 26:
-                e_2 = _k.sent();
+            case 26: return [3 /*break*/, 29];
+            case 27:
+                e_2 = _p.sent();
                 console.log('error', e_2);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 27:
-                _k.sent();
-                return [3 /*break*/, 28];
             case 28:
+                _p.sent();
+                return [3 /*break*/, 29];
+            case 29:
                 _c++;
                 return [3 /*break*/, 11];
-            case 29:
-                _g = 0, _h = cookiesArr.entries();
-                _k.label = 30;
             case 30:
-                if (!(_g < _h.length)) return [3 /*break*/, 41];
+                _g = 0, _h = cookiesArr.entries();
+                _p.label = 31;
+            case 31:
+                if (!(_g < _h.length)) return [3 /*break*/, 57];
                 _j = _h[_g], index = _j[0], value = _j[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, (0, V3_1.requestAlgo)('ce6c2', 'jdltapp;')];
-            case 31:
-                _k.sent();
+                return [4 /*yield*/, h5stTool.__genAlgo()];
+            case 32:
+                _p.sent();
+                return [4 /*yield*/, api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
+            case 33:
+                res = _p.sent();
                 blood = res.data.blood;
                 i = 0;
-                _k.label = 32;
-            case 32:
-                if (!(i < 4)) return [3 /*break*/, 40];
+                _p.label = 34;
+            case 34:
+                if (!(i < 4)) return [3 /*break*/, 42];
                 if (blood <= 1) {
                     console.log('能量剩余1，跳过 A');
-                    return [3 /*break*/, 40];
+                    return [3 /*break*/, 42];
                 }
                 j = 0;
-                _k.label = 33;
-            case 33:
-                if (!(j < 4)) return [3 /*break*/, 39];
+                _p.label = 35;
+            case 35:
+                if (!(j < 4)) return [3 /*break*/, 41];
                 if (blood <= 1) {
                     console.log('能量剩余1，跳过 B');
-                    return [3 /*break*/, 39];
+                    return [3 /*break*/, 41];
                 }
                 return [4 /*yield*/, api('happyDigDo', { "round": 1, "rowIdx": i, "colIdx": j, "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
-            case 34:
-                res = _k.sent();
+            case 36:
+                res = _p.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 if (res.data.chunk.type === 1) {
                     console.log('挖到👎');
@@ -212,60 +218,108 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                     console.log('挖到💣');
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 35:
-                _k.sent();
+            case 37:
+                _p.sent();
                 return [4 /*yield*/, api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
-            case 36:
-                res = _k.sent();
+            case 38:
+                res = _p.sent();
                 if (res.data.blood === 1) {
                     blood = 1;
                     console.log('能量剩余1，退出');
-                    return [3 /*break*/, 39];
+                    return [3 /*break*/, 41];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 37:
-                _k.sent();
-                _k.label = 38;
-            case 38:
-                j++;
-                return [3 /*break*/, 33];
             case 39:
-                i++;
-                return [3 /*break*/, 32];
+                _p.sent();
+                _p.label = 40;
             case 40:
+                j++;
+                return [3 /*break*/, 35];
+            case 41:
+                i++;
+                return [3 /*break*/, 34];
+            case 42: return [4 /*yield*/, api('apTaskList', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
+            case 43:
+                // 任务
+                res = _p.sent();
+                _k = 0, _l = res.data;
+                _p.label = 44;
+            case 44:
+                if (!(_k < _l.length)) return [3 /*break*/, 48];
+                t = _l[_k];
+                if (!(t.taskType === 'BROWSE_CHANNEL')) return [3 /*break*/, 47];
+                console.log(t.taskTitle);
+                return [4 /*yield*/, api('apDoTask', { "linkId": "pTTvJeSTrpthgk9ASBVGsw", "taskType": "BROWSE_CHANNEL", "taskId": t.id, "channel": 4, "itemId": encodeURIComponent(t.taskSourceUrl), "checkVersion": false })];
+            case 45:
+                data = _p.sent();
+                data.errMsg ? console.log('任务失败', data.errMsg) : console.log('任务成功');
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 46:
+                _p.sent();
+                _p.label = 47;
+            case 47:
+                _k++;
+                return [3 /*break*/, 44];
+            case 48:
+                for (_m = 0, _o = res.data; _m < _o.length; _m++) {
+                    t = _o[_m];
+                    if (t.taskTitle === '发财挖宝浏览任务') {
+                    }
+                }
+                return [4 /*yield*/, api('apTaskDetail', { "linkId": "SS55rTBOHtnLCm3n9UMk7Q", "taskType": "BROWSE_CHANNEL", "taskId": 357, "channel": 4 })];
+            case 49:
+                res = _p.sent();
+                j = res.data.status.userFinishedTimes;
+                _p.label = 50;
+            case 50:
+                if (!(j < res.data.status.finishNeed)) return [3 /*break*/, 56];
+                return [4 /*yield*/, api('apTaskTimeRecord', { "linkId": "SS55rTBOHtnLCm3n9UMk7Q", "taskId": 357 })];
+            case 51:
+                res = _p.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(20 * 1000)];
+            case 52:
+                _p.sent();
+                return [4 /*yield*/, api('apTaskList', { "linkId": "SS55rTBOHtnLCm3n9UMk7Q" })];
+            case 53:
+                _p.sent();
+                return [4 /*yield*/, api('apTaskDetail', { "linkId": "SS55rTBOHtnLCm3n9UMk7Q", "taskType": "BROWSE_CHANNEL", "taskId": 357, "channel": 4 })];
+            case 54:
+                res = _p.sent();
+                console.log(res);
+                _p.label = 55;
+            case 55:
+                j++;
+                return [3 /*break*/, 50];
+            case 56:
                 _g++;
-                return [3 /*break*/, 30];
-            case 41: return [2 /*return*/];
+                return [3 /*break*/, 31];
+            case 57: return [2 /*return*/];
         }
     });
 }); })();
 function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
-        var timestamp, t, h5st, data;
+        var timestamp, h5st;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    timestamp = Date.now(), t = [
-                        { key: 'functionId', value: fn },
-                        { key: 'body', value: (0, crypto_js_1.SHA256)(JSON.stringify(body)).toString() },
-                        { key: 't', value: timestamp.toString() },
-                        { key: 'appid', value: 'activities_platform' },
-                        { key: 'client', value: 'H5' },
-                        { key: 'clientVersion', value: '1.0.0' },
-                    ];
-                    h5st = (0, V3_1.geth5st)(t, '63d78');
-                    return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(Date.now(), "&appid=activities_platform&client=H5&clientVersion=1.0.0&h5st=").concat(h5st), {
-                            headers: {
-                                'Host': 'api.m.jd.com',
-                                'Origin': 'https://bnzf.jd.com',
-                                'User-Agent': "jdapp;iPhone;10.2.2;14.3;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";M/5.0;network/wifi;ADID/;model/iPhone12,1;addressid/4199175193;appBuild/167863;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;"),
-                                'Referer': 'https://bnzf.jd.com/',
-                                'Cookie': cookie
-                            }
+                    timestamp = Date.now();
+                    h5st = h5stTool.__genH5st({
+                        appid: 'activities_platform',
+                        body: JSON.stringify(body),
+                        client: 'H5',
+                        clientVersion: '1.0.0',
+                        functionId: fn,
+                        t: timestamp.toString()
+                    });
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&client=H5&clientVersion=1.0.0&h5st=").concat(h5st), {
+                            'Host': 'api.m.jd.com',
+                            'Origin': 'https://bnzf.jd.com',
+                            'User-Agent': "jdapp;iPhone;10.2.2;14.3;".concat((0, TS_USER_AGENTS_1.randomString)(40), ";M/5.0;network/wifi;ADID/;model/iPhone12,1;addressid/4199175193;appBuild/167863;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;"),
+                            'Referer': 'https://bnzf.jd.com/',
+                            'Cookie': cookie
                         })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });

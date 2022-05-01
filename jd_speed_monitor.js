@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
-var sendNotify_1 = require("../sendNotify");
-var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
+var sendNotify_1 = require("./sendNotify");
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var CryptoJS = require('crypto-js');
 var cookie = '', UserName;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -72,8 +72,8 @@ var cookie = '', UserName;
                 if (!(_i < _a.length)) return [3 /*break*/, 6];
                 t_1 = _a[_i];
                 console.log(t_1.amount);
-                if (!(t_1.amount === '50')) return [3 /*break*/, 5];
-                return [4 /*yield*/, (0, sendNotify_1.sendNotify)('极速版金币', '50个金币已到账，请注意查收')];
+                if (!(t_1.amount === '50' || t_1.amount === '10')) return [3 /*break*/, 5];
+                return [4 /*yield*/, (0, sendNotify_1.sendNotify)('极速版金币', "".concat(t_1.amount, "\uD83E\uDDE7"))];
             case 4:
                 _b.sent();
                 return [3 /*break*/, 6];

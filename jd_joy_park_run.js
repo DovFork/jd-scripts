@@ -45,15 +45,16 @@ exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var h5st_1 = require("./utils/h5st");
 var fs_1 = require("fs");
-var cookie = '', res = '', data, UserName;
+var date_fns_1 = require("date-fns");
+var cookie = '', res = '', UserName = '';
 var assets = 0.04, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;', '1804945295425750');
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, account, _i, _a, _b, index, value, _c, account_1, user, _d, _e, member, e_1, i, assets_1, e_2;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    var cookiesArr, account, _i, _a, _b, index, value, _c, account_1, user, sum, _d, _e, t, _f, _g, member, e_1, i, assets_1, e_2;
+    return __generator(this, function (_h) {
+        switch (_h.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _f.sent();
+                cookiesArr = _h.sent();
                 account = [];
                 if ((0, fs_1.existsSync)('./utils/account.json')) {
                     try {
@@ -64,9 +65,9 @@ var assets = 0.04, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;
                     }
                 }
                 _i = 0, _a = cookiesArr.entries();
-                _f.label = 2;
+                _h.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 34];
+                if (!(_i < _a.length)) return [3 /*break*/, 35];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
@@ -80,30 +81,43 @@ var assets = 0.04, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;
                         break;
                     }
                 }
-                _f.label = 3;
+                _h.label = 3;
             case 3:
-                _f.trys.push([3, 10, , 11]);
-                return [4 /*yield*/, h5stTool.__genAlgo()];
+                _h.trys.push([3, 11, , 12]);
+                return [4 /*yield*/, team('runningMyPrize', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "pageSize": 20, "time": null, "ids": null })];
             case 4:
-                _f.sent();
-                return [4 /*yield*/, team('runningTeamInfo', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
+                res = _h.sent();
+                sum = 0;
+                for (_d = 0, _e = res.data.detailVos; _d < _e.length; _d++) {
+                    t = _e[_d];
+                    if ((0, date_fns_1.getDate)(new Date(t.createTime)) === new Date().getDate()) {
+                        sum = add(sum, t.amount);
+                    }
+                    else {
+                        break;
+                    }
+                }
+                console.log('今日收益', sum);
+                return [4 /*yield*/, h5stTool.__genAlgo()];
             case 5:
-                res = _f.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
-                if (!(!captainId && res.data.members.length === 0)) return [3 /*break*/, 6];
+                _h.sent();
+                return [4 /*yield*/, team('runningTeamInfo', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
+            case 6:
+                res = _h.sent();
+                if (!(!captainId && res.data.members.length === 0)) return [3 /*break*/, 7];
                 console.log('组队ID不存在,开始创建组队');
                 captainId = res.data.captainId;
-                return [3 /*break*/, 9];
-            case 6:
-                if (!(captainId && res.data.members.length === 0)) return [3 /*break*/, 8];
+                return [3 /*break*/, 10];
+            case 7:
+                if (!(captainId && res.data.members.length === 0)) return [3 /*break*/, 9];
                 console.log('已有组队ID，未加入队伍');
                 return [4 /*yield*/, team('runningJoinTeam', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "captainId": captainId })];
-            case 7:
-                res = _f.sent();
+            case 8:
+                res = _h.sent();
                 if (res.code === 0) {
                     console.log('组队成功');
-                    for (_d = 0, _e = res.data.members; _d < _e.length; _d++) {
-                        member = _e[_d];
+                    for (_f = 0, _g = res.data.members; _f < _g.length; _f++) {
+                        member = _g[_f];
                         if (member.captain) {
                             console.log('队长', member.nickName);
                             break;
@@ -114,94 +128,95 @@ var assets = 0.04, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;
                         captainId = '';
                     }
                 }
-                return [3 /*break*/, 9];
-            case 8:
+                return [3 /*break*/, 10];
+            case 9:
                 console.log('已组队', res.data.members.length);
-                _f.label = 9;
-            case 9: return [3 /*break*/, 11];
-            case 10:
-                e_1 = _f.sent();
-                console.log('组队 Error', e_1);
-                return [3 /*break*/, 11];
+                console.log('战队收益', res.data.teamSumPrize);
+                _h.label = 10;
+            case 10: return [3 /*break*/, 12];
             case 11:
-                _f.trys.push([11, 32, , 33]);
-                return [4 /*yield*/, runningPageHome()];
+                e_1 = _h.sent();
+                console.log('组队 Error', e_1);
+                return [3 /*break*/, 12];
             case 12:
-                res = _f.sent();
+                _h.trys.push([12, 33, , 34]);
+                return [4 /*yield*/, runningPageHome()];
+            case 13:
+                res = _h.sent();
                 console.log('🧧', res.data.runningHomeInfo.prizeValue);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 13:
-                _f.sent();
-                console.log('能量恢复中', secondsToMinutes(res.data.runningHomeInfo.nextRunningTime / 1000), '能量棒', res.data.runningHomeInfo.energy);
-                if (!(res.data.runningHomeInfo.nextRunningTime && res.data.runningHomeInfo.nextRunningTime / 1000 < 300)) return [3 /*break*/, 17];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(res.data.runningHomeInfo.nextRunningTime)];
             case 14:
-                _f.sent();
-                return [4 /*yield*/, runningPageHome()];
+                _h.sent();
+                console.log('能量恢复中', secondsToMinutes(res.data.runningHomeInfo.nextRunningTime / 1000), '能量棒', res.data.runningHomeInfo.energy);
+                if (!(res.data.runningHomeInfo.nextRunningTime && res.data.runningHomeInfo.nextRunningTime / 1000 < 300)) return [3 /*break*/, 18];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(res.data.runningHomeInfo.nextRunningTime)];
             case 15:
-                res = _f.sent();
+                _h.sent();
+                return [4 /*yield*/, runningPageHome()];
+            case 16:
+                res = _h.sent();
                 console.log('能量恢复中', secondsToMinutes(res.data.runningHomeInfo.nextRunningTime / 1000), '能量棒', res.data.runningHomeInfo.energy);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 16:
-                _f.sent();
-                _f.label = 17;
             case 17:
-                if (!!res.data.runningHomeInfo.nextRunningTime) return [3 /*break*/, 29];
+                _h.sent();
+                _h.label = 18;
+            case 18:
+                if (!!res.data.runningHomeInfo.nextRunningTime) return [3 /*break*/, 30];
                 console.log('终点目标', assets);
                 i = 0;
-                _f.label = 18;
-            case 18:
-                if (!(i < 10)) return [3 /*break*/, 29];
-                return [4 /*yield*/, api('runningOpenBox', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
+                _h.label = 19;
             case 19:
-                res = _f.sent();
-                if (!(parseFloat(res.data.assets) >= assets)) return [3 /*break*/, 21];
+                if (!(i < 10)) return [3 /*break*/, 30];
+                return [4 /*yield*/, api('runningOpenBox', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
+            case 20:
+                res = _h.sent();
+                if (!(parseFloat(res.data.assets) >= assets)) return [3 /*break*/, 22];
                 assets_1 = parseFloat(res.data.assets);
                 return [4 /*yield*/, api('runningPreserveAssets', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
-            case 20:
-                res = _f.sent();
-                console.log('领取成功', assets_1);
-                return [3 /*break*/, 29];
             case 21:
-                if (!res.data.doubleSuccess) return [3 /*break*/, 23];
+                res = _h.sent();
+                console.log('领取成功', assets_1);
+                return [3 /*break*/, 30];
+            case 22:
+                if (!res.data.doubleSuccess) return [3 /*break*/, 24];
                 console.log('翻倍成功', parseFloat(res.data.assets));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 22:
-                _f.sent();
-                return [3 /*break*/, 26];
             case 23:
-                if (!(!res.data.doubleSuccess && !res.data.runningHomeInfo.runningFinish)) return [3 /*break*/, 25];
+                _h.sent();
+                return [3 /*break*/, 27];
+            case 24:
+                if (!(!res.data.doubleSuccess && !res.data.runningHomeInfo.runningFinish)) return [3 /*break*/, 26];
                 console.log('开始跑步', parseFloat(res.data.assets));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 24:
-                _f.sent();
-                return [3 /*break*/, 26];
             case 25:
+                _h.sent();
+                return [3 /*break*/, 27];
+            case 26:
                 console.log('翻倍失败');
-                return [3 /*break*/, 29];
-            case 26: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 27:
-                _f.sent();
-                _f.label = 28;
+                return [3 /*break*/, 30];
+            case 27: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 28:
+                _h.sent();
+                _h.label = 29;
+            case 29:
                 i++;
-                return [3 /*break*/, 18];
-            case 29: return [4 /*yield*/, runningPageHome()];
-            case 30:
-                res = _f.sent();
+                return [3 /*break*/, 19];
+            case 30: return [4 /*yield*/, runningPageHome()];
+            case 31:
+                res = _h.sent();
                 console.log('🧧', res.data.runningHomeInfo.prizeValue);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 31:
-                _f.sent();
-                return [3 /*break*/, 33];
             case 32:
-                e_2 = _f.sent();
-                console.log('跑步 Error', e_2);
-                return [3 /*break*/, 33];
+                _h.sent();
+                return [3 /*break*/, 34];
             case 33:
+                e_2 = _h.sent();
+                console.log('跑步 Error', e_2);
+                return [3 /*break*/, 34];
+            case 34:
                 _i++;
                 return [3 /*break*/, 2];
-            case 34: return [2 /*return*/];
+            case 35: return [2 /*return*/];
         }
     });
 }); })();
@@ -276,4 +291,22 @@ function secondsToMinutes(seconds) {
     var minutes = Math.floor(seconds / 60);
     var second = Math.floor(seconds % 60);
     return "".concat(minutes, "\u5206").concat(second, "\u79D2");
+}
+// 小数加法
+function add(num1, num2) {
+    var r1, r2;
+    try {
+        r1 = num1.toString().split('.')[1].length;
+    }
+    catch (e) {
+        r1 = 0;
+    }
+    try {
+        r2 = num2.toString().split('.')[1].length;
+    }
+    catch (e) {
+        r2 = 0;
+    }
+    var m = Math.pow(10, Math.max(r1, r2));
+    return (num1 * m + num2 * m) / m;
 }

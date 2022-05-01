@@ -43,7 +43,7 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var h5st_1 = require("./utils/h5st");
 var cookie = '', res = '', UserName = '', h5stTool = new h5st_1.H5ST("07244", "jdltapp;", "5817062902662730");
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, remainChance, i;
+    var cookiesArr, _i, _a, _b, index, value, remainChance, i, e_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -52,48 +52,56 @@ var cookie = '', res = '', UserName = '', h5stTool = new h5st_1.H5ST("07244", "j
                 _i = 0, _a = cookiesArr.entries();
                 _c.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 12];
+                if (!(_i < _a.length)) return [3 /*break*/, 15];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, h5stTool.__genAlgo()];
+                _c.label = 3;
             case 3:
+                _c.trys.push([3, 11, , 12]);
+                return [4 /*yield*/, h5stTool.__genAlgo()];
+            case 4:
                 _c.sent();
                 return [4 /*yield*/, api('spring_reward_query', { "linkId": "Eu7-E0CUzqYyhZJo9d3YkQ", "inviter": "" })];
-            case 4:
+            case 5:
                 res = _c.sent();
                 remainChance = res.data.remainChance;
                 console.log('剩余抽奖次数：', remainChance);
                 i = 0;
-                _c.label = 5;
-            case 5:
-                if (!(i < remainChance)) return [3 /*break*/, 9];
-                return [4 /*yield*/, api('spring_reward_receive', { "inviter": "", "linkId": "Eu7-E0CUzqYyhZJo9d3YkQ" })];
+                _c.label = 6;
             case 6:
+                if (!(i < remainChance)) return [3 /*break*/, 10];
+                return [4 /*yield*/, api('spring_reward_receive', { "inviter": "", "linkId": "Eu7-E0CUzqYyhZJo9d3YkQ" })];
+            case 7:
                 res = _c.sent();
                 try {
                     console.log('抽奖成功', res.data.received.prizeDesc);
                 }
                 catch (e) {
                     console.log('抽奖失败');
-                    return [3 /*break*/, 9];
+                    return [3 /*break*/, 10];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 7:
-                _c.sent();
-                _c.label = 8;
             case 8:
-                i++;
-                return [3 /*break*/, 5];
-            case 9: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 10:
                 _c.sent();
-                _c.label = 11;
+                _c.label = 9;
+            case 9:
+                i++;
+                return [3 /*break*/, 6];
+            case 10: return [3 /*break*/, 12];
             case 11:
+                e_1 = _c.sent();
+                console.log('火爆');
+                return [3 /*break*/, 12];
+            case 12: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 13:
+                _c.sent();
+                _c.label = 14;
+            case 14:
                 _i++;
                 return [3 /*break*/, 2];
-            case 12: return [2 /*return*/];
+            case 15: return [2 /*return*/];
         }
     });
 }); })();

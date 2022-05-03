@@ -79,7 +79,7 @@ var min = [0.02, 0.03, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
             case 4:
                 cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 9);
-                if (!(new Date().getHours() !== 6)) return [3 /*break*/, 6];
+                if (![0, 1].includes(new Date().getHours())) return [3 /*break*/, 6];
                 return [4 /*yield*/, join()];
             case 5:
                 _a.sent();
@@ -128,13 +128,13 @@ function join() {
                 case 6:
                     res = _c.sent();
                     console.log('活动初始化：', res.data.result.statusDesc);
-                    if (res.rtn_code !== 403) {
+                    if (res.rtn_code === 0) {
                         return [3 /*break*/, 10];
                     }
                     return [3 /*break*/, 9];
                 case 7:
                     e_1 = _c.sent();
-                    console.log('log error', e_1);
+                    console.log('join error', res.rtn_code);
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
                 case 8:
                     _c.sent();
@@ -347,8 +347,8 @@ function help() {
                     return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
                 case 9:
                     res = _d.sent();
-                    if (!(res.rtn_code === 403)) return [3 /*break*/, 11];
-                    console.log('log error');
+                    if (!(res.rtn_code !== 0)) return [3 /*break*/, 11];
+                    console.log('help error', res.rtn_code);
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
                 case 10:
                     _d.sent();
@@ -421,7 +421,7 @@ function api(fn, body) {
 }
 function getLog() {
     return __awaiter(this, void 0, void 0, function () {
-        var data, data;
+        var data, data, i, e_6;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -436,12 +436,30 @@ function getLog() {
                         console.log('No log');
                         process.exit(0);
                     }
-                    return [3 /*break*/, 4];
-                case 2: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("http://www.madrabbit.cf:8080/license/log?tg_id=".concat(tg_id, "&token=").concat(rabbitToken))];
+                    return [3 /*break*/, 9];
+                case 2:
+                    console.log('rabbit log');
+                    data = '';
+                    i = 0;
+                    _a.label = 3;
                 case 3:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, "'\"random\":\"".concat(data.random, "\",\"log\":\"").concat(data.log, "\"'")];
-                case 4: return [2 /*return*/];
+                    if (!(i < 10)) return [3 /*break*/, 8];
+                    _a.label = 4;
+                case 4:
+                    _a.trys.push([4, 6, , 7]);
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("http://www.madrabbit.cf:8080/license/log?tg_id=".concat(tg_id, "&token=").concat(rabbitToken))];
+                case 5:
+                    data = _a.sent();
+                    return [3 /*break*/, 8];
+                case 6:
+                    e_6 = _a.sent();
+                    console.log('rabbit log api error');
+                    return [3 /*break*/, 7];
+                case 7:
+                    i++;
+                    return [3 /*break*/, 3];
+                case 8: return [2 /*return*/, "'\"random\":\"".concat(data.data.random, "\",\"log\":\"").concat(data.data.log, "\"'")];
+                case 9: return [2 /*return*/];
             }
         });
     });

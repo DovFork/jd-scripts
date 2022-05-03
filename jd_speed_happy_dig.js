@@ -57,42 +57,40 @@ var h5st_1 = require("./utils/h5st");
 var cookie = '', res = '', UserName, data, h5stTool = new h5st_1.H5ST("ce6c2", "jdltapp;", "9929056438203725");
 var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodesSelf_1, code, e_2, _g, _h, _j, index, value, blood, i, j, _k, _l, t, _m, _o, t, j;
-    return __generator(this, function (_p) {
-        switch (_p.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()
-                // 获取助力码
-            ];
+    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodesSelf_1, code, _g, _h, t, e_2, _j, _k, _l, index, value, blood, i, j;
+    return __generator(this, function (_m) {
+        switch (_m.label) {
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
             case 1:
-                cookiesArr = _p.sent();
+                cookiesArr = _m.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _p.label = 2;
+                _m.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 10];
                 _b = _a[_i], index = _b[0], value = _b[1];
-                _p.label = 3;
+                _m.label = 3;
             case 3:
-                _p.trys.push([3, 6, , 7]);
+                _m.trys.push([3, 6, , 7]);
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, h5stTool.__genAlgo()];
             case 4:
-                _p.sent();
+                _m.sent();
                 return [4 /*yield*/, api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
             case 5:
-                res = _p.sent();
+                res = _m.sent();
                 console.log('助力码', res.data.markedPin, res.data.inviteCode);
                 shareCodesSelf.push({ inviter: res.data.markedPin, inviteCode: res.data.inviteCode });
                 return [3 /*break*/, 7];
             case 6:
-                e_1 = _p.sent();
-                console.log('error', e_1);
+                e_1 = _m.sent();
+                console.log('error');
                 return [3 /*break*/, 7];
             case 7: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 8:
-                _p.sent();
-                _p.label = 9;
+                _m.sent();
+                _m.label = 9;
             case 9:
                 _i++;
                 return [3 /*break*/, 2];
@@ -100,24 +98,24 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                 console.log('内部助力');
                 (0, TS_USER_AGENTS_1.o2s)(shareCodesSelf);
                 _c = 0, _d = cookiesArr.entries();
-                _p.label = 11;
+                _m.label = 11;
             case 11:
-                if (!(_c < _d.length)) return [3 /*break*/, 30];
+                if (!(_c < _d.length)) return [3 /*break*/, 37];
                 _e = _d[_c], index = _e[0], value = _e[1];
-                _p.label = 12;
+                _m.label = 12;
             case 12:
-                _p.trys.push([12, 27, , 29]);
+                _m.trys.push([12, 34, , 36]);
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, h5stTool.__genAlgo()];
             case 13:
-                _p.sent();
+                _m.sent();
                 if (!(shareCodesHW.length === 0)) return [3 /*break*/, 15];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('fcwb')];
             case 14:
-                shareCodesHW = _p.sent();
-                _p.label = 15;
+                shareCodesHW = _m.sent();
+                _m.label = 15;
             case 15:
                 if (index === 0 && cookiesArr.length === 1) {
                     shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesHW, true), shareCodesSelf, true)));
@@ -126,19 +124,19 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                     shareCodes = Array.from(new Set(__spreadArray(__spreadArray([], shareCodesSelf, true), shareCodesHW, true)));
                 }
                 _f = 0, shareCodesSelf_1 = shareCodesSelf;
-                _p.label = 16;
+                _m.label = 16;
             case 16:
                 if (!(_f < shareCodesSelf_1.length)) return [3 /*break*/, 26];
                 code = shareCodesSelf_1[_f];
                 console.log("\u53BB\u52A9\u529B ".concat(code.inviteCode));
                 return [4 /*yield*/, api('happyDigHelp', { "linkId": "pTTvJeSTrpthgk9ASBVGsw", "inviter": code.inviter, "inviteCode": code.inviteCode })];
             case 17:
-                res = _p.sent();
+                res = _m.sent();
                 if (!(res.code === 0)) return [3 /*break*/, 19];
                 console.log('助力成功');
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 18:
-                _p.sent();
+                _m.sent();
                 return [3 /*break*/, 26];
             case 19:
                 if (!(res.code === 16143)) return [3 /*break*/, 20];
@@ -149,64 +147,93 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                 console.log('上限');
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 21:
-                _p.sent();
+                _m.sent();
                 return [3 /*break*/, 26];
             case 22:
                 (0, TS_USER_AGENTS_1.o2s)(res);
-                _p.label = 23;
+                _m.label = 23;
             case 23: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 24:
-                _p.sent();
-                _p.label = 25;
+                _m.sent();
+                _m.label = 25;
             case 25:
                 _f++;
                 return [3 /*break*/, 16];
-            case 26: return [3 /*break*/, 29];
+            case 26: return [4 /*yield*/, api('apTaskList', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
             case 27:
-                e_2 = _p.sent();
+                res = _m.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 28:
+                _m.sent();
+                _g = 0, _h = res.data;
+                _m.label = 29;
+            case 29:
+                if (!(_g < _h.length)) return [3 /*break*/, 33];
+                t = _h[_g];
+                if (!(t.taskType === 'BROWSE_CHANNEL' && t.taskDoTimes === 0 && t.taskLimitTimes === 1)) return [3 /*break*/, 32];
+                console.log(t.taskShowTitle);
+                return [4 /*yield*/, api('apDoTask', { "linkId": "pTTvJeSTrpthgk9ASBVGsw", "taskType": "BROWSE_CHANNEL", "taskId": t.id, "channel": 4, "itemId": encodeURIComponent(t.taskSourceUrl), "checkVersion": false })];
+            case 30:
+                data = _m.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+            case 31:
+                _m.sent();
+                if (data.success) {
+                    console.log('任务完成');
+                }
+                else {
+                    (0, TS_USER_AGENTS_1.o2s)(data, '任务失败');
+                }
+                _m.label = 32;
+            case 32:
+                _g++;
+                return [3 /*break*/, 29];
+            case 33: return [3 /*break*/, 36];
+            case 34:
+                e_2 = _m.sent();
                 console.log('error', e_2);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 28:
-                _p.sent();
-                return [3 /*break*/, 29];
-            case 29:
+            case 35:
+                _m.sent();
+                return [3 /*break*/, 36];
+            case 36:
                 _c++;
                 return [3 /*break*/, 11];
-            case 30:
-                _g = 0, _h = cookiesArr.entries();
-                _p.label = 31;
-            case 31:
-                if (!(_g < _h.length)) return [3 /*break*/, 57];
-                _j = _h[_g], index = _j[0], value = _j[1];
+            case 37:
+                _j = 0, _k = cookiesArr.entries();
+                _m.label = 38;
+            case 38:
+                if (!(_j < _k.length)) return [3 /*break*/, 50];
+                _l = _k[_j], index = _l[0], value = _l[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, h5stTool.__genAlgo()];
-            case 32:
-                _p.sent();
+            case 39:
+                _m.sent();
                 return [4 /*yield*/, api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
-            case 33:
-                res = _p.sent();
+            case 40:
+                res = _m.sent();
                 blood = res.data.blood;
                 i = 0;
-                _p.label = 34;
-            case 34:
-                if (!(i < 4)) return [3 /*break*/, 42];
+                _m.label = 41;
+            case 41:
+                if (!(i < 4)) return [3 /*break*/, 49];
                 if (blood <= 1) {
                     console.log('能量剩余1，跳过 A');
-                    return [3 /*break*/, 42];
+                    return [3 /*break*/, 49];
                 }
                 j = 0;
-                _p.label = 35;
-            case 35:
-                if (!(j < 4)) return [3 /*break*/, 41];
+                _m.label = 42;
+            case 42:
+                if (!(j < 4)) return [3 /*break*/, 48];
                 if (blood <= 1) {
                     console.log('能量剩余1，跳过 B');
-                    return [3 /*break*/, 41];
+                    return [3 /*break*/, 48];
                 }
                 return [4 /*yield*/, api('happyDigDo', { "round": 1, "rowIdx": i, "colIdx": j, "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
-            case 36:
-                res = _p.sent();
+            case 43:
+                res = _m.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 if (res.data.chunk.type === 1) {
                     console.log('挖到👎');
@@ -218,82 +245,30 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                     console.log('挖到💣');
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 37:
-                _p.sent();
+            case 44:
+                _m.sent();
                 return [4 /*yield*/, api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
-            case 38:
-                res = _p.sent();
+            case 45:
+                res = _m.sent();
                 if (res.data.blood === 1) {
                     blood = 1;
                     console.log('能量剩余1，退出');
-                    return [3 /*break*/, 41];
+                    return [3 /*break*/, 48];
                 }
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 39:
-                _p.sent();
-                _p.label = 40;
-            case 40:
-                j++;
-                return [3 /*break*/, 35];
-            case 41:
-                i++;
-                return [3 /*break*/, 34];
-            case 42: return [4 /*yield*/, api('apTaskList', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
-            case 43:
-                // 任务
-                res = _p.sent();
-                _k = 0, _l = res.data;
-                _p.label = 44;
-            case 44:
-                if (!(_k < _l.length)) return [3 /*break*/, 48];
-                t = _l[_k];
-                if (!(t.taskType === 'BROWSE_CHANNEL')) return [3 /*break*/, 47];
-                console.log(t.taskTitle);
-                return [4 /*yield*/, api('apDoTask', { "linkId": "pTTvJeSTrpthgk9ASBVGsw", "taskType": "BROWSE_CHANNEL", "taskId": t.id, "channel": 4, "itemId": encodeURIComponent(t.taskSourceUrl), "checkVersion": false })];
-            case 45:
-                data = _p.sent();
-                data.errMsg ? console.log('任务失败', data.errMsg) : console.log('任务成功');
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
             case 46:
-                _p.sent();
-                _p.label = 47;
+                _m.sent();
+                _m.label = 47;
             case 47:
-                _k++;
-                return [3 /*break*/, 44];
-            case 48:
-                for (_m = 0, _o = res.data; _m < _o.length; _m++) {
-                    t = _o[_m];
-                    if (t.taskTitle === '发财挖宝浏览任务') {
-                    }
-                }
-                return [4 /*yield*/, api('apTaskDetail', { "linkId": "SS55rTBOHtnLCm3n9UMk7Q", "taskType": "BROWSE_CHANNEL", "taskId": 357, "channel": 4 })];
-            case 49:
-                res = _p.sent();
-                j = res.data.status.userFinishedTimes;
-                _p.label = 50;
-            case 50:
-                if (!(j < res.data.status.finishNeed)) return [3 /*break*/, 56];
-                return [4 /*yield*/, api('apTaskTimeRecord', { "linkId": "SS55rTBOHtnLCm3n9UMk7Q", "taskId": 357 })];
-            case 51:
-                res = _p.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(20 * 1000)];
-            case 52:
-                _p.sent();
-                return [4 /*yield*/, api('apTaskList', { "linkId": "SS55rTBOHtnLCm3n9UMk7Q" })];
-            case 53:
-                _p.sent();
-                return [4 /*yield*/, api('apTaskDetail', { "linkId": "SS55rTBOHtnLCm3n9UMk7Q", "taskType": "BROWSE_CHANNEL", "taskId": 357, "channel": 4 })];
-            case 54:
-                res = _p.sent();
-                console.log(res);
-                _p.label = 55;
-            case 55:
                 j++;
-                return [3 /*break*/, 50];
-            case 56:
-                _g++;
-                return [3 /*break*/, 31];
-            case 57: return [2 /*return*/];
+                return [3 /*break*/, 42];
+            case 48:
+                i++;
+                return [3 /*break*/, 41];
+            case 49:
+                _j++;
+                return [3 /*break*/, 38];
+            case 50: return [2 /*return*/];
         }
     });
 }); })();

@@ -1,7 +1,7 @@
 "use strict";
 /**
  * 京东-新品-魔方
- * 本地log或rabbit log
+ * rabbit log
  * cron: 10 9,12,15 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -74,9 +74,7 @@ var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '
             case 3:
                 res = _q.sent();
                 sign = res.result.taskConfig.projectId;
-                return [4 /*yield*/, api("functionId=queryInteractiveInfo&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))
-                    // o2s(res)
-                ];
+                return [4 /*yield*/, api("functionId=queryInteractiveInfo&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 4:
                 res = _q.sent();
                 _i = 0, _a = res.assignmentList;
@@ -98,7 +96,7 @@ var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '
                     }), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 7:
                 res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res, '签到成功');
+                console.log('签到成功');
                 return [3 /*break*/, 9];
             case 8:
                 console.log('已签到');
@@ -117,7 +115,7 @@ var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 0, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 12:
                 res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                console.log(res.msg);
                 if (res.msg === '任务已完成') {
                     return [3 /*break*/, 14];
                 }
@@ -139,7 +137,7 @@ var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 1, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 17:
                 res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                console.log(res.msg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.ext.waitDuration * 1000)];
             case 18:
                 _q.sent();
@@ -149,7 +147,7 @@ var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 0, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFhPageh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 20:
                 res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                console.log(res.msg);
                 _q.label = 21;
             case 21:
                 _d++;
@@ -170,7 +168,7 @@ var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '
                     }), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 25:
                 res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                console.log(res.msg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.ext.waitDuration * 1000)];
             case 26:
                 _q.sent();
@@ -182,7 +180,7 @@ var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '
                     }), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 28:
                 res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                console.log(res.msg);
                 _q.label = 29;
             case 29:
                 _f++;
@@ -201,7 +199,7 @@ var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '
                 return [4 /*yield*/, api("functionId=doInteractiveAssignment&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": sign, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": "0", "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFJGh5" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
             case 33:
                 res = _q.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
+                console.log(res.msg);
                 if (res.msg === '任务已完成') {
                     return [3 /*break*/, 35];
                 }

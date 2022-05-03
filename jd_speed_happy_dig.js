@@ -57,7 +57,7 @@ var h5st_1 = require("./utils/h5st");
 var cookie = '', res = '', UserName, data, h5stTool = new h5st_1.H5ST("ce6c2", "jdltapp;", "9929056438203725");
 var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodesSelf_1, code, _g, _h, t, e_2, _j, _k, _l, index, value, blood, i, j;
+    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCodesSelf_1, code, _g, _h, t, e_2, _j, _k, _l, index, value, blood, i, j, e_3;
     return __generator(this, function (_m) {
         switch (_m.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -203,7 +203,7 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                 _j = 0, _k = cookiesArr.entries();
                 _m.label = 38;
             case 38:
-                if (!(_j < _k.length)) return [3 /*break*/, 50];
+                if (!(_j < _k.length)) return [3 /*break*/, 53];
                 _l = _k[_j], index = _l[0], value = _l[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
@@ -218,21 +218,24 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                 i = 0;
                 _m.label = 41;
             case 41:
-                if (!(i < 4)) return [3 /*break*/, 49];
-                if (blood <= 1) {
-                    console.log('能量剩余1，跳过 A');
-                    return [3 /*break*/, 49];
-                }
-                j = 0;
+                if (!(i < 4)) return [3 /*break*/, 52];
                 _m.label = 42;
             case 42:
-                if (!(j < 4)) return [3 /*break*/, 48];
+                _m.trys.push([42, 50, , 51]);
+                if (blood <= 1) {
+                    console.log('能量剩余1，跳过 A');
+                    return [3 /*break*/, 52];
+                }
+                j = 0;
+                _m.label = 43;
+            case 43:
+                if (!(j < 4)) return [3 /*break*/, 49];
                 if (blood <= 1) {
                     console.log('能量剩余1，跳过 B');
-                    return [3 /*break*/, 48];
+                    return [3 /*break*/, 49];
                 }
                 return [4 /*yield*/, api('happyDigDo', { "round": 1, "rowIdx": i, "colIdx": j, "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
-            case 43:
+            case 44:
                 res = _m.sent();
                 (0, TS_USER_AGENTS_1.o2s)(res);
                 if (res.data.chunk.type === 1) {
@@ -245,30 +248,35 @@ var shareCodes = [], shareCodesHW = [], shareCodesSelf = [];
                     console.log('挖到💣');
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 44:
+            case 45:
                 _m.sent();
                 return [4 /*yield*/, api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
-            case 45:
+            case 46:
                 res = _m.sent();
                 if (res.data.blood === 1) {
                     blood = 1;
                     console.log('能量剩余1，退出');
-                    return [3 /*break*/, 48];
+                    return [3 /*break*/, 49];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(4000)];
-            case 46:
-                _m.sent();
-                _m.label = 47;
             case 47:
-                j++;
-                return [3 /*break*/, 42];
+                _m.sent();
+                _m.label = 48;
             case 48:
+                j++;
+                return [3 /*break*/, 43];
+            case 49: return [3 /*break*/, 51];
+            case 50:
+                e_3 = _m.sent();
+                console.log('error', res === null || res === void 0 ? void 0 : res.errMsg);
+                return [3 /*break*/, 51];
+            case 51:
                 i++;
                 return [3 /*break*/, 41];
-            case 49:
+            case 52:
                 _j++;
                 return [3 /*break*/, 38];
-            case 50: return [2 /*return*/];
+            case 53: return [2 /*return*/];
         }
     });
 }); })();

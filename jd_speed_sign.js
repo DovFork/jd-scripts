@@ -64,7 +64,6 @@ var cookie = '', res = '', UserName = '', h5stTool = new h5st_1.H5ST("15097", "j
                 return [4 /*yield*/, api('apSignIn_day', { "linkId": "9WA12jYGulArzWS7vcrwhw", "serviceName": "dayDaySignGetRedEnvelopeSignService", "business": 1 })];
             case 4:
                 res = _e.sent();
-                (0, TS_USER_AGENTS_1.o2s)(res);
                 _e.label = 5;
             case 5:
                 _e.trys.push([5, 13, , 14]);

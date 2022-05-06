@@ -47,9 +47,9 @@ var h5st_1 = require("./utils/h5st");
 var fs_1 = require("fs");
 var date_fns_1 = require("date-fns");
 var cookie = '', res = '', UserName = '';
-var assets = 0.04, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;', '1804945295425750');
+var assets = 0, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;', '1804945295425750');
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, account, _i, _a, _b, index, value, _c, account_1, user, sum, _d, _e, t, _f, _g, member, e_1, i, assets_1, e_2;
+    var cookiesArr, account, _i, _a, _b, index, value, _c, account_1, user, sum, rewardAmount, _d, _e, t, _f, _g, member, e_1, i, assets_1, e_2;
     return __generator(this, function (_h) {
         switch (_h.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
@@ -67,7 +67,7 @@ var assets = 0.04, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;
                 _i = 0, _a = cookiesArr.entries();
                 _h.label = 2;
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 35];
+                if (!(_i < _a.length)) return [3 /*break*/, 41];
                 _b = _a[_i], index = _b[0], value = _b[1];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
@@ -83,11 +83,11 @@ var assets = 0.04, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;
                 }
                 _h.label = 3;
             case 3:
-                _h.trys.push([3, 11, , 12]);
+                _h.trys.push([3, 17, , 18]);
                 return [4 /*yield*/, team('runningMyPrize', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "pageSize": 20, "time": null, "ids": null })];
             case 4:
                 res = _h.sent();
-                sum = 0;
+                sum = 0, rewardAmount = res.data.rewardAmount;
                 for (_d = 0, _e = res.data.detailVos; _d < _e.length; _d++) {
                     t = _e[_d];
                     if ((0, date_fns_1.getDate)(new Date(t.createTime)) === new Date().getDate()) {
@@ -98,21 +98,39 @@ var assets = 0.04, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;
                     }
                 }
                 console.log('今日收益', sum);
-                return [4 /*yield*/, h5stTool.__genAlgo()];
+                if (!res.data.runningCashStatus.currentEndTime) return [3 /*break*/, 9];
+                if (!(res.data.runningCashStatus.status === 0)) return [3 /*break*/, 7];
+                console.log('可提现', rewardAmount);
+                return [4 /*yield*/, api('runningPrizeDraw', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "type": 2 })];
             case 5:
+                res = _h.sent();
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 6:
+                _h.sent();
+                console.log(res.data.message);
+                return [3 /*break*/, 8];
+            case 7:
+                console.log('已提现');
+                _h.label = 8;
+            case 8: return [3 /*break*/, 10];
+            case 9:
+                console.log('非提现时段');
+                _h.label = 10;
+            case 10: return [4 /*yield*/, h5stTool.__genAlgo()];
+            case 11:
                 _h.sent();
                 return [4 /*yield*/, team('runningTeamInfo', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
-            case 6:
+            case 12:
                 res = _h.sent();
-                if (!(!captainId && res.data.members.length === 0)) return [3 /*break*/, 7];
+                if (!(!captainId && res.data.members.length === 0)) return [3 /*break*/, 13];
                 console.log('组队ID不存在,开始创建组队');
                 captainId = res.data.captainId;
-                return [3 /*break*/, 10];
-            case 7:
-                if (!(captainId && res.data.members.length === 0)) return [3 /*break*/, 9];
+                return [3 /*break*/, 16];
+            case 13:
+                if (!(captainId && res.data.members.length === 0)) return [3 /*break*/, 15];
                 console.log('已有组队ID，未加入队伍');
                 return [4 /*yield*/, team('runningJoinTeam', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "captainId": captainId })];
-            case 8:
+            case 14:
                 res = _h.sent();
                 if (res.code === 0) {
                     console.log('组队成功');
@@ -128,95 +146,95 @@ var assets = 0.04, captainId = '', h5stTool = new h5st_1.H5ST('b6ac3', 'jdltapp;
                         captainId = '';
                     }
                 }
-                return [3 /*break*/, 10];
-            case 9:
+                return [3 /*break*/, 16];
+            case 15:
                 console.log('已组队', res.data.members.length);
                 console.log('战队收益', res.data.teamSumPrize);
-                _h.label = 10;
-            case 10: return [3 /*break*/, 12];
-            case 11:
+                _h.label = 16;
+            case 16: return [3 /*break*/, 18];
+            case 17:
                 e_1 = _h.sent();
                 console.log('组队 Error', e_1);
-                return [3 /*break*/, 12];
-            case 12:
-                _h.trys.push([12, 33, , 34]);
+                return [3 /*break*/, 18];
+            case 18:
+                _h.trys.push([18, 39, , 40]);
                 return [4 /*yield*/, runningPageHome()];
-            case 13:
+            case 19:
                 res = _h.sent();
                 console.log('🧧', res.data.runningHomeInfo.prizeValue);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 14:
+            case 20:
                 _h.sent();
                 console.log('能量恢复中', secondsToMinutes(res.data.runningHomeInfo.nextRunningTime / 1000), '能量棒', res.data.runningHomeInfo.energy);
-                if (!(res.data.runningHomeInfo.nextRunningTime && res.data.runningHomeInfo.nextRunningTime / 1000 < 300)) return [3 /*break*/, 18];
+                if (!(res.data.runningHomeInfo.nextRunningTime && res.data.runningHomeInfo.nextRunningTime / 1000 < 300)) return [3 /*break*/, 24];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(res.data.runningHomeInfo.nextRunningTime)];
-            case 15:
+            case 21:
                 _h.sent();
                 return [4 /*yield*/, runningPageHome()];
-            case 16:
+            case 22:
                 res = _h.sent();
                 console.log('能量恢复中', secondsToMinutes(res.data.runningHomeInfo.nextRunningTime / 1000), '能量棒', res.data.runningHomeInfo.energy);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 17:
-                _h.sent();
-                _h.label = 18;
-            case 18:
-                if (!!res.data.runningHomeInfo.nextRunningTime) return [3 /*break*/, 30];
-                console.log('终点目标', assets);
-                i = 0;
-                _h.label = 19;
-            case 19:
-                if (!(i < 10)) return [3 /*break*/, 30];
-                return [4 /*yield*/, api('runningOpenBox', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
-            case 20:
-                res = _h.sent();
-                if (!(parseFloat(res.data.assets) >= assets)) return [3 /*break*/, 22];
-                assets_1 = parseFloat(res.data.assets);
-                return [4 /*yield*/, api('runningPreserveAssets', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
-            case 21:
-                res = _h.sent();
-                console.log('领取成功', assets_1);
-                return [3 /*break*/, 30];
-            case 22:
-                if (!res.data.doubleSuccess) return [3 /*break*/, 24];
-                console.log('翻倍成功', parseFloat(res.data.assets));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 23:
                 _h.sent();
-                return [3 /*break*/, 27];
+                _h.label = 24;
             case 24:
-                if (!(!res.data.doubleSuccess && !res.data.runningHomeInfo.runningFinish)) return [3 /*break*/, 26];
+                if (!!res.data.runningHomeInfo.nextRunningTime) return [3 /*break*/, 36];
+                console.log('终点目标', assets);
+                i = 0;
+                _h.label = 25;
+            case 25:
+                if (!(i < 10)) return [3 /*break*/, 36];
+                return [4 /*yield*/, api('runningOpenBox', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
+            case 26:
+                res = _h.sent();
+                if (!(parseFloat(res.data.assets) >= assets)) return [3 /*break*/, 28];
+                assets_1 = parseFloat(res.data.assets);
+                return [4 /*yield*/, api('runningPreserveAssets', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
+            case 27:
+                res = _h.sent();
+                console.log('领取成功', assets_1);
+                return [3 /*break*/, 36];
+            case 28:
+                if (!res.data.doubleSuccess) return [3 /*break*/, 30];
+                console.log('翻倍成功', parseFloat(res.data.assets));
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 29:
+                _h.sent();
+                return [3 /*break*/, 33];
+            case 30:
+                if (!(!res.data.doubleSuccess && !res.data.runningHomeInfo.runningFinish)) return [3 /*break*/, 32];
                 console.log('开始跑步', parseFloat(res.data.assets));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 25:
-                _h.sent();
-                return [3 /*break*/, 27];
-            case 26:
-                console.log('翻倍失败');
-                return [3 /*break*/, 30];
-            case 27: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-            case 28:
-                _h.sent();
-                _h.label = 29;
-            case 29:
-                i++;
-                return [3 /*break*/, 19];
-            case 30: return [4 /*yield*/, runningPageHome()];
             case 31:
+                _h.sent();
+                return [3 /*break*/, 33];
+            case 32:
+                console.log('翻倍失败');
+                return [3 /*break*/, 36];
+            case 33: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 34:
+                _h.sent();
+                _h.label = 35;
+            case 35:
+                i++;
+                return [3 /*break*/, 25];
+            case 36: return [4 /*yield*/, runningPageHome()];
+            case 37:
                 res = _h.sent();
                 console.log('🧧', res.data.runningHomeInfo.prizeValue);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 32:
+            case 38:
                 _h.sent();
-                return [3 /*break*/, 34];
-            case 33:
+                return [3 /*break*/, 40];
+            case 39:
                 e_2 = _h.sent();
                 console.log('跑步 Error', e_2);
-                return [3 /*break*/, 34];
-            case 34:
+                return [3 /*break*/, 40];
+            case 40:
                 _i++;
                 return [3 /*break*/, 2];
-            case 35: return [2 /*return*/];
+            case 41: return [2 /*return*/];
         }
     });
 }); })();

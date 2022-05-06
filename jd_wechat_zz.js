@@ -1,4 +1,8 @@
 "use strict";
+/**
+ * 赚赚
+ * cron: 30 9 * * *
+ */
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -68,6 +72,7 @@ var cookie = '', UserName = '', res = '';
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.m.jd.com/client.action?functionId=interactTaskIndex&body=%7B%22mpVersion%22%3A%223.4.0%22%7D&appid=wh5&loginWQBiz=interact&g_ty=ls&g_tk=".concat((0, TS_USER_AGENTS_1.randomNumString)(9)), headers)];
             case 3:
                 res = _e.sent();
+                console.log(res.data.cashExpected);
                 _c = 0, _d = res.data.taskDetailResList;
                 _e.label = 4;
             case 4:

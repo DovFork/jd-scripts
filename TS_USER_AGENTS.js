@@ -195,7 +195,7 @@ function checkCookie(cookie) {
         var data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, wait(1000)];
+                case 0: return [4 /*yield*/, wait(3000)];
                 case 1:
                     _a.sent();
                     _a.label = 2;

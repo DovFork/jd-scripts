@@ -421,12 +421,13 @@ function api(fn, body) {
 }
 function getLog() {
     return __awaiter(this, void 0, void 0, function () {
-        var data, data, i, e_6;
+        var pwd, github, data, data, i, e_6;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     if (!(!rabbitToken && !tg_id)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb")];
+                    pwd = '/', github = '';
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?pwd=".concat(pwd, "&github=").concat(github))];
                 case 1:
                     data = _a.sent();
                     if (data !== 1 && data !== '1') {

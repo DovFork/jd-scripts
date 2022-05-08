@@ -242,6 +242,8 @@ var cookie = '', UserName = '', res = '', message = '', shareCodes = [], shareCo
                     console.log('上限');
                     return [3 /*break*/, 40];
                 }
+                else if (res.data.bizCode === '109') {
+                }
                 else if (res.data.bizCode === '2001') {
                     console.log('黑号');
                     return [3 /*break*/, 40];

@@ -94,8 +94,9 @@ var H5ST = /** @class */ (function () {
     H5ST.prototype.__genH5st = function (body) {
         var y = this.__genKey(this.tk, this.fp, this.timestamp, this.appId, CryptoJS).toString(CryptoJS.enc.Hex);
         var s = '';
-        for (var i in body) {
-            i === 'body' ? s += "".concat(i, ":").concat(CryptoJS.SHA256(body[i]).toString(CryptoJS.enc.Hex), "&") : s += "".concat(i, ":").concat(body[i], "&");
+        for (var _i = 0, _a = Object.keys(body); _i < _a.length; _i++) {
+            var key = _a[_i];
+            key === 'body' ? s += "".concat(key, ":").concat(CryptoJS.SHA256(body[key]).toString(CryptoJS.enc.Hex), "&") : s += "".concat(key, ":").concat(body[key], "&");
         }
         s = s.slice(0, -1);
         s = CryptoJS.HmacSHA256(s, y).toString(CryptoJS.enc.Hex);

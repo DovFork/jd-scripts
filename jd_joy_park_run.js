@@ -46,6 +46,7 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var h5st_1 = require("./utils/h5st");
 var date_fns_1 = require("date-fns");
 var path = require("path");
+var dotenv = require("dotenv");
 var cookie = '', res = '', UserName = '', fp_448de = '' || process.env.FP_448DE, fp_b6ac3 = '' || process.env.FP_B6AC3;
 var assets = 0, captainId = '', h5stTool = null;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -57,6 +58,7 @@ var assets = 0, captainId = '', h5stTool = null;
             case 1:
                 cookiesArr = _h.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
+                dotenv.config();
                 _i = 0, _a = cookiesArr.entries();
                 _h.label = 2;
             case 2:

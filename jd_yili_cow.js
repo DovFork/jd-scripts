@@ -39,7 +39,6 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var dotenv = require("dotenv");
-var notify = require('./sendNotify');
 dotenv.config();
 var token, token2, actorUuid, shopId, pin, uuid;
 var milk;
@@ -50,7 +49,7 @@ function main() {
         var cookiesArr, i, j, taskArr, _i, taskArr_1, t, e_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
                 case 1:
                     cookiesArr = _c.sent();
                     i = 0;
@@ -223,7 +222,7 @@ function getIsvToken() {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=genToken&clientVersion=10.0.2&client=android&uuid=818aa057737ba6a4&st=1623934987178&sign=0877498be29cda51b9628fa0195f412f&sv=111", "body=".concat(escape('{"action":"to","to":"https%3A%2F%2Fh5.m.jd.com%2FbabelDiy%2FZeus%2F3KSjXqQabiTuD1cJ28QskrpWoBKT%2Findex.html%3FbabelChannel%3D45%26collectionId%3D519"}')), {
+                case 0: return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/client.action?functionId=genToken&clientVersion=10.0.2&client=android&uuid=818aa057737ba6a4&st=1623934987178&sign=0877498be29cda51b9628fa0195f412f&sv=111", "body=".concat(decodeURIComponent('{"action":"to","to":"https%3A%2F%2Fh5.m.jd.com%2FbabelDiy%2FZeus%2F3KSjXqQabiTuD1cJ28QskrpWoBKT%2Findex.html%3FbabelChannel%3D45%26collectionId%3D519"}')), {
                         headers: {
                             'Host': 'api.m.jd.com',
                             'charset': 'UTF-8',

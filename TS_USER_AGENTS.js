@@ -36,14 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.post = exports.get = exports.jdpingou = exports.obj2str = exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.randomString = exports.exceptCookie = exports.getJxToken = exports.requestAlgo = exports.getRandomNumberByRange = exports.wait = exports.requireConfig = exports.getFarmShareCode = exports.getBeanShareCode = exports.TotalBean = void 0;
+exports.post = exports.get = exports.jdpingou = exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.randomString = exports.exceptCookie = exports.getJxToken = exports.getRandomNumberByRange = exports.wait = exports.getCookie = exports.getFarmShareCode = exports.getBeanShareCode = void 0;
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var dotenv = require("dotenv");
 var fs_1 = require("fs");
 var sendNotify_1 = require("./sendNotify");
 dotenv.config();
-var fingerprint, token = '', enCryptMethodJD;
 var USER_AGENTS = [
     "jdapp;android;10.0.2;10;network/wifi;Mozilla/5.0 (Linux; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045230 Mobile Safari/537.36",
     "jdapp;iPhone;10.0.2;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
@@ -82,14 +81,6 @@ var USER_AGENTS = [
     "jdapp;android;10.0.2;10;network/wifi;Mozilla/5.0 (Linux; Android 10; MI 8 Build/QKQ1.190828.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045227 Mobile Safari/537.36",
     "jdapp;iPhone;10.0.2;14.1;network/wifi;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1",
 ];
-function TotalBean(cookie) {
-    return {
-        cookie: cookie,
-        isLogin: true,
-        nickName: ''
-    };
-}
-exports.TotalBean = TotalBean;
 function getRandomNumberByRange(start, end) {
     end <= start && (end = start + 100);
     return Math.floor(Math.random() * (end - start) + start);
@@ -149,13 +140,14 @@ function getFarmShareCode(cookie) {
     });
 }
 exports.getFarmShareCode = getFarmShareCode;
-function requireConfig(check) {
+function getCookie(check) {
     if (check === void 0) { check = false; }
     return __awaiter(this, void 0, void 0, function () {
-        var cookiesArr, jdCookieNode, keys, i, cookie, username;
+        var pwd, cookiesArr, jdCookieNode, keys, i, cookie, username;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    pwd = __dirname;
                     cookiesArr = [];
                     jdCookieNode = require('./jdCookie.js');
                     keys = Object.keys(jdCookieNode);
@@ -165,7 +157,11 @@ function requireConfig(check) {
                     if (!(i < keys.length)) return [3 /*break*/, 7];
                     cookie = jdCookieNode[keys[i]];
                     if (!!check) return [3 /*break*/, 2];
-                    cookiesArr.push(cookie);
+                    if (pwd.includes('/ql') && !pwd.includes('JDHelloWorld')) {
+                    }
+                    else {
+                        cookiesArr.push(cookie);
+                    }
                     return [3 /*break*/, 6];
                 case 2: return [4 /*yield*/, checkCookie(cookie)];
                 case 3:
@@ -189,7 +185,7 @@ function requireConfig(check) {
         });
     });
 }
-exports.requireConfig = requireConfig;
+exports.getCookie = getCookie;
 function checkCookie(cookie) {
     return __awaiter(this, void 0, void 0, function () {
         var data, e_1;
@@ -227,68 +223,6 @@ function wait(timeout) {
     });
 }
 exports.wait = wait;
-function requestAlgo(appId) {
-    if (appId === void 0) { appId = 10032; }
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            fingerprint = generateFp();
-            return [2 /*return*/, new Promise(function (resolve) { return __awaiter(_this, void 0, void 0, function () {
-                    var data, enCryptMethodJDString;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0: return [4 /*yield*/, axios_1["default"].post('https://cactus.jd.com/request_algo?g_ty=ajax', {
-                                    "version": "1.0",
-                                    "fp": fingerprint,
-                                    "appId": appId,
-                                    "timestamp": Date.now(),
-                                    "platform": "web",
-                                    "expandParams": ""
-                                }, {
-                                    "headers": {
-                                        'Authority': 'cactus.jd.com',
-                                        'Pragma': 'no-cache',
-                                        'Cache-Control': 'no-cache',
-                                        'Accept': 'application/json',
-                                        'User-Agent': USER_AGENT,
-                                        'Content-Type': 'application/json',
-                                        'Origin': 'https://st.jingxi.com',
-                                        'Sec-Fetch-Site': 'cross-site',
-                                        'Sec-Fetch-Mode': 'cors',
-                                        'Sec-Fetch-Dest': 'empty',
-                                        'Referer': 'https://st.jingxi.com/',
-                                        'Accept-Language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en;q=0.7'
-                                    }
-                                })];
-                            case 1:
-                                data = (_a.sent()).data;
-                                if (data['status'] === 200) {
-                                    token = data.data.result.tk;
-                                    enCryptMethodJDString = data.data.result.algo;
-                                    if (enCryptMethodJDString)
-                                        enCryptMethodJD = new Function("return ".concat(enCryptMethodJDString))();
-                                }
-                                else {
-                                    console.log("fp: ".concat(fingerprint));
-                                    console.log('request_algo 签名参数API请求失败:');
-                                }
-                                resolve();
-                                return [2 /*return*/];
-                        }
-                    });
-                }); })];
-        });
-    });
-}
-exports.requestAlgo = requestAlgo;
-function generateFp() {
-    var e = "0123456789";
-    var a = 13;
-    var i = '';
-    for (; a--;)
-        i += e[Math.random() * e.length | 0];
-    return (i + Date.now()).slice(0, 16);
-}
 function getJxToken(cookie, phoneId) {
     if (phoneId === void 0) { phoneId = ''; }
     function generateStr(input) {
@@ -433,7 +367,8 @@ function getShareCodePool(key, num) {
     });
 }
 exports.getShareCodePool = getShareCodePool;
-/*async function wechat_app_msg(title: string, content: string, user: string) {
+/*
+async function wechat_app_msg(title: string, content: string, user: string) {
   let corpid: string = "", corpsecret: string = ""
   let {data: gettoken} = await axios.get(`https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${corpid}&corpsecret=${corpsecret}`)
   let access_token: string = gettoken.access_token
@@ -452,11 +387,8 @@ exports.getShareCodePool = getShareCodePool;
   } else {
     console.log('企业微信应用消息发送失败', send)
   }
-}*/
-function obj2str(obj) {
-    return JSON.stringify(obj);
 }
-exports.obj2str = obj2str;
+*/
 function getDevice() {
     return __awaiter(this, void 0, void 0, function () {
         var data;

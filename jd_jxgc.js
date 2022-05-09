@@ -54,7 +54,7 @@ var cookie = '', res = '', UserName;
             case 0: return [4 /*yield*/, (0, V3_1.requestAlgo)('c0ff1')];
             case 1:
                 _e.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 2:
                 cookiesArr = _e.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));

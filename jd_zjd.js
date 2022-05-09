@@ -60,7 +60,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
     var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCode_1, code, e_2;
     return __generator(this, function (_g) {
         switch (_g.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _g.sent();
                 _i = 0, _a = cookiesArr.entries();

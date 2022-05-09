@@ -48,7 +48,7 @@ var cookie = '', UserName, res = '';
     var cookiesArr, except, _i, _a, _b, index, value;
     return __generator(this, function (_c) {
         switch (_c.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _c.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));

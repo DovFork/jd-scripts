@@ -38,43 +38,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var notify = require('./sendNotify');
 var cookie = '', cookiesArr = [], res;
 var token2 = '', buyerNick = '', UserName;
 var index, remain = 0;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var i, _a, isLogin, nickName, i_1, tasks, _i, _b, t, i_2, shopList, _c, _d, s, i_3;
-    return __generator(this, function (_e) {
-        switch (_e.label) {
+    var i, i_1, tasks, _i, _a, t, i_2, shopList, _b, _c, s, i_3;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0: return [4 /*yield*/, requireConfig()];
             case 1:
-                _e.sent();
+                _d.sent();
                 i = 0;
-                _e.label = 2;
+                _d.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 34];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 33];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.TotalBean)(cookie)];
-            case 3:
-                _a = _e.sent(), isLogin = _a.isLogin, nickName = _a.nickName;
-                if (!isLogin) {
-                    notify.sendNotify(__filename.split('/').pop(), "cookie\u5DF2\u5931\u6548\n\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\uFF1A").concat(nickName || UserName));
-                    return [3 /*break*/, 33];
-                }
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(nickName || UserName, "\n"));
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, getIsvToken2()];
-            case 4:
-                _e.sent();
+            case 3:
+                _d.sent();
                 return [4 /*yield*/, api('setMixNick')];
-            case 5:
-                res = _e.sent();
+            case 4:
+                res = _d.sent();
                 buyerNick = res.data.data.msg;
                 console.log('buyerNick:', buyerNick);
                 return [4 /*yield*/, api('UserInfo')];
-            case 6:
-                res = _e.sent();
+            case 5:
+                res = _d.sent();
                 console.log('total:', res.data.data.totalChance, 'remain:', res.data.data.remainChance);
                 remain = res.data.data.remainChance;
                 // 换豆
@@ -82,42 +74,42 @@ var index, remain = 0;
                     console.log('乞丐版暂无换豆功能！');
                 }
                 return [4 /*yield*/, api('SendCoinNum')];
-            case 7:
+            case 6:
                 // 333 * 3
-                res = _e.sent();
-                if (!(res.data.data.missionTypes.hasGotNum !== res.data.data.missionTypes.dayTop)) return [3 /*break*/, 12];
+                res = _d.sent();
+                if (!(res.data.data.missionTypes.hasGotNum !== res.data.data.missionTypes.dayTop)) return [3 /*break*/, 11];
                 i_1 = 0;
-                _e.label = 8;
-            case 8:
-                if (!(i_1 < 3)) return [3 /*break*/, 12];
+                _d.label = 7;
+            case 7:
+                if (!(i_1 < 3)) return [3 /*break*/, 11];
                 return [4 /*yield*/, mission('treeCoin', i_1, 'treeCoin')];
-            case 9:
-                res = _e.sent();
+            case 8:
+                res = _d.sent();
                 console.log(res);
                 return [4 /*yield*/, wait(5000)];
+            case 9:
+                _d.sent();
+                _d.label = 10;
             case 10:
-                _e.sent();
-                _e.label = 11;
-            case 11:
                 i_1++;
-                return [3 /*break*/, 8];
-            case 12: return [4 /*yield*/, api('DailyTask')];
+                return [3 /*break*/, 7];
+            case 11: return [4 /*yield*/, api('DailyTask')];
+            case 12:
+                tasks = _d.sent();
+                _i = 0, _a = tasks.data.data;
+                _d.label = 13;
             case 13:
-                tasks = _e.sent();
-                _i = 0, _b = tasks.data.data;
-                _e.label = 14;
-            case 14:
-                if (!(_i < _b.length)) return [3 /*break*/, 33];
-                t = _b[_i];
-                if (!(t.dayTop !== t.hasGotNum)) return [3 /*break*/, 31];
-                if (!(t.type === 'viewBanner')) return [3 /*break*/, 19];
+                if (!(_i < _a.length)) return [3 /*break*/, 32];
+                t = _a[_i];
+                if (!(t.dayTop !== t.hasGotNum)) return [3 /*break*/, 30];
+                if (!(t.type === 'viewBanner')) return [3 /*break*/, 18];
                 i_2 = 1;
-                _e.label = 15;
-            case 15:
-                if (!(i_2 < 4)) return [3 /*break*/, 19];
+                _d.label = 14;
+            case 14:
+                if (!(i_2 < 4)) return [3 /*break*/, 18];
                 return [4 /*yield*/, mission('', i_2, t.type)];
-            case 16:
-                res = _e.sent();
+            case 15:
+                res = _d.sent();
                 if (res.errorCode === 200 || res.errorCode === '200') {
                     console.log('任务完成，获得：', res.data.data.sendNum);
                 }
@@ -125,49 +117,49 @@ var index, remain = 0;
                     console.log('任务失败：', res);
                 }
                 return [4 /*yield*/, wait(5000)];
+            case 16:
+                _d.sent();
+                _d.label = 17;
             case 17:
-                _e.sent();
-                _e.label = 18;
-            case 18:
                 i_2++;
-                return [3 /*break*/, 15];
-            case 19:
-                if (!(t.type === 'viewShop')) return [3 /*break*/, 25];
+                return [3 /*break*/, 14];
+            case 18:
+                if (!(t.type === 'viewShop')) return [3 /*break*/, 24];
                 console.log(t.missionName);
                 return [4 /*yield*/, api('ShopList')];
+            case 19:
+                shopList = _d.sent();
+                _b = 0, _c = shopList.data.data;
+                _d.label = 20;
             case 20:
-                shopList = _e.sent();
-                _c = 0, _d = shopList.data.data;
-                _e.label = 21;
-            case 21:
-                if (!(_c < _d.length)) return [3 /*break*/, 25];
-                s = _d[_c];
+                if (!(_b < _c.length)) return [3 /*break*/, 24];
+                s = _c[_b];
                 console.log(s.id, s.shopTitle);
                 return [4 /*yield*/, mission('', s.id, t.type)];
+            case 21:
+                res = _d.sent();
+                if (res.errorCode === 200 || res.errorCode === '200') {
+                    console.log('任务完成，获得：', res.data.data.sendNum);
+                }
+                else {
+                    console.log('任务失败：', res);
+                }
+                return [4 /*yield*/, wait(5000)];
             case 22:
-                res = _e.sent();
-                if (res.errorCode === 200 || res.errorCode === '200') {
-                    console.log('任务完成，获得：', res.data.data.sendNum);
-                }
-                else {
-                    console.log('任务失败：', res);
-                }
-                return [4 /*yield*/, wait(5000)];
+                _d.sent();
+                _d.label = 23;
             case 23:
-                _e.sent();
-                _e.label = 24;
+                _b++;
+                return [3 /*break*/, 20];
             case 24:
-                _c++;
-                return [3 /*break*/, 21];
-            case 25:
-                if (!(t.type === 'viewGoods')) return [3 /*break*/, 30];
+                if (!(t.type === 'viewGoods')) return [3 /*break*/, 29];
                 i_3 = 1;
-                _e.label = 26;
-            case 26:
-                if (!(i_3 < 5)) return [3 /*break*/, 30];
+                _d.label = 25;
+            case 25:
+                if (!(i_3 < 5)) return [3 /*break*/, 29];
                 return [4 /*yield*/, mission('', i_3, t.type)];
-            case 27:
-                res = _e.sent();
+            case 26:
+                res = _d.sent();
                 if (res.errorCode === 200 || res.errorCode === '200') {
                     console.log('任务完成，获得：', res.data.data.sendNum);
                 }
@@ -175,23 +167,23 @@ var index, remain = 0;
                     console.log('任务失败：', res);
                 }
                 return [4 /*yield*/, wait(5000)];
+            case 27:
+                _d.sent();
+                _d.label = 28;
             case 28:
-                _e.sent();
-                _e.label = 29;
-            case 29:
                 i_3++;
-                return [3 /*break*/, 26];
-            case 30: return [3 /*break*/, 32];
-            case 31:
+                return [3 /*break*/, 25];
+            case 29: return [3 /*break*/, 31];
+            case 30:
                 console.log("".concat(t.missionName, "--\u5DF2\u5168\u90E8\u5B8C\u6210"));
-                _e.label = 32;
-            case 32:
+                _d.label = 31;
+            case 31:
                 _i++;
-                return [3 /*break*/, 14];
-            case 33:
+                return [3 /*break*/, 13];
+            case 32:
                 i++;
                 return [3 /*break*/, 2];
-            case 34: return [2 /*return*/];
+            case 33: return [2 /*return*/];
         }
     });
 }); })();

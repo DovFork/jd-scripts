@@ -59,7 +59,7 @@ var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '
                 else {
                     console.log('./test/mf_log not found');
                 }
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _q.sent();
                 i = 0;

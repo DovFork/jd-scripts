@@ -48,7 +48,7 @@ var cookie = '', res = '', UserName, msg = '', h5stTool = new h5st_1.H5ST("9a38a
     var cookiesArr, _i, _a, _b, index, value, timestamp, h5st;
     return __generator(this, function (_c) {
         switch (_c.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _c.sent();
                 _i = 0, _a = cookiesArr.entries();

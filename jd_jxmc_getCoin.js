@@ -65,7 +65,7 @@ var _a = require('./utils/jd_jxmc.js'), cow = _a.cow, token = _a.token, ua = 'jd
                 return [4 /*yield*/, (0, V3_1.requestAlgo)('00df8', 'jdpingou;')];
             case 1:
                 _c.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 2:
                 cookiesArr = _c.sent();
                 except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));

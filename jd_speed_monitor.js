@@ -45,7 +45,7 @@ var cookie = '', UserName;
     var cookiesArr, t, fn, body, params, key, data, _i, _a, t_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _b.sent();
                 cookie = cookiesArr[Math.random() * cookiesArr.length | 0];

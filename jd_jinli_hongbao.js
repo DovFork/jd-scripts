@@ -65,7 +65,7 @@ var min = [0.02, 0.03, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
         switch (_a.label) {
             case 0:
                 dotenv.config();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)(false)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 1);
@@ -75,7 +75,7 @@ var min = [0.02, 0.03, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
                 return [4 /*yield*/, help()];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)(false)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 4:
                 cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 9);

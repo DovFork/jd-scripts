@@ -44,13 +44,13 @@ var pin = '', uuid = '', shopId = '', tokenKey = '', token = '';
     var cookiesArr, i, foodLeft, j;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _a.sent();
                 i = 0;
                 _a.label = 2;
             case 2:
-                if (!(i < cookiesArr.length)) return [3 /*break*/, 16];
+                if (!(i < cookiesArr.length)) return [3 /*break*/, 15];
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -99,58 +99,10 @@ var pin = '', uuid = '', shopId = '', tokenKey = '', token = '';
             case 13:
                 j++;
                 return [3 /*break*/, 9];
-            case 14: 
-            /*
-            for (let t of res.data.task) {
-              if (t.type === 0 && t.maxNeed === 10000000) {
-                // 首页任务
-                console.log(t.type, t.taskname)
-                res = await api('doTask', `taskId=${t.taskid}&activityId=90121061401&pin=${encodeURIComponent(pin)}`)
-                if (res.result) {
-                  console.log(`${t.taskname}成功:${res.data.growUp}`)
-                } else {
-                  console.log(res.errorMessage)
-                }
-                await wait(5000)
-              }
-        
-              if (t.curNum != t.need && t.type === 1) {
-                console.log(t.taskname)
-                if (t.taskid === 'signin') {
-                  let signRes: any = await api("signin", `taskId=signin&param=&activityId=90121061401&pin=${encodeURIComponent(pin)}`)
-                  console.log('签到:', signRes)
-                }
-                if (t.taskid === 'scanvideo') {
-                  let r: any = await api('doTask', `taskId=${t.taskid}&activityId=90121061401&pin=${encodeURIComponent(pin)}`)
-                  await wait(1000)
-                }
-                if (t.taskid === 'scansku' || t.taskid === 'add2cart') {
-                  let products: any = await api('getproduct', `type=${t.params}&activityId=90121061401&pin=${encodeURIComponent(pin)}`)
-                  await wait(1000)
-                  await api("doTask", `taskId=${t.taskid}&param=${products.data[0].id}&activityId=90121061401&pin=${encodeURIComponent(pin)}`)
-                  for (let p of products.data) {
-                    console.log(p.id)
-                  }
-                }
-                if (t.taskid === 'interact') {
-                  for (let i = 0; i < t.maxNeed - t.curNum; i++) {
-                    let playRes: any = await api('doTask', `taskId=${t.taskid}&activityId=90121061401&pin=${encodeURIComponent(pin)}`)
-                    if (playRes.result) {
-                      console.log('互动成功:', playRes.data.growUp)
-                    } else {
-                      console.log(res.errorMessage)
-                    }
-                    await wait(5000)
-                  }
-                }
-              }
-            }
-             */
-            return [3 /*break*/, 16];
-            case 15:
+            case 14:
                 i++;
                 return [3 /*break*/, 2];
-            case 16: return [2 /*return*/];
+            case 15: return [2 /*return*/];
         }
     });
 }); })();

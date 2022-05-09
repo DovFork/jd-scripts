@@ -74,7 +74,7 @@ var shareCode = [], shareCodeSelf = [], shareCodeHW = [], isCollector = false, t
                 return [4 /*yield*/, (0, V3_1.requestAlgo)('92a36', 'jdpingou;')];
             case 1:
                 _7.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 2:
                 cookiesArr = _7.sent();
                 i = 0;

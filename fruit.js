@@ -55,7 +55,7 @@ var message = '', h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"
     var cookiesArr, _i, _a, _b, index, value, totalEnergy, _c, _d, fr, friendList, i, _e, friendList_1, fr, _f, _g, t, _h, _j, t, _k, _l, t, _m, shareCodeSelf_1, code, i, _o, shareCodeSelf_2, code, farmAssistInit_waterEnergy, _p, _q, t, e_1;
     return __generator(this, function (_r) {
         switch (_r.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _r.sent();
                 _i = 0, _a = cookiesArr.entries();

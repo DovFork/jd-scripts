@@ -63,7 +63,7 @@ var message = '', log = { help: '', runTimes: '' }, h5stTool = new h5st_1.H5ST("
     var cookiesArr, _i, _a, _b, index, value, i, today, e_1, e_2, farmAssistInit_waterEnergy, _c, _d, t;
     return __generator(this, function (_e) {
         switch (_e.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.requireConfig)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _e.sent();
                 _i = 0, _a = cookiesArr.entries();
@@ -104,7 +104,7 @@ var message = '', log = { help: '', runTimes: '' }, h5stTool = new h5st_1.H5ST("
             case 8:
                 _e.trys.push([8, 10, , 12]);
                 today = (0, date_fns_1.getDate)(new Date());
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTimes0407?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode, "&today=").concat(today))];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTimes0509?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode, "&today=").concat(today))];
             case 9:
                 res = _e.sent();
                 console.log(res);

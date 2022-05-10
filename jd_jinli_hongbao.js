@@ -52,14 +52,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var sendNotify_1 = require("./sendNotify");
 var dotenv = require("dotenv");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '';
 var cookie, cookiesArr = [], res, UserName;
-var ua = "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1";
-var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
-var min = [0.02, 0.03, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
+var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [], log;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -89,9 +86,6 @@ var min = [0.02, 0.03, 0.12, 0.3, 0.4, 0.6, 0.7, 0.8, 1, 1.2, 2, 3.6], log;
                 _a.sent();
                 return [4 /*yield*/, help()];
             case 8:
-                _a.sent();
-                return [4 /*yield*/, open(0)];
-            case 9:
                 _a.sent();
                 return [2 /*return*/];
         }
@@ -135,7 +129,7 @@ function join() {
                 case 7:
                     e_1 = _c.sent();
                     console.log('join error', res.rtn_code);
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
                 case 8:
                     _c.sent();
                     return [3 /*break*/, 9];
@@ -147,7 +141,7 @@ function join() {
                     e_2 = _c.sent();
                     console.log(e_2);
                     return [3 /*break*/, 12];
-                case 12: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                case 12: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
                 case 13:
                     _c.sent();
                     _c.label = 14;
@@ -209,94 +203,9 @@ function getShareCodeSelf(one) {
         });
     });
 }
-function open(autoOpen) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, j, _c, _d, t, _e, _f, t, e_4;
-        return __generator(this, function (_g) {
-            switch (_g.label) {
-                case 0:
-                    _i = 0, _a = cookiesArr.entries();
-                    _g.label = 1;
-                case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 19];
-                    _b = _a[_i], index = _b[0], value = _b[1];
-                    _g.label = 2;
-                case 2:
-                    _g.trys.push([2, 15, , 16]);
-                    cookie = value;
-                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                    j = 1;
-                    return [4 /*yield*/, api('h5activityIndex', { "isjdapp": 1 })];
-                case 3:
-                    res = _g.sent();
-                    for (_c = 0, _d = res.data.result.redpacketConfigFillRewardInfo; _c < _d.length; _c++) {
-                        t = _d[_c];
-                        if (t.packetStatus === 1) {
-                            console.log("".concat(j, " \u53EF\u62C6"));
-                        }
-                        else if (t.packetStatus === 2) {
-                            console.log("".concat(j, " \u5DF2\u62C6"));
-                        }
-                        j++;
-                    }
-                    console.log('');
-                    j = 1;
-                    _e = 0, _f = res.data.result.redpacketConfigFillRewardInfo;
-                    _g.label = 4;
-                case 4:
-                    if (!(_e < _f.length)) return [3 /*break*/, 14];
-                    t = _f[_e];
-                    if (!(t.packetStatus === 1)) return [3 /*break*/, 11];
-                    if (!autoOpen) return [3 /*break*/, 10];
-                    return [4 /*yield*/, getLog()];
-                case 5:
-                    log = _g.sent();
-                    return [4 /*yield*/, api('h5receiveRedpacketAll', { random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
-                case 6:
-                    res = _g.sent();
-                    console.log('打开成功', parseFloat(res.data.result.discount));
-                    if (!!min.includes(parseFloat(res.data.result.discount))) return [3 /*break*/, 8];
-                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('锦鲤红包', "\u8D26\u53F7".concat(index + 1, " ").concat(UserName, "\n").concat(t.packetAmount))];
-                case 7:
-                    _g.sent();
-                    _g.label = 8;
-                case 8: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
-                case 9:
-                    _g.sent();
-                    _g.label = 10;
-                case 10: return [3 /*break*/, 12];
-                case 11:
-                    if (![1, 2].includes(t.packetStatus)) {
-                        console.log("".concat(j), t.hasAssistNum, '/', t.requireAssistNum);
-                    }
-                    _g.label = 12;
-                case 12:
-                    j++;
-                    _g.label = 13;
-                case 13:
-                    _e++;
-                    return [3 /*break*/, 4];
-                case 14: return [3 /*break*/, 16];
-                case 15:
-                    e_4 = _g.sent();
-                    console.log(e_4);
-                    return [3 /*break*/, 16];
-                case 16: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-                case 17:
-                    _g.sent();
-                    _g.label = 18;
-                case 18:
-                    _i++;
-                    return [3 /*break*/, 1];
-                case 19: return [2 /*return*/];
-            }
-        });
-    });
-}
 function help() {
     return __awaiter(this, void 0, void 0, function () {
-        var _i, _a, _b, index, value, me, remain, _c, shareCodes_1, code, success, i, e_5;
+        var _i, _a, _b, index, value, me, remain, _c, shareCodes_1, code, success, i, e_4;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
@@ -387,10 +296,10 @@ function help() {
                     return [3 /*break*/, 6];
                 case 19: return [3 /*break*/, 21];
                 case 20:
-                    e_5 = _d.sent();
-                    console.log(e_5);
+                    e_4 = _d.sent();
+                    console.log(e_4);
                     return [3 /*break*/, 21];
-                case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(6000)];
+                case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
                 case 22:
                     _d.sent();
                     _d.label = 23;
@@ -411,8 +320,10 @@ function api(fn, body) {
                         "referer": "https://h5.m.jd.com/babelDiy/Zeus/2NUvze9e1uWf4amBhe1AV6ynmSuH/index.html",
                         'Content-Type': 'application/x-www-form-urlencoded',
                         "X-Requested-With": "com.jingdong.app.mall",
-                        "User-Agent": ua,
-                        "Cookie": cookie
+                        "User-Agent": [
+                            "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1",
+                            "MQQBrowser/26 Mozilla/5.0 (Linux; U; Android 2.3.7; zh-cn; MB200 Build/GRJ22; CyanogenMod-7) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+                        ][Math.floor(Math.random() * 2)], "Cookie": cookie
                     })];
                 case 1: return [2 /*return*/, _a.sent()];
             }
@@ -421,13 +332,12 @@ function api(fn, body) {
 }
 function getLog() {
     return __awaiter(this, void 0, void 0, function () {
-        var pwd, github, data, data, i, e_6;
+        var data, data, i, e_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     if (!(!rabbitToken && !tg_id)) return [3 /*break*/, 2];
-                    pwd = '/', github = '';
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?pwd=".concat(pwd, "&github=").concat(github))];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?pwd=".concat(__dirname, "&t=").concat(Date.now()))];
                 case 1:
                     data = _a.sent();
                     if (data !== 1 && data !== '1') {
@@ -453,7 +363,7 @@ function getLog() {
                     data = _a.sent();
                     return [3 /*break*/, 8];
                 case 6:
-                    e_6 = _a.sent();
+                    e_5 = _a.sent();
                     console.log('rabbit log api error');
                     return [3 /*break*/, 7];
                 case 7:

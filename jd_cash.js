@@ -7,6 +7,21 @@
  * export PANDA_TOKEN=""
  * 本地sign算法 import {getSign} from './test/sign'
  */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -44,164 +59,128 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+var JDHelloWorld_1 = require("./JDHelloWorld");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var fs_1 = require("fs");
-var cookie = '', res = '', data, UserName, PANDA_TOKEN = undefined, getSign = undefined;
-if ((0, fs_1.existsSync)('./test/sign.ts')) {
-    getSign = require('./test/sign').getSign;
-    console.log('使用本地sign');
-}
-else {
-    console.log('未找到本地sign');
-    PANDA_TOKEN = process.env.PANDA_TOKEN;
-    if (PANDA_TOKEN) {
-        console.log('使用panda api');
-        getSign = function (fn, body) { return __awaiter(void 0, void 0, void 0, function () {
-            var data;
+var sign_1 = require("./test/sign");
+var CASH = /** @class */ (function (_super) {
+    __extends(CASH, _super);
+    function CASH() {
+        return _super.call(this) || this;
+    }
+    CASH.prototype.init = function () {
+        return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.jds.codes/jd/sign', { 'fn': fn, 'body': body }, {
-                            'Authorization': "Bearer ".concat(PANDA_TOKEN)
-                        })];
+                    case 0: return [4 /*yield*/, this.run(new CASH)];
                     case 1:
-                        data = (_a.sent()).data;
-                        return [2 /*return*/, data.sign];
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
-        }); };
-    }
-    else {
-        console.log('未设置PANDA_TOKEN\n脚本退出');
-        process.exit(0);
-    }
-}
-!(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _loop_1, _i, _a, _b, index, value;
-    var _c, _d, _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
-            case 1:
-                cookiesArr = _f.sent();
-                _loop_1 = function (index, value) {
-                    var type, otherTaskNum, taskNum, i, _g, _h, t;
-                    return __generator(this, function (_j) {
-                        switch (_j.label) {
-                            case 0:
-                                cookie = value;
-                                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                                return [4 /*yield*/, api('cash_homePage', {})];
-                            case 1:
-                                res = _j.sent();
-                                if (!(res.data.result.signedStatus !== 1)) return [3 /*break*/, 4];
-                                console.log('今日未签到');
-                                return [4 /*yield*/, api('cash_sign', { "remind": 0, "inviteCode": "", "type": 0, "breakReward": 0 })];
-                            case 2:
-                                data = _j.sent();
-                                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                            case 3:
-                                _j.sent();
-                                console.log('签到成功');
-                                _j.label = 4;
-                            case 4: return [4 /*yield*/, api('cash_homePage', {})];
-                            case 5:
-                                res = _j.sent();
-                                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-                            case 6:
-                                _j.sent();
-                                type = [2, 4, 31, 16, 3, 5, 17, 21];
-                                otherTaskNum = res.data.result.taskInfos.filter(function (item) { return !type.includes(item.type); }).length;
-                                taskNum = res.data.result.taskInfos.filter(function (item) { return type.includes(item.type); }).length;
-                                console.log(taskNum, otherTaskNum);
-                                i = 0;
-                                _j.label = 7;
-                            case 7:
-                                if (!(i < 10)) return [3 /*break*/, 16];
-                                return [4 /*yield*/, api('cash_homePage', {})];
-                            case 8:
-                                res = _j.sent();
-                                if (res.data.result.taskInfos.filter(function (item) { return type.includes(item.type) && item.doTimes === item.times; }).length === taskNum) {
-                                    console.log('任务全部完成');
-                                    return [3 /*break*/, 16];
-                                }
-                                _g = 0, _h = ((_d = (_c = res === null || res === void 0 ? void 0 : res.data) === null || _c === void 0 ? void 0 : _c.result) === null || _d === void 0 ? void 0 : _d.taskInfos) || [];
-                                _j.label = 9;
-                            case 9:
-                                if (!(_g < _h.length)) return [3 /*break*/, 13];
-                                t = _h[_g];
-                                if (!(t.doTimes < t.times && t.type !== 7)) return [3 /*break*/, 12];
-                                console.log(t.name);
-                                return [4 /*yield*/, api('cash_doTask', { "type": t.type, "taskInfo": t.desc })];
-                            case 10:
-                                data = _j.sent();
-                                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.duration * 1000 || 1000)];
-                            case 11:
-                                _j.sent();
-                                if (data.data.bizCode === 0) {
-                                    console.log('任务完成', (_e = data.data.result.totalMoney) !== null && _e !== void 0 ? _e : '');
-                                    return [3 /*break*/, 13];
-                                }
-                                else {
-                                    console.log('任务失败', JSON.stringify(data));
-                                    return [3 /*break*/, 13];
-                                }
-                                _j.label = 12;
-                            case 12:
-                                _g++;
-                                return [3 /*break*/, 9];
-                            case 13: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-                            case 14:
-                                _j.sent();
-                                _j.label = 15;
-                            case 15:
-                                i++;
-                                return [3 /*break*/, 7];
-                            case 16: return [2 /*return*/];
-                        }
-                    });
-                };
-                _i = 0, _a = cookiesArr.entries();
-                _f.label = 2;
-            case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 5];
-                _b = _a[_i], index = _b[0], value = _b[1];
-                return [5 /*yield**/, _loop_1(index, value)];
-            case 3:
-                _f.sent();
-                _f.label = 4;
-            case 4:
-                _i++;
-                return [3 /*break*/, 2];
-            case 5: return [2 /*return*/];
-        }
-    });
-}); })();
-function api(fn, body) {
-    return __awaiter(this, void 0, void 0, function () {
-        var sign, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    if (!PANDA_TOKEN) return [3 /*break*/, 2];
-                    return [4 /*yield*/, getSign(fn, body)];
-                case 1:
-                    _a = _b.sent();
-                    return [3 /*break*/, 3];
-                case 2:
-                    _a = getSign(fn, body);
-                    _b.label = 3;
-                case 3:
-                    sign = _a;
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)("https://api.m.jd.com/client.action?functionId=".concat(fn), sign, {
-                            'Host': 'api.m.jd.com',
-                            'Cookie': cookie,
-                            'content-type': 'application/x-www-form-urlencoded',
-                            'user-agent': TS_USER_AGENTS_1["default"],
-                            'referer': ''
-                        })];
-                case 4: return [2 /*return*/, _b.sent()];
-            }
         });
-    });
-}
+    };
+    CASH.prototype.api = function (fn, body) {
+        return __awaiter(this, void 0, void 0, function () {
+            var sign;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        sign = (0, sign_1.getSign)(fn, body);
+                        return [4 /*yield*/, this.post("https://api.m.jd.com/client.action?functionId=".concat(fn), sign, {
+                                'Host': 'api.m.jd.com',
+                                'Cookie': this.cookie,
+                                'content-type': 'application/x-www-form-urlencoded',
+                                'user-agent': TS_USER_AGENTS_1["default"],
+                                'referer': ''
+                            })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    CASH.prototype.main = function (cookie) {
+        var _a, _b, _c;
+        return __awaiter(this, void 0, void 0, function () {
+            var res, type, data, otherTaskNum, taskNum, i, _i, _d, t;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        this.cookie = cookie;
+                        return [4 /*yield*/, this.wait(5000)];
+                    case 1:
+                        _e.sent();
+                        return [4 /*yield*/, this.api('cash_homePage', {})];
+                    case 2:
+                        res = _e.sent();
+                        if (!(res.data.result.signedStatus !== 1)) return [3 /*break*/, 5];
+                        console.log('今日未签到');
+                        return [4 /*yield*/, this.api('cash_sign', { "remind": 0, "inviteCode": "", "type": 0, "breakReward": 0 })];
+                    case 3:
+                        _e.sent();
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 4:
+                        _e.sent();
+                        console.log('签到成功');
+                        return [3 /*break*/, 6];
+                    case 5:
+                        console.log('今日已签到');
+                        _e.label = 6;
+                    case 6: return [4 /*yield*/, this.api('cash_homePage', {})];
+                    case 7:
+                        res = _e.sent();
+                        type = [2, 4, 31, 16, 3, 5, 17, 21];
+                        otherTaskNum = res.data.result.taskInfos.filter(function (item) { return !type.includes(item.type); }).length;
+                        taskNum = res.data.result.taskInfos.filter(function (item) { return type.includes(item.type); }).length;
+                        console.log(taskNum, otherTaskNum);
+                        i = 0;
+                        _e.label = 8;
+                    case 8:
+                        if (!(i < 10)) return [3 /*break*/, 17];
+                        return [4 /*yield*/, this.api('cash_homePage', {})];
+                    case 9:
+                        res = _e.sent();
+                        (0, TS_USER_AGENTS_1.o2s)(res);
+                        if (res.data.result.taskInfos.filter(function (item) { return type.includes(item.type) && item.doTimes === item.times; }).length === taskNum) {
+                            console.log('任务全部完成');
+                            return [3 /*break*/, 17];
+                        }
+                        _i = 0, _d = ((_b = (_a = res === null || res === void 0 ? void 0 : res.data) === null || _a === void 0 ? void 0 : _a.result) === null || _b === void 0 ? void 0 : _b.taskInfos) || [];
+                        _e.label = 10;
+                    case 10:
+                        if (!(_i < _d.length)) return [3 /*break*/, 14];
+                        t = _d[_i];
+                        if (!(t.doTimes < t.times && t.type !== 7)) return [3 /*break*/, 13];
+                        console.log(t.name);
+                        return [4 /*yield*/, this.api('cash_doTask', { "type": t.type, "taskInfo": t.desc })];
+                    case 11:
+                        data = _e.sent();
+                        return [4 /*yield*/, this.wait(t.duration * 1000 || 1000)];
+                    case 12:
+                        _e.sent();
+                        if (data.data.bizCode === 0) {
+                            console.log('任务完成', (_c = data.data.result.totalMoney) !== null && _c !== void 0 ? _c : '');
+                            return [3 /*break*/, 14];
+                        }
+                        else {
+                            console.log('任务失败', JSON.stringify(data));
+                            return [3 /*break*/, 14];
+                        }
+                        _e.label = 13;
+                    case 13:
+                        _i++;
+                        return [3 /*break*/, 10];
+                    case 14: return [4 /*yield*/, this.wait(2000)];
+                    case 15:
+                        _e.sent();
+                        _e.label = 16;
+                    case 16:
+                        i++;
+                        return [3 /*break*/, 8];
+                    case 17: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return CASH;
+}(JDHelloWorld_1.JDHelloWorld));
+new CASH().init().then()["catch"]();

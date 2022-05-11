@@ -1,9 +1,19 @@
 "use strict";
-/**
- * 健康社区
- * https://h5.m.jd.com/babelDiy/Zeus/D2CwCLVmaP3QonubWFJeTVhYRyT/index.html
- * cron: 35 0,6,18 * * *
- */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -41,129 +51,115 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var path = require("path");
-var cookie = '', res = '', UserName;
-!(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, except, _i, _a, _b, index, value, j, _c, _d, t, _e, _f, tp, e_1;
-    return __generator(this, function (_g) {
-        switch (_g.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
-            case 1:
-                cookiesArr = _g.sent();
-                except = (0, TS_USER_AGENTS_1.exceptCookie)(path.basename(__filename));
-                _i = 0, _a = cookiesArr.entries();
-                _g.label = 2;
-            case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 25];
-                _b = _a[_i], index = _b[0], value = _b[1];
-                cookie = value;
-                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                if (except.includes(encodeURIComponent(UserName))) {
-                    console.log('已设置跳过');
-                    return [3 /*break*/, 24];
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
+var TEST = /** @class */ (function (_super) {
+    __extends(TEST, _super);
+    function TEST() {
+        return _super.call(this) || this;
+    }
+    TEST.prototype.init = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.run(new TEST)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
-                j = 0;
-                _g.label = 3;
-            case 3:
-                if (!(j < 3)) return [3 /*break*/, 24];
-                return [4 /*yield*/, api('jdhealth_getTaskDetail', { "buildingId": "", "taskId": "", "channelId": 1 })];
-            case 4:
-                res = _g.sent();
-                _g.label = 5;
-            case 5:
-                _g.trys.push([5, 20, , 21]);
-                _c = 0, _d = res.data.result.taskVos;
-                _g.label = 6;
-            case 6:
-                if (!(_c < _d.length)) return [3 /*break*/, 19];
-                t = _d[_c];
-                if (!(t.status === 1 || t.status === 3)) return [3 /*break*/, 18];
-                console.log(t.taskName);
-                _e = 0, _f = t.productInfoVos || t.followShopVo || t.shoppingActivityVos || [];
-                _g.label = 7;
-            case 7:
-                if (!(_e < _f.length)) return [3 /*break*/, 18];
-                tp = _f[_e];
-                if (!(tp.status === 1)) return [3 /*break*/, 17];
-                console.log('\t', tp.skuName || tp.shopName || tp.title);
-                if (!(t.taskName.includes('早睡打卡') && t.taskBeginTime < Date.now() && t.taskEndTime > Date.now())) return [3 /*break*/, 10];
-                return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
-            case 8:
-                res = _g.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 9:
-                _g.sent();
-                console.log('\t', res.data.bizMsg);
-                _g.label = 10;
-            case 10:
-                if (!t.waitDuration) return [3 /*break*/, 13];
-                return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
-            case 11:
-                res = _g.sent();
-                console.log('\t', res.data.bizMsg);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.waitDuration * 1000)];
-            case 12:
-                _g.sent();
-                _g.label = 13;
-            case 13: return [4 /*yield*/, api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 0 })];
-            case 14:
-                res = _g.sent();
-                if (!res.data.bizMsg.includes('做完')) return [3 /*break*/, 15];
-                console.log(res.data.bizMsg);
-                return [3 /*break*/, 18];
-            case 15:
-                console.log(res.data.bizMsg, parseInt(res.data.result.score));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1500)];
-            case 16:
-                _g.sent();
-                _g.label = 17;
-            case 17:
-                _e++;
-                return [3 /*break*/, 7];
-            case 18:
-                _c++;
-                return [3 /*break*/, 6];
-            case 19: return [3 /*break*/, 21];
-            case 20:
-                e_1 = _g.sent();
-                console.log('Error', e_1);
-                return [3 /*break*/, 24];
-            case 21: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(3000)];
-            case 22:
-                _g.sent();
-                _g.label = 23;
-            case 23:
-                j++;
-                return [3 /*break*/, 3];
-            case 24:
-                _i++;
-                return [3 /*break*/, 2];
-            case 25: return [2 /*return*/];
-        }
-    });
-}); })();
-function api(fn, body) {
-    return __awaiter(this, void 0, void 0, function () {
-        var data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/', "functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&client=wh5&clientVersion=1.0.0&uuid="), {
-                        headers: {
+            });
+        });
+    };
+    TEST.prototype.api = function (fn, body) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.post('https://api.m.jd.com/', "functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&client=wh5&clientVersion=1.0.0&uuid="), {
                             'Host': 'api.m.jd.com',
                             'Origin': 'https://h5.m.jd.com',
-                            'User-Agent': TS_USER_AGENTS_1["default"],
+                            'User-Agent': this.user.UserAgent,
                             'Referer': 'https://h5.m.jd.com/',
                             'Content-Type': 'application/x-www-form-urlencoded',
-                            'Cookie': cookie
-                        }
-                    })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
-            }
+                            'Cookie': this.user.cookie
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    });
-}
+    };
+    TEST.prototype.main = function (user) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, _i, _a, t, _b, _c, tp, e_1;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        this.user = user;
+                        return [4 /*yield*/, this.api('jdhealth_getTaskDetail', { "buildingId": "", "taskId": "", "channelId": 1 })];
+                    case 1:
+                        res = _d.sent();
+                        _d.label = 2;
+                    case 2:
+                        _d.trys.push([2, 17, , 18]);
+                        _i = 0, _a = res.data.result.taskVos;
+                        _d.label = 3;
+                    case 3:
+                        if (!(_i < _a.length)) return [3 /*break*/, 16];
+                        t = _a[_i];
+                        if (!(t.status === 1 || t.status === 3)) return [3 /*break*/, 15];
+                        console.log(t.taskName);
+                        _b = 0, _c = t.productInfoVos || t.followShopVo || t.shoppingActivityVos || [];
+                        _d.label = 4;
+                    case 4:
+                        if (!(_b < _c.length)) return [3 /*break*/, 15];
+                        tp = _c[_b];
+                        if (!(tp.status === 1)) return [3 /*break*/, 14];
+                        console.log('\t', tp.skuName || tp.shopName || tp.title);
+                        if (!(t.taskName.includes('早睡打卡') && t.taskBeginTime < Date.now() && t.taskEndTime > Date.now())) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
+                    case 5:
+                        res = _d.sent();
+                        return [4 /*yield*/, this.wait(2000)];
+                    case 6:
+                        _d.sent();
+                        console.log('\t', res.data.bizMsg);
+                        _d.label = 7;
+                    case 7:
+                        if (!t.waitDuration) return [3 /*break*/, 10];
+                        return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
+                    case 8:
+                        res = _d.sent();
+                        console.log('\t', res.data.bizMsg);
+                        return [4 /*yield*/, this.wait(t.waitDuration * 1000)];
+                    case 9:
+                        _d.sent();
+                        _d.label = 10;
+                    case 10: return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 0 })];
+                    case 11:
+                        res = _d.sent();
+                        if (!res.data.bizMsg.includes('做完')) return [3 /*break*/, 12];
+                        console.log(res.data.bizMsg);
+                        return [3 /*break*/, 15];
+                    case 12:
+                        console.log(res.data.bizMsg, parseInt(res.data.result.score));
+                        return [4 /*yield*/, this.wait(1500)];
+                    case 13:
+                        _d.sent();
+                        _d.label = 14;
+                    case 14:
+                        _b++;
+                        return [3 /*break*/, 4];
+                    case 15:
+                        _i++;
+                        return [3 /*break*/, 3];
+                    case 16: return [3 /*break*/, 18];
+                    case 17:
+                        e_1 = _d.sent();
+                        console.log('Error', e_1);
+                        return [3 /*break*/, 18];
+                    case 18: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return TEST;
+}(TS_JDHelloWorld_1.JDHelloWorld));
+new TEST().init().then();

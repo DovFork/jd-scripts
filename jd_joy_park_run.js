@@ -59,7 +59,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var h5st_1 = require("./utils/h5st");
 var date_fns_1 = require("date-fns");
-var JDHelloWorld_1 = require("./JDHelloWorld");
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Joy_Park_Run = /** @class */ (function (_super) {
     __extends(Joy_Park_Run, _super);
     function Joy_Park_Run() {
@@ -365,5 +365,5 @@ var Joy_Park_Run = /** @class */ (function (_super) {
         });
     };
     return Joy_Park_Run;
-}(JDHelloWorld_1.JDHelloWorld));
+}(TS_JDHelloWorld_1.JDHelloWorld));
 new Joy_Park_Run().init().then();

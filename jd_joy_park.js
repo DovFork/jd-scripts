@@ -51,7 +51,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var JDHelloWorld_1 = require("./JDHelloWorld");
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Joy_Park = /** @class */ (function (_super) {
     __extends(Joy_Park, _super);
     function Joy_Park() {
@@ -126,5 +126,5 @@ var Joy_Park = /** @class */ (function (_super) {
         });
     };
     return Joy_Park;
-}(JDHelloWorld_1.JDHelloWorld));
+}(TS_JDHelloWorld_1.JDHelloWorld));
 new Joy_Park().init().then();

@@ -51,7 +51,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var JDHelloWorld_1 = require("./JDHelloWorld");
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Jd_queryRedpacket = /** @class */ (function (_super) {
     __extends(Jd_queryRedpacket, _super);
     function Jd_queryRedpacket() {
@@ -108,7 +108,7 @@ var Jd_queryRedpacket = /** @class */ (function (_super) {
         });
     };
     return Jd_queryRedpacket;
-}(JDHelloWorld_1.JDHelloWorld));
+}(TS_JDHelloWorld_1.JDHelloWorld));
 new Jd_queryRedpacket().init().then()["catch"]();
 function add(arg1, arg2) {
     var r1, r2, m;

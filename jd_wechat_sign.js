@@ -57,7 +57,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var h5st_1 = require("./utils/h5st");
-var JDHelloWorld_1 = require("./JDHelloWorld");
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Wechat_sign = /** @class */ (function (_super) {
     __extends(Wechat_sign, _super);
     function Wechat_sign() {
@@ -115,5 +115,5 @@ var Wechat_sign = /** @class */ (function (_super) {
         });
     };
     return Wechat_sign;
-}(JDHelloWorld_1.JDHelloWorld));
+}(TS_JDHelloWorld_1.JDHelloWorld));
 new Wechat_sign().init().then();

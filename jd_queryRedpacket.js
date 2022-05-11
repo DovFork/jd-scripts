@@ -51,8 +51,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var JDHelloWorld2_1 = require("./JDHelloWorld2");
+var JDHelloWorld_1 = require("./JDHelloWorld");
 var Jd_queryRedpacket = /** @class */ (function (_super) {
     __extends(Jd_queryRedpacket, _super);
     function Jd_queryRedpacket() {
@@ -62,7 +61,7 @@ var Jd_queryRedpacket = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new Jd_queryRedpacket)];
+                    case 0: return [4 /*yield*/, this.run(new Jd_queryRedpacket())];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -80,7 +79,7 @@ var Jd_queryRedpacket = /** @class */ (function (_super) {
                             'Host': 'm.jingxi.com',
                             'Referer': 'https://st.jingxi.com/my/redpacket.shtml',
                             "Cookie": user.cookie,
-                            'User-Agent': TS_USER_AGENTS_1["default"]
+                            'User-Agent': user.UserAgent
                         })];
                     case 1:
                         res = _c.sent();
@@ -109,7 +108,7 @@ var Jd_queryRedpacket = /** @class */ (function (_super) {
         });
     };
     return Jd_queryRedpacket;
-}(JDHelloWorld2_1.JDHelloWorld));
+}(JDHelloWorld_1.JDHelloWorld));
 new Jd_queryRedpacket().init().then()["catch"]();
 function add(arg1, arg2) {
     var r1, r2, m;

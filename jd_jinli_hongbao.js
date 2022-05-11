@@ -337,7 +337,7 @@ function getLog() {
             switch (_a.label) {
                 case 0:
                     if (!(!rabbitToken && !tg_id)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?pwd=".concat(__dirname, "&t=").concat(Date.now()))];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb")];
                 case 1:
                     data = _a.sent();
                     if (data !== 1 && data !== '1') {

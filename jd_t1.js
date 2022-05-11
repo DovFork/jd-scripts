@@ -52,16 +52,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var JDHelloWorld_1 = require("./JDHelloWorld");
-var TASK = /** @class */ (function (_super) {
-    __extends(TASK, _super);
-    function TASK() {
+var Joy_Park = /** @class */ (function (_super) {
+    __extends(Joy_Park, _super);
+    function Joy_Park() {
         return _super.call(this) || this;
     }
-    TASK.prototype.init = function () {
+    Joy_Park.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new TASK())];
+                    case 0: return [4 /*yield*/, this.run(new Joy_Park())];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -69,7 +69,7 @@ var TASK = /** @class */ (function (_super) {
             });
         });
     };
-    TASK.prototype.api = function (fn, body) {
+    Joy_Park.prototype.api = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -86,7 +86,7 @@ var TASK = /** @class */ (function (_super) {
             });
         });
     };
-    TASK.prototype.main = function (user) {
+    Joy_Park.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var res, t, i, res_1, url;
             return __generator(this, function (_a) {
@@ -125,6 +125,6 @@ var TASK = /** @class */ (function (_super) {
             });
         });
     };
-    return TASK;
+    return Joy_Park;
 }(JDHelloWorld_1.JDHelloWorld));
-new TASK().init().then();
+new Joy_Park().init().then();

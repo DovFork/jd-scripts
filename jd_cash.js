@@ -60,7 +60,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var JDHelloWorld_1 = require("./JDHelloWorld");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var sign_1 = require("./test/sign");
 var CASH = /** @class */ (function (_super) {
     __extends(CASH, _super);
@@ -71,7 +70,7 @@ var CASH = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new CASH)];
+                    case 0: return [4 /*yield*/, this.run(new CASH())];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -89,94 +88,88 @@ var CASH = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.post("https://api.m.jd.com/client.action?functionId=".concat(fn), sign, {
                                 'Host': 'api.m.jd.com',
                                 'Cookie': this.cookie,
-                                'content-type': 'application/x-www-form-urlencoded',
-                                'user-agent': TS_USER_AGENTS_1["default"],
-                                'referer': ''
+                                'user-agent': 'jdapp;'
                             })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    CASH.prototype.main = function (cookie) {
+    CASH.prototype.main = function (user) {
         var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
             var res, type, data, otherTaskNum, taskNum, i, _i, _d, t;
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
-                        this.cookie = cookie;
-                        return [4 /*yield*/, this.wait(5000)];
-                    case 1:
-                        _e.sent();
+                        this.cookie = user.cookie;
                         return [4 /*yield*/, this.api('cash_homePage', {})];
-                    case 2:
+                    case 1:
                         res = _e.sent();
-                        if (!(res.data.result.signedStatus !== 1)) return [3 /*break*/, 5];
+                        if (!(res.data.result.signedStatus !== 1)) return [3 /*break*/, 4];
                         console.log('今日未签到');
                         return [4 /*yield*/, this.api('cash_sign', { "remind": 0, "inviteCode": "", "type": 0, "breakReward": 0 })];
-                    case 3:
+                    case 2:
                         _e.sent();
                         return [4 /*yield*/, this.wait(1000)];
-                    case 4:
+                    case 3:
                         _e.sent();
                         console.log('签到成功');
-                        return [3 /*break*/, 6];
-                    case 5:
+                        return [3 /*break*/, 5];
+                    case 4:
                         console.log('今日已签到');
-                        _e.label = 6;
-                    case 6: return [4 /*yield*/, this.api('cash_homePage', {})];
-                    case 7:
+                        _e.label = 5;
+                    case 5: return [4 /*yield*/, this.api('cash_homePage', {})];
+                    case 6:
                         res = _e.sent();
                         type = [2, 4, 31, 16, 3, 5, 17, 21];
                         otherTaskNum = res.data.result.taskInfos.filter(function (item) { return !type.includes(item.type); }).length;
                         taskNum = res.data.result.taskInfos.filter(function (item) { return type.includes(item.type); }).length;
                         console.log(taskNum, otherTaskNum);
                         i = 0;
-                        _e.label = 8;
-                    case 8:
-                        if (!(i < 10)) return [3 /*break*/, 17];
+                        _e.label = 7;
+                    case 7:
+                        if (!(i < 10)) return [3 /*break*/, 16];
                         return [4 /*yield*/, this.api('cash_homePage', {})];
-                    case 9:
+                    case 8:
                         res = _e.sent();
-                        (0, TS_USER_AGENTS_1.o2s)(res);
                         if (res.data.result.taskInfos.filter(function (item) { return type.includes(item.type) && item.doTimes === item.times; }).length === taskNum) {
                             console.log('任务全部完成');
-                            return [3 /*break*/, 17];
+                            return [3 /*break*/, 16];
                         }
                         _i = 0, _d = ((_b = (_a = res === null || res === void 0 ? void 0 : res.data) === null || _a === void 0 ? void 0 : _a.result) === null || _b === void 0 ? void 0 : _b.taskInfos) || [];
-                        _e.label = 10;
-                    case 10:
-                        if (!(_i < _d.length)) return [3 /*break*/, 14];
+                        _e.label = 9;
+                    case 9:
+                        if (!(_i < _d.length)) return [3 /*break*/, 13];
                         t = _d[_i];
-                        if (!(t.doTimes < t.times && t.type !== 7)) return [3 /*break*/, 13];
+                        if (!(t.doTimes < t.times && t.type !== 7)) return [3 /*break*/, 12];
                         console.log(t.name);
                         return [4 /*yield*/, this.api('cash_doTask', { "type": t.type, "taskInfo": t.desc })];
-                    case 11:
+                    case 10:
                         data = _e.sent();
                         return [4 /*yield*/, this.wait(t.duration * 1000 || 1000)];
-                    case 12:
+                    case 11:
                         _e.sent();
                         if (data.data.bizCode === 0) {
                             console.log('任务完成', (_c = data.data.result.totalMoney) !== null && _c !== void 0 ? _c : '');
-                            return [3 /*break*/, 14];
+                            return [3 /*break*/, 13];
                         }
                         else {
                             console.log('任务失败', JSON.stringify(data));
-                            return [3 /*break*/, 14];
+                            return [3 /*break*/, 13];
                         }
-                        _e.label = 13;
-                    case 13:
+                        _e.label = 12;
+                    case 12:
                         _i++;
-                        return [3 /*break*/, 10];
-                    case 14: return [4 /*yield*/, this.wait(2000)];
-                    case 15:
+                        return [3 /*break*/, 9];
+                    case 13: return [4 /*yield*/, this.wait(2000)];
+                    case 14:
                         _e.sent();
-                        _e.label = 16;
-                    case 16:
+                        _e.label = 15;
+                    case 15:
                         i++;
-                        return [3 /*break*/, 8];
-                    case 17: return [2 /*return*/];
+                        return [3 /*break*/, 7];
+                    case 16: return [2 /*return*/];
                 }
             });
         });

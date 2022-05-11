@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,70 +51,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var sendNotify_1 = require("./sendNotify");
-var pushplus_1 = require("./utils/pushplus");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', UserName;
-var message = '';
-!(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, day, jdRed, jdRedExp, _c, _d, j, text;
-    var _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
-            case 1:
-                cookiesArr = _f.sent();
-                _i = 0, _a = cookiesArr.entries();
-                _f.label = 2;
-            case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 7];
-                _b = _a[_i], index = _b[0], value = _b[1];
-                cookie = value;
-                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://m.jingxi.com/user/info/QueryUserRedEnvelopesV2?type=1&orgFlag=JD_PinGou_New&page=1&cashRedType=1&redBalanceFlag=1&channel=1&_=".concat(Date.now(), "&sceneval=2&g_login_type=1&g_ty=ls"), {
-                        'Host': 'm.jingxi.com',
-                        'Referer': 'https://st.jingxi.com/my/redpacket.shtml',
-                        "Cookie": cookie,
-                        'User-Agent': TS_USER_AGENTS_1["default"]
-                    })];
-            case 3:
-                res = _f.sent();
-                day = new Date().getDay(), jdRed = 0, jdRedExp = 0;
-                for (_c = 0, _d = ((_e = res.data.useRedInfo) === null || _e === void 0 ? void 0 : _e.redList) || []; _c < _d.length; _c++) {
-                    j = _d[_c];
-                    if (j.orgLimitStr.includes('京喜')) {
-                    }
-                    else if (j.activityName.includes('极速版')) {
-                    }
-                    else if (j.orgLimitStr.includes('京东健康')) {
-                    }
-                    else {
-                        jdRed = add(jdRed, j.balance);
-                        if (new Date(j.endTime * 1000).getDay() === day)
-                            jdRedExp = add(jdRedExp, j.balance);
-                    }
+var JDHelloWorld2_1 = require("./JDHelloWorld2");
+var Jd_queryRedpacket = /** @class */ (function (_super) {
+    __extends(Jd_queryRedpacket, _super);
+    function Jd_queryRedpacket() {
+        return _super.call(this) || this;
+    }
+    Jd_queryRedpacket.prototype.init = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.run(new Jd_queryRedpacket)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
-                console.log(jdRed, '  今日过期：', jdRedExp);
-                text = "\u3010\u8D26\u53F7\u3011  ".concat(UserName, "\n\u4EAC\u4E1C\u7EA2\u5305  ").concat(jdRed, "\n\u4ECA\u65E5\u8FC7\u671F  ").concat(jdRedExp);
-                return [4 /*yield*/, (0, pushplus_1.pushplus)('京东红包', text)];
-            case 4:
-                _f.sent();
-                message += "".concat(text, "\n\n");
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 5:
-                _f.sent();
-                _f.label = 6;
-            case 6:
-                _i++;
-                return [3 /*break*/, 2];
-            case 7: return [4 /*yield*/, (0, sendNotify_1.sendNotify)('京东红包', message)];
-            case 8:
-                _f.sent();
-                return [2 /*return*/];
-        }
-    });
-}); })();
+            });
+        });
+    };
+    Jd_queryRedpacket.prototype.main = function (user) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var res, day, jdRed, jdRedExp, _i, _b, j, msg;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0: return [4 /*yield*/, this.get("https://m.jingxi.com/user/info/QueryUserRedEnvelopesV2?type=1&orgFlag=JD_PinGou_New&page=1&cashRedType=1&redBalanceFlag=1&channel=1&_=".concat(Date.now(), "&sceneval=2&g_login_type=1&g_ty=ls"), {
+                            'Host': 'm.jingxi.com',
+                            'Referer': 'https://st.jingxi.com/my/redpacket.shtml',
+                            "Cookie": user.cookie,
+                            'User-Agent': TS_USER_AGENTS_1["default"]
+                        })];
+                    case 1:
+                        res = _c.sent();
+                        day = new Date().getDay(), jdRed = 0, jdRedExp = 0;
+                        for (_i = 0, _b = ((_a = res.data.useRedInfo) === null || _a === void 0 ? void 0 : _a.redList) || []; _i < _b.length; _i++) {
+                            j = _b[_i];
+                            if (j.orgLimitStr.includes('京喜')) {
+                            }
+                            else if (j.activityName.includes('极速版')) {
+                            }
+                            else if (j.orgLimitStr.includes('京东健康')) {
+                            }
+                            else {
+                                jdRed = add(jdRed, j.balance);
+                                if (new Date(j.endTime * 1000).getDay() === day)
+                                    jdRedExp = add(jdRedExp, j.balance);
+                            }
+                        }
+                        console.log(jdRed, '  今日过期：', jdRedExp);
+                        msg = "\u3010\u8D26\u53F7\u3011  ".concat(user.UserName, "\n\u4EAC\u4E1C\u7EA2\u5305  ").concat(jdRed, "\n\u4ECA\u65E5\u8FC7\u671F  ").concat(jdRedExp, "\n\n");
+                        return [2 /*return*/, {
+                                msg: msg
+                            }];
+                }
+            });
+        });
+    };
+    return Jd_queryRedpacket;
+}(JDHelloWorld2_1.JDHelloWorld));
+new Jd_queryRedpacket().init().then()["catch"]();
 function add(arg1, arg2) {
     var r1, r2, m;
     try {

@@ -57,7 +57,7 @@ var crypto_js_1 = require("crypto-js");
 var cookie = '', res = '', UserName;
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, e_1, _c, _d, _e, index, value, _f, shareCode_1, code, e_2;
+    var cookiesArr, _i, _a, _b, index, value, e_1, full, _c, _d, _e, index, value, _f, shareCode_1, code, e_2;
     return __generator(this, function (_g) {
         switch (_g.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
@@ -170,6 +170,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 26:
                 _g.sent();
+                full = [];
                 _c = 0, _d = cookiesArr.entries();
                 _g.label = 27;
             case 27:
@@ -195,6 +196,8 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
             case 31:
                 if (!(_f < shareCode_1.length)) return [3 /*break*/, 38];
                 code = shareCode_1[_f];
+                if (full.includes(code.assistedPinEncrypted))
+                    return [3 /*break*/, 37];
                 _g.label = 32;
             case 32:
                 _g.trys.push([32, 34, , 35]);
@@ -211,6 +214,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
                 }
                 else if (res.resultCode === '2400205') {
                     console.log('对方已成团');
+                    full.push(code.assistedPinEncrypted);
                 }
                 else if (res.resultCode === '9200011') {
                     console.log('已助力过');

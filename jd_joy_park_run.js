@@ -259,7 +259,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                     case 6:
                         for (_i = 0, _b = ((_a = res === null || res === void 0 ? void 0 : res.data) === null || _a === void 0 ? void 0 : _a.detailVos) || []; _i < _b.length; _i++) {
                             t = _b[_i];
-                            if ((0, date_fns_1.getDate)(new Date(t.createTime)) === new Date().getDate()) {
+                            if (t.amount > 0 && (0, date_fns_1.getDate)(new Date(t.createTime)) === new Date().getDate()) {
                                 sum = this.add(sum, t.amount);
                                 success++;
                             }

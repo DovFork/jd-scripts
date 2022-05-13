@@ -1,9 +1,25 @@
 "use strict";
 /**
- * v0.2
+ * 小程序-赚京豆
  * cron: 15,30,45 0 * * *
+ * export ZJD_OPEN=5  // 前n个账号开团, 默认全开
  * CK1 优先助力HW.ts
  */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -50,230 +66,223 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var axios_1 = require("axios");
 var jd_zjd_tool_js_1 = require("./utils/jd_zjd_tool.js");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var crypto_js_1 = require("crypto-js");
-var cookie = '', res = '', UserName;
+var JDHelloWorld2_1 = require("./JDHelloWorld2");
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
-!(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, e_1, full, _c, _d, _e, index, value, _f, shareCode_1, code, e_2;
-    return __generator(this, function (_g) {
-        switch (_g.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
-            case 1:
-                cookiesArr = _g.sent();
-                _i = 0, _a = cookiesArr.entries();
-                _g.label = 2;
-            case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 25];
-                _b = _a[_i], index = _b[0], value = _b[1];
-                _g.label = 3;
-            case 3:
-                _g.trys.push([3, 21, , 22]);
-                return [4 /*yield*/, (0, jd_zjd_tool_js_1.zjdInit)()];
-            case 4:
-                _g.sent();
-                cookie = value;
-                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })
-                    // o2s(res)
-                ];
-            case 5:
-                res = _g.sent();
-                // o2s(res)
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 6:
-                // o2s(res)
-                _g.sent();
-                if (!(res.data.assistStatus === 1)) return [3 /*break*/, 7];
-                // 已开，没满
-                console.log('已开团，', res.data.assistedRecords.length, '/', res.data.assistNum, '，剩余', Math.round(res.data.assistValidMilliseconds / 1000 / 60), '分钟');
-                shareCodeSelf.push({
-                    activityIdEncrypted: res.data.id,
-                    assistStartRecordId: res.data.assistStartRecordId,
-                    assistedPinEncrypted: res.data.encPin
-                });
-                return [3 /*break*/, 20];
-            case 7:
-                if (!(res.data.assistStatus === 2 && res.data.canStartNewAssist)) return [3 /*break*/, 13];
-                return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })
-                    // o2s(res)
-                ];
-            case 8:
-                // 没开团
-                res = _g.sent();
-                // o2s(res)
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 9:
-                // o2s(res)
-                _g.sent();
-                if (!res.success) return [3 /*break*/, 12];
-                console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
-                return [4 /*yield*/, api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
-            case 10:
-                res = _g.sent();
-                shareCodeSelf.push({
-                    activityIdEncrypted: res.data.id,
-                    assistStartRecordId: res.data.assistStartRecordId,
-                    assistedPinEncrypted: res.data.encPin
-                });
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 11:
-                _g.sent();
-                _g.label = 12;
-            case 12: return [3 /*break*/, 20];
-            case 13:
-                if (!(res.data.assistedRecords.length === res.data.assistNum)) return [3 /*break*/, 19];
-                console.log('已成团');
-                if (!res.data.canStartNewAssist) return [3 /*break*/, 18];
-                return [4 /*yield*/, api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
-            case 14:
-                res = _g.sent();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 15:
-                _g.sent();
-                if (!res.success) return [3 /*break*/, 18];
-                console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
-                return [4 /*yield*/, api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
-            case 16:
-                res = _g.sent();
-                shareCodeSelf.push({
-                    activityIdEncrypted: res.data.id,
-                    assistStartRecordId: res.data.assistStartRecordId,
-                    assistedPinEncrypted: res.data.encPin
-                });
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 17:
-                _g.sent();
-                _g.label = 18;
-            case 18: return [3 /*break*/, 20];
-            case 19:
-                if (!res.data.canStartNewAssist) {
-                    console.log('不可开团');
+var Zjd = /** @class */ (function (_super) {
+    __extends(Zjd, _super);
+    function Zjd() {
+        var _this = _super.call(this, '', true) || this;
+        _this.openNum = 0;
+        return _this;
+    }
+    Zjd.prototype.init = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.run(new Zjd(), this.help, this.tips)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
-                _g.label = 20;
-            case 20: return [3 /*break*/, 22];
-            case 21:
-                e_1 = _g.sent();
-                return [3 /*break*/, 24];
-            case 22: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
-            case 23:
-                _g.sent();
-                _g.label = 24;
-            case 24:
-                _i++;
-                return [3 /*break*/, 2];
-            case 25:
-                (0, TS_USER_AGENTS_1.o2s)(shareCodeSelf);
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 26:
-                _g.sent();
-                full = [];
-                _c = 0, _d = cookiesArr.entries();
-                _g.label = 27;
-            case 27:
-                if (!(_c < _d.length)) return [3 /*break*/, 41];
-                _e = _d[_c], index = _e[0], value = _e[1];
-                if (!(shareCodeHW.length === 0)) return [3 /*break*/, 29];
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('zjd')];
-            case 28:
-                shareCodeHW = _g.sent();
-                _g.label = 29;
-            case 29:
-                shareCode = index === 0
-                    ? Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), shareCodeSelf, true)))
-                    : Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
-                cookie = value;
-                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, (0, jd_zjd_tool_js_1.zjdInit)()];
-            case 30:
-                _g.sent();
-                _f = 0, shareCode_1 = shareCode;
-                _g.label = 31;
-            case 31:
-                if (!(_f < shareCode_1.length)) return [3 /*break*/, 38];
-                code = shareCode_1[_f];
-                if (full.includes(code.assistedPinEncrypted))
-                    return [3 /*break*/, 37];
-                _g.label = 32;
-            case 32:
-                _g.trys.push([32, 34, , 35]);
-                console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code.assistedPinEncrypted.replace('\n', '')));
-                return [4 /*yield*/, api('vvipclub_distributeBean_assist', { "activityIdEncrypted": code.activityIdEncrypted, "assistStartRecordId": code.assistStartRecordId, "assistedPinEncrypted": code.assistedPinEncrypted, "channel": "FISSION_BEAN", "launchChannel": "undefined" })];
-            case 33:
-                res = _g.sent();
-                if (res.resultCode === '9200008') {
-                    console.log('不能助力自己');
-                }
-                else if (res.resultCode === '2400203' || res.resultCode === '90000014') {
-                    console.log('上限');
-                    return [3 /*break*/, 38];
-                }
-                else if (res.resultCode === '2400205') {
-                    console.log('对方已成团');
-                    full.push(code.assistedPinEncrypted);
-                }
-                else if (res.resultCode === '9200011') {
-                    console.log('已助力过');
-                }
-                else if (res.success) {
-                    console.log('助力成功');
-                }
-                else {
-                    console.log('error', JSON.stringify(res));
-                }
-                return [3 /*break*/, 35];
-            case 34:
-                e_2 = _g.sent();
-                console.log(e_2);
-                return [3 /*break*/, 38];
-            case 35: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 36:
-                _g.sent();
-                _g.label = 37;
-            case 37:
-                _f++;
-                return [3 /*break*/, 31];
-            case 38: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-            case 39:
-                _g.sent();
-                _g.label = 40;
-            case 40:
-                _c++;
-                return [3 /*break*/, 27];
-            case 41: return [2 /*return*/];
-        }
-    });
-}); })();
-function api(fn, body) {
-    return __awaiter(this, void 0, void 0, function () {
-        var h5st, data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    h5st = (0, jd_zjd_tool_js_1.zjdH5st)({
-                        'fromType': 'wxapp',
-                        'timestamp': Date.now(),
-                        'body0': JSON.stringify(body),
-                        'appid': 'swat_miniprogram',
-                        'body': (0, crypto_js_1.SHA256)(JSON.stringify(body)).toString(),
-                        'functionId': fn
-                    });
-                    return [4 /*yield*/, axios_1["default"].post("https://api.m.jd.com/api?functionId=".concat(fn, "&fromType=wxapp&timestamp=").concat(Date.now()), "functionId=distributeBeanActivityInfo&body=".concat(encodeURIComponent(JSON.stringify(body)), "&appid=swat_miniprogram&h5st=").concat(encodeURIComponent(h5st)), {
-                            headers: {
-                                'content-type': 'application/x-www-form-urlencoded',
-                                'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac',
-                                'referer': 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html',
-                                'Cookie': cookie
-                            }
-                        })];
-                case 1:
-                    data = (_a.sent()).data;
-                    return [2 /*return*/, data];
-            }
+            });
         });
-    });
-}
+    };
+    Zjd.prototype.tips = function () {
+        this.zjd_open = Number(process.env.ZJD_OPEN) || 100;
+        process.env.ZJD_OPEN ? console.log('自定义', this.zjd_open, '个账号开团') : '';
+    };
+    Zjd.prototype.api = function (fn, body) {
+        return __awaiter(this, void 0, void 0, function () {
+            var h5st;
+            return __generator(this, function (_a) {
+                h5st = (0, jd_zjd_tool_js_1.zjdH5st)({
+                    'fromType': 'wxapp',
+                    'timestamp': Date.now(),
+                    'body0': JSON.stringify(body),
+                    'appid': 'swat_miniprogram',
+                    'body': (0, crypto_js_1.SHA256)(JSON.stringify(body)).toString(),
+                    'functionId': fn
+                });
+                return [2 /*return*/, this.post("https://api.m.jd.com/api?functionId=".concat(fn, "&fromType=wxapp&timestamp=").concat(Date.now()), "functionId=distributeBeanActivityInfo&body=".concat(encodeURIComponent(JSON.stringify(body)), "&appid=swat_miniprogram&h5st=").concat(encodeURIComponent(h5st)), {
+                        'content-type': 'application/x-www-form-urlencoded',
+                        'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac',
+                        'referer': 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html',
+                        'Cookie': this.cookie
+                    })];
+            });
+        });
+    };
+    Zjd.prototype.main = function (user) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.cookie = user.cookie;
+                        return [4 /*yield*/, (0, jd_zjd_tool_js_1.zjdInit)()];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
+                    case 2:
+                        res = _a.sent();
+                        if (!(res.data.assistStatus === 1)) return [3 /*break*/, 3];
+                        // 已开，没满
+                        console.log('已开团，', res.data.assistedRecords.length, '/', res.data.assistNum, '，剩余', Math.round(res.data.assistValidMilliseconds / 1000 / 60), '分钟');
+                        shareCodeSelf.push({
+                            activityIdEncrypted: res.data.id,
+                            assistStartRecordId: res.data.assistStartRecordId,
+                            assistedPinEncrypted: res.data.encPin
+                        });
+                        return [3 /*break*/, 16];
+                    case 3:
+                        if (!(res.data.assistStatus === 2 && res.data.canStartNewAssist && this.openNum < this.zjd_open)) return [3 /*break*/, 9];
+                        // 没开团
+                        this.openNum++;
+                        return [4 /*yield*/, this.api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
+                    case 4:
+                        res = _a.sent();
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 5:
+                        _a.sent();
+                        if (!res.success) return [3 /*break*/, 8];
+                        console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
+                        return [4 /*yield*/, this.api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
+                    case 6:
+                        res = _a.sent();
+                        shareCodeSelf.push({
+                            activityIdEncrypted: res.data.id,
+                            assistStartRecordId: res.data.assistStartRecordId,
+                            assistedPinEncrypted: res.data.encPin
+                        });
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 7:
+                        _a.sent();
+                        _a.label = 8;
+                    case 8: return [3 /*break*/, 16];
+                    case 9:
+                        if (!(res.data.assistedRecords.length === res.data.assistNum)) return [3 /*break*/, 15];
+                        console.log('已成团');
+                        if (!res.data.canStartNewAssist) return [3 /*break*/, 14];
+                        return [4 /*yield*/, this.api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
+                    case 10:
+                        res = _a.sent();
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 11:
+                        _a.sent();
+                        if (!res.success) return [3 /*break*/, 14];
+                        console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
+                        return [4 /*yield*/, this.api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
+                    case 12:
+                        res = _a.sent();
+                        shareCodeSelf.push({
+                            activityIdEncrypted: res.data.id,
+                            assistStartRecordId: res.data.assistStartRecordId,
+                            assistedPinEncrypted: res.data.encPin
+                        });
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 13:
+                        _a.sent();
+                        _a.label = 14;
+                    case 14: return [3 /*break*/, 16];
+                    case 15:
+                        if (!res.data.canStartNewAssist) {
+                            console.log('不可开团');
+                        }
+                        _a.label = 16;
+                    case 16: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Zjd.prototype.help = function (users) {
+        return __awaiter(this, void 0, void 0, function () {
+            var full, _i, users_1, user, _a, shareCode_1, code, res, e_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        this.o2s(shareCodeSelf);
+                        return [4 /*yield*/, this.wait(2000)];
+                    case 1:
+                        _b.sent();
+                        full = [];
+                        _i = 0, users_1 = users;
+                        _b.label = 2;
+                    case 2:
+                        if (!(_i < users_1.length)) return [3 /*break*/, 16];
+                        user = users_1[_i];
+                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.getshareCodeHW('zjd')];
+                    case 3:
+                        shareCodeHW = _b.sent();
+                        _b.label = 4;
+                    case 4:
+                        shareCode = user.index === 0
+                            ? Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), shareCodeSelf, true)))
+                            : Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
+                        console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011").concat(user.UserName, "\n"));
+                        return [4 /*yield*/, (0, jd_zjd_tool_js_1.zjdInit)()];
+                    case 5:
+                        _b.sent();
+                        _a = 0, shareCode_1 = shareCode;
+                        _b.label = 6;
+                    case 6:
+                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 13];
+                        code = shareCode_1[_a];
+                        if (full.includes(code.assistedPinEncrypted))
+                            return [3 /*break*/, 12];
+                        _b.label = 7;
+                    case 7:
+                        _b.trys.push([7, 9, , 10]);
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.assistedPinEncrypted.replace('\n', '')));
+                        return [4 /*yield*/, this.api('vvipclub_distributeBean_assist', { "activityIdEncrypted": code.activityIdEncrypted, "assistStartRecordId": code.assistStartRecordId, "assistedPinEncrypted": code.assistedPinEncrypted, "channel": "FISSION_BEAN", "launchChannel": "undefined" })];
+                    case 8:
+                        res = _b.sent();
+                        if (res.resultCode === '9200008') {
+                            console.log('不能助力自己');
+                        }
+                        else if (res.resultCode === '2400203' || res.resultCode === '90000014') {
+                            console.log('上限');
+                            return [3 /*break*/, 13];
+                        }
+                        else if (res.resultCode === '2400205') {
+                            console.log('对方已成团');
+                            full.push(code.assistedPinEncrypted);
+                        }
+                        else if (res.resultCode === '9200011') {
+                            console.log('已助力过');
+                        }
+                        else if (res.success) {
+                            console.log('助力成功');
+                        }
+                        else {
+                            console.log('error', JSON.stringify(res));
+                        }
+                        return [3 /*break*/, 10];
+                    case 9:
+                        e_1 = _b.sent();
+                        console.log(e_1);
+                        return [3 /*break*/, 13];
+                    case 10: return [4 /*yield*/, this.wait(2000)];
+                    case 11:
+                        _b.sent();
+                        _b.label = 12;
+                    case 12:
+                        _a++;
+                        return [3 /*break*/, 6];
+                    case 13: return [4 /*yield*/, this.wait(2000)];
+                    case 14:
+                        _b.sent();
+                        _b.label = 15;
+                    case 15:
+                        _i++;
+                        return [3 /*break*/, 2];
+                    case 16: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return Zjd;
+}(JDHelloWorld2_1.JDHelloWorld));
+new Zjd().init().then();

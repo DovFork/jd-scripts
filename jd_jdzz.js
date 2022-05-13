@@ -98,7 +98,7 @@ var Jdzz = /** @class */ (function (_super) {
                             'Content-Type': 'application/json',
                             'Cookie': user.cookie
                         };
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/client.action?functionId=interactTaskIndex&body=%7B%22mpVersion%22%3A%223.4.0%22%7D&appid=wh5&loginWQBiz=interact&g_ty=ls&g_tk=".concat(this.randomNumString(9)), headers)];
+                        return [4 /*yield*/, this.get("https://api.m.jd.com/client.action?functionId=interactTaskIndex&body=%7B%22mpVersion%22%3A%223.4.0%22%7D&appid=wh5&loginWQBiz=interact&g_ty=ls&g_tk=".concat(this.getRandomNumString(9)), headers)];
                     case 1:
                         res = _b.sent();
                         console.log(res.data.cashExpected);
@@ -110,7 +110,7 @@ var Jdzz = /** @class */ (function (_super) {
                         if (!(t.status === 1)) return [3 /*break*/, 5];
                         console.log(t.taskName);
                         taskItem = __assign(__assign({}, t), { "fullTaskName": "".concat(t.taskName, " (0/1)"), "btnText": "去完成" });
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/client.action?functionId=doInteractTask&body=".concat(encodeURIComponent(JSON.stringify({ "taskId": t.taskId, "taskItem": taskItem, "actionType": 0, "taskToken": t.taskToken, "mpVersion": "3.4.0" })), "&appid=wh5&loginWQBiz=interact&g_ty=ls&g_tk=").concat(this.randomNumString(9)), headers)];
+                        return [4 /*yield*/, this.get("https://api.m.jd.com/client.action?functionId=doInteractTask&body=".concat(encodeURIComponent(JSON.stringify({ "taskId": t.taskId, "taskItem": taskItem, "actionType": 0, "taskToken": t.taskToken, "mpVersion": "3.4.0" })), "&appid=wh5&loginWQBiz=interact&g_ty=ls&g_tk=").concat(this.getRandomNumString(9)), headers)];
                     case 3:
                         res = _b.sent();
                         console.log(res.message);

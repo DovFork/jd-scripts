@@ -104,7 +104,7 @@ var Wechat_sign = /** @class */ (function (_super) {
                         res = _a.sent();
                         if (res.data) {
                             console.log('已签到', res.data.signDays, '天，奖励', res.data.rewardValue, '元');
-                            return [2 /*return*/, { msg: "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.i + 1, "\u3011  ").concat(user.UserName, "\n\u5DF2\u7B7E\u5230  ").concat(res.data.signDays, "\u5929\n\u5956\u52B1  ").concat(res.data.rewardValue, "\u5143\n\n") }];
+                            return [2 /*return*/, { msg: "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011  ").concat(user.UserName, "\n\u5DF2\u7B7E\u5230  ").concat(res.data.signDays, "\u5929\n\u5956\u52B1  ").concat(res.data.rewardValue, "\u5143\n\n") }];
                         }
                         else {
                             console.log(res.message);

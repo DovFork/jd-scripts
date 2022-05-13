@@ -64,7 +64,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var JDHelloWorld2_1 = require("./JDHelloWorld2");
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Planet_Space = /** @class */ (function (_super) {
     __extends(Planet_Space, _super);
     function Planet_Space() {
@@ -277,5 +277,5 @@ var Planet_Space = /** @class */ (function (_super) {
         });
     };
     return Planet_Space;
-}(JDHelloWorld2_1.JDHelloWorld));
+}(TS_JDHelloWorld_1.JDHelloWorld));
 new Planet_Space().init().then();

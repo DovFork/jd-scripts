@@ -68,7 +68,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var jd_zjd_tool_js_1 = require("./utils/jd_zjd_tool.js");
 var crypto_js_1 = require("crypto-js");
-var JDHelloWorld2_1 = require("./JDHelloWorld2");
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
 var Zjd = /** @class */ (function (_super) {
     __extends(Zjd, _super);
@@ -284,5 +284,5 @@ var Zjd = /** @class */ (function (_super) {
         });
     };
     return Zjd;
-}(JDHelloWorld2_1.JDHelloWorld));
+}(TS_JDHelloWorld_1.JDHelloWorld));
 new Zjd().init().then();

@@ -103,7 +103,7 @@ var Planet_Space = /** @class */ (function (_super) {
     Planet_Space.prototype.main = function (user) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var res, i, encryptProjectId, remain, _i, _c, t, code;
+            var res, i, encryptProjectId, specialComponentTaskPid, specialComponentTaskInfo, componentTaskInfo, remain, _i, specialComponentTaskInfo_1, t, _c, componentTaskInfo_1, t, drawCardChance, i, code;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
@@ -111,56 +111,97 @@ var Planet_Space = /** @class */ (function (_super) {
                         i = 0;
                         _d.label = 1;
                     case 1:
-                        if (!(i < 4)) return [3 /*break*/, 11];
+                        if (!(i < 4)) return [3 /*break*/, 15];
                         return [4 /*yield*/, this.api('explorePlanet_taskList', { "activityId": 1 })];
                     case 2:
                         res = _d.sent();
                         encryptProjectId = res.data.result.componentTaskPid;
+                        specialComponentTaskPid = res.data.result.specialComponentTaskPid;
+                        specialComponentTaskInfo = res.data.result.specialComponentTaskInfo;
+                        componentTaskInfo = res.data.result.componentTaskInfo;
                         remain = res.data.result.componentTaskInfo.some(function (item) { return !item.taskDesc.includes('加入品牌') && item.completedItemCount !== item.groupItemCount; });
-                        console.log(remain);
-                        if (!remain) return [3 /*break*/, 9];
-                        _i = 0, _c = res.data.result.componentTaskInfo;
+                        _i = 0, specialComponentTaskInfo_1 = specialComponentTaskInfo;
                         _d.label = 3;
                     case 3:
-                        if (!(_i < _c.length)) return [3 /*break*/, 7];
-                        t = _c[_i];
-                        if (!(t.completedItemCount !== t.groupItemCount && !t.taskDesc.includes('加入品牌'))) return [3 /*break*/, 6];
-                        console.log(t.taskDesc);
-                        console.log(t.taskDesc);
-                        return [4 /*yield*/, this.api('explorePlanet_taskReport', { "activityId": 1, "encryptTaskId": t.encryptTaskId, "encryptProjectId": encryptProjectId, "itemId": t.itemId })];
+                        if (!(_i < specialComponentTaskInfo_1.length)) return [3 /*break*/, 6];
+                        t = specialComponentTaskInfo_1[_i];
+                        console.log('特殊任务', t.taskDesc);
+                        return [4 /*yield*/, this.api('explorePlanet_taskReport', { "activityId": 1, "encryptTaskId": t.encryptTaskId, "encryptProjectId": specialComponentTaskPid, "itemId": t.itemId })];
                     case 4:
                         res = _d.sent();
-                        return [4 /*yield*/, this.wait(t.waitDuration || 1000)];
+                        console.log(res.data.biz_msg);
+                        _d.label = 5;
                     case 5:
-                        _d.sent();
-                        this.o2s(res);
-                        _d.label = 6;
-                    case 6:
                         _i++;
                         return [3 /*break*/, 3];
-                    case 7: return [4 /*yield*/, this.wait(3000)];
+                    case 6:
+                        console.log(remain);
+                        if (!remain) return [3 /*break*/, 13];
+                        _c = 0, componentTaskInfo_1 = componentTaskInfo;
+                        _d.label = 7;
+                    case 7:
+                        if (!(_c < componentTaskInfo_1.length)) return [3 /*break*/, 11];
+                        t = componentTaskInfo_1[_c];
+                        if (!(t.completedItemCount !== t.groupItemCount && !t.taskDesc.includes('加入品牌'))) return [3 /*break*/, 10];
+                        console.log(t.taskDesc);
+                        return [4 /*yield*/, this.api('explorePlanet_taskReport', { "activityId": 1, "encryptTaskId": t.encryptTaskId, "encryptProjectId": encryptProjectId, "itemId": t.itemId })];
                     case 8:
+                        res = _d.sent();
+                        return [4 /*yield*/, this.wait(t.waitDuration || 1000)];
+                    case 9:
                         _d.sent();
-                        return [3 /*break*/, 10];
-                    case 9: return [3 /*break*/, 11];
+                        this.o2s(res);
+                        _d.label = 10;
                     case 10:
+                        _c++;
+                        return [3 /*break*/, 7];
+                    case 11: return [4 /*yield*/, this.wait(3000)];
+                    case 12:
+                        _d.sent();
+                        return [3 /*break*/, 14];
+                    case 13: return [3 /*break*/, 15];
+                    case 14:
                         i++;
                         return [3 /*break*/, 1];
-                    case 11:
-                        console.log('===');
-                        return [4 /*yield*/, this.api('explorePlanet_taskList', { "activityId": 1 })];
-                    case 12:
+                    case 15: return [4 /*yield*/, this.api('explorePlanet_homePage', { "channel": "1" })];
+                    case 16:
                         res = _d.sent();
-                        if (!!((_b = (_a = res.result) === null || _a === void 0 ? void 0 : _a.assistTaskInfo) === null || _b === void 0 ? void 0 : _b.groupId)) return [3 /*break*/, 14];
+                        drawCardChance = res.data.result.drawCardChance || 0;
+                        console.log('抽奖次数', drawCardChance);
+                        i = 0;
+                        _d.label = 17;
+                    case 17:
+                        if (!(i < drawCardChance)) return [3 /*break*/, 21];
+                        return [4 /*yield*/, this.api('explorePlanet_explore', { "activityId": 1 })];
+                    case 18:
+                        res = _d.sent();
+                        this.o2s(res);
+                        if (res.data.result.cardInfo) {
+                            console.log('抽到卡片');
+                        }
+                        else if (res.data.result.couponInfo) {
+                            console.log('抽到券');
+                        }
+                        return [4 /*yield*/, this.wait(2000)];
+                    case 19:
+                        _d.sent();
+                        _d.label = 20;
+                    case 20:
+                        i++;
+                        return [3 /*break*/, 17];
+                    case 21: return [4 /*yield*/, this.api('explorePlanet_taskList', { "activityId": 1 })];
+                    case 22:
+                        res = _d.sent();
+                        if (!!((_b = (_a = res.data.result) === null || _a === void 0 ? void 0 : _a.assistTaskInfo) === null || _b === void 0 ? void 0 : _b.groupId)) return [3 /*break*/, 24];
                         return [4 /*yield*/, this.api('explorePlanet_openGroup', { "activityId": 1 })];
-                    case 13:
+                    case 23:
                         res = _d.sent();
-                        code = res.data.result.groupId;
-                        return [3 /*break*/, 15];
-                    case 14:
-                        code = res.result.assistTaskInfo.groupId;
-                        _d.label = 15;
-                    case 15:
+                        code = res.data.result.assistTaskInfo.groupId;
+                        return [3 /*break*/, 25];
+                    case 24:
+                        code = res.data.result.assistTaskInfo.groupId;
+                        _d.label = 25;
+                    case 25:
                         console.log('助力码', code);
                         this.shareCodeSelf.push(code);
                         return [2 /*return*/];
@@ -174,6 +215,7 @@ var Planet_Space = /** @class */ (function (_super) {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
+                        this.o2s(this.shareCodeSelf, '内部助力码');
                         full = ['b'], shareCodeHW = [];
                         _i = 0, users_1 = users;
                         _b.label = 1;

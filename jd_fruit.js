@@ -1212,14 +1212,7 @@ async function inviteFriend() {
 
 // 助力好友API
 async function masterHelp() {
-  $.helpResult = await request(`initForFarm`, {
-    imageUrl: "",
-    nickName: "",
-    shareCode: arguments[0],
-    babelChannel: "3",
-    version: 2,
-    channel: 1
-  });
+  $.helpResult = await request(`initForFarm`, {"mpin": "", "utm_campaign": "t_335139774", "utm_medium": "appshare", "shareCode": arguments[0], "utm_term": "Wxfriends", "utm_source": "iosapp", "imageUrl": "", "nickName": "", "version": 14, "channel": 2, "babelChannel": 0});
 }
 
 /**

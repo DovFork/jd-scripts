@@ -236,7 +236,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         rewardAmount = 0;
                         _e.label = 1;
                     case 1:
-                        _e.trys.push([1, 29, , 31]);
+                        _e.trys.push([1, 30, , 32]);
                         this.teamTool = new h5st_1.H5ST('448de', 'jdltapp;', process.env.FP_448DE || '');
                         return [4 /*yield*/, this.teamTool.__genAlgo()];
                     case 2:
@@ -343,44 +343,49 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                     case 18: return [4 /*yield*/, this.startRunning(res, assets)];
                     case 19:
                         _e.sent();
-                        i = 0;
-                        _e.label = 20;
+                        return [4 /*yield*/, this.runningPageHome()];
                     case 20:
-                        if (!(i < energy)) return [3 /*break*/, 26];
+                        res = _e.sent();
+                        i = 0;
+                        _e.label = 21;
+                    case 21:
+                        if (!(i < energy)) return [3 /*break*/, 27];
+                        if (res.data.runningHomeInfo.nextRunningTime / 1000 < 3000)
+                            return [3 /*break*/, 27];
                         console.log('💉');
                         return [4 /*yield*/, this.api('runningUseEnergyBar', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
-                    case 21:
+                    case 22:
                         res = _e.sent();
                         console.log(res.errMsg);
                         return [4 /*yield*/, this.runningPageHome()];
-                    case 22:
+                    case 23:
                         res = _e.sent();
                         return [4 /*yield*/, this.startRunning(res, assets)];
-                    case 23:
-                        _e.sent();
-                        return [4 /*yield*/, this.wait(1000)];
                     case 24:
                         _e.sent();
-                        _e.label = 25;
+                        return [4 /*yield*/, this.wait(1000)];
                     case 25:
+                        _e.sent();
+                        _e.label = 26;
+                    case 26:
                         i++;
-                        return [3 /*break*/, 20];
-                    case 26: return [4 /*yield*/, this.runningPageHome()];
-                    case 27:
+                        return [3 /*break*/, 21];
+                    case 27: return [4 /*yield*/, this.runningPageHome()];
+                    case 28:
                         res = _e.sent();
                         console.log('🧧', res.data.runningHomeInfo.prizeValue);
                         return [4 /*yield*/, this.wait(2000)];
-                    case 28:
-                        _e.sent();
-                        return [3 /*break*/, 31];
                     case 29:
+                        _e.sent();
+                        return [3 /*break*/, 32];
+                    case 30:
                         e_1 = _e.sent();
                         console.log('Error', e_1);
                         return [4 /*yield*/, this.wait(3000)];
-                    case 30:
+                    case 31:
                         _e.sent();
-                        return [3 /*break*/, 31];
-                    case 31: return [2 /*return*/];
+                        return [3 /*break*/, 32];
+                    case 32: return [2 /*return*/];
                 }
             });
         });

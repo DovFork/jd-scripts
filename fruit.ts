@@ -122,17 +122,17 @@ let message: string = '', h5stTool: H5ST = new H5ST("0c010", USER_AGENT, "838954
       }
 
       // 签到
-      res = await api('clockInInitForFarm', {"timestamp": Date.now(), "version": 14, "channel": 1, "babelChannel": "120"})
-      await wait(1000)
-      if (!res.todaySigned) {
-        data = await api('clockInForFarm', {"type": 1, "version": 14, "channel": 1, "babelChannel": "120"})
-        if (data.signDay === 7) {
-          // data = await api('gotClockInGift', {"type": 2, "version": 14, "channel": 1, "babelChannel": "120"})
-          // o2s(data, 'gotClockInGift')
-          // await wait(1000)
-        }
-        await wait(1000)
-      }
+      // res = await api('clockInInitForFarm', {"timestamp": Date.now(), "version": 14, "channel": 1, "babelChannel": "120"})
+      // await wait(1000)
+      // if (!res.todaySigned) {
+      //   data = await api('clockInForFarm', {"type": 1, "version": 14, "channel": 1, "babelChannel": "120"})
+      //   if (data.signDay === 7) {
+      //     // data = await api('gotClockInGift', {"type": 2, "version": 14, "channel": 1, "babelChannel": "120"})
+      //     // o2s(data, 'gotClockInGift')
+      //     // await wait(1000)
+      //   }
+      //   await wait(1000)
+      // }
 
       res = await api('clockInInitForFarm', {"timestamp": Date.now(), "version": 14, "channel": 1, "babelChannel": "120"})
       for (let t of res.themes || []) {
@@ -247,29 +247,30 @@ let message: string = '', h5stTool: H5ST = new H5ST("0c010", USER_AGENT, "838954
       }
 
       // 助力
-      shareCodePool = await getShareCodePool('farm', 30)
-      shareCode = Array.from(new Set([...shareCodeSelf, ...shareCodePool]))
-      for (let code of shareCodeSelf) {
-        console.log('去助力', code)
-        res = await api('initForFarm', {"mpin": "", "utm_campaign": "t_335139774", "utm_medium": "appshare", "shareCode": code, "utm_term": "Wxfriends", "utm_source": "iosapp", "imageUrl": "", "nickName": "", "version": 14, "channel": 2, "babelChannel": 0})
-        await wait(6000)
-        o2s(res, '助力')
-        if (res.helpResult.code === '7') {
-          console.log('不给自己助力')
-        } else if (res.helpResult.code === '0') {
-          console.log('助力成功,获得', res.helpResult.salveHelpAddWater)
-        } else if (res.helpResult.code === '8') {
-          console.log('上限')
-          break
-        } else if (res.helpResult.code === '9') {
-          console.log('已助力')
-        } else if (res.helpResult.code === '10') {
-          console.log('已满')
-        } else if (res.helpResult.remainTimes === 0) {
-          console.log('次数用完')
-          break
-        }
-      }
+      // shareCodePool = await getShareCodePool('farm', 30)
+      // shareCode = Array.from(new Set([...shareCodeSelf, ...shareCodePool]))
+      // for (let code of shareCodeSelf) {
+      //   console.log('去助力', code)
+      //   res = await api('initForFarm', {"mpin": "", "utm_campaign": "t_335139774", "utm_medium": "appshare", "shareCode": code, "utm_term": "Wxfriends", "utm_source": "iosapp", "imageUrl": "", "nickName": "", "version": 14, "channel": 2, "babelChannel": 0})
+      //   await wait(6000)
+      //   o2s(res, '助力')
+      //   if (res.helpResult.code === '7') {
+      //     console.log('不给自己助力')
+      //   } else if (res.helpResult.code === '0') {
+      //     console.log('助力成功,获得', res.helpResult.salveHelpAddWater)
+      //   } else if (res.helpResult.code === '8') {
+      //     console.log('上限')
+      //     break
+      //   } else if (res.helpResult.code === '9') {
+      //     console.log('已助力')
+      //   } else if (res.helpResult.code === '10') {
+      //     console.log('已满')
+      //   } else if (res.helpResult.remainTimes === 0) {
+      //     console.log('次数用完')
+      //     break
+      //   }
+      // }
+
       // 助力奖励
       res = await api('farmAssistInit', {"version": 14, "channel": 1, "babelChannel": "120"})
       await wait(1000)

@@ -107,7 +107,7 @@ var Mofang = /** @class */ (function (_super) {
     Mofang.prototype.main = function (user) {
         var _a, _b, _c, _d, _e;
         return __awaiter(this, void 0, void 0, function () {
-            var log, res, sign, _i, _f, t, signDay, type, _g, _h, proInfo, _j, _k, proInfo, _l, _m, proInfo, _o, _p, proInfo;
+            var log, res, sign, rewardSign, _i, _f, t, signDay, type, _g, _h, proInfo, _j, _k, proInfo, _l, _m, proInfo, _o, _p, proInfo, score;
             return __generator(this, function (_q) {
                 switch (_q.label) {
                     case 0:
@@ -120,7 +120,7 @@ var Mofang = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.api("functionId=getInteractionHomeInfo&body=%7B%22sign%22%3A%22u6vtLQ7ztxgykLEr%22%7D&appid=content_ecology&client=wh5&clientVersion=1.0.0")];
                     case 2:
                         res = _q.sent();
-                        sign = res.result.taskConfig.projectId;
+                        sign = res.result.taskConfig.projectId, rewardSign = res.result.giftConfig.projectId;
                         return [4 /*yield*/, this.api("functionId=queryInteractiveInfo&body=%7B%22encryptProjectId%22%3A%22".concat(sign, "%22%2C%22sourceCode%22%3A%22acexinpin0823%22%2C%22ext%22%3A%7B%7D%7D&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
                     case 3:
                         res = _q.sent();
@@ -257,7 +257,45 @@ var Mofang = /** @class */ (function (_super) {
                     case 34:
                         _i++;
                         return [3 /*break*/, 4];
-                    case 35: return [2 /*return*/];
+                    case 35: return [4 /*yield*/, this.api("functionId=queryInteractiveRewardInfo&body=".concat(encodeURIComponent(JSON.stringify({ "encryptProjectId": rewardSign, "sourceCode": "acexinpin0823", "ext": { "needExchangeRestScore": "1" } })), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+                    case 36:
+                        res = _q.sent();
+                        score = res.exchangeRestScoreMap["367"];
+                        console.log('当前碎片', score);
+                        if (!(score >= 3)) return [3 /*break*/, 39];
+                        return [4 /*yield*/, this.getLog()];
+                    case 37:
+                        log = _q.sent();
+                        return [4 /*yield*/, this.api("functionId=doInteractiveAssignment&body=".concat(JSON.stringify({ "encryptProjectId": rewardSign, "encryptAssignmentId": "khdCzL9YRdYjh3dWFXfZLteUTYu", "sourceCode": "acexinpin0823", "itemId": "", "actionType": "", "completionFlag": "", "ext": { "exchangeNum": 1 }, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFDHh5" } }), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+                    case 38:
+                        res = _q.sent();
+                        if (res.subCode === '0') {
+                            console.log('兑换成功', res.rewardsInfo.successRewards['3'][0].rewardName);
+                            score -= 3;
+                        }
+                        else {
+                            console.log('兑换失败', res.msg);
+                        }
+                        _q.label = 39;
+                    case 39:
+                        if (!(score >= 1)) return [3 /*break*/, 42];
+                        return [4 /*yield*/, this.getLog()];
+                    case 40:
+                        log = _q.sent();
+                        return [4 /*yield*/, this.api("functionId=doInteractiveAssignment&body=".concat(JSON.stringify({ "encryptProjectId": rewardSign, "encryptAssignmentId": "2VUEMo9KjtktsQNvb2yHED2m2oCh", "sourceCode": "acexinpin0823", "itemId": "", "actionType": "", "completionFlag": "", "ext": { "exchangeNum": 1 }, "extParam": { "businessData": { "random": log.match(/"random":"(\d+)"/)[1] }, "signStr": log.match(/"log":"(.*)"/)[1], "sceneid": "XMFDHh5" } }), "&client=wh5&clientVersion=1.0.0&appid=content_ecology"))];
+                    case 41:
+                        res = _q.sent();
+                        if (res.subCode === '0') {
+                            console.log('兑换成功', res.rewardsInfo.successRewards['3'][0].rewardName);
+                            score -= 1;
+                        }
+                        else {
+                            console.log('兑换失败', res.msg);
+                        }
+                        _q.label = 42;
+                    case 42:
+                        console.log('当前碎片', score);
+                        return [2 /*return*/];
                 }
             });
         });

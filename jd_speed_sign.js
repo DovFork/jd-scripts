@@ -3,21 +3,6 @@
  * 极速版-签到+提现
  * cron: 45 0 * * *
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -55,110 +40,103 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var h5st_1 = require("./utils/h5st");
-var JDHelloWorld2_1 = require("./JDHelloWorld2");
-var Speed_Sign = /** @class */ (function (_super) {
-    __extends(Speed_Sign, _super);
-    function Speed_Sign() {
-        return _super.call(this) || this;
-    }
-    Speed_Sign.prototype.init = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new Speed_Sign())];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
+var cookie = '', res = '', UserName = '', h5stTool = new h5st_1.H5ST("15097", "jdltapp;", "8317250570595470");
+!(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var cookiesArr, _i, _a, _b, index, value, _c, _d, t, e_1;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
+            case 1:
+                cookiesArr = _e.sent();
+                _i = 0, _a = cookiesArr.entries();
+                _e.label = 2;
+            case 2:
+                if (!(_i < _a.length)) return [3 /*break*/, 17];
+                _b = _a[_i], index = _b[0], value = _b[1];
+                cookie = value;
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
+                return [4 /*yield*/, h5stTool.__genAlgo()];
+            case 3:
+                _e.sent();
+                return [4 /*yield*/, api('apSignIn_day', { "linkId": "9WA12jYGulArzWS7vcrwhw", "serviceName": "dayDaySignGetRedEnvelopeSignService", "business": 1 })];
+            case 4:
+                res = _e.sent();
+                _e.label = 5;
+            case 5:
+                _e.trys.push([5, 13, , 14]);
+                if (res.data.retCode === 0) {
+                    console.log('签到成功');
                 }
-            });
-        });
-    };
-    Speed_Sign.prototype.api = function (fn, body) {
-        return __awaiter(this, void 0, void 0, function () {
-            var timestamp, h5st;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        timestamp = Date.now();
-                        h5st = this.h5stTool.__genH5st({
-                            appid: 'activities_platform',
-                            body: JSON.stringify(body),
-                            client: 'H5',
-                            clientVersion: '1.0.0',
-                            functionId: fn,
-                            t: timestamp.toString()
-                        });
-                        return [4 /*yield*/, this.post('https://api.m.jd.com/', "functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&client=H5&clientVersion=1.0.0&h5st=").concat(h5st), {
-                                'Host': 'api.m.jd.com',
-                                'User-Agent': 'jdltapp;android;3.8.16;',
-                                'Origin': 'https://daily-redpacket.jd.com',
-                                'Referer': 'https://daily-redpacket.jd.com/',
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                                'Cookie': this.cookie
-                            })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                else {
+                    console.log(res.data.retMessage);
                 }
-            });
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 6:
+                _e.sent();
+                return [4 /*yield*/, api('signPrizeDetailList', { "linkId": "9WA12jYGulArzWS7vcrwhw", "serviceName": "dayDaySignGetRedEnvelopeSignService", "business": 1, "pageSize": 20, "page": 1 })];
+            case 7:
+                res = _e.sent();
+                _c = 0, _d = res.data.prizeDrawBaseVoPageBean.items;
+                _e.label = 8;
+            case 8:
+                if (!(_c < _d.length)) return [3 /*break*/, 12];
+                t = _d[_c];
+                if (!(t.prizeType === 4 && t.prizeStatus === 0)) return [3 /*break*/, 11];
+                return [4 /*yield*/, api('apCashWithDraw', { "linkId": "9WA12jYGulArzWS7vcrwhw", "businessSource": "DAY_DAY_RED_PACKET_SIGN", "base": { "prizeType": t.prizeType, "business": t.business, "id": t.id, "poolBaseId": t.poolBaseId, "prizeGroupId": t.prizeGroupId, "prizeBaseId": t.prizeBaseId } })];
+            case 9:
+                res = _e.sent();
+                console.log(parseFloat(t.prizeValue), res.data.message);
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 10:
+                _e.sent();
+                _e.label = 11;
+            case 11:
+                _c++;
+                return [3 /*break*/, 8];
+            case 12: return [3 /*break*/, 14];
+            case 13:
+                e_1 = _e.sent();
+                console.log('error', e_1);
+                return [3 /*break*/, 14];
+            case 14: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+            case 15:
+                _e.sent();
+                _e.label = 16;
+            case 16:
+                _i++;
+                return [3 /*break*/, 2];
+            case 17: return [2 /*return*/];
+        }
+    });
+}); })();
+function api(fn, body) {
+    return __awaiter(this, void 0, void 0, function () {
+        var timestamp, h5st;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    timestamp = Date.now();
+                    h5st = h5stTool.__genH5st({
+                        appid: 'activities_platform',
+                        body: JSON.stringify(body),
+                        client: 'H5',
+                        clientVersion: '1.0.0',
+                        functionId: fn,
+                        t: timestamp.toString()
+                    });
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.m.jd.com/', "functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&client=H5&clientVersion=1.0.0&h5st=").concat(h5st), {
+                            'Host': 'api.m.jd.com',
+                            'User-Agent': 'jdltapp;android;3.8.16;',
+                            'Origin': 'https://daily-redpacket.jd.com',
+                            'Referer': 'https://daily-redpacket.jd.com/',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Cookie': cookie
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
         });
-    };
-    Speed_Sign.prototype.main = function (user) {
-        var _a;
-        return __awaiter(this, void 0, void 0, function () {
-            var res, _i, _b, t, e_1;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        this.cookie = user.cookie;
-                        this.h5stTool = new h5st_1.H5ST("15097", "jdltapp;", (_a = process.env.FP_15097) !== null && _a !== void 0 ? _a : "");
-                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 1:
-                        _c.sent();
-                        return [4 /*yield*/, this.api('apSignIn_day', { "linkId": "9WA12jYGulArzWS7vcrwhw", "serviceName": "dayDaySignGetRedEnvelopeSignService", "business": 1 })];
-                    case 2:
-                        res = _c.sent();
-                        _c.label = 3;
-                    case 3:
-                        _c.trys.push([3, 11, , 12]);
-                        if (res.data.retCode === 0) {
-                            console.log('签到成功');
-                        }
-                        else {
-                            console.log(res.data.retMessage);
-                        }
-                        return [4 /*yield*/, this.wait(2000)];
-                    case 4:
-                        _c.sent();
-                        return [4 /*yield*/, this.api('signPrizeDetailList', { "linkId": "9WA12jYGulArzWS7vcrwhw", "serviceName": "dayDaySignGetRedEnvelopeSignService", "business": 1, "pageSize": 20, "page": 1 })];
-                    case 5:
-                        res = _c.sent();
-                        _i = 0, _b = res.data.prizeDrawBaseVoPageBean.items;
-                        _c.label = 6;
-                    case 6:
-                        if (!(_i < _b.length)) return [3 /*break*/, 10];
-                        t = _b[_i];
-                        if (!(t.prizeType === 4 && t.prizeStatus === 0)) return [3 /*break*/, 9];
-                        return [4 /*yield*/, this.api('apCashWithDraw', { "linkId": "9WA12jYGulArzWS7vcrwhw", "businessSource": "DAY_DAY_RED_PACKET_SIGN", "base": { "prizeType": t.prizeType, "business": t.business, "id": t.id, "poolBaseId": t.poolBaseId, "prizeGroupId": t.prizeGroupId, "prizeBaseId": t.prizeBaseId } })];
-                    case 7:
-                        res = _c.sent();
-                        console.log(parseFloat(t.prizeValue), res.data.message);
-                        return [4 /*yield*/, this.wait(2000)];
-                    case 8:
-                        _c.sent();
-                        _c.label = 9;
-                    case 9:
-                        _i++;
-                        return [3 /*break*/, 6];
-                    case 10: return [3 /*break*/, 12];
-                    case 11:
-                        e_1 = _c.sent();
-                        console.log('error', e_1);
-                        return [3 /*break*/, 12];
-                    case 12: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return Speed_Sign;
-}(JDHelloWorld2_1.JDHelloWorld));
-new Speed_Sign().init().then();
+    });
+}

@@ -6,9 +6,10 @@ interface User {
 }
 declare class JDHelloWorld {
     scriptName: string;
+    needHelp: boolean;
     cookiesArr: string[];
     users: User[];
-    constructor(scriptName?: string);
+    constructor(scriptName?: string, needHelp?: boolean);
     getCookie(check?: boolean): Promise<void>;
     checkCookie(cookie: string): Promise<boolean>;
     exceptCookie(filename?: string): any;

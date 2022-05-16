@@ -54,6 +54,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var dotenv = require("dotenv");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var rabbitToken = process.env.RABBIT_TOKEN || '', tg_id = process.env.TG_ID || '';
 var cookie, cookiesArr = [], res, UserName;
 var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [], log;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -331,10 +332,12 @@ function api(fn, body) {
 }
 function getLog() {
     return __awaiter(this, void 0, void 0, function () {
-        var data;
+        var data, data, i, e_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?t=".concat(Date.now()))];
+                case 0:
+                    if (!(!rabbitToken && !tg_id)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb")];
                 case 1:
                     data = _a.sent();
                     if (data !== 1 && data !== '1') {
@@ -344,7 +347,30 @@ function getLog() {
                         console.log('No log');
                         process.exit(0);
                     }
-                    return [2 /*return*/];
+                    return [3 /*break*/, 9];
+                case 2:
+                    console.log('rabbit log');
+                    data = '';
+                    i = 0;
+                    _a.label = 3;
+                case 3:
+                    if (!(i < 10)) return [3 /*break*/, 8];
+                    _a.label = 4;
+                case 4:
+                    _a.trys.push([4, 6, , 7]);
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("http://www.madrabbit.cf:8080/license/log?tg_id=".concat(tg_id, "&token=").concat(rabbitToken))];
+                case 5:
+                    data = _a.sent();
+                    return [3 /*break*/, 8];
+                case 6:
+                    e_5 = _a.sent();
+                    console.log('rabbit log api error');
+                    return [3 /*break*/, 7];
+                case 7:
+                    i++;
+                    return [3 /*break*/, 3];
+                case 8: return [2 /*return*/, "'\"random\":\"".concat(data.data.random, "\",\"log\":\"").concat(data.data.log, "\"'")];
+                case 9: return [2 /*return*/];
             }
         });
     });

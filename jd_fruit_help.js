@@ -68,9 +68,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var JDHelloWorld2_1 = require("./JDHelloWorld2");
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var date_fns_1 = require("date-fns");
 var h5st_1 = require("./utils/h5st");
+var dotenv = require("dotenv");
+dotenv.config();
 var res = '', data = '', shareCodeSelf = [], shareCodePool = [], shareCode = [], shareCodeFile = require('./jdFruitShareCodes');
 var Fruit_Help = /** @class */ (function (_super) {
     __extends(Fruit_Help, _super);
@@ -286,5 +288,5 @@ var Fruit_Help = /** @class */ (function (_super) {
         });
     };
     return Fruit_Help;
-}(JDHelloWorld2_1.JDHelloWorld));
+}(TS_JDHelloWorld_1.JDHelloWorld));
 new Fruit_Help().init().then();

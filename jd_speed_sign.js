@@ -56,7 +56,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var h5st_1 = require("./utils/h5st");
-var JDHelloWorld2_1 = require("./JDHelloWorld2");
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Speed_Sign = /** @class */ (function (_super) {
     __extends(Speed_Sign, _super);
     function Speed_Sign() {
@@ -160,5 +160,5 @@ var Speed_Sign = /** @class */ (function (_super) {
         });
     };
     return Speed_Sign;
-}(JDHelloWorld2_1.JDHelloWorld));
+}(TS_JDHelloWorld_1.JDHelloWorld));
 new Speed_Sign().init().then();

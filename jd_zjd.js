@@ -73,7 +73,7 @@ var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
 var Zjd = /** @class */ (function (_super) {
     __extends(Zjd, _super);
     function Zjd() {
-        var _this = _super.call(this, '', true) || this;
+        var _this = _super.call(this) || this;
         _this.openNum = 0;
         return _this;
     }

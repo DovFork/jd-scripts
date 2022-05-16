@@ -68,14 +68,20 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
+var JDHelloWorld2_1 = require("./JDHelloWorld2");
 var date_fns_1 = require("date-fns");
 var h5st_1 = require("./utils/h5st");
 var res = '', data = '', shareCodeSelf = [], shareCodePool = [], shareCode = [], shareCodeFile = require('./jdFruitShareCodes');
 var Fruit_Help = /** @class */ (function (_super) {
     __extends(Fruit_Help, _super);
     function Fruit_Help() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        _this.message = '';
+        _this.log = {
+            help: '',
+            runTimes: ''
+        };
+        return _this;
     }
     Fruit_Help.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -126,15 +132,15 @@ var Fruit_Help = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
                         _c.sent();
-                        if (Object.keys(shareCodeFile)[user.i]) {
-                            shareCodeSelf = shareCodeFile[Object.keys(shareCodeFile)[user.i]].split('@');
+                        if (Object.keys(shareCodeFile)[user.index]) {
+                            shareCodeSelf = shareCodeFile[Object.keys(shareCodeFile)[user.index]].split('@');
                         }
-                        this.o2s(shareCodeSelf, "\u7B2C".concat(user.i + 1, "\u4E2A\u8D26\u53F7\u83B7\u53D6\u7684\u5185\u90E8\u4E92\u52A9"));
+                        this.o2s(shareCodeSelf, "\u7B2C".concat(user.index + 1, "\u4E2A\u8D26\u53F7\u83B7\u53D6\u7684\u5185\u90E8\u4E92\u52A9"));
+                        this.message += "\u3010\u8D26\u53F7".concat(user.index + 1, "\u3011  ").concat(user.UserName, "\n");
+                        this.log.help += "\u3010\u8D26\u53F7".concat(user.index + 1, "\u3011  ").concat(user.UserName, "\n");
+                        this.log.runTimes += "\u3010\u8D26\u53F7".concat(user.index + 1, "\u3011  ").concat(user.UserName, "\n");
                         return [4 /*yield*/, this.api('initForFarm', { "version": 11, "channel": 3 })];
                     case 2:
-                        // message += `【账号${user.i + 1}】  ${UserName}\n`
-                        // log.help += `【账号${user.i + 1}】  ${UserName}\n`
-                        // log.runTimes += `【账号${user.i + 1}】  ${UserName}\n`
                         res = _c.sent();
                         if (res.code !== '0') {
                             console.log('初始化失败');
@@ -156,15 +162,14 @@ var Fruit_Help = /** @class */ (function (_super) {
                     case 6:
                         res = _c.sent();
                         console.log(res);
-                        // log.runTimes += `第${i + 1}次${res}\n`
+                        this.log.runTimes += "\u7B2C".concat(i + 1, "\u6B21").concat(res, "\n");
                         return [3 /*break*/, 10];
                     case 7:
                         e_1 = _c.sent();
                         console.log("\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25"), e_1);
-                        // log.runTimes += `第${i + 1}次上报失败 ${typeof e === 'object' ? JSON.stringify(e) : e}\n`
+                        this.log.runTimes += "\u7B2C".concat(i + 1, "\u6B21\u4E0A\u62A5\u5931\u8D25 ").concat(typeof e_1 === 'object' ? JSON.stringify(e_1) : e_1, "\n");
                         return [4 /*yield*/, this.wait(this.getRandomNumberByRange(10000, 30000))];
                     case 8:
-                        // log.runTimes += `第${i + 1}次上报失败 ${typeof e === 'object' ? JSON.stringify(e) : e}\n`
                         _c.sent();
                         return [3 /*break*/, 9];
                     case 9:
@@ -202,7 +207,7 @@ var Fruit_Help = /** @class */ (function (_super) {
                         }
                         else if (res.helpResult.code === '0') {
                             console.log('助力成功,获得', res.helpResult.salveHelpAddWater);
-                            // log.help += `助力成功 ${code} ${shareCodeSelf.includes(code) ? '*内部*' : ''}\n`
+                            this.log.help += "\u52A9\u529B\u6210\u529F ".concat(code, " ").concat(shareCodeSelf.includes(code) ? '*内部*' : '', "\n");
                         }
                         else if (res.helpResult.code === '8') {
                             console.log('上限');
@@ -210,7 +215,7 @@ var Fruit_Help = /** @class */ (function (_super) {
                         }
                         else if (res.helpResult.code === '9') {
                             console.log('已助力');
-                            // log.help += `已助力 ${code} ${shareCodeSelf.includes(code) ? '*内部*' : ''}\n`
+                            this.log.help += "\u5DF2\u52A9\u529B ".concat(code, " ").concat(shareCodeSelf.includes(code) ? '*内部*' : '', "\n");
                         }
                         else if (res.helpResult.code === '10') {
                             console.log('已满');
@@ -236,9 +241,7 @@ var Fruit_Help = /** @class */ (function (_super) {
                             console.log('farmAssistInit Error');
                             return [2 /*return*/];
                         }
-                        return [4 /*yield*/, this.wait(3000)
-                            // this.o2s(res, 'farmAssistInit')
-                        ];
+                        return [4 /*yield*/, this.wait(3000)];
                     case 22:
                         _c.sent();
                         farmAssistInit_waterEnergy = 0;
@@ -267,12 +270,15 @@ var Fruit_Help = /** @class */ (function (_super) {
                     case 28:
                         console.log('收到助力', res.assistFriendList.length);
                         console.log('助力已领取', farmAssistInit_waterEnergy);
-                        // message += `【助力已领取】  ${farmAssistInit_waterEnergy}\n`
-                        // message += '\n\n'
+                        this.message += "\u3010\u52A9\u529B\u5DF2\u9886\u53D6\u3011  ".concat(farmAssistInit_waterEnergy, "\n\n");
+                        this.message += '\n\n';
+                        if (user.end) {
+                            console.log(this.message);
+                            console.log(this.log.help);
+                            console.log(this.log.runTimes);
+                        }
                         return [4 /*yield*/, this.wait(60000)];
                     case 29:
-                        // message += `【助力已领取】  ${farmAssistInit_waterEnergy}\n`
-                        // message += '\n\n'
                         _c.sent();
                         return [2 /*return*/];
                 }
@@ -280,5 +286,5 @@ var Fruit_Help = /** @class */ (function (_super) {
         });
     };
     return Fruit_Help;
-}(TS_JDHelloWorld_1.JDHelloWorld));
+}(JDHelloWorld2_1.JDHelloWorld));
 new Fruit_Help().init().then();

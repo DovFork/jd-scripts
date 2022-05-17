@@ -211,6 +211,7 @@ var Zjd = /** @class */ (function (_super) {
                     case 2:
                         if (!(_i < users_1.length)) return [3 /*break*/, 16];
                         user = users_1[_i];
+                        this.cookie = user.cookie;
                         if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.getshareCodeHW('zjd')];
                     case 3:

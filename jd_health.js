@@ -50,18 +50,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
-var TEST = /** @class */ (function (_super) {
-    __extends(TEST, _super);
-    function TEST() {
-        return _super.call(this) || this;
+var Health = /** @class */ (function (_super) {
+    __extends(Health, _super);
+    function Health() {
+        var _this = _super.call(this) || this;
+        _this.shareCodeSelf = [];
+        _this.shareCodePool = [];
+        return _this;
     }
-    TEST.prototype.init = function () {
+    Health.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new TEST)];
+                    case 0: return [4 /*yield*/, this.run(new Health, this.help)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -69,7 +81,7 @@ var TEST = /** @class */ (function (_super) {
             });
         });
     };
-    TEST.prototype.api = function (fn, body) {
+    Health.prototype.api = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -86,80 +98,221 @@ var TEST = /** @class */ (function (_super) {
             });
         });
     };
-    TEST.prototype.main = function (user) {
+    Health.prototype.runTimes = function (code) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, _i, _a, t, _b, _c, tp, e_1;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var data, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        this.user = user;
-                        return [4 /*yield*/, this.api('jdhealth_getTaskDetail', { "buildingId": "", "taskId": "", "channelId": 1 })];
+                        _a.trys.push([0, 2, , 4]);
+                        return [4 /*yield*/, this.get("https://api.jdsharecode.xyz/api/runTimes0509?activityId=health&sharecode=".concat(code))];
                     case 1:
-                        res = _d.sent();
-                        _d.label = 2;
-                    case 2:
-                        _d.trys.push([2, 17, , 18]);
-                        _i = 0, _a = res.data.result.taskVos;
-                        _d.label = 3;
-                    case 3:
-                        if (!(_i < _a.length)) return [3 /*break*/, 16];
-                        t = _a[_i];
-                        if (!(t.status === 1 || t.status === 3)) return [3 /*break*/, 15];
-                        console.log(t.taskName);
-                        _b = 0, _c = t.productInfoVos || t.followShopVo || t.shoppingActivityVos || [];
-                        _d.label = 4;
-                    case 4:
-                        if (!(_b < _c.length)) return [3 /*break*/, 15];
-                        tp = _c[_b];
-                        if (!(tp.status === 1)) return [3 /*break*/, 14];
-                        console.log('\t', tp.skuName || tp.shopName || tp.title);
-                        if (!(t.taskName.includes('早睡打卡') && t.taskBeginTime < Date.now() && t.taskEndTime > Date.now())) return [3 /*break*/, 7];
-                        return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
-                    case 5:
-                        res = _d.sent();
-                        return [4 /*yield*/, this.wait(2000)];
-                    case 6:
-                        _d.sent();
-                        console.log('\t', res.data.bizMsg);
-                        _d.label = 7;
-                    case 7:
-                        if (!t.waitDuration) return [3 /*break*/, 10];
-                        return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
-                    case 8:
-                        res = _d.sent();
-                        console.log('\t', res.data.bizMsg);
-                        return [4 /*yield*/, this.wait(t.waitDuration * 1000)];
-                    case 9:
-                        _d.sent();
-                        _d.label = 10;
-                    case 10: return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 0 })];
-                    case 11:
-                        res = _d.sent();
-                        if (!res.data.bizMsg.includes('做完')) return [3 /*break*/, 12];
-                        console.log(res.data.bizMsg);
-                        return [3 /*break*/, 15];
-                    case 12:
-                        console.log(res.data.bizMsg, parseInt(res.data.result.score));
-                        return [4 /*yield*/, this.wait(1500)];
-                    case 13:
-                        _d.sent();
-                        _d.label = 14;
-                    case 14:
-                        _b++;
+                        data = _a.sent();
+                        console.log(data);
                         return [3 /*break*/, 4];
-                    case 15:
-                        _i++;
-                        return [3 /*break*/, 3];
-                    case 16: return [3 /*break*/, 18];
-                    case 17:
-                        e_1 = _d.sent();
-                        console.log('Error', e_1);
-                        return [3 /*break*/, 18];
-                    case 18: return [2 /*return*/];
+                    case 2:
+                        e_1 = _a.sent();
+                        return [4 /*yield*/, this.wait(5000)];
+                    case 3:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    return TEST;
+    Health.prototype.main = function (user) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var res, i, _i, _b, t, data, _c, _d, tp, e_2;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        this.user = user;
+                        return [4 /*yield*/, this.api('jdhealth_getHomeData', {})];
+                    case 1:
+                        res = _e.sent();
+                        if (!((_a = res.data) === null || _a === void 0 ? void 0 : _a.result)) {
+                            return [2 /*return*/];
+                        }
+                        if (!res.data.result.popupInfo.continuousSignInfo) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": res.data.result.popupInfo.continuousSignInfo.signInTaskToken, "taskId": res.data.result.continuousSignTaskId, "actionType": "0" })];
+                    case 2:
+                        res = _e.sent();
+                        if (res.data.bizCode === 0) {
+                            console.log('签到成功', res.data.result.acquiredScore);
+                        }
+                        _e.label = 3;
+                    case 3:
+                        i = 0;
+                        _e.label = 4;
+                    case 4:
+                        if (!(i < 1)) return [3 /*break*/, 25];
+                        return [4 /*yield*/, this.api('jdhealth_getTaskDetail', { "buildingId": "", "taskId": "", "channelId": 1 })];
+                    case 5:
+                        res = _e.sent();
+                        _e.label = 6;
+                    case 6:
+                        _e.trys.push([6, 21, , 22]);
+                        _i = 0, _b = res.data.result.taskVos;
+                        _e.label = 7;
+                    case 7:
+                        if (!(_i < _b.length)) return [3 /*break*/, 20];
+                        t = _b[_i];
+                        if (!(t.status === 1 || t.status === 3)) return [3 /*break*/, 19];
+                        console.log(t.taskName);
+                        if (!(t.taskName.includes('打卡') && t.threeMealInfoVos[0].status === 1)) return [3 /*break*/, 10];
+                        return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": t.threeMealInfoVos[0].taskToken, "taskId": t.taskId, "actionType": 0 })];
+                    case 8:
+                        data = _e.sent();
+                        if (res.data.bizCode === 0)
+                            console.log('打卡成功', parseInt(data.data.result.score));
+                        else
+                            console.log('打卡失败', data.data.bizMsg);
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 9:
+                        _e.sent();
+                        _e.label = 10;
+                    case 10:
+                        _c = 0, _d = t.productInfoVos || t.followShopVo || t.shoppingActivityVos || [];
+                        _e.label = 11;
+                    case 11:
+                        if (!(_c < _d.length)) return [3 /*break*/, 19];
+                        tp = _d[_c];
+                        if (!(tp.status === 1)) return [3 /*break*/, 18];
+                        console.log('\t', tp.skuName || tp.shopName || tp.title);
+                        if (!t.waitDuration) return [3 /*break*/, 14];
+                        return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1 })];
+                    case 12:
+                        res = _e.sent();
+                        console.log('\t', res.data.bizMsg);
+                        return [4 /*yield*/, this.wait(t.waitDuration * 1000)];
+                    case 13:
+                        _e.sent();
+                        _e.label = 14;
+                    case 14: return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 0 })];
+                    case 15:
+                        res = _e.sent();
+                        if (!res.data.bizMsg.includes('做完')) return [3 /*break*/, 16];
+                        console.log(res.data.bizMsg);
+                        return [3 /*break*/, 19];
+                    case 16:
+                        console.log(res.data.bizMsg, parseInt(res.data.result.score));
+                        return [4 /*yield*/, this.wait(1500)];
+                    case 17:
+                        _e.sent();
+                        _e.label = 18;
+                    case 18:
+                        _c++;
+                        return [3 /*break*/, 11];
+                    case 19:
+                        _i++;
+                        return [3 /*break*/, 7];
+                    case 20: return [3 /*break*/, 22];
+                    case 21:
+                        e_2 = _e.sent();
+                        console.log('Error', e_2);
+                        return [3 /*break*/, 22];
+                    case 22: return [4 /*yield*/, this.wait(3000)];
+                    case 23:
+                        _e.sent();
+                        _e.label = 24;
+                    case 24:
+                        i++;
+                        return [3 /*break*/, 4];
+                    case 25: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Health.prototype.help = function (users) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, _i, users_1, user, code, e_3, _a, users_2, user, _b, shareCode, full, _c, shareCode_1, code, e_4;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _i = 0, users_1 = users;
+                        _d.label = 1;
+                    case 1:
+                        if (!(_i < users_1.length)) return [3 /*break*/, 8];
+                        user = users_1[_i];
+                        this.user = user;
+                        console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011").concat(user.UserName, "\n"));
+                        return [4 /*yield*/, this.api('jdhealth_getTaskDetail', { "buildingId": "", "taskId": 6, "channelId": 1 })];
+                    case 2:
+                        res = _d.sent();
+                        _d.label = 3;
+                    case 3:
+                        _d.trys.push([3, 6, , 7]);
+                        code = res.data.result.taskVos[0].assistTaskDetailVo.taskToken;
+                        console.log('助力码', code);
+                        this.shareCodeSelf.push(code);
+                        return [4 /*yield*/, this.runTimes(code)];
+                    case 4:
+                        _d.sent();
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 5:
+                        _d.sent();
+                        return [3 /*break*/, 7];
+                    case 6:
+                        e_3 = _d.sent();
+                        return [3 /*break*/, 7];
+                    case 7:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 8:
+                        this.o2s(this.shareCodeSelf, '内部助力码');
+                        _a = 0, users_2 = users;
+                        _d.label = 9;
+                    case 9:
+                        if (!(_a < users_2.length)) return [3 /*break*/, 19];
+                        user = users_2[_a];
+                        this.user = user;
+                        _b = this;
+                        return [4 /*yield*/, this.getShareCodePool('health', 1)];
+                    case 10:
+                        _b.shareCodePool = _d.sent();
+                        shareCode = Array.from(new Set(__spreadArray(__spreadArray([], this.shareCodeSelf, true), this.shareCodePool, true))), full = [];
+                        _c = 0, shareCode_1 = shareCode;
+                        _d.label = 11;
+                    case 11:
+                        if (!(_c < shareCode_1.length)) return [3 /*break*/, 18];
+                        code = shareCode_1[_c];
+                        if (full.includes(code))
+                            return [3 /*break*/, 17];
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
+                        return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": code, "taskId": "6", "actionType": 0 })];
+                    case 12:
+                        res = _d.sent();
+                        _d.label = 13;
+                    case 13:
+                        _d.trys.push([13, 14, 15, 17]);
+                        if (res.data.bizMsg === '助力失败丨啊哦您今日的爱心值已爆棚，明天继续吧') {
+                            return [3 /*break*/, 18];
+                        }
+                        else if (res.data.bizMsg === '助力已满员！谢谢你哦~')
+                            full.push(code);
+                        else
+                            console.log(res.data.bizMsg);
+                        return [3 /*break*/, 17];
+                    case 14:
+                        e_4 = _d.sent();
+                        return [3 /*break*/, 18];
+                    case 15: return [4 /*yield*/, this.wait(3000)];
+                    case 16:
+                        _d.sent();
+                        return [7 /*endfinally*/];
+                    case 17:
+                        _c++;
+                        return [3 /*break*/, 11];
+                    case 18:
+                        _a++;
+                        return [3 /*break*/, 9];
+                    case 19: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return Health;
 }(TS_JDHelloWorld_1.JDHelloWorld));
-new TEST().init().then();
+new Health().init().then();

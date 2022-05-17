@@ -44,7 +44,6 @@ exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie = '', res = '', UserName, index, uuid;
-// let shareCodeSelf: { shareCode: string, groupCode: string, activeId: string }[] = [], shareCode: { shareCode: string, groupCode: string, activeId: string }[] = [], shareCodeHW: { shareCode: string, groupCode: string, activeId: string }[] = []
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, headers, times, j, j, _i, _a, t, e_1;
     var _b, _c;
@@ -186,14 +185,3 @@ function api(fn, body) {
         });
     });
 }
-/*async function qjd(fn: string, body?: object) {
-  let {data} = await axios.get(`https://api.m.jd.com/client.action?functionId=${fn}&body=${encodeURIComponent(JSON.stringify(body))}&appid=ld&client=apple&clientVersion=10.0.8&uuid=${uuid}&openudid=${uuid}`, {
-    headers: {
-      'Host': 'api.m.jd.com',
-      'User-Agent': USER_AGENT,
-      'Referer': 'https://h5.m.jd.com/rn/3MQXMdRUTeat9xqBSZDSCCAE9Eqz/index.html',
-      'Cookie': cookie
-    }
-  })
-  return data
-}*/

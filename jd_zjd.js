@@ -198,7 +198,7 @@ var Zjd = /** @class */ (function (_super) {
     };
     Zjd.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var full, _i, users_1, user, _a, shareCode_1, code, res, e_1;
+            var _i, users_1, user, _a, shareCode_1, code, res, e_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -206,7 +206,6 @@ var Zjd = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.wait(2000)];
                     case 1:
                         _b.sent();
-                        full = [];
                         _i = 0, users_1 = users;
                         _b.label = 2;
                     case 2:
@@ -230,8 +229,6 @@ var Zjd = /** @class */ (function (_super) {
                     case 6:
                         if (!(_a < shareCode_1.length)) return [3 /*break*/, 13];
                         code = shareCode_1[_a];
-                        if (full.includes(code.assistedPinEncrypted))
-                            return [3 /*break*/, 12];
                         _b.label = 7;
                     case 7:
                         _b.trys.push([7, 9, , 10]);
@@ -248,7 +245,6 @@ var Zjd = /** @class */ (function (_super) {
                         }
                         else if (res.resultCode === '2400205') {
                             console.log('对方已成团');
-                            full.push(code.assistedPinEncrypted);
                         }
                         else if (res.resultCode === '9200011') {
                             console.log('已助力过');

@@ -76,7 +76,7 @@ var message = '', h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"
                 if (Object.keys(shareCodeFile)[index]) {
                     shareCodeSelf = shareCodeFile[Object.keys(shareCodeFile)[index]].split('@');
                 }
-                console.log("\u7B2C".concat(index + 1, "\u4E2A\u8D26\u53F7\u83B7\u53D6\u7684\u5185\u90E8\u4E92\u52A9"), shareCodeSelf);
+                (0, TS_USER_AGENTS_1.o2s)(shareCodeSelf, "\u7B2C".concat(index + 1, "\u4E2A\u8D26\u53F7\u83B7\u53D6\u7684\u5185\u90E8\u4E92\u52A9"));
                 return [4 /*yield*/, api('initForFarm', { "version": 11, "channel": 3 })];
             case 5:
                 // 初始化

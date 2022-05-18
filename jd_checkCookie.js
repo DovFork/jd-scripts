@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,22 +51,50 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', UserName;
-!(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)(true)];
-            case 1:
-                cookiesArr = _c.sent();
-                for (_i = 0, _a = cookiesArr.entries(); _i < _a.length; _i++) {
-                    _b = _a[_i], index = _b[0], value = _b[1];
-                    cookie = value;
-                    UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    console.log(index + 1, UserName);
+var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
+var Check_cookie = /** @class */ (function (_super) {
+    __extends(Check_cookie, _super);
+    function Check_cookie() {
+        return _super.call(this, "Cookie检测") || this;
+    }
+    Check_cookie.prototype.init = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.run(new Check_cookie())];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
-                return [2 /*return*/];
-        }
-    });
-}); })();
+            });
+        });
+    };
+    Check_cookie.prototype.main = function (user) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get("https://api.m.jd.com/client.action?functionId=GetJDUserInfoUnion&appid=jd-cphdeveloper-m&body=".concat(encodeURIComponent(JSON.stringify({ "orgFlag": "JD_PinGou_New", "callSource": "mainorder", "channel": 4, "isHomewhite": 0, "sceneval": 2 })), "&loginType=2&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=GetJDUserInfoUnion&g_ty=ls"), {
+                            'authority': 'api.m.jd.com',
+                            'user-agent': user.UserAgent,
+                            'referer': 'https://home.m.jd.com/',
+                            'cookie': user.cookie
+                        })];
+                    case 1:
+                        data = _a.sent();
+                        data = JSON.parse(data.match(/GetJDUserInfoUnion\((.*)\)/)[1]);
+                        if (data.retcode === '0') {
+                            console.log('Cookie有效');
+                        }
+                        else {
+                            console.log('Cookie无效');
+                            return [2 /*return*/, { msg: "Cookie\u65E0\u6548 \u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName) }];
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return Check_cookie;
+}(TS_JDHelloWorld_1.JDHelloWorld));
+new Check_cookie().init().then();

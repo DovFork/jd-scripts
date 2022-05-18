@@ -41,7 +41,6 @@ var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var dotenv = require("dotenv");
 var fs_1 = require("fs");
-var sendNotify_1 = require("./sendNotify");
 dotenv.config();
 var USER_AGENTS_ARR = [
     "jdapp;android;10.0.2;10;network/wifi;Mozilla/5.0 (Linux; Android 10; ONEPLUS A5010 Build/QKQ1.191014.012; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045230 Mobile Safari/537.36",
@@ -141,83 +140,22 @@ function getFarmShareCode(cookie) {
     });
 }
 exports.getFarmShareCode = getFarmShareCode;
-function getCookie(check) {
-    if (check === void 0) { check = false; }
+function getCookie() {
     return __awaiter(this, void 0, void 0, function () {
-        var pwd, cookiesArr, jdCookieNode, keys, i, cookie, username;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    pwd = __dirname;
-                    cookiesArr = [];
-                    jdCookieNode = require('./jdCookie.js');
-                    keys = Object.keys(jdCookieNode);
-                    i = 0;
-                    _a.label = 1;
-                case 1:
-                    if (!(i < keys.length)) return [3 /*break*/, 7];
-                    cookie = jdCookieNode[keys[i]];
-                    if (!!check) return [3 /*break*/, 2];
-                    if (pwd.includes('/ql') && !pwd.includes('JDHelloWorld')) {
-                    }
-                    else {
-                        cookiesArr.push(cookie);
-                    }
-                    return [3 /*break*/, 6];
-                case 2: return [4 /*yield*/, checkCookie(cookie)];
-                case 3:
-                    if (!_a.sent()) return [3 /*break*/, 4];
-                    cookiesArr.push(cookie);
-                    return [3 /*break*/, 6];
-                case 4:
-                    username = decodeURIComponent(jdCookieNode[keys[i]].match(/pt_pin=([^;]*)/)[1]);
-                    console.log('Cookie失效', username);
-                    return [4 /*yield*/, (0, sendNotify_1.sendNotify)('Cookie失效', '【京东账号】' + username)];
-                case 5:
-                    _a.sent();
-                    _a.label = 6;
-                case 6:
-                    i++;
-                    return [3 /*break*/, 1];
-                case 7:
-                    console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
-                    return [2 /*return*/, cookiesArr];
+        var cookiesArr, jdCookieNode, _i, _a, keys;
+        return __generator(this, function (_b) {
+            cookiesArr = [];
+            jdCookieNode = require('./jdCookie.js');
+            for (_i = 0, _a = Object.keys(jdCookieNode); _i < _a.length; _i++) {
+                keys = _a[_i];
+                cookiesArr.push(jdCookieNode[keys]);
             }
+            console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
+            return [2 /*return*/, cookiesArr];
         });
     });
 }
 exports.getCookie = getCookie;
-function checkCookie(cookie) {
-    return __awaiter(this, void 0, void 0, function () {
-        var data, e_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, wait(3000)];
-                case 1:
-                    _a.sent();
-                    _a.label = 2;
-                case 2:
-                    _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.m.jd.com/client.action?functionId=GetJDUserInfoUnion&appid=jd-cphdeveloper-m&body=".concat(encodeURIComponent(JSON.stringify({ "orgFlag": "JD_PinGou_New", "callSource": "mainorder", "channel": 4, "isHomewhite": 0, "sceneval": 2 })), "&loginType=2&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=GetJDUserInfoUnion&g_ty=ls"), {
-                            headers: {
-                                'authority': 'api.m.jd.com',
-                                'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1',
-                                'referer': 'https://home.m.jd.com/',
-                                'cookie': cookie
-                            }
-                        })];
-                case 3:
-                    data = (_a.sent()).data;
-                    data = JSON.parse(data.match(/GetJDUserInfoUnion\((.*)\)/)[1]);
-                    return [2 /*return*/, data.retcode === '0'];
-                case 4:
-                    e_1 = _a.sent();
-                    return [2 /*return*/, false];
-                case 5: return [2 /*return*/];
-            }
-        });
-    });
-}
 function wait(ms) {
     return new Promise(function (resolve) {
         setTimeout(resolve, ms);
@@ -293,7 +231,7 @@ function randomWord(n) {
 exports.randomWord = randomWord;
 function getshareCodeHW(key) {
     return __awaiter(this, void 0, void 0, function () {
-        var shareCodeHW, i, data, e_2;
+        var shareCodeHW, i, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -314,7 +252,7 @@ function getshareCodeHW(key) {
                     }
                     return [3 /*break*/, 6];
                 case 4:
-                    e_2 = _a.sent();
+                    e_1 = _a.sent();
                     console.log("getshareCodeHW Error, Retry...");
                     return [4 /*yield*/, wait(getRandomNumberByRange(2000, 6000))];
                 case 5:
@@ -331,7 +269,7 @@ function getshareCodeHW(key) {
 exports.getshareCodeHW = getshareCodeHW;
 function getShareCodePool(key, num) {
     return __awaiter(this, void 0, void 0, function () {
-        var shareCode, i, data, e_3;
+        var shareCode, i, data, e_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -353,7 +291,7 @@ function getShareCodePool(key, num) {
                     }
                     return [3 /*break*/, 6];
                 case 4:
-                    e_3 = _a.sent();
+                    e_2 = _a.sent();
                     console.log("getShareCodePool Error, Retry...");
                     return [4 /*yield*/, wait(getRandomNumberByRange(2000, 6000))];
                 case 5:

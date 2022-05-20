@@ -84,10 +84,10 @@ var Check_cookie = /** @class */ (function (_super) {
                         data = _a.sent();
                         data = JSON.parse(data.match(/GetJDUserInfoUnion\((.*)\)/)[1]);
                         if (data.retcode === '0') {
-                            console.log('Cookie有效');
+                            console.log('✅');
                         }
                         else {
-                            console.log('Cookie无效');
+                            console.log('❌');
                             return [2 /*return*/, { msg: "Cookie\u65E0\u6548 \u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName) }];
                         }
                         return [2 /*return*/];

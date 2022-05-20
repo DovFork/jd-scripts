@@ -380,7 +380,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         return [3 /*break*/, 32];
                     case 30:
                         e_1 = _e.sent();
-                        console.log('Error', e_1);
+                        console.log('Error', e_1.message);
                         return [4 /*yield*/, this.wait(3000)];
                     case 31:
                         _e.sent();

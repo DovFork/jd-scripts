@@ -1,6 +1,7 @@
 "use strict";
 /**
- * CK倒1 优先助力HW.ts
+ * CK1   优先助力HW.ts
+ * CK倒1 优先组队HW.ts
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -53,15 +54,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var log_618_1 = require("./utils/log_618");
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var Jd_618 = /** @class */ (function (_super) {
     __extends(Jd_618, _super);
     function Jd_618() {
         var _this = _super.call(this) || this;
         _this.logTool = new log_618_1.Log_618();
+        _this.shareCodeSelf = [];
         return _this;
     }
     Jd_618.prototype.init = function () {
@@ -170,7 +180,7 @@ var Jd_618 = /** @class */ (function (_super) {
     };
     Jd_618.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, log, secretp, loop, _i, _a, t, _b, _c, t, _d, _e, tp, _f, _g, tp, _h, _j, tp, e_1;
+            var res, data, log, secretp, loop, inviteId, _i, _a, t, _b, _c, t, _d, _e, tp, _f, _g, tp, _h, _j, tp, e_1;
             return __generator(this, function (_k) {
                 switch (_k.label) {
                     case 0:
@@ -211,6 +221,10 @@ var Jd_618 = /** @class */ (function (_super) {
                     case 7:
                         res = _k.sent();
                         this.o2s(res);
+                        inviteId = res.data.result.inviteId;
+                        console.log('助力码', inviteId);
+                        if (!this.shareCodeSelf.includes(inviteId))
+                            this.shareCodeSelf.push(inviteId);
                         _i = 0, _a = res.data.result.lotteryTaskVos[0].badgeAwardVos;
                         _k.label = 8;
                     case 8:
@@ -234,14 +248,16 @@ var Jd_618 = /** @class */ (function (_super) {
                     case 13:
                         if (!(_b < _c.length)) return [3 /*break*/, 44];
                         t = _c[_b];
+                        if (t.taskName.includes('下单') || t.taskName.includes('小程序')) {
+                            console.log('pass', t);
+                            return [3 /*break*/, 43];
+                        }
                         if (!t.browseShopVo) return [3 /*break*/, 22];
                         _d = 0, _e = t.browseShopVo;
                         _k.label = 14;
                     case 14:
                         if (!(_d < _e.length)) return [3 /*break*/, 22];
                         tp = _e[_d];
-                        if (tp.shopName.includes('小程序'))
-                            return [3 /*break*/, 21];
                         if (!(tp.status === 1)) return [3 /*break*/, 21];
                         console.log(tp.shopName);
                         return [4 /*yield*/, this.getLog()];
@@ -349,7 +365,7 @@ var Jd_618 = /** @class */ (function (_super) {
                     case 40:
                         data = _k.sent();
                         console.log(data.data.result.successToast);
-                        return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
+                        return [4 /*yield*/, this.wait(2000)];
                     case 41:
                         _k.sent();
                         _k.label = 42;
@@ -377,27 +393,72 @@ var Jd_618 = /** @class */ (function (_super) {
         });
     };
     Jd_618.prototype.help = function (users) {
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var shareCodeHW, _i, users_1, user, res, log, secretp, memberCount, groupJoinInviteId;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var shareCodeHW_group, shareCodeHW, shareCode, _i, users_1, user, res, log, secretp, _e, shareCode_1, code, memberCount, groupJoinInviteId;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0:
-                        shareCodeHW = [];
+                        shareCodeHW_group = [], shareCodeHW = [], shareCode = [];
                         _i = 0, users_1 = users;
-                        _a.label = 1;
+                        _f.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 13];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 21];
                         user = users_1[_i];
                         console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011").concat(user.UserName, "\n"));
                         this.user = user;
                         res = void 0, log = void 0;
                         return [4 /*yield*/, this.api('promote_getHomeData', {})];
                     case 2:
-                        res = _a.sent();
+                        res = _f.sent();
                         secretp = res.data.result.homeMainInfo.secretp;
-                        return [4 /*yield*/, this.api('promote_pk_getHomeData', {})];
+                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.getshareCodeHW('lyb')];
                     case 3:
-                        res = _a.sent();
+                        shareCodeHW = _f.sent();
+                        _f.label = 4;
+                    case 4:
+                        if (user.index === 0) {
+                            shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true)));
+                        }
+                        else {
+                            shareCode = Array.from(new Set(__spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true)));
+                        }
+                        this.o2s(this.shareCodeSelf, '内部助力');
+                        _e = 0, shareCode_1 = shareCode;
+                        _f.label = 5;
+                    case 5:
+                        if (!(_e < shareCode_1.length)) return [3 /*break*/, 10];
+                        code = shareCode_1[_e];
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
+                        return [4 /*yield*/, this.getLog()];
+                    case 6:
+                        log = _f.sent();
+                        return [4 /*yield*/, this.api('promote_collectScore', {
+                                "ss": JSON.stringify({ extraData: { log: encodeURIComponent(log.log), sceneid: 'RAhomePageh5' }, secretp: secretp, random: log.random }),
+                                "actionType": "0",
+                                "inviteId": code
+                            })];
+                    case 7:
+                        res = _f.sent();
+                        if (res.data.bizCode === 0) {
+                            console.log('助力成功', parseFloat(res.data.result.acquiredScore));
+                            if ((_b = (_a = res.data.result) === null || _a === void 0 ? void 0 : _a.redpacket) === null || _b === void 0 ? void 0 : _b.value)
+                                console.log('🧧', parseFloat((_d = (_c = res.data.result) === null || _c === void 0 ? void 0 : _c.redpacket) === null || _d === void 0 ? void 0 : _d.value));
+                        }
+                        else {
+                            console.log(res.data.bizMsg);
+                        }
+                        return [4 /*yield*/, this.wait(4000)];
+                    case 8:
+                        _f.sent();
+                        _f.label = 9;
+                    case 9:
+                        _e++;
+                        return [3 /*break*/, 5];
+                    case 10: return [4 /*yield*/, this.api('promote_pk_getHomeData', {})];
+                    case 11:
+                        res = _f.sent();
                         memberCount = res.data.result.groupInfo.memberList.length;
                         console.log('当前队伍有', memberCount, '人');
                         groupJoinInviteId = "";
@@ -405,30 +466,29 @@ var Jd_618 = /** @class */ (function (_super) {
                             groupJoinInviteId = res.data.result.groupInfo.groupJoinInviteId;
                             console.log('队伍未满', groupJoinInviteId);
                         }
-                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 5];
+                        if (!(shareCodeHW_group.length === 0)) return [3 /*break*/, 13];
                         return [4 /*yield*/, this.getshareCodeHW('lyb_group')];
-                    case 4:
-                        shareCodeHW = _a.sent();
-                        _a.label = 5;
-                    case 5:
-                        // let shareCode: string[] = []
+                    case 12:
+                        shareCodeHW_group = _f.sent();
+                        _f.label = 13;
+                    case 13:
                         if (user.index === users.length - 1) {
                             groupJoinInviteId = shareCodeHW[0];
                         }
-                        if (!(memberCount === 1)) return [3 /*break*/, 10];
+                        if (!(memberCount === 1)) return [3 /*break*/, 18];
                         return [4 /*yield*/, this.getLog()];
-                    case 6:
-                        log = _a.sent();
+                    case 14:
+                        log = _f.sent();
                         return [4 /*yield*/, this.api('promote_pk_joinGroup', {
                                 "inviteId": groupJoinInviteId,
                                 "ss": JSON.stringify({ extraData: { log: encodeURIComponent(log.log), sceneid: 'RAhomePageh5' }, secretp: secretp, random: log.random }),
                                 "confirmFlag": 1
                             })];
-                    case 7:
-                        res = _a.sent();
+                    case 15:
+                        res = _f.sent();
                         return [4 /*yield*/, this.wait(3000)];
-                    case 8:
-                        _a.sent();
+                    case 16:
+                        _f.sent();
                         if (res.data.bizCode === 0) {
                             console.log('加入队伍成功');
                         }
@@ -436,18 +496,18 @@ var Jd_618 = /** @class */ (function (_super) {
                             console.log(res.data.bizMsg);
                         }
                         return [4 /*yield*/, this.api('promote_pk_getHomeData', {})];
-                    case 9:
-                        res = _a.sent();
+                    case 17:
+                        res = _f.sent();
                         this.o2s(res, 'promote_pk_getHomeData');
-                        _a.label = 10;
-                    case 10: return [4 /*yield*/, this.wait(5000)];
-                    case 11:
-                        _a.sent();
-                        _a.label = 12;
-                    case 12:
+                        _f.label = 18;
+                    case 18: return [4 /*yield*/, this.wait(5000)];
+                    case 19:
+                        _f.sent();
+                        _f.label = 20;
+                    case 20:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 13: return [2 /*return*/];
+                    case 21: return [2 /*return*/];
                 }
             });
         });

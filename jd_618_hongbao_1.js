@@ -1,6 +1,7 @@
 "use strict";
 /**
  * 20点开奖的🧧
+ * cron: 10 20,21,22 * * *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }

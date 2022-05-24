@@ -329,7 +329,12 @@ var Jd_618 = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.api('template_mongo_lottery', { "appId": appId, "fragmentId": i })];
                     case 32:
                         data = _p.sent();
-                        console.log(data.data.result.userAwardDto);
+                        if (data.data.result.userAwardDto.couponVo)
+                            console.log(data.data.result.userAwardDto.couponVo.prizeName);
+                        else if (data.data.result.userAwardDto.scoreVo)
+                            console.log(parseInt(data.data.result.userAwardDto.scoreVo.quantity), '金币');
+                        else
+                            console.log(data.data.result.userAwardDto);
                         return [4 /*yield*/, this.wait(2000)];
                     case 33:
                         _p.sent();
@@ -549,7 +554,7 @@ var Jd_618 = /** @class */ (function (_super) {
     Jd_618.prototype.help = function (users) {
         var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var shareCodeHW_group, shareCodeHW, shareCode, full, _i, users_1, user, res, log, secretp, _e, shareCode_1, code, memberCount, groupJoinInviteId;
+            var shareCodeHW_group, shareCodeHW, shareCode, full, _i, users_1, user, res, log, secretp, _e, shareCode_1, code, memberCount, groupJoinInviteId, e_3;
             return __generator(this, function (_f) {
                 switch (_f.label) {
                     case 0:
@@ -557,21 +562,24 @@ var Jd_618 = /** @class */ (function (_super) {
                         _i = 0, users_1 = users;
                         _f.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 21];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 24];
                         user = users_1[_i];
+                        _f.label = 2;
+                    case 2:
+                        _f.trys.push([2, 22, , 23]);
                         console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011").concat(user.UserName, "\n"));
                         this.user = user;
                         res = void 0, log = void 0;
                         return [4 /*yield*/, this.api('promote_getHomeData', {})];
-                    case 2:
+                    case 3:
                         res = _f.sent();
                         secretp = res.data.result.homeMainInfo.secretp;
-                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
+                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 5];
                         return [4 /*yield*/, this.getshareCodeHW('lyb')];
-                    case 3:
-                        shareCodeHW = _f.sent();
-                        _f.label = 4;
                     case 4:
+                        shareCodeHW = _f.sent();
+                        _f.label = 5;
+                    case 5:
                         if (user.index === 0) {
                             shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true)));
                         }
@@ -580,21 +588,21 @@ var Jd_618 = /** @class */ (function (_super) {
                         }
                         this.o2s(this.shareCodeSelf, '内部助力');
                         _e = 0, shareCode_1 = shareCode;
-                        _f.label = 5;
-                    case 5:
-                        if (!(_e < shareCode_1.length)) return [3 /*break*/, 10];
+                        _f.label = 6;
+                    case 6:
+                        if (!(_e < shareCode_1.length)) return [3 /*break*/, 11];
                         code = shareCode_1[_e];
-                        if (!!full.includes(code)) return [3 /*break*/, 9];
+                        if (!!full.includes(code)) return [3 /*break*/, 10];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
                         return [4 /*yield*/, this.getLog()];
-                    case 6:
+                    case 7:
                         log = _f.sent();
                         return [4 /*yield*/, this.api('promote_collectScore', {
                                 "ss": JSON.stringify({ extraData: { log: encodeURIComponent(log.log), sceneid: 'RAhomePageh5' }, secretp: secretp, random: log.random }),
                                 "actionType": "0",
                                 "inviteId": code
                             })];
-                    case 7:
+                    case 8:
                         res = _f.sent();
                         if (res.data.bizCode === 0) {
                             console.log('助力成功', parseFloat(res.data.result.acquiredScore));
@@ -603,7 +611,7 @@ var Jd_618 = /** @class */ (function (_super) {
                         }
                         else if (res.data.bizMsg === '助力次数用完啦~') {
                             console.log(res.data.bizMsg);
-                            return [3 /*break*/, 10];
+                            return [3 /*break*/, 11];
                         }
                         else if (res.data.bizMsg === '好友人气爆棚，不需要助力啦~') {
                             console.log(res.data.bizMsg);
@@ -613,16 +621,16 @@ var Jd_618 = /** @class */ (function (_super) {
                             console.log(res.data.bizMsg);
                         }
                         return [4 /*yield*/, this.wait(4000)];
-                    case 8:
-                        _f.sent();
-                        _f.label = 9;
                     case 9:
+                        _f.sent();
+                        _f.label = 10;
+                    case 10:
                         _e++;
-                        return [3 /*break*/, 5];
-                    case 10: return [4 /*yield*/, this.api('promote_pk_getHomeData', {})];
-                    case 11:
+                        return [3 /*break*/, 6];
+                    case 11: return [4 /*yield*/, this.api('promote_pk_getHomeData', {})];
+                    case 12:
                         res = _f.sent();
-                        if (!res.data.result.memberList) return [3 /*break*/, 20];
+                        if (!res.data.result.groupInfo.memberList) return [3 /*break*/, 21];
                         memberCount = res.data.result.groupInfo.memberList.length;
                         console.log('当前队伍有', memberCount, '人');
                         groupJoinInviteId = "";
@@ -630,24 +638,24 @@ var Jd_618 = /** @class */ (function (_super) {
                             groupJoinInviteId = res.data.result.groupInfo.groupJoinInviteId;
                             console.log('队伍未满', groupJoinInviteId);
                         }
-                        if (!(shareCodeHW_group.length === 0)) return [3 /*break*/, 13];
+                        if (!(shareCodeHW_group.length === 0)) return [3 /*break*/, 14];
                         return [4 /*yield*/, this.getshareCodeHW('lyb_group')];
-                    case 12:
-                        shareCodeHW_group = _f.sent();
-                        _f.label = 13;
                     case 13:
+                        shareCodeHW_group = _f.sent();
+                        _f.label = 14;
+                    case 14:
                         if (user.index === users.length - 1) {
                             groupJoinInviteId = shareCodeHW[0];
                         }
-                        if (!(memberCount === 1)) return [3 /*break*/, 18];
+                        if (!(memberCount === 1)) return [3 /*break*/, 19];
                         return [4 /*yield*/, this.getLog()];
-                    case 14:
+                    case 15:
                         log = _f.sent();
                         return [4 /*yield*/, this.api('promote_pk_joinGroup', { "inviteId": groupJoinInviteId, "ss": JSON.stringify({ extraData: { log: encodeURIComponent(log.log), sceneid: 'RAhomePageh5' }, secretp: secretp, random: log.random }), "confirmFlag": 1 })];
-                    case 15:
+                    case 16:
                         res = _f.sent();
                         return [4 /*yield*/, this.wait(3000)];
-                    case 16:
+                    case 17:
                         _f.sent();
                         if (res.data.bizCode === 0) {
                             console.log('加入队伍成功');
@@ -656,18 +664,23 @@ var Jd_618 = /** @class */ (function (_super) {
                             console.log(res.data.bizMsg);
                         }
                         return [4 /*yield*/, this.api('promote_pk_getHomeData', {})];
-                    case 17:
+                    case 18:
                         res = _f.sent();
                         this.o2s(res, 'promote_pk_getHomeData');
-                        _f.label = 18;
-                    case 18: return [4 /*yield*/, this.wait(3000)];
-                    case 19:
-                        _f.sent();
-                        _f.label = 20;
+                        _f.label = 19;
+                    case 19: return [4 /*yield*/, this.wait(3000)];
                     case 20:
+                        _f.sent();
+                        _f.label = 21;
+                    case 21: return [3 /*break*/, 23];
+                    case 22:
+                        e_3 = _f.sent();
+                        console.log('e');
+                        return [3 /*break*/, 23];
+                    case 23:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 21: return [2 /*return*/];
+                    case 24: return [2 /*return*/];
                 }
             });
         });

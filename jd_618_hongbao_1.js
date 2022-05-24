@@ -74,7 +74,7 @@ var shareCodeHW = [], shareCodeSelf = [], shareCode = [];
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 13];
                 _b.label = 3;
             case 3:
-                _b.trys.push([3, 9, 10, 12]);
+                _b.trys.push([3, 9, , 10]);
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -102,15 +102,14 @@ var shareCodeHW = [], shareCodeSelf = [], shareCode = [];
                 res = _b.sent();
                 console.log('助力码', res.data.result.inviteId);
                 shareCodeSelf.push(res.data.result.inviteId);
-                return [3 /*break*/, 12];
+                return [3 /*break*/, 10];
             case 9:
                 e_1 = _b.sent();
-                console.log('error', e_1);
-                return [3 /*break*/, 12];
-            case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
+                return [3 /*break*/, 10];
+            case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 11:
                 _b.sent();
-                return [7 /*endfinally*/];
+                _b.label = 12;
             case 12:
                 i++;
                 return [3 /*break*/, 2];

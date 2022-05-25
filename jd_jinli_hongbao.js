@@ -249,7 +249,7 @@ function help() {
                     if (!(i < 5)) return [3 /*break*/, 18];
                     if (success)
                         return [3 /*break*/, 18];
-                    return [4 /*yield*/, getLog()];
+                    return [4 /*yield*/, getLog(index)];
                 case 8:
                     log = _d.sent();
                     return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, random: log.match(/"random":"(\d+)"/)[1], log: log.match(/"log":"(.*)"/)[1], sceneid: 'JLHBhPageh5' })];
@@ -329,12 +329,13 @@ function api(fn, body) {
         });
     });
 }
-function getLog() {
+function getLog(index) {
+    if (index === void 0) { index = -1; }
     return __awaiter(this, void 0, void 0, function () {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?t=".concat(Date.now()))];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?t=".concat(Date.now(), "&index=").concat(index, "&pwd=").concat(__dirname))];
                 case 1:
                     data = _a.sent();
                     if (data !== 1 && data !== '1') {

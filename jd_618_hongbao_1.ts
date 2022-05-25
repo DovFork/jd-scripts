@@ -27,13 +27,12 @@ let shareCodeHW: string[] = [], shareCodeSelf: string  [] = [], shareCode: strin
 
       res = await api('promote_getHomeData', {})
       secretp = res.data.result.homeMainInfo.secretp
+      res = await api('promote_pk_getAmountForecast', {})
 
       if (!res.data.result?.userAward) {
         console.log('组队失败')
         continue
       }
-
-      res = await api('promote_pk_getAmountForecast', {})
       console.log('🧧', parseFloat(res.data.result.userAward))
 
       log = await tool.main()
@@ -41,10 +40,12 @@ let shareCodeHW: string[] = [], shareCodeSelf: string  [] = [], shareCode: strin
 
       res = await api('promote_pk_getExpandDetail', {"ss": JSON.stringify({extraData: {log: encodeURIComponent(log.log), sceneid: 'RAhomePageh5'}, secretp: secretp, random: log.random})})
       console.log('助力码', res.data.result.inviteId)
+      console.log('收到助力', res.data.result.taskVos[0].assistTaskDetailVo.assistInfoVos.length)
       shareCodeSelf.push(res.data.result.inviteId)
     } catch (e) {
+    } finally {
+      await wait(2000)
     }
-    await wait(2000)
   }
 
   console.log('内部互助')

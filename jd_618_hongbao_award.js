@@ -42,7 +42,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var axios_1 = require("axios");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var cookie = '', res = '', UserName, index;
+var sendNotify_1 = require("./sendNotify");
+var cookie = '', res = '', UserName, index, message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, i, e_1;
     return __generator(this, function (_a) {
@@ -66,6 +67,7 @@ var cookie = '', res = '', UserName, index;
                 res = _a.sent();
                 if (res.data.success) {
                     console.log('领取膨胀红包', parseFloat(res.data.result.value));
+                    message += "\u8D26\u53F7".concat(index + 1, "  ").concat(UserName, "\n\u9886\u53D6\u81A8\u80C0\u7EA2\u5305 ").concat(res.data.result.value, "\n\n");
                 }
                 else {
                     console.log(res.data.bizMsg);
@@ -84,7 +86,13 @@ var cookie = '', res = '', UserName, index;
             case 9:
                 i++;
                 return [3 /*break*/, 2];
-            case 10: return [2 /*return*/];
+            case 10:
+                if (!message) return [3 /*break*/, 12];
+                return [4 /*yield*/, (0, sendNotify_1.sendNotify)("领取膨胀红包", message)];
+            case 11:
+                _a.sent();
+                _a.label = 12;
+            case 12: return [2 /*return*/];
         }
     });
 }); })();

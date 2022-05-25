@@ -74,7 +74,7 @@ var shareCodeHW = [], shareCodeSelf = [], shareCode = [];
                 if (!(i < cookiesArr.length)) return [3 /*break*/, 13];
                 _b.label = 3;
             case 3:
-                _b.trys.push([3, 9, , 10]);
+                _b.trys.push([3, 9, 10, 12]);
                 cookie = cookiesArr[i];
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 index = i + 1;
@@ -83,13 +83,13 @@ var shareCodeHW = [], shareCodeSelf = [], shareCode = [];
             case 4:
                 res = _b.sent();
                 secretp = res.data.result.homeMainInfo.secretp;
+                return [4 /*yield*/, api('promote_pk_getAmountForecast', {})];
+            case 5:
+                res = _b.sent();
                 if (!((_a = res.data.result) === null || _a === void 0 ? void 0 : _a.userAward)) {
                     console.log('组队失败');
                     return [3 /*break*/, 12];
                 }
-                return [4 /*yield*/, api('promote_pk_getAmountForecast', {})];
-            case 5:
-                res = _b.sent();
                 console.log('🧧', parseFloat(res.data.result.userAward));
                 return [4 /*yield*/, tool.main()];
             case 6:
@@ -101,15 +101,16 @@ var shareCodeHW = [], shareCodeSelf = [], shareCode = [];
             case 8:
                 res = _b.sent();
                 console.log('助力码', res.data.result.inviteId);
+                console.log('收到助力', res.data.result.taskVos[0].assistTaskDetailVo.assistInfoVos.length);
                 shareCodeSelf.push(res.data.result.inviteId);
-                return [3 /*break*/, 10];
+                return [3 /*break*/, 12];
             case 9:
                 e_1 = _b.sent();
-                return [3 /*break*/, 10];
+                return [3 /*break*/, 12];
             case 10: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 11:
                 _b.sent();
-                _b.label = 12;
+                return [7 /*endfinally*/];
             case 12:
                 i++;
                 return [3 /*break*/, 2];

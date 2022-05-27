@@ -1,10 +1,8 @@
 "use strict";
 /**
  * 京东-锦鲤红包
- * 6点后做全部CK
  * cron: 2 0,1,6 * * *
- * CK1     HW.ts -> 内部
- * CK2～n  内部   -> HW.ts
+ * CK1  优先助力HW.ts
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -52,16 +50,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var dotenv = require("dotenv");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie, cookiesArr = [], res, UserName;
-var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [], log;
+var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [], log, getLogErrTimes = 0;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                dotenv.config();
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
+            case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 cookiesArr = _a.sent();
                 cookiesArr = cookiesArr.slice(0, 1);
@@ -322,7 +317,8 @@ function api(fn, body) {
                         "User-Agent": [
                             "Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1",
                             "MQQBrowser/26 Mozilla/5.0 (Linux; U; Android 2.3.7; zh-cn; MB200 Build/GRJ22; CyanogenMod-7) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
-                        ][Math.floor(Math.random() * 2)], "Cookie": cookie
+                        ][Math.floor(Math.random() * 2)],
+                        "Cookie": cookie
                     })];
                 case 1: return [2 /*return*/, _a.sent()];
             }
@@ -332,20 +328,35 @@ function api(fn, body) {
 function getLog(index) {
     if (index === void 0) { index = -1; }
     return __awaiter(this, void 0, void 0, function () {
-        var data;
+        var data, e_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?t=".concat(Date.now(), "&index=").concat(index, "&pwd=").concat(__dirname))];
+                case 0:
+                    _a.trys.push([0, 2, , 5]);
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?index=".concat(index, "&pwd=").concat(__dirname))];
                 case 1:
                     data = _a.sent();
-                    if (data !== 1 && data !== '1') {
+                    if (data.toString().includes('random')) {
                         return [2 /*return*/, data];
                     }
                     else {
                         console.log('No log');
                         process.exit(0);
                     }
-                    return [2 /*return*/];
+                    return [3 /*break*/, 5];
+                case 2:
+                    e_5 = _a.sent();
+                    getLogErrTimes++;
+                    if (getLogErrTimes > 8) {
+                        console.log('log api error 8 times, exit');
+                        process.exit(0);
+                    }
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+                case 3:
+                    _a.sent();
+                    return [4 /*yield*/, getLog(index)];
+                case 4: return [2 /*return*/, _a.sent()];
+                case 5: return [2 /*return*/];
             }
         });
     });

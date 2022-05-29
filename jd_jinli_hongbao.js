@@ -52,7 +52,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var cookie, cookiesArr = [], res, UserName;
-var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [], log, getLogErrTimes = 0;
+var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [], log;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -328,35 +328,20 @@ function api(fn, body) {
 function getLog(index) {
     if (index === void 0) { index = -1; }
     return __awaiter(this, void 0, void 0, function () {
-        var data, e_5;
+        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 5]);
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?index=".concat(index, "&pwd=").concat(__dirname))];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?index=".concat(index, "&pwd=").concat(__dirname))];
                 case 1:
                     data = _a.sent();
-                    if (data.toString().includes('random')) {
+                    if (data !== '1' && data !== 1) {
                         return [2 /*return*/, data];
                     }
                     else {
                         console.log('No log');
                         process.exit(0);
                     }
-                    return [3 /*break*/, 5];
-                case 2:
-                    e_5 = _a.sent();
-                    getLogErrTimes++;
-                    if (getLogErrTimes > 8) {
-                        console.log('log api error 8 times, exit');
-                        process.exit(0);
-                    }
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
-                case 3:
-                    _a.sent();
-                    return [4 /*yield*/, getLog(index)];
-                case 4: return [2 /*return*/, _a.sent()];
-                case 5: return [2 /*return*/];
+                    return [2 /*return*/];
             }
         });
     });

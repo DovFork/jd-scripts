@@ -43,7 +43,7 @@ var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var axios_1 = require("axios");
 var cookie = '', UserName, res;
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, element;
+    var cookiesArr, _i, _a, _b, index, value, element, j, index_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
@@ -60,7 +60,7 @@ var cookie = '', UserName, res;
                 return [4 /*yield*/, api('initForFarm', { "version": 11, "channel": 3, "babelChannel": 0 })];
             case 3:
                 res = _c.sent();
-                if (![2, 3].includes(res.farmUserPro.treeState)) {
+                if (![0, 2, 3].includes(res.farmUserPro.treeState)) {
                     console.log('正在种植...');
                 }
                 if (!(res.farmUserPro.treeState === 2)) return [3 /*break*/, 6];
@@ -72,8 +72,27 @@ var cookie = '', UserName, res;
                 res = _c.sent();
                 _c.label = 6;
             case 6:
-                if (!(res.farmUserPro.treeState === 3)) return [3 /*break*/, 11];
-                element = res.farmLevelWinGoods[4][0];
+                if (!(res.farmUserPro.treeState === 0 || res.farmUserPro.treeState === 3)) return [3 /*break*/, 11];
+                element = {
+                    type: null,
+                    name: null,
+                    prizeLevel: 0
+                };
+                for (j = 4; j > 0; j--) {
+                    if (res.farmLevelWinGoods[j].length > 0) {
+                        index_1 = Math.floor(Math.random() * res.farmLevelWinGoods[j].length);
+                        if (!res.farmLevelWinGoods[j][index_1]) {
+                            index_1 = 0;
+                        }
+                        element = res.farmLevelWinGoods[j][index_1];
+                        break;
+                    }
+                }
+                if (!element.type) {
+                    console.log('当前没有可种植作物');
+                    return [3 /*break*/, 11];
+                }
+                console.log("\u6B63\u5728\u5C1D\u8BD5\u79CD\u690D ".concat(element.prizeLevel, " \u7EA7\u4F5C\u7269\uFF1A").concat(element.name, " ..."));
                 return [4 /*yield*/, api('choiceGoodsForFarm', { "imageUrl": '', "nickName": '', "shareCode": '', "goodsType": element.type, "type": "0", "version": 11, "channel": 3, "babelChannel": 0 })];
             case 7:
                 res = _c.sent();

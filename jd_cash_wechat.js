@@ -1,6 +1,7 @@
 "use strict";
 /**
- * 领现金1.5
+ * 小程序-领现金-1.5
+ * cron: 15 7,18 * * *
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -64,14 +65,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
-var Jd_cash_help = /** @class */ (function (_super) {
-    __extends(Jd_cash_help, _super);
-    function Jd_cash_help() {
+var Jd_cash_wechat = /** @class */ (function (_super) {
+    __extends(Jd_cash_wechat, _super);
+    function Jd_cash_wechat() {
         var _this = _super.call(this) || this;
         _this.shareCodeSelf = [];
         return _this;
     }
-    Jd_cash_help.prototype.init = function () {
+    Jd_cash_wechat.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -83,7 +84,7 @@ var Jd_cash_help = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_cash_help.prototype.doSign = function () {
+    Jd_cash_wechat.prototype.doSign = function () {
         return __awaiter(this, void 0, void 0, function () {
             var body, data;
             return __generator(this, function (_a) {
@@ -104,7 +105,7 @@ var Jd_cash_help = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_cash_help.prototype.api = function (fn, body) {
+    Jd_cash_wechat.prototype.api = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -128,7 +129,7 @@ var Jd_cash_help = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_cash_help.prototype.main = function (user) {
+    Jd_cash_wechat.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var res, _i, _a, t, e_1;
             return __generator(this, function (_b) {
@@ -199,25 +200,24 @@ var Jd_cash_help = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_cash_help.prototype.help = function (users) {
+    Jd_cash_wechat.prototype.help = function (users) {
         var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function () {
-            var shareCodeHW, shareCode, _i, users_1, user, res, _g, shareCode_1, code, e_2;
-            return __generator(this, function (_h) {
-                switch (_h.label) {
+            var shareCodeHW, shareCode, res, _i, users_1, user, _g, shareCode_1, code, e_2, _h, users_2, user, i, e_3;
+            return __generator(this, function (_j) {
+                switch (_j.label) {
                     case 0:
                         shareCodeHW = [], shareCode = [];
                         this.o2s(this.shareCodeSelf, '内部助力');
                         _i = 0, users_1 = users;
-                        _h.label = 1;
+                        _j.label = 1;
                     case 1:
                         if (!(_i < users_1.length)) return [3 /*break*/, 9];
                         user = users_1[_i];
-                        _h.label = 2;
+                        _j.label = 2;
                     case 2:
-                        _h.trys.push([2, 7, , 8]);
+                        _j.trys.push([2, 7, , 8]);
                         this.user = user;
-                        res = void 0;
                         if (shareCodeHW.length === 0) {
                             shareCodeHW = this.getshareCodeHW('cash');
                         }
@@ -228,35 +228,66 @@ var Jd_cash_help = /** @class */ (function (_super) {
                             shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true);
                         }
                         _g = 0, shareCode_1 = shareCode;
-                        _h.label = 3;
+                        _j.label = 3;
                     case 3:
                         if (!(_g < shareCode_1.length)) return [3 /*break*/, 6];
                         code = shareCode_1[_g];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteCode));
                         return [4 /*yield*/, this.api('redpack_limited_assist', { "inviteCode": code.inviteCode, "shareDate": code.shareDate })];
                     case 4:
-                        res = _h.sent();
+                        res = _j.sent();
                         console.log((_c = (_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.result) === null || _b === void 0 ? void 0 : _b.limitTimeAssist) === null || _c === void 0 ? void 0 : _c.tips);
                         if (((_f = (_e = (_d = res.data) === null || _d === void 0 ? void 0 : _d.result) === null || _e === void 0 ? void 0 : _e.limitTimeAssist) === null || _f === void 0 ? void 0 : _f.assistCode) === '207') {
                             return [3 /*break*/, 6];
                         }
-                        _h.label = 5;
+                        _j.label = 5;
                     case 5:
                         _g++;
                         return [3 /*break*/, 3];
                     case 6: return [3 /*break*/, 8];
                     case 7:
-                        e_2 = _h.sent();
+                        e_2 = _j.sent();
                         console.log('error', e_2.message);
                         return [3 /*break*/, 8];
                     case 8:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 9: return [2 /*return*/];
+                    case 9:
+                        _h = 0, users_2 = users;
+                        _j.label = 10;
+                    case 10:
+                        if (!(_h < users_2.length)) return [3 /*break*/, 18];
+                        user = users_2[_h];
+                        _j.label = 11;
+                    case 11:
+                        _j.trys.push([11, 16, , 17]);
+                        this.user = user;
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName));
+                        i = 1;
+                        _j.label = 12;
+                    case 12:
+                        if (!(i < 5)) return [3 /*break*/, 15];
+                        return [4 /*yield*/, this.api('cash_open_limited_redpacket', { "node": i })];
+                    case 13:
+                        res = _j.sent();
+                        console.log(res.data);
+                        _j.label = 14;
+                    case 14:
+                        i++;
+                        return [3 /*break*/, 12];
+                    case 15: return [3 /*break*/, 17];
+                    case 16:
+                        e_3 = _j.sent();
+                        console.log('error', e_3.message);
+                        return [3 /*break*/, 17];
+                    case 17:
+                        _h++;
+                        return [3 /*break*/, 10];
+                    case 18: return [2 /*return*/];
                 }
             });
         });
     };
-    return Jd_cash_help;
+    return Jd_cash_wechat;
 }(TS_JDHelloWorld_1.JDHelloWorld));
-new Jd_cash_help().init().then();
+new Jd_cash_wechat().init().then();

@@ -329,9 +329,7 @@ function api(fn, body) {
                     remote_ua = _a.sent();
                     _a.label = 2;
                 case 2:
-                    ua = ck_type === 0
-                        ? remote_ua
-                        : 'Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1';
+                    ua = ck_type === 0 ? remote_ua : 'Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1';
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.m.jd.com/api', new URLSearchParams({
                             'appid': 'jinlihongbao',
                             'body': JSON.stringify(body),

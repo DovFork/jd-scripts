@@ -1,8 +1,6 @@
 "use strict";
 /**
  * 京东-领现金
- * 使用panda sign api
- * export PANDA_TOKEN=""
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -79,14 +77,15 @@ var CASH = /** @class */ (function (_super) {
             var sign;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        sign = this.pandaSign(fn, body);
+                    case 0: return [4 /*yield*/, this.getSign(fn, body)];
+                    case 1:
+                        sign = _a.sent();
                         return [4 /*yield*/, this.post("https://api.m.jd.com/client.action?functionId=".concat(fn), sign, {
                                 'Host': 'api.m.jd.com',
                                 'Cookie': this.cookie,
                                 'user-agent': 'jdapp;'
                             })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         });

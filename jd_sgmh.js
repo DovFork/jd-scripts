@@ -55,14 +55,14 @@ var cookie = '', UserName, res;
 var shareCodeSelf = [], shareCode = [], shareCodePool = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
     var cookiesArr, _i, _a, _b, index, value, _c, _d, t, i, tp, _e, _f, _g, index, value, _h, shareCode_1, code, _j, _k, _l, index, value, lotteryNum, i;
-    var _m, _o, _p;
-    return __generator(this, function (_q) {
-        switch (_q.label) {
+    var _m, _o, _p, _q, _r, _s;
+    return __generator(this, function (_t) {
+        switch (_t.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
-                cookiesArr = _q.sent();
+                cookiesArr = _t.sent();
                 _i = 0, _a = cookiesArr.entries();
-                _q.label = 2;
+                _t.label = 2;
             case 2:
                 if (!(_i < _a.length)) return [3 /*break*/, 14];
                 _b = _a[_i], index = _b[0], value = _b[1];
@@ -71,27 +71,19 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1EFRXxg", "taskToken": "", "channelId": 1 })];
             case 3:
-                res = _q.sent();
+                res = _t.sent();
                 _c = 0, _d = res.data.result.taskVos;
-                _q.label = 4;
+                _t.label = 4;
             case 4:
                 if (!(_c < _d.length)) return [3 /*break*/, 13];
                 t = _d[_c];
                 if (t.taskType === 14) {
                     console.log('助力码', (_m = t.assistTaskDetailVo) === null || _m === void 0 ? void 0 : _m.taskToken);
                     shareCodeSelf.push((_o = t.assistTaskDetailVo) === null || _o === void 0 ? void 0 : _o.taskToken);
-                    // for (let k = 0; k < 3; k++) {
-                    //   try {
-                    //     await runTimes(t.assistTaskDetailVo?.taskToken)
-                    //     break
-                    //   } catch (e) {
-                    //   }
-                    //   await wait(Math.floor(Math.random() * 10 + 3) * 1000)
-                    // }
                 }
                 if (!((t.browseShopVo || t.productInfoVos || t.shoppingActivityVos) && t.times < t.maxTimes)) return [3 /*break*/, 12];
                 i = 0;
-                _q.label = 5;
+                _t.label = 5;
             case 5:
                 if (!(i < t.maxTimes - t.times)) return [3 /*break*/, 12];
                 tp = [];
@@ -101,29 +93,29 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                     tp = t.browseShopVo;
                 else if (t.shoppingActivityVos)
                     tp = t.shoppingActivityVos;
-                console.log(tp[i].shopName || tp[i].skuName || tp[i].title);
+                console.log(((_p = tp[i]) === null || _p === void 0 ? void 0 : _p.shopName) || ((_q = tp[i]) === null || _q === void 0 ? void 0 : _q.skuName) || ((_r = tp[i]) === null || _r === void 0 ? void 0 : _r.title));
                 if (!!t.shoppingActivityVos) return [3 /*break*/, 8];
                 return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": tp[i].taskToken, "taskId": t.taskId, "actionType": 1 })];
             case 6:
-                res = _q.sent();
+                res = _t.sent();
                 console.log(res.data.bizMsg);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(t.waitDuration * 1000 || 2000)];
             case 7:
-                _q.sent();
-                _q.label = 8;
+                _t.sent();
+                _t.label = 8;
             case 8: return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": tp[i].taskToken, "taskId": t.taskId, "actionType": 0 })];
             case 9:
-                res = _q.sent();
+                res = _t.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 10:
-                _q.sent();
+                _t.sent();
                 if (res.data.bizMsg === 'success') {
                     console.log('任务完成');
                 }
                 else {
                     return [3 /*break*/, 12];
                 }
-                _q.label = 11;
+                _t.label = 11;
             case 11:
                 i++;
                 return [3 /*break*/, 5];
@@ -135,7 +127,7 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 return [3 /*break*/, 2];
             case 14:
                 _e = 0, _f = cookiesArr.entries();
-                _q.label = 15;
+                _t.label = 15;
             case 15:
                 if (!(_e < _f.length)) return [3 /*break*/, 22];
                 _g = _f[_e], index = _g[0], value = _g[1];
@@ -144,17 +136,17 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.getShareCodePool)('sgmh', 30)];
             case 16:
-                shareCodePool = _q.sent();
+                shareCodePool = _t.sent();
                 shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodePool, true)));
                 _h = 0, shareCode_1 = shareCode;
-                _q.label = 17;
+                _t.label = 17;
             case 17:
                 if (!(_h < shareCode_1.length)) return [3 /*break*/, 21];
                 code = shareCode_1[_h];
                 console.log('去助力', code);
                 return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": code, "taskId": 3 })];
             case 18:
-                res = _q.sent();
+                res = _t.sent();
                 if (res.data.bizCode === 0) {
                     console.log('助力成功');
                 }
@@ -167,8 +159,8 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
             case 19:
-                _q.sent();
-                _q.label = 20;
+                _t.sent();
+                _t.label = 20;
             case 20:
                 _h++;
                 return [3 /*break*/, 17];
@@ -177,7 +169,7 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 return [3 /*break*/, 15];
             case 22:
                 _j = 0, _k = cookiesArr.entries();
-                _q.label = 23;
+                _t.label = 23;
             case 23:
                 if (!(_j < _k.length)) return [3 /*break*/, 31];
                 _l = _k[_j], index = _l[0], value = _l[1];
@@ -186,29 +178,29 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                 return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1EFRXxg", "taskToken": "", "channelId": 1 })];
             case 24:
-                res = _q.sent();
+                res = _t.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 25:
-                _q.sent();
+                _t.sent();
                 lotteryNum = parseInt(res.data.result.userInfo.lotteryNum);
                 console.log('可以抽奖', lotteryNum, '次');
                 i = 0;
-                _q.label = 26;
+                _t.label = 26;
             case 26:
                 if (!(i < lotteryNum)) return [3 /*break*/, 30];
                 return [4 /*yield*/, api('interact_template_getLotteryResult', { "appId": "1EFRXxg" })];
             case 27:
-                res = _q.sent();
+                res = _t.sent();
                 if (res.data.result.userAwardsCacheDto.type === 0) {
                     console.log('抽奖成功 空气');
                 }
                 else {
-                    console.log('抽奖成功', (_p = res.data.result.userAwardsCacheDto.jBeanAwardVo) === null || _p === void 0 ? void 0 : _p.prizeName);
+                    console.log('抽奖成功', (_s = res.data.result.userAwardsCacheDto.jBeanAwardVo) === null || _s === void 0 ? void 0 : _s.prizeName);
                 }
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
             case 28:
-                _q.sent();
-                _q.label = 29;
+                _t.sent();
+                _t.label = 29;
             case 29:
                 i++;
                 return [3 /*break*/, 26];
@@ -240,11 +232,3 @@ function api(fn, body) {
         });
     });
 }
-// async function runTimes(code: string) {
-//   try {
-//     let {data} = await axios.get(`https://api.jdsharecode.xyz/api/runTimes?activityId=sgmh&sharecode=${code}`)
-//     console.log(data)
-//   } catch (e) {
-//     console.log('上报失败')
-//   }
-// }

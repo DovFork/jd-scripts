@@ -60,7 +60,7 @@ var sendNotify_1 = require("./sendNotify");
 var cookie = '', res = '', UserName, h5stTool;
 var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, i, today, e_1, e_2, _c, _d, _e, index, value, shareCodePool, shareCode, _f, shareCode_1, code, e_3, _g, _h, _j, index, value, farmAssistInit_waterEnergy, _k, _l, t, e_4, _m;
+    var cookiesArr, _i, _a, _b, index, value, i, today, e_1, e_2, _c, _d, _e, index, value, shareCodePool, shareCode, _f, shareCode_1, code, e_3, _g, _h, _j, index, value, assistFriendList, farmAssistInit_waterEnergy, _k, _l, t, e_4, _m;
     return __generator(this, function (_o) {
         switch (_o.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
@@ -192,7 +192,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 _o.sent();
                 if (!(res.helpResult.remainTimes === 0)) return [3 /*break*/, 34];
                 console.log('上限');
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(50000)];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 33:
                 _o.sent();
                 return [3 /*break*/, 35];
@@ -204,7 +204,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 e_3 = _o.sent();
                 console.log('error', e_3);
                 return [3 /*break*/, 37];
-            case 37: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(60000)];
+            case 37: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 38:
                 _o.sent();
                 _o.label = 39;
@@ -227,9 +227,10 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 return [4 /*yield*/, h5stTool.__genAlgo()];
             case 43:
                 _o.sent();
-                return [4 /*yield*/, api('farmAssistInit', { "version": 14, "channel": 1, "babelChannel": "120" })];
+                return [4 /*yield*/, api('farmAssistInit', { "version": 16, "channel": 1, "babelChannel": "121" })];
             case 44:
                 res = _o.sent();
+                assistFriendList = res.assistFriendList.length;
                 if (res.code !== '0') {
                     console.log('farmAssistInit Error');
                     return [3 /*break*/, 54];
@@ -258,7 +259,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 _k++;
                 return [3 /*break*/, 45];
             case 50:
-                console.log('收到助力', res.assistFriendList.length);
+                console.log('收到助力', assistFriendList);
                 console.log('助力已领取', farmAssistInit_waterEnergy);
                 message += "\u3010\u52A9\u529B\u5DF2\u9886\u53D6\u3011  ".concat(farmAssistInit_waterEnergy, "\n\n");
                 message += '\n\n';
@@ -267,7 +268,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 e_4 = _o.sent();
                 console.log('error', e_4);
                 return [3 /*break*/, 52];
-            case 52: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
+            case 52: return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(10000)];
             case 53:
                 _o.sent();
                 _o.label = 54;
@@ -297,7 +298,7 @@ function api(fn, body) {
                         'appid': 'wh5',
                         'body': JSON.stringify(body),
                         'client': 'apple',
-                        'clientVersion': '11.0.4',
+                        'clientVersion': '10.2.4',
                         'functionId': fn
                     });
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.m.jd.com/client.action?functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&appid=wh5&client=apple&clientVersion=11.0.4&h5st=").concat(h5st), {

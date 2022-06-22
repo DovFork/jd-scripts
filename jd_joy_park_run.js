@@ -69,7 +69,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new Joy_Park_Run())];
+                    case 0: return [4 /*yield*/, this.run(this)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -82,24 +82,6 @@ var Joy_Park_Run = /** @class */ (function (_super) {
         var minutes = Math.floor(seconds / 60);
         var second = Math.floor(seconds % 60);
         return "".concat(minutes, "\u5206").concat(second, "\u79D2");
-    };
-    // 小数加法
-    Joy_Park_Run.prototype.add = function (num1, num2) {
-        var r1, r2;
-        try {
-            r1 = num1.toString().split('.')[1].length;
-        }
-        catch (e) {
-            r1 = 0;
-        }
-        try {
-            r2 = num2.toString().split('.')[1].length;
-        }
-        catch (e) {
-            r2 = 0;
-        }
-        var m = Math.pow(10, Math.max(r1, r2));
-        return (num1 * m + num2 * m) / m;
     };
     Joy_Park_Run.prototype.team = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
@@ -263,7 +245,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         for (_i = 0, _b = ((_a = res === null || res === void 0 ? void 0 : res.data) === null || _a === void 0 ? void 0 : _a.detailVos) || []; _i < _b.length; _i++) {
                             t = _b[_i];
                             if (t.amount > 0 && (0, date_fns_1.getDate)(new Date(t.createTime)) === new Date().getDate()) {
-                                sum = this.add(sum, t.amount);
+                                sum += t.amount;
                                 success++;
                             }
                             else {

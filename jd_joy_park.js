@@ -52,16 +52,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
-var Joy_Park = /** @class */ (function (_super) {
-    __extends(Joy_Park, _super);
-    function Joy_Park() {
+var Jd_joy_park = /** @class */ (function (_super) {
+    __extends(Jd_joy_park, _super);
+    function Jd_joy_park() {
         return _super.call(this) || this;
     }
-    Joy_Park.prototype.init = function () {
+    Jd_joy_park.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new Joy_Park())];
+                    case 0: return [4 /*yield*/, this.run(this)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -69,7 +69,7 @@ var Joy_Park = /** @class */ (function (_super) {
             });
         });
     };
-    Joy_Park.prototype.api = function (fn, body) {
+    Jd_joy_park.prototype.api = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -86,7 +86,7 @@ var Joy_Park = /** @class */ (function (_super) {
             });
         });
     };
-    Joy_Park.prototype.main = function (user) {
+    Jd_joy_park.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var res, t, i, res_1, url;
             return __generator(this, function (_a) {
@@ -125,6 +125,6 @@ var Joy_Park = /** @class */ (function (_super) {
             });
         });
     };
-    return Joy_Park;
+    return Jd_joy_park;
 }(TS_JDHelloWorld_1.JDHelloWorld));
-new Joy_Park().init().then();
+new Jd_joy_park().init().then();

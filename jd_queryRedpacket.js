@@ -89,7 +89,7 @@ var Jd_queryRedpacket = /** @class */ (function (_super) {
     Jd_queryRedpacket.prototype.main = function (user) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var res, day, jdRed, jdRedExp, _i, _b, j, msg;
+            var res, day, jdRed, jdRedExp, jsRed, jsRedExp, _i, _b, j, msg;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0: return [4 /*yield*/, this.get("https://m.jingxi.com/user/info/QueryUserRedEnvelopesV2?type=1&orgFlag=JD_PinGou_New&page=1&cashRedType=1&redBalanceFlag=1&channel=1&_=".concat(Date.now(), "&sceneval=2&g_login_type=1&g_ty=ls"), {
@@ -100,12 +100,16 @@ var Jd_queryRedpacket = /** @class */ (function (_super) {
                         })];
                     case 1:
                         res = _c.sent();
-                        day = new Date().getDay(), jdRed = 0, jdRedExp = 0;
+                        day = new Date().getDay(), jdRed = 0, jdRedExp = 0, jsRed = 0, jsRedExp = 0;
                         for (_i = 0, _b = ((_a = res.data.useRedInfo) === null || _a === void 0 ? void 0 : _a.redList) || []; _i < _b.length; _i++) {
                             j = _b[_i];
+                            console.log(j);
                             if (j.orgLimitStr.includes('京喜')) {
                             }
                             else if (j.activityName.includes('极速版')) {
+                                jsRed += j.balance;
+                                if (new Date(j.endTime * 1000).getDay() === day)
+                                    jsRedExp = this.add(jsRedExp, j.balance);
                             }
                             else if (j.orgLimitStr.includes('京东健康')) {
                             }
@@ -115,7 +119,8 @@ var Jd_queryRedpacket = /** @class */ (function (_super) {
                                     jdRedExp = this.add(jdRedExp, j.balance);
                             }
                         }
-                        console.log(jdRed, '  今日过期：', jdRedExp);
+                        console.log('京东', jdRed, '  今日过期：', jdRedExp);
+                        console.log('极速', jsRed, '  今日过期：', jsRedExp);
                         msg = "\u3010\u8D26\u53F7\u3011  ".concat(user.UserName, "\n\u4EAC\u4E1C\u7EA2\u5305  ").concat(jdRed, "\n\u4ECA\u65E5\u8FC7\u671F  ").concat(jdRedExp, "\n\n");
                         return [2 /*return*/, {
                                 msg: msg

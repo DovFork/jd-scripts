@@ -55,22 +55,16 @@ var cookie, cookiesArr = [], res, UserName;
 var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
 var remote_ua = null, step = -1, ck_type = -1, random = '', log = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var allCookie, _i, allCookie_1, ck;
+    var allCookie;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
                 allCookie = _a.sent();
-                for (_i = 0, allCookie_1 = allCookie; _i < allCookie_1.length; _i++) {
-                    ck = allCookie_1[_i];
-                    if (ck.includes('pt_key=app_open')) {
-                        cookiesArr = [ck];
-                        break;
-                    }
-                }
-                if (cookiesArr.length === 0) {
-                    cookiesArr = allCookie.slice(0, 1);
-                }
+                cookiesArr = cookiesArr.filter(function (item) {
+                    return item.includes('app_open');
+                });
+                cookiesArr = allCookie.slice(0, 1);
                 step = 0;
                 return [4 /*yield*/, join()];
             case 2:
@@ -79,7 +73,6 @@ var remote_ua = null, step = -1, ck_type = -1, random = '', log = '';
             case 3:
                 _a.sent();
                 cookiesArr = allCookie.slice(0, 9);
-                step = 1;
                 if (![0, 1].includes(new Date().getHours())) return [3 /*break*/, 5];
                 return [4 /*yield*/, join()];
             case 4:
@@ -340,8 +333,8 @@ function api(fn, body) {
                             'clientVersion': '10.5.4',
                             'osVersion': '-1'
                         }), {
-                            "origin": "https://h5.m.jd.com",
-                            "referer": "https://h5.m.jd.com/babelDiy/Zeus/2NUvze9e1uWf4amBhe1AV6ynmSuH/index.html",
+                            'origin': 'https://happy.m.jd.com',
+                            "referer": "https://happy.m.jd.com/babelDiy/zjyw/3ugedFa7yA6NhxLN5gw2L3PF9sQC/index.html",
                             'Content-Type': 'application/x-www-form-urlencoded',
                             "X-Requested-With": "com.jingdong.app.mall",
                             "User-Agent": ua,

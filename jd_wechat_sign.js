@@ -58,16 +58,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var h5st_1 = require("./utils/h5st");
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
-var Wechat_sign = /** @class */ (function (_super) {
-    __extends(Wechat_sign, _super);
-    function Wechat_sign() {
-        return _super.call(this, "微信小程序签到红包") || this;
+var Jd_wechat_sign = /** @class */ (function (_super) {
+    __extends(Jd_wechat_sign, _super);
+    function Jd_wechat_sign() {
+        return _super.call(this, "微信签到") || this;
     }
-    Wechat_sign.prototype.init = function () {
+    Jd_wechat_sign.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new Wechat_sign())];
+                    case 0: return [4 /*yield*/, this.run(this)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -75,45 +75,87 @@ var Wechat_sign = /** @class */ (function (_super) {
             });
         });
     };
-    Wechat_sign.prototype.main = function (user) {
+    Jd_wechat_sign.prototype.main = function (user) {
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var h5stTool, timestamp, h5st, res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var h5stTool, timestamp, headers, h5st, res, signDays, rewardValue;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
-                        h5stTool = new h5st_1.H5ST("9a38a", 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN', process.env.FP_9A38A || "");
+                        h5stTool = new h5st_1.H5ST("9a38a", user.UserAgent, process.env.FP_9A38A || "");
                         return [4 /*yield*/, h5stTool.__genAlgo()];
                     case 1:
-                        _a.sent();
+                        _e.sent();
                         timestamp = Date.now();
+                        headers = {
+                            'content-type': 'application/json',
+                            'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN',
+                            'referer': 'https://servicewechat.com/wx91d27dbf599dff74/581/page-frame.html',
+                            'cookie': user.cookie
+                        }, signDays = 0, rewardValue = 0;
                         h5st = h5stTool.__genH5st({
                             appid: 'hot_channel',
-                            body: JSON.stringify({ "activityId": "10002" }),
+                            body: JSON.stringify({ "activityId": "10004" }),
                             client: 'android',
                             clientVersion: '7.16.250',
                             functionId: 'SignComponent_doSignTask',
                             t: timestamp.toString()
                         });
-                        return [4 /*yield*/, this.post("https://api.m.jd.com/signTask/doSignTask?functionId=SignComponent_doSignTask&appid=hot_channel&body={\"activityId\":\"10002\"}&client=android&clientVersion=7.16.250&t=".concat(timestamp, "&h5st=").concat(h5st), '', {
-                                'content-type': 'application/json',
-                                'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN',
-                                'referer': 'https://servicewechat.com/wx91d27dbf599dff74/581/page-frame.html',
-                                'cookie': user.cookie
-                            })];
+                        return [4 /*yield*/, this.post("https://api.m.jd.com/signTask/doSignTask?functionId=SignComponent_doSignTask&appid=hot_channel&body={\"activityId\":\"10004\"}&client=android&clientVersion=7.16.250&t=".concat(timestamp, "&h5st=").concat(h5st), '', headers)];
                     case 2:
-                        res = _a.sent();
+                        res = _e.sent();
                         if (res.data) {
                             console.log('已签到', res.data.signDays, '天，奖励', res.data.rewardValue, '元');
-                            return [2 /*return*/, { msg: "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011  ").concat(user.UserName, "\n\u5DF2\u7B7E\u5230  ").concat(res.data.signDays, "\u5929\n\u5956\u52B1  ").concat(res.data.rewardValue, "\u5143\n\n") }];
+                            signDays = res.data.signDays;
+                            rewardValue = res.data.rewardValue;
                         }
                         else {
                             console.log(res.message);
+                        }
+                        return [4 /*yield*/, this.get("https://api.m.jd.com/signTask/querySignList?client=android&clientVersion=7.18.110&functionId=SignComponent_querySignList&appid=hot_channel&loginType=2&body=%7B%22activityId%22%3A%2210004%22%7D", headers)];
+                    case 3:
+                        res = _e.sent();
+                        if (!!((_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.scanTaskInfo) === null || _b === void 0 ? void 0 : _b.completionFlag)) return [3 /*break*/, 6];
+                        h5stTool = new h5st_1.H5ST("2b5bc", user.UserAgent, process.env.FP_2B5BC || "");
+                        return [4 /*yield*/, h5stTool.__genAlgo()];
+                    case 4:
+                        _e.sent();
+                        h5st = h5stTool.__genH5st({
+                            appid: 'hot_channel',
+                            body: JSON.stringify({ "activityId": "10004", "actionType": 0, "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId, "itemId": res.data.scanTaskInfo.itemId }),
+                            client: 'android',
+                            clientVersion: '7.18.110',
+                            functionId: 'SignComponent_doScanTask',
+                            t: timestamp.toString()
+                        });
+                        return [4 /*yield*/, this.get("https://api.m.jd.com/scanTask/startScanTask?client=android&clientVersion=7.18.110&functionId=SignComponent_doScanTask&appid=hot_channel&body=".concat(encodeURIComponent(JSON.stringify({
+                                "activityId": "10004",
+                                "actionType": 0,
+                                "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId,
+                                "itemId": res.data.scanTaskInfo.itemId
+                            })), "&h5st=").concat(h5st), headers)];
+                    case 5:
+                        res = _e.sent();
+                        this.o2s(res);
+                        console.log('假火爆，实际应该已完成');
+                        return [3 /*break*/, 7];
+                    case 6:
+                        if ((_d = (_c = res.data) === null || _c === void 0 ? void 0 : _c.scanTaskInfo) === null || _d === void 0 ? void 0 : _d.completionFlag) {
+                            console.log('浏览任务已完成');
+                        }
+                        else {
+                            console.log('无浏览任务');
+                        }
+                        _e.label = 7;
+                    case 7:
+                        if (signDays && rewardValue) {
+                            return [2 /*return*/, { msg: "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011  ").concat(user.UserName, "\n\u5DF2\u7B7E\u5230  ").concat(signDays, "\u5929\n\u5956\u52B1  ").concat(rewardValue, "\u5143\n\n") }];
                         }
                         return [2 /*return*/];
                 }
             });
         });
     };
-    return Wechat_sign;
+    return Jd_wechat_sign;
 }(TS_JDHelloWorld_1.JDHelloWorld));
-new Wechat_sign().init().then();
+new Jd_wechat_sign().init().then();

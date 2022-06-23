@@ -51,28 +51,26 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var axios_1 = require("axios");
 var cookie, cookiesArr = [], res, UserName;
-var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [];
-var remote_ua = null, step = -1, ck_type = -1, random = '', log = '';
+var shareCodesSelf = [], shareCodes = [], shareCodesHW = [], fullCode = [], random = '', log = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var allCookie;
+    var all;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
             case 1:
-                allCookie = _a.sent();
-                cookiesArr = cookiesArr.filter(function (item) {
+                all = (_a.sent()).filter(function (item) {
                     return item.includes('app_open');
                 });
-                cookiesArr = allCookie.slice(0, 1);
-                step = 0;
+                cookiesArr = all.slice(0, 1);
                 return [4 /*yield*/, join()];
             case 2:
                 _a.sent();
                 return [4 /*yield*/, help()];
             case 3:
                 _a.sent();
-                cookiesArr = allCookie.slice(0, 9);
+                cookiesArr = all.slice(0, 9);
                 if (![0, 1].includes(new Date().getHours())) return [3 /*break*/, 5];
                 return [4 /*yield*/, join()];
             case 4:
@@ -104,7 +102,6 @@ function join() {
                     _c.trys.push([2, 11, , 12]);
                     cookie = value;
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    ck_type = cookie.includes('pt_key=app_open') ? 0 : 1;
                     console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
                     i = 0;
                     _c.label = 3;
@@ -113,7 +110,7 @@ function join() {
                     _c.label = 4;
                 case 4:
                     _c.trys.push([4, 7, , 9]);
-                    return [4 /*yield*/, getLog(-1)];
+                    return [4 /*yield*/, getLog()];
                 case 5:
                     _c.sent();
                     return [4 /*yield*/, api('h5launch', { followShop: 0, random: random, log: log, sceneid: 'JLHBhPageh5' })];
@@ -167,7 +164,6 @@ function help() {
                     _d.trys.push([2, 20, , 21]);
                     cookie = value;
                     UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                    ck_type = cookie.includes('pt_key=app_open') ? 0 : 1;
                     if (!(shareCodesHW.length === 0)) return [3 /*break*/, 4];
                     return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('jlhb')];
                 case 3:
@@ -199,7 +195,7 @@ function help() {
                     if (!(i < 5)) return [3 /*break*/, 18];
                     if (success)
                         return [3 /*break*/, 18];
-                    return [4 /*yield*/, getLog(index)];
+                    return [4 /*yield*/, getLog()];
                 case 8:
                     _d.sent();
                     return [4 /*yield*/, api('jinli_h5assist', { "redPacketId": code, "followShop": 0, random: random, log: log, sceneid: 'JLHBhPageh5' })];
@@ -312,46 +308,42 @@ function getShareCodeSelf(one) {
 }
 function api(fn, body) {
     return __awaiter(this, void 0, void 0, function () {
-        var ua;
+        var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    if (!!remote_ua) return [3 /*break*/, 2];
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)('https://api.jdsharecode.xyz/api/jlhb_ua')];
-                case 1:
-                    remote_ua = _a.sent();
-                    _a.label = 2;
-                case 2:
-                    ua = ck_type === 0 ? remote_ua : 'Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; Mi Note 2 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.1.1';
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.post)('https://api.m.jd.com/api', new URLSearchParams({
+                case 0: return [4 /*yield*/, axios_1["default"].post('https://api.m.jd.com/api', new URLSearchParams({
+                        'body': JSON.stringify(body)
+                    }), {
+                        params: {
                             'appid': 'jinlihongbao',
-                            'body': JSON.stringify(body),
                             'functionId': fn,
                             'loginType': '2',
                             'client': 'jinlihongbao',
-                            't': Date.now().toString(),
-                            'clientVersion': '10.5.4',
+                            't': Date.now(),
+                            'clientVersion': '11.1.0',
                             'osVersion': '-1'
-                        }), {
-                            'origin': 'https://happy.m.jd.com',
-                            "referer": "https://happy.m.jd.com/babelDiy/zjyw/3ugedFa7yA6NhxLN5gw2L3PF9sQC/index.html",
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            "X-Requested-With": "com.jingdong.app.mall",
-                            "User-Agent": ua,
-                            "Cookie": cookie
-                        })];
-                case 3: return [2 /*return*/, _a.sent()];
+                        },
+                        headers: {
+                            'Host': 'api.m.jd.com',
+                            'Origin': 'https://happy.m.jd.com',
+                            'User-Agent': "jdapp;android;11.1.0;;;appBuild/98139;",
+                            'Referer': 'https://happy.m.jd.com/',
+                            'Cookie': cookie
+                        }
+                    })];
+                case 1:
+                    data = (_a.sent()).data;
+                    return [2 /*return*/, data];
             }
         });
     });
 }
-function getLog(index) {
-    if (index === void 0) { index = -1; }
+function getLog() {
     return __awaiter(this, void 0, void 0, function () {
         var data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?index=".concat(index, "&pwd=").concat(__dirname, "&step=").concat(step, "&ck_type=").concat(ck_type))];
+                case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/jlhb?project=".concat(__dirname))];
                 case 1:
                     data = _a.sent();
                     if (data !== '1' && data !== 1) {

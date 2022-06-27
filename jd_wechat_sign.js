@@ -78,7 +78,7 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
     Jd_wechat_sign.prototype.main = function (user) {
         var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function () {
-            var h5stTool, timestamp, headers, h5st, res, signDays, rewardValue;
+            var h5stTool, timestamp, headers, h5st, res, signDays, rewardValue, scanAssignmentId, itemId;
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
@@ -112,17 +112,41 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
                         else {
                             console.log(res.message);
                         }
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/signTask/querySignList?client=android&clientVersion=7.18.110&functionId=SignComponent_querySignList&appid=hot_channel&loginType=2&body=%7B%22activityId%22%3A%2210004%22%7D", headers)];
+                        return [4 /*yield*/, this.wait(2000)];
                     case 3:
+                        _e.sent();
+                        return [4 /*yield*/, this.get("https://api.m.jd.com/signTask/querySignList?client=android&clientVersion=7.18.110&functionId=SignComponent_querySignList&appid=hot_channel&loginType=2&body=%7B%22activityId%22%3A%2210004%22%7D", headers)];
+                    case 4:
                         res = _e.sent();
-                        if (!!((_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.scanTaskInfo) === null || _b === void 0 ? void 0 : _b.completionFlag)) return [3 /*break*/, 6];
+                        scanAssignmentId = res.data.scanTaskInfo.scanAssignmentId, itemId = res.data.scanTaskInfo.itemId;
+                        if (!!((_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.scanTaskInfo) === null || _b === void 0 ? void 0 : _b.completionFlag)) return [3 /*break*/, 9];
                         h5stTool = new h5st_1.H5ST("2b5bc", user.UserAgent, process.env.FP_2B5BC || "");
                         return [4 /*yield*/, h5stTool.__genAlgo()];
-                    case 4:
+                    case 5:
                         _e.sent();
                         h5st = h5stTool.__genH5st({
                             appid: 'hot_channel',
-                            body: JSON.stringify({ "activityId": "10004", "actionType": 0, "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId, "itemId": res.data.scanTaskInfo.itemId }),
+                            body: JSON.stringify({ "activityId": "10004", "actionType": 1, scanAssignmentId: scanAssignmentId, itemId: itemId }),
+                            client: 'android',
+                            clientVersion: '7.18.110',
+                            functionId: 'SignComponent_doScanTask',
+                            t: timestamp.toString()
+                        });
+                        return [4 /*yield*/, this.get("https://api.m.jd.com/scanTask/startScanTask?client=android&clientVersion=7.18.110&functionId=SignComponent_doScanTask&appid=hot_channel&body=".concat(encodeURIComponent(JSON.stringify({
+                                "activityId": "10004",
+                                "actionType": 1,
+                                "scanAssignmentId": scanAssignmentId,
+                                "itemId": res.data.scanTaskInfo.itemId
+                            })), "&h5st=").concat(h5st), headers)];
+                    case 6:
+                        res = _e.sent();
+                        console.log('领取任务', res.success);
+                        return [4 /*yield*/, this.wait(8000)];
+                    case 7:
+                        _e.sent();
+                        h5st = h5stTool.__genH5st({
+                            appid: 'hot_channel',
+                            body: JSON.stringify({ "activityId": "10004", "actionType": 0, scanAssignmentId: scanAssignmentId, itemId: itemId }),
                             client: 'android',
                             clientVersion: '7.18.110',
                             functionId: 'SignComponent_doScanTask',
@@ -131,23 +155,22 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.get("https://api.m.jd.com/scanTask/startScanTask?client=android&clientVersion=7.18.110&functionId=SignComponent_doScanTask&appid=hot_channel&body=".concat(encodeURIComponent(JSON.stringify({
                                 "activityId": "10004",
                                 "actionType": 0,
-                                "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId,
-                                "itemId": res.data.scanTaskInfo.itemId
+                                scanAssignmentId: scanAssignmentId,
+                                itemId: itemId
                             })), "&h5st=").concat(h5st), headers)];
-                    case 5:
+                    case 8:
                         res = _e.sent();
-                        this.o2s(res);
-                        console.log('假火爆，实际应该已完成');
-                        return [3 /*break*/, 7];
-                    case 6:
+                        console.log('任务完成', res.data.rewardValue);
+                        return [3 /*break*/, 10];
+                    case 9:
                         if ((_d = (_c = res.data) === null || _c === void 0 ? void 0 : _c.scanTaskInfo) === null || _d === void 0 ? void 0 : _d.completionFlag) {
                             console.log('浏览任务已完成');
                         }
                         else {
                             console.log('无浏览任务');
                         }
-                        _e.label = 7;
-                    case 7:
+                        _e.label = 10;
+                    case 10:
                         if (signDays && rewardValue) {
                             return [2 /*return*/, { msg: "\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011  ").concat(user.UserName, "\n\u5DF2\u7B7E\u5230  ").concat(signDays, "\u5929\n\u5956\u52B1  ").concat(rewardValue, "\u5143\n\n") }];
                         }

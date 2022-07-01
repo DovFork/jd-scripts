@@ -130,49 +130,50 @@ var Jd_cash_wechat = /** @class */ (function (_super) {
         });
     };
     Jd_cash_wechat.prototype.main = function (user) {
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var res, _i, _a, t, e_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var res, _i, _c, t, e_1;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         this.user = user;
-                        _b.label = 1;
+                        _d.label = 1;
                     case 1:
-                        _b.trys.push([1, 14, , 15]);
+                        _d.trys.push([1, 14, , 15]);
                         return [4 /*yield*/, this.api('cash_mob_home', { "isLTRedPacket": "1" })];
                     case 2:
-                        res = _b.sent();
+                        res = _d.sent();
                         if (!(res.data.result.signedStatus !== 1)) return [3 /*break*/, 4];
                         console.log('开始签到');
                         return [4 /*yield*/, this.doSign()];
                     case 3:
-                        _b.sent();
+                        _d.sent();
                         console.log('签到成功');
-                        _b.label = 4;
+                        _d.label = 4;
                     case 4:
-                        _i = 0, _a = res.data.result.taskInfos;
-                        _b.label = 5;
+                        _i = 0, _c = res.data.result.taskInfos;
+                        _d.label = 5;
                     case 5:
-                        if (!(_i < _a.length)) return [3 /*break*/, 9];
-                        t = _a[_i];
+                        if (!(_i < _c.length)) return [3 /*break*/, 9];
+                        t = _c[_i];
                         if (!(t.doTimes !== t.times)) return [3 /*break*/, 8];
                         console.log(t.name);
                         return [4 /*yield*/, this.api('cash_doTask', { "type": t.type, "taskInfo": t.desc })];
                     case 6:
-                        res = _b.sent();
+                        res = _d.sent();
                         console.log(res.data.result.totalMoney);
                         return [4 /*yield*/, this.api('cash_mob_home', { "isLTRedPacket": "1" })];
                     case 7:
-                        res = _b.sent();
-                        _b.label = 8;
+                        res = _d.sent();
+                        _d.label = 8;
                     case 8:
                         _i++;
                         return [3 /*break*/, 5];
                     case 9:
-                        if (!(new Date().getHours() >= 7 && new Date().getHours() <= 19 && res.data.result.limitTimeRedPacket.receiveStatus === '0')) return [3 /*break*/, 12];
+                        if (!(new Date().getHours() >= 7 && new Date().getHours() <= 19 && ((_b = (_a = res.data.result) === null || _a === void 0 ? void 0 : _a.limitTimeRedPacket) === null || _b === void 0 ? void 0 : _b.receiveStatus) === '0')) return [3 /*break*/, 12];
                         return [4 /*yield*/, this.api('cash_join_limited_redpacket', { "id": 5, "level": 3 })];
                     case 10:
-                        res = _b.sent();
+                        res = _d.sent();
                         if (res.data.bizCode === 0) {
                             console.log('开启成功');
                         }
@@ -181,7 +182,7 @@ var Jd_cash_wechat = /** @class */ (function (_super) {
                         }
                         return [4 /*yield*/, this.api('cash_mob_home', { "isLTRedPacket": "1" })];
                     case 11:
-                        res = _b.sent();
+                        res = _d.sent();
                         if (res.data.result.inviteCode && res.data.result.shareDate) {
                             this.shareCodeSelf.push({
                                 inviteCode: res.data.result.inviteCode,
@@ -192,10 +193,10 @@ var Jd_cash_wechat = /** @class */ (function (_super) {
                         return [3 /*break*/, 13];
                     case 12:
                         console.log('不在时间范围内');
-                        _b.label = 13;
+                        _d.label = 13;
                     case 13: return [3 /*break*/, 15];
                     case 14:
-                        e_1 = _b.sent();
+                        e_1 = _d.sent();
                         console.log('error', e_1.message);
                         return [3 /*break*/, 15];
                     case 15: return [2 /*return*/];

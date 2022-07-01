@@ -105,7 +105,7 @@ var Health = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 4]);
-                        return [4 /*yield*/, this.get("https://api.jdsharecode.xyz/api/runTimes0509?activityId=health&sharecode=".concat(code))];
+                        return [4 /*yield*/, this.get("https://api.jdsharecode.xyz/api/runTimes0701?activityId=health&sharecode=".concat(code))];
                     case 1:
                         data = _a.sent();
                         console.log(data);

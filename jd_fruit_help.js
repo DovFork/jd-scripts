@@ -77,7 +77,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"], "8389547038003203");
+                h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"], process.env.FP_0C010 || "");
                 return [4 /*yield*/, h5stTool.__genAlgo()];
             case 4:
                 _o.sent();
@@ -98,7 +98,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
             case 7:
                 _o.trys.push([7, 9, , 11]);
                 today = (0, date_fns_1.getDate)(new Date());
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTimes0509?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode, "&today=").concat(today))];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTimes0701?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode, "&today=").concat(today))];
             case 8:
                 res = _o.sent();
                 console.log(res);
@@ -139,7 +139,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 _o.trys.push([19, 36, , 37]);
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
-                h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"], "8389547038003203");
+                h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"], process.env.FP_0C010 || "");
                 return [4 /*yield*/, h5stTool.__genAlgo()];
             case 20:
                 _o.sent();
@@ -223,7 +223,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"], "8389547038003203");
+                h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"], process.env.FP_0C010 || "");
                 return [4 /*yield*/, h5stTool.__genAlgo()];
             case 43:
                 _o.sent();

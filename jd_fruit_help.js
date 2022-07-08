@@ -60,7 +60,7 @@ var sendNotify_1 = require("./sendNotify");
 var cookie = '', res = '', UserName, h5stTool;
 var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, i, today, e_1, e_2, _c, _d, _e, index, value, shareCodePool, shareCode, _f, shareCode_1, code, e_3, _g, _h, _j, index, value, assistFriendList, farmAssistInit_waterEnergy, _k, _l, t, e_4, _m;
+    var cookiesArr, _i, _a, _b, index, value, i, today, e_1, e_2, full, _c, _d, _e, index, value, shareCodePool, shareCode, _f, shareCode_1, code, e_3, _g, _h, _j, index, value, assistFriendList, farmAssistInit_waterEnergy, _k, _l, t, e_4, _m;
     return __generator(this, function (_o) {
         switch (_o.label) {
             case 0: return [4 /*yield*/, (0, TS_USER_AGENTS_1.getCookie)()];
@@ -129,6 +129,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 return [3 /*break*/, 2];
             case 17:
                 (0, TS_USER_AGENTS_1.o2s)(shareCodeSelf, '内部互助');
+                full = [];
                 _c = 0, _d = cookiesArr.entries();
                 _o.label = 18;
             case 18:
@@ -153,6 +154,10 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
                 if (!(_f < shareCode_1.length)) return [3 /*break*/, 35];
                 code = shareCode_1[_f];
                 console.log("\u8D26\u53F7".concat(index + 1, " ").concat(UserName, " \u53BB\u52A9\u529B ").concat(code, " ").concat(shareCodeSelf.includes(code) ? "*内部*" : ""));
+                if (full.includes(code)) {
+                    console.log('full contains');
+                    return [3 /*break*/, 34];
+                }
                 return [4 /*yield*/, api('initForFarm', { "mpin": "", "utm_campaign": "t_335139774", "utm_medium": "appshare", "shareCode": code, "utm_term": "Wxfriends", "utm_source": "iosapp", "imageUrl": "", "nickName": "", "version": 14, "channel": 2, "babelChannel": 0 })];
             case 23:
                 res = _o.sent();
@@ -179,6 +184,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
             case 28:
                 if (!(res.helpResult.code === '10')) return [3 /*break*/, 29];
                 console.log('已满');
+                full.push(code);
                 return [3 /*break*/, 31];
             case 29:
                 if (!(res.helpResult.remainTimes === 0)) return [3 /*break*/, 31];

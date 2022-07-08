@@ -142,14 +142,24 @@ function getFarmShareCode(cookie) {
 exports.getFarmShareCode = getFarmShareCode;
 function getCookie() {
     return __awaiter(this, void 0, void 0, function () {
-        var cookiesArr, jdCookieNode, _i, _a, keys;
-        return __generator(this, function (_b) {
+        var cookiesArr, jdCookieNode, _i, _a, keys, ptpin_temp, uniqueCookieArr, _b, cookiesArr_1, cookie, UserName;
+        return __generator(this, function (_c) {
             cookiesArr = [];
             jdCookieNode = require('./jdCookie.js');
             for (_i = 0, _a = Object.keys(jdCookieNode); _i < _a.length; _i++) {
                 keys = _a[_i];
                 cookiesArr.push(jdCookieNode[keys]);
             }
+            ptpin_temp = [], uniqueCookieArr = [];
+            for (_b = 0, cookiesArr_1 = cookiesArr; _b < cookiesArr_1.length; _b++) {
+                cookie = cookiesArr_1[_b];
+                UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
+                if (!ptpin_temp.includes(UserName)) {
+                    ptpin_temp.push(UserName);
+                    uniqueCookieArr.push(cookie);
+                }
+            }
+            cookiesArr = uniqueCookieArr;
             console.log("\u5171".concat(cookiesArr.length, "\u4E2A\u4EAC\u4E1C\u8D26\u53F7\n"));
             return [2 /*return*/, cookiesArr];
         });

@@ -116,6 +116,11 @@ var message = '', h5stTool = new h5st_1.H5ST("0c010", TS_USER_AGENTS_1["default"
             case 13: return [4 /*yield*/, api('friendListInitForFarm', { "lastId": null, "version": 14, "channel": 1, "babelChannel": "120" })];
             case 14:
                 // 添加好友
+                // for (let i = 0; i < 30; i++) {
+                //   res = await api('waterGoodForFarm', {"version": 16, "channel": 1, "babelChannel": "121"})
+                //   o2s(res, 'waterGoodForFarm')
+                //   await wait(3000)
+                // }
                 // 删除好友
                 res = _q.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];

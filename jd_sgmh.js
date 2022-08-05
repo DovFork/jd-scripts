@@ -54,7 +54,7 @@ var axios_1 = require("axios");
 var cookie = '', UserName, res;
 var shareCodeSelf = [], shareCode = [], shareCodePool = [];
 !(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var cookiesArr, _i, _a, _b, index, value, _c, _d, t, i, tp, _e, _f, _g, index, value, _h, shareCode_1, code, _j, _k, _l, index, value, lotteryNum, i;
+    var cookiesArr, _i, _a, _b, index, value, _c, _d, t, i, tp, full, _e, _f, _g, index, value, _h, shareCode_1, code, _j, _k, _l, index, value, lotteryNum, i;
     var _m, _o, _p, _q, _r, _s;
     return __generator(this, function (_t) {
         switch (_t.label) {
@@ -95,7 +95,12 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                     tp = t.shoppingActivityVos;
                 console.log(((_p = tp[i]) === null || _p === void 0 ? void 0 : _p.shopName) || ((_q = tp[i]) === null || _q === void 0 ? void 0 : _q.skuName) || ((_r = tp[i]) === null || _r === void 0 ? void 0 : _r.title));
                 if (!!t.shoppingActivityVos) return [3 /*break*/, 8];
-                return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": tp[i].taskToken, "taskId": t.taskId, "actionType": 1 })];
+                return [4 /*yield*/, api('harmony_collectScore', {
+                        "appId": "1EFRXxg",
+                        "taskToken": tp[i].taskToken,
+                        "taskId": t.taskId,
+                        "actionType": 1
+                    })];
             case 6:
                 res = _t.sent();
                 console.log(res.data.bizMsg);
@@ -103,7 +108,12 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
             case 7:
                 _t.sent();
                 _t.label = 8;
-            case 8: return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": tp[i].taskToken, "taskId": t.taskId, "actionType": 0 })];
+            case 8: return [4 /*yield*/, api('harmony_collectScore', {
+                    "appId": "1EFRXxg",
+                    "taskToken": tp[i].taskToken,
+                    "taskId": t.taskId,
+                    "actionType": 0
+                })];
             case 9:
                 res = _t.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
@@ -126,6 +136,7 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 _i++;
                 return [3 /*break*/, 2];
             case 14:
+                full = [];
                 _e = 0, _f = cookiesArr.entries();
                 _t.label = 15;
             case 15:
@@ -143,6 +154,10 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
             case 17:
                 if (!(_h < shareCode_1.length)) return [3 /*break*/, 21];
                 code = shareCode_1[_h];
+                if (full.includes(code)) {
+                    console.log('full contains');
+                    return [3 /*break*/, 20];
+                }
                 console.log('去助力', code);
                 return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": code, "taskId": 3 })];
             case 18:
@@ -153,6 +168,10 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 else if (res.data.bizCode === 108) {
                     console.log('上限');
                     return [3 /*break*/, 21];
+                }
+                else if (res.data.bizMsg === '助力已满员！谢谢你哦~') {
+                    full.push(code);
+                    console.log('已满');
                 }
                 else {
                     console.log('助力失败', res.data.bizMsg);

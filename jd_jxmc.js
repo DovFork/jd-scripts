@@ -112,7 +112,7 @@ var shareCodesSelf = [], shareCodesHW = [];
                     petids = homePageInfo.data.petinfo.map(function (pet) {
                         return pet.petid;
                     });
-                    console.log('当前🐔🐔：', petids);
+                    // console.log('当前🐔🐔：', petids)
                     petNum = homePageInfo.data.petinfo.length;
                     coins = homePageInfo.data.coins;
                 }
@@ -377,20 +377,38 @@ var shareCodesSelf = [], shareCodesHW = [];
                 _m.label = 66;
             case 66:
                 _m.trys.push([66, 72, , 73]);
-                return [4 /*yield*/, api('operservice/Action', 'activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,type', { type: '2' })];
+                return [4 /*yield*/, api('operservice/Action', 'activeid,activekey,channel,dn,do,dov,dv,eid,fp,jxmc_jstoken,phoneid,sceneid,timestamp,type', {
+                        'eid': '',
+                        'fp': '',
+                        'dv': '',
+                        'do': '',
+                        'dov': '',
+                        'dn': '',
+                        'type': '2'
+                    })];
             case 67:
                 res = _m.sent();
                 if (res.data.addcoins === 0 || JSON.stringify(res.data) === '{}')
                     return [3 /*break*/, 74];
-                console.log('锄草:', res.data.addcoins);
+                console.log('锄草:', res.data.addcoins, res.data.surprise ? '🎁' : '');
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 68:
                 _m.sent();
                 if (!res.data.surprise) return [3 /*break*/, 71];
-                return [4 /*yield*/, api("operservice/GetSelfResult", "activeid,activekey,channel,jxmc_jstoken,phoneid,sceneid,timestamp,type", { type: '14', itemid: 'undefined' })];
+                return [4 /*yield*/, api("operservice/GetSelfResult", "activeid,activekey,channel,commtype,dn,do,dov,dv,eid,fp,jxmc_jstoken,phoneid,sceneid,timestamp,type", {
+                        'eid': '',
+                        'fp': '',
+                        'dv': '',
+                        'do': '',
+                        'dov': '',
+                        'dn': '',
+                        'type': '14',
+                        'itemid': '{}',
+                        'commtype': '3'
+                    })];
             case 69:
                 res = _m.sent();
-                console.log('锄草奖励:', res.data.prizepool);
+                console.log('锄草奖励:', res.data.addcoins);
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(5000)];
             case 70:
                 _m.sent();

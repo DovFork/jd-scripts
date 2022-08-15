@@ -95,7 +95,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         });
                         return [4 /*yield*/, this.get("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&client=ios&clientVersion=3.9.2&cthr=1&h5st=").concat(h5st), {
                                 'Host': 'api.m.jd.com',
-                                'User-Agent': 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 15_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;',
+                                'User-Agent': 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;',
                                 'Origin': 'https://h5platform.jd.com',
                                 'X-Requested-With': 'com.jd.jdlite',
                                 'Referer': 'https://h5platform.jd.com/',
@@ -116,7 +116,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 8, , 10]);
-                        this.teamTool = new h5st2_1.H5ST('448de', 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 15_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;', process.env.FP_448DE || '');
+                        this.teamTool = new h5st2_1.H5ST('448de', 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;', process.env.FP_448DE || '');
                         return [4 /*yield*/, this.teamTool.__genAlgo()];
                     case 2:
                         _b.sent();
@@ -138,7 +138,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         }
                         return [3 /*break*/, 7];
                     case 4:
-                        if (!(this.captainId && res.data.members.length === 0)) return [3 /*break*/, 6];
+                        if (!this.captainId) return [3 /*break*/, 6];
                         console.log('已有组队ID，未加入队伍');
                         return [4 /*yield*/, this.team('runningJoinTeam', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "captainId": this.captainId })];
                     case 5:

@@ -57,7 +57,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var h5st_1 = require("./utils/h5st");
+var h5st2_1 = require("./utils/h5st2");
 var date_fns_1 = require("date-fns");
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Joy_Park_Run = /** @class */ (function (_super) {
@@ -94,13 +94,13 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                             appid: "activities_platform",
                             body: JSON.stringify(body),
                             client: "ios",
-                            clientVersion: "3.1.0",
+                            clientVersion: "3.9.2",
                             functionId: fn,
                             t: timestamp.toString()
                         });
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&client=ios&clientVersion=3.1.0&cthr=1&h5st=").concat(h5st), {
+                        return [4 /*yield*/, this.get("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&client=ios&clientVersion=3.9.2&cthr=1&h5st=").concat(h5st), {
                                 'Host': 'api.m.jd.com',
-                                'User-Agent': 'jdltapp;',
+                                'User-Agent': 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;',
                                 'Origin': 'https://h5platform.jd.com',
                                 'X-Requested-With': 'com.jd.jdlite',
                                 'Referer': 'https://h5platform.jd.com/',
@@ -123,12 +123,12 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                                 appid: "activities_platform",
                                 body: JSON.stringify(body),
                                 client: "ios",
-                                clientVersion: "3.1.0",
+                                clientVersion: "3.9.2",
                                 functionId: fn,
                                 t: timestamp.toString()
                             });
                         }
-                        params = "functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&t=").concat(timestamp, "&appid=activities_platform&client=ios&clientVersion=3.1.0&cthr=1");
+                        params = "functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&t=").concat(timestamp, "&appid=activities_platform&client=ios&clientVersion=3.9.2&cthr=1");
                         h5st && (params += "&h5st=".concat(h5st));
                         return [4 /*yield*/, this.post('https://api.m.jd.com/', params, {
                                 'authority': 'api.m.jd.com',
@@ -136,7 +136,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                                 'cookie': this.user.cookie,
                                 'origin': 'https://h5platform.jd.com',
                                 'referer': 'https://h5platform.jd.com/',
-                                'user-agent': 'jdltapp;iPhone;3.1.0;'
+                                'User-Agent': 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;'
                             })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
@@ -146,10 +146,10 @@ var Joy_Park_Run = /** @class */ (function (_super) {
     Joy_Park_Run.prototype.runningPageHome = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.get("https://api.m.jd.com/?functionId=runningPageHome&body=%7B%22linkId%22:%22L-sOanK_5RJCz7I314FpnQ%22,%22isFromJoyPark%22:true,%22joyLinkId%22:%22LsQNxL7iWDlXUs6cFl-AAg%22%7D&t=".concat(Date.now(), "&appid=activities_platform&client=ios&clientVersion=3.1.0"), {
+                return [2 /*return*/, this.get("https://api.m.jd.com/?functionId=runningPageHome&body=%7B%22linkId%22:%22L-sOanK_5RJCz7I314FpnQ%22,%22isFromJoyPark%22:true,%22joyLinkId%22:%22LsQNxL7iWDlXUs6cFl-AAg%22%7D&t=".concat(Date.now(), "&appid=activities_platform&client=ios&clientVersion=3.9.2"), {
                         'Host': 'api.m.jd.com',
                         'Origin': 'https://h5platform.jd.com',
-                        'User-Agent': 'jdltapp;',
+                        'User-Agent': 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;',
                         'Referer': 'https://h5platform.jd.com/',
                         'Cookie': this.user.cookie
                     })];
@@ -219,7 +219,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         _e.label = 1;
                     case 1:
                         _e.trys.push([1, 31, , 33]);
-                        this.teamTool = new h5st_1.H5ST('448de', 'jdltapp;', process.env.FP_448DE || '');
+                        this.teamTool = new h5st2_1.H5ST('448de', 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;', process.env.FP_448DE || '');
                         return [4 /*yield*/, this.teamTool.__genAlgo()];
                     case 2:
                         _e.sent();
@@ -300,7 +300,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         console.log('战队收益', res.data.teamSumPrize);
                         _e.label = 12;
                     case 12:
-                        this.apiTool = new h5st_1.H5ST('b6ac3', 'jdltapp;', process.env.FP_B6AC3 || '');
+                        this.apiTool = new h5st2_1.H5ST('b6ac3', 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;', process.env.FP_B6AC3 || '');
                         return [4 /*yield*/, this.apiTool.__genAlgo()];
                     case 13:
                         _e.sent();

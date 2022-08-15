@@ -88,20 +88,20 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
                         _e.sent();
                         timestamp = Date.now();
                         headers = {
-                            'content-type': 'application/json',
+                            'Host': 'api.m.jd.com',
+                            'wqreferer': 'https://wq.jd.com/wxapp/pages/market/market2/index',
                             'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 MicroMessenger/8.0.15(0x18000f2e) NetType/WIFI Language/zh_CN',
-                            'referer': 'https://servicewechat.com/wx91d27dbf599dff74/581/page-frame.html',
+                            'Referer': 'https://servicewechat.com/wx91d27dbf599dff74/646/page-frame.html',
                             'cookie': user.cookie
                         }, signDays = 0, rewardValue = 0;
                         h5st = h5stTool.__genH5st({
                             appid: 'hot_channel',
                             body: JSON.stringify({ "activityId": "10004" }),
                             client: 'android',
-                            clientVersion: '7.16.250',
-                            functionId: 'SignComponent_doSignTask',
-                            t: timestamp.toString()
+                            clientVersion: '7.20.110',
+                            functionId: 'SignComponent_doSignTask'
                         });
-                        return [4 /*yield*/, this.post("https://api.m.jd.com/signTask/doSignTask?functionId=SignComponent_doSignTask&appid=hot_channel&body={\"activityId\":\"10004\"}&client=android&clientVersion=7.16.250&t=".concat(timestamp, "&h5st=").concat(h5st), '', headers)];
+                        return [4 /*yield*/, this.post('https://api.m.jd.com/signTask/doSignTask', "client=android&clientVersion=7.20.110&functionId=SignComponent_doSignTask&appid=hot_channel&loginWQBiz=signcomponent&body=".concat(encodeURIComponent(JSON.stringify({ "activityId": "10004" })), "&h5st=").concat(h5st), headers)];
                     case 2:
                         res = _e.sent();
                         if (res.data) {
@@ -129,17 +129,17 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
                             body: JSON.stringify({ "activityId": "10004", "actionType": 1, scanAssignmentId: scanAssignmentId, itemId: itemId }),
                             client: 'android',
                             clientVersion: '7.18.110',
-                            functionId: 'SignComponent_doScanTask',
-                            t: timestamp.toString()
+                            functionId: 'SignComponent_doScanTask'
                         });
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/scanTask/startScanTask?client=android&clientVersion=7.18.110&functionId=SignComponent_doScanTask&appid=hot_channel&body=".concat(encodeURIComponent(JSON.stringify({
+                        return [4 /*yield*/, this.post('https://api.m.jd.com/scanTask/startScanTask', "client=android&clientVersion=7.18.110&functionId=SignComponent_doScanTask&appid=hot_channel&body=".concat(encodeURIComponent(JSON.stringify({
                                 "activityId": "10004",
                                 "actionType": 1,
                                 "scanAssignmentId": scanAssignmentId,
                                 "itemId": res.data.scanTaskInfo.itemId
-                            })), "&h5st=").concat(h5st), headers)];
+                            })), "&h5st=").concat(h5st, "&loginType=2"), headers)];
                     case 6:
                         res = _e.sent();
+                        this.o2s(res);
                         console.log('领取任务', res.success);
                         return [4 /*yield*/, this.wait(8000)];
                     case 7:
@@ -149,15 +149,14 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
                             body: JSON.stringify({ "activityId": "10004", "actionType": 0, scanAssignmentId: scanAssignmentId, itemId: itemId }),
                             client: 'android',
                             clientVersion: '7.18.110',
-                            functionId: 'SignComponent_doScanTask',
-                            t: timestamp.toString()
+                            functionId: 'SignComponent_doScanTask'
                         });
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/scanTask/startScanTask?client=android&clientVersion=7.18.110&functionId=SignComponent_doScanTask&appid=hot_channel&body=".concat(encodeURIComponent(JSON.stringify({
+                        return [4 /*yield*/, this.post('https://api.m.jd.com/scanTask/startScanTask', "client=android&clientVersion=7.18.110&functionId=SignComponent_doScanTask&appid=hot_channel&body=".concat(encodeURIComponent(JSON.stringify({
                                 "activityId": "10004",
                                 "actionType": 0,
                                 scanAssignmentId: scanAssignmentId,
                                 itemId: itemId
-                            })), "&h5st=").concat(h5st), headers)];
+                            })), "&h5st=").concat(h5st, "&loginType=2"), headers)];
                     case 8:
                         res = _e.sent();
                         console.log('任务完成', res.data.rewardValue);

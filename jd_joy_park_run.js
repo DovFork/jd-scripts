@@ -57,7 +57,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var h5st2_1 = require("./utils/h5st2");
+var h5st_pro_1 = require("./utils/h5st_pro");
 var date_fns_1 = require("date-fns");
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Joy_Park_Run = /** @class */ (function (_super) {
@@ -100,7 +100,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         });
                         return [4 /*yield*/, this.get("https://api.m.jd.com/?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&t=").concat(timestamp, "&appid=activities_platform&client=ios&clientVersion=3.9.2&cthr=1&h5st=").concat(h5st), {
                                 'Host': 'api.m.jd.com',
-                                'User-Agent': 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;',
+                                'User-Agent': this.user.UserAgent,
                                 'Origin': 'https://h5platform.jd.com',
                                 'X-Requested-With': 'com.jd.jdlite',
                                 'Referer': 'https://h5platform.jd.com/',
@@ -136,7 +136,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                                 'cookie': this.user.cookie,
                                 'origin': 'https://h5platform.jd.com',
                                 'referer': 'https://h5platform.jd.com/',
-                                'User-Agent': 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;'
+                                'User-Agent': this.user.UserAgent
                             })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
@@ -149,7 +149,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                 return [2 /*return*/, this.get("https://api.m.jd.com/?functionId=runningPageHome&body=%7B%22linkId%22:%22L-sOanK_5RJCz7I314FpnQ%22,%22isFromJoyPark%22:true,%22joyLinkId%22:%22LsQNxL7iWDlXUs6cFl-AAg%22%7D&t=".concat(Date.now(), "&appid=activities_platform&client=ios&clientVersion=3.9.2"), {
                         'Host': 'api.m.jd.com',
                         'Origin': 'https://h5platform.jd.com',
-                        'User-Agent': 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;',
+                        'User-Agent': this.user.UserAgent,
                         'Referer': 'https://h5platform.jd.com/',
                         'Cookie': this.user.cookie
                     })];
@@ -214,12 +214,13 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                 switch (_e.label) {
                     case 0:
                         this.user = user;
+                        this.user.UserAgent = "jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         assets = parseFloat(process.env.JD_JOY_PARK_RUN_ASSETS || '0.08');
                         rewardAmount = 0;
                         _e.label = 1;
                     case 1:
                         _e.trys.push([1, 31, , 33]);
-                        this.teamTool = new h5st2_1.H5ST('448de', 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;', process.env.FP_448DE || '');
+                        this.teamTool = new h5st_pro_1.H5ST('448de', this.user.UserAgent, process.env.FP_448DE || '', 'https://h5platform.jd.com/swm-stable/people-run/index?activityId=L-sOanK_5RJCz7I314FpnQ', 'https://h5platform.jd.com');
                         return [4 /*yield*/, this.teamTool.__genAlgo()];
                     case 2:
                         _e.sent();
@@ -300,7 +301,7 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         console.log('战队收益', res.data.teamSumPrize);
                         _e.label = 12;
                     case 12:
-                        this.apiTool = new h5st2_1.H5ST('b6ac3', 'jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS 14_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;', process.env.FP_B6AC3 || '');
+                        this.apiTool = new h5st_pro_1.H5ST('b6ac3', this.user.UserAgent, process.env.FP_B6AC3 || '', 'https://h5platform.jd.com/swm-stable/people-run/index?activityId=L-sOanK_5RJCz7I314FpnQ', 'https://h5platform.jd.com');
                         return [4 /*yield*/, this.apiTool.__genAlgo()];
                     case 13:
                         _e.sent();

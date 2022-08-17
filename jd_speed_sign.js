@@ -66,7 +66,7 @@ var Speed_Sign = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new Speed_Sign())];
+                    case 0: return [4 /*yield*/, this.run(this)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -111,7 +111,7 @@ var Speed_Sign = /** @class */ (function (_super) {
                     case 0:
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
-                        this.h5stTool = new h5st_pro_1.H5ST("15097", this.user.UserAgent, process.env.FP_15097 || "", 'https://daily-redpacket.jd.com/?activityId=9WA12jYGulArzWS7vcrwhw', 'https://daily-redpacket.jd.com');
+                        this.h5stTool = new h5st_pro_1.H5ST("15097", this.user.UserAgent, process.env.FP_15097 || "", 'https://daily-redpacket.jd.com/?activityId=9WA12jYGulArzWS7vcrwhw', 'https://daily-redpacket.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
                         _b.sent();

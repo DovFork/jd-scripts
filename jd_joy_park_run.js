@@ -1,6 +1,6 @@
 "use strict";
 /**
- * 汪汪乐园-跑步+组队
+ * 汪汪乐园-跑步+组队+浏览
  * cron: 20 * * * *
  * export FP_448DE=""
  * export FP_B6AC3=""
@@ -209,42 +209,89 @@ var Joy_Park_Run = /** @class */ (function (_super) {
     Joy_Park_Run.prototype.main = function (user) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var assets, rewardAmount, res, sum, success, _i, _b, t, _c, _d, member, energy, i, e_1;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
+            var assets, rewardAmount, res, apTaskList, _i, _b, t, apTaskDetail, taskItemList, i, sum, success, _c, _d, t, _e, _f, member, energy, i, e_1;
+            return __generator(this, function (_g) {
+                switch (_g.label) {
                     case 0:
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         assets = parseFloat(process.env.JD_JOY_PARK_RUN_ASSETS || '0.08');
                         rewardAmount = 0;
-                        _e.label = 1;
+                        _g.label = 1;
                     case 1:
-                        _e.trys.push([1, 31, , 33]);
+                        _g.trys.push([1, 43, , 45]);
                         this.teamTool = new h5st_pro_1.H5ST('448de', this.user.UserAgent, process.env.FP_448DE || '', 'https://h5platform.jd.com/swm-stable/people-run/index?activityId=L-sOanK_5RJCz7I314FpnQ', 'https://h5platform.jd.com');
                         return [4 /*yield*/, this.teamTool.__genAlgo()];
                     case 2:
-                        _e.sent();
-                        return [4 /*yield*/, this.team('runningMyPrize', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "pageSize": 20, "time": null, "ids": null })];
+                        _g.sent();
+                        res = void 0;
+                        return [4 /*yield*/, this.api('apTaskList', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
                     case 3:
-                        res = _e.sent();
+                        apTaskList = _g.sent();
+                        _i = 0, _b = apTaskList.data;
+                        _g.label = 4;
+                    case 4:
+                        if (!(_i < _b.length)) return [3 /*break*/, 14];
+                        t = _b[_i];
+                        if (!(t.taskShowTitle === '逛会场得生命值' && !t.taskFinished)) return [3 /*break*/, 13];
+                        return [4 /*yield*/, this.api('apTaskDetail', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "taskType": "BROWSE_CHANNEL", "taskId": t.id, "channel": 4 })];
+                    case 5:
+                        apTaskDetail = _g.sent();
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 6:
+                        _g.sent();
+                        taskItemList = apTaskDetail.data.taskItemList;
+                        i = apTaskDetail.data.status.userFinishedTimes;
+                        _g.label = 7;
+                    case 7:
+                        if (!(i < apTaskDetail.data.status.finishNeed)) return [3 /*break*/, 13];
+                        console.log(taskItemList[i].itemName);
+                        return [4 /*yield*/, this.api('apTaskTimeRecord', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "taskId": 817 })];
+                    case 8:
+                        res = _g.sent();
+                        return [4 /*yield*/, this.wait(31000)];
+                    case 9:
+                        _g.sent();
+                        return [4 /*yield*/, this.api('apDoTask', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "taskType": "BROWSE_CHANNEL", "taskId": t.id, "channel": 4, "itemId": encodeURIComponent(taskItemList[i].itemId), "checkVersion": true })];
+                    case 10:
+                        res = _g.sent();
+                        if (res.success) {
+                            console.log('任务完成');
+                        }
+                        else {
+                            this.o2s(res, '任务失败');
+                        }
+                        return [4 /*yield*/, this.wait(3000)];
+                    case 11:
+                        _g.sent();
+                        _g.label = 12;
+                    case 12:
+                        i++;
+                        return [3 /*break*/, 7];
+                    case 13:
+                        _i++;
+                        return [3 /*break*/, 4];
+                    case 14: return [4 /*yield*/, this.team('runningMyPrize', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "pageSize": 20, "time": null, "ids": null })];
+                    case 15:
+                        res = _g.sent();
                         sum = 0, success = 0;
                         rewardAmount = res.data.rewardAmount;
-                        if (!(res.data.runningCashStatus.currentEndTime && res.data.runningCashStatus.status === 0)) return [3 /*break*/, 7];
+                        if (!(res.data.runningCashStatus.currentEndTime && res.data.runningCashStatus.status === 0)) return [3 /*break*/, 19];
                         console.log('可提现', rewardAmount);
                         return [4 /*yield*/, this.api('runningPrizeDraw', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "type": 2 })];
-                    case 4:
-                        res = _e.sent();
+                    case 16:
+                        res = _g.sent();
                         return [4 /*yield*/, this.wait(2000)];
-                    case 5:
-                        _e.sent();
+                    case 17:
+                        _g.sent();
                         console.log(res.data.message);
                         return [4 /*yield*/, this.team('runningMyPrize', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "pageSize": 20, "time": null, "ids": null })];
-                    case 6:
-                        res = _e.sent();
-                        _e.label = 7;
-                    case 7:
-                        for (_i = 0, _b = ((_a = res === null || res === void 0 ? void 0 : res.data) === null || _a === void 0 ? void 0 : _a.detailVos) || []; _i < _b.length; _i++) {
-                            t = _b[_i];
+                    case 18:
+                        res = _g.sent();
+                        _g.label = 19;
+                    case 19:
+                        for (_c = 0, _d = ((_a = res === null || res === void 0 ? void 0 : res.data) === null || _a === void 0 ? void 0 : _a.detailVos) || []; _c < _d.length; _c++) {
+                            t = _d[_c];
                             if (t.amount > 0 && (0, date_fns_1.getDate)(new Date(t.createTime)) === new Date().getDate()) {
                                 sum += t.amount;
                                 success++;
@@ -257,9 +304,9 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         sum = parseFloat(sum.toFixed(2));
                         console.log('收益', sum);
                         return [4 /*yield*/, this.team('runningTeamInfo', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
-                    case 8:
-                        res = _e.sent();
-                        if (!!this.captainId) return [3 /*break*/, 9];
+                    case 20:
+                        res = _g.sent();
+                        if (!!this.captainId) return [3 /*break*/, 21];
                         if (res.data.members.length === 0) {
                             console.log('成为队长');
                             this.captainId = res.data.captainId;
@@ -271,17 +318,17 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         else {
                             console.log('队伍已满');
                         }
-                        return [3 /*break*/, 12];
-                    case 9:
-                        if (!(this.captainId && res.data.members.length === 0)) return [3 /*break*/, 11];
+                        return [3 /*break*/, 24];
+                    case 21:
+                        if (!(this.captainId && res.data.members.length === 0)) return [3 /*break*/, 23];
                         console.log('已有组队ID，未加入队伍');
                         return [4 /*yield*/, this.team('runningJoinTeam', { "linkId": "L-sOanK_5RJCz7I314FpnQ", "captainId": this.captainId })];
-                    case 10:
-                        res = _e.sent();
+                    case 22:
+                        res = _g.sent();
                         if (res.code === 0) {
                             console.log('组队成功');
-                            for (_c = 0, _d = res.data.members; _c < _d.length; _c++) {
-                                member = _d[_c];
+                            for (_e = 0, _f = res.data.members; _e < _f.length; _e++) {
+                                member = _f[_e];
                                 if (member.captain) {
                                     console.log('队长', member.nickName);
                                     break;
@@ -295,84 +342,84 @@ var Joy_Park_Run = /** @class */ (function (_super) {
                         else {
                             this.o2s(res, '组队失败');
                         }
-                        return [3 /*break*/, 12];
-                    case 11:
+                        return [3 /*break*/, 24];
+                    case 23:
                         console.log('已组队', res.data.members.length);
                         console.log('战队收益', res.data.teamSumPrize);
-                        _e.label = 12;
-                    case 12:
+                        _g.label = 24;
+                    case 24:
                         this.apiTool = new h5st_pro_1.H5ST('b6ac3', this.user.UserAgent, process.env.FP_B6AC3 || '', 'https://h5platform.jd.com/swm-stable/people-run/index?activityId=L-sOanK_5RJCz7I314FpnQ', 'https://h5platform.jd.com');
                         return [4 /*yield*/, this.apiTool.__genAlgo()];
-                    case 13:
-                        _e.sent();
+                    case 25:
+                        _g.sent();
                         return [4 /*yield*/, this.runningPageHome()];
-                    case 14:
-                        res = _e.sent();
+                    case 26:
+                        res = _g.sent();
                         console.log('🧧', res.data.runningHomeInfo.prizeValue);
                         console.log('💊', res.data.runningHomeInfo.energy);
                         energy = res.data.runningHomeInfo.energy;
                         return [4 /*yield*/, this.wait(2000)];
-                    case 15:
-                        _e.sent();
+                    case 27:
+                        _g.sent();
                         console.log('⏳', this.secondsToMinutes(res.data.runningHomeInfo.nextRunningTime / 1000));
-                        if (!(res.data.runningHomeInfo.nextRunningTime && res.data.runningHomeInfo.nextRunningTime / 1000 < 300)) return [3 /*break*/, 19];
+                        if (!(res.data.runningHomeInfo.nextRunningTime && res.data.runningHomeInfo.nextRunningTime / 1000 < 300)) return [3 /*break*/, 31];
                         console.log('⏳');
                         return [4 /*yield*/, this.wait(res.data.runningHomeInfo.nextRunningTime + 3000)];
-                    case 16:
-                        _e.sent();
+                    case 28:
+                        _g.sent();
                         return [4 /*yield*/, this.runningPageHome()];
-                    case 17:
-                        res = _e.sent();
+                    case 29:
+                        res = _g.sent();
                         return [4 /*yield*/, this.wait(1000)];
-                    case 18:
-                        _e.sent();
-                        _e.label = 19;
-                    case 19: return [4 /*yield*/, this.startRunning(res, assets)];
-                    case 20:
-                        _e.sent();
+                    case 30:
+                        _g.sent();
+                        _g.label = 31;
+                    case 31: return [4 /*yield*/, this.startRunning(res, assets)];
+                    case 32:
+                        _g.sent();
                         return [4 /*yield*/, this.runningPageHome()];
-                    case 21:
-                        res = _e.sent();
+                    case 33:
+                        res = _g.sent();
                         i = 0;
-                        _e.label = 22;
-                    case 22:
-                        if (!(i < energy)) return [3 /*break*/, 28];
+                        _g.label = 34;
+                    case 34:
+                        if (!(i < energy)) return [3 /*break*/, 40];
                         if (res.data.runningHomeInfo.nextRunningTime / 1000 < 3000)
-                            return [3 /*break*/, 28];
+                            return [3 /*break*/, 40];
                         console.log('💉');
                         return [4 /*yield*/, this.api('runningUseEnergyBar', { "linkId": "L-sOanK_5RJCz7I314FpnQ" })];
-                    case 23:
-                        res = _e.sent();
+                    case 35:
+                        res = _g.sent();
                         console.log(res.errMsg);
                         return [4 /*yield*/, this.runningPageHome()];
-                    case 24:
-                        res = _e.sent();
+                    case 36:
+                        res = _g.sent();
                         return [4 /*yield*/, this.startRunning(res, assets)];
-                    case 25:
-                        _e.sent();
+                    case 37:
+                        _g.sent();
                         return [4 /*yield*/, this.wait(1000)];
-                    case 26:
-                        _e.sent();
-                        _e.label = 27;
-                    case 27:
+                    case 38:
+                        _g.sent();
+                        _g.label = 39;
+                    case 39:
                         i++;
-                        return [3 /*break*/, 22];
-                    case 28: return [4 /*yield*/, this.runningPageHome()];
-                    case 29:
-                        res = _e.sent();
+                        return [3 /*break*/, 34];
+                    case 40: return [4 /*yield*/, this.runningPageHome()];
+                    case 41:
+                        res = _g.sent();
                         console.log('🧧', res.data.runningHomeInfo.prizeValue);
                         return [4 /*yield*/, this.wait(2000)];
-                    case 30:
-                        _e.sent();
-                        return [3 /*break*/, 33];
-                    case 31:
-                        e_1 = _e.sent();
+                    case 42:
+                        _g.sent();
+                        return [3 /*break*/, 45];
+                    case 43:
+                        e_1 = _g.sent();
                         console.log('Error', e_1.message);
                         return [4 /*yield*/, this.wait(3000)];
-                    case 32:
-                        _e.sent();
-                        return [3 /*break*/, 33];
-                    case 33: return [2 /*return*/];
+                    case 44:
+                        _g.sent();
+                        return [3 /*break*/, 45];
+                    case 45: return [2 /*return*/];
                 }
             });
         });

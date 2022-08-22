@@ -119,63 +119,68 @@ var Jd_speed_wabao = /** @class */ (function (_super) {
     };
     Jd_speed_wabao.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, _i, _a, t, e_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _a, _b, res, data, _i, _c, t, e_1;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
-                        if (!process.env.FP_8DD95) {
-                            console.log('未设置环境变量 FP_8DD95');
-                            process.exit();
-                        }
+                        _a = this;
+                        _b = process.env.FP_8DD95;
+                        if (_b) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.getFp()];
+                    case 1:
+                        _b = (_d.sent());
+                        _d.label = 2;
+                    case 2:
+                        _a.fp = _b;
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
-                        this.h5stTool = new h5st_pro_1.H5ST("8dd95", this.user.UserAgent, process.env.FP_8DD95, 'https://bnzf.jd.com/?activityId=pTTvJeSTrpthgk9ASBVGsw', 'https://bnzf.jd.com', this.user.UserName);
+                        this.h5stTool = new h5st_pro_1.H5ST("8dd95", this.user.UserAgent, this.fp, 'https://bnzf.jd.com/?activityId=pTTvJeSTrpthgk9ASBVGsw', 'https://bnzf.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 1:
-                        _b.sent();
-                        _b.label = 2;
-                    case 2:
-                        _b.trys.push([2, 11, , 12]);
-                        return [4 /*yield*/, this.api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
                     case 3:
-                        res = _b.sent();
+                        _d.sent();
+                        _d.label = 4;
+                    case 4:
+                        _d.trys.push([4, 13, , 14]);
+                        return [4 /*yield*/, this.api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
+                    case 5:
+                        res = _d.sent();
                         console.log('助力码', res.data.markedPin, res.data.inviteCode);
                         this.shareCodesSelf.push({ inviter: res.data.markedPin, inviteCode: res.data.inviteCode });
                         return [4 /*yield*/, this.api('apTaskList', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
-                    case 4:
-                        res = _b.sent();
-                        return [4 /*yield*/, this.wait(1000)];
-                    case 5:
-                        _b.sent();
-                        _i = 0, _a = res.data;
-                        _b.label = 6;
                     case 6:
-                        if (!(_i < _a.length)) return [3 /*break*/, 10];
-                        t = _a[_i];
-                        if (!(t.taskType === 'BROWSE_CHANNEL' && t.taskDoTimes === 0 && t.taskLimitTimes === 1)) return [3 /*break*/, 9];
+                        res = _d.sent();
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 7:
+                        _d.sent();
+                        _i = 0, _c = res.data;
+                        _d.label = 8;
+                    case 8:
+                        if (!(_i < _c.length)) return [3 /*break*/, 12];
+                        t = _c[_i];
+                        if (!(t.taskType === 'BROWSE_CHANNEL' && t.taskDoTimes === 0 && t.taskLimitTimes === 1)) return [3 /*break*/, 11];
                         console.log(t.taskShowTitle);
                         return [4 /*yield*/, this.api('apDoTask', { "linkId": "pTTvJeSTrpthgk9ASBVGsw", "taskType": "BROWSE_CHANNEL", "taskId": t.id, "channel": 4, "itemId": encodeURIComponent(t.taskSourceUrl), "checkVersion": false })];
-                    case 7:
-                        data = _b.sent();
+                    case 9:
+                        data = _d.sent();
                         return [4 /*yield*/, this.wait(1000)];
-                    case 8:
-                        _b.sent();
+                    case 10:
+                        _d.sent();
                         if (data.success) {
                             console.log('任务完成');
                         }
                         else {
                             this.o2s(data, '任务失败');
                         }
-                        _b.label = 9;
-                    case 9:
-                        _i++;
-                        return [3 /*break*/, 6];
-                    case 10: return [3 /*break*/, 12];
+                        _d.label = 11;
                     case 11:
-                        e_1 = _b.sent();
+                        _i++;
+                        return [3 /*break*/, 8];
+                    case 12: return [3 /*break*/, 14];
+                    case 13:
+                        e_1 = _d.sent();
                         console.log('error', e_1);
-                        return [3 /*break*/, 12];
-                    case 12: return [2 /*return*/];
+                        return [3 /*break*/, 14];
+                    case 14: return [2 /*return*/];
                 }
             });
         });
@@ -194,7 +199,7 @@ var Jd_speed_wabao = /** @class */ (function (_super) {
                     case 1:
                         if (!(_i < users_1.length)) return [3 /*break*/, 17];
                         user = users_1[_i];
-                        this.user.cookie = user.cookie;
+                        this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011").concat(user.UserName, "\n"));
                         _b.label = 2;
@@ -218,7 +223,7 @@ var Jd_speed_wabao = /** @class */ (function (_super) {
                         if (!(_a < shareCodes_1.length)) return [3 /*break*/, 14];
                         code = shareCodes_1[_a];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteCode));
-                        this.h5stTool = new h5st_pro_1.H5ST("8dd95", this.user.UserAgent, process.env.FP_8DD95, "https://bnzf.jd.com/?activityId=pTTvJeSTrpthgk9ASBVGsw&inviterId=".concat(code.inviter, "&inviterCode=").concat(code.inviteCode, "&utm_source=iosapp&utm_medium=liteshare&utm_campaign=&utm_term=Qqfriends&ad_od=share"), 'https://bnzf.jd.com', user.UserName);
+                        this.h5stTool = new h5st_pro_1.H5ST("8dd95", this.user.UserAgent, this.fp, "https://bnzf.jd.com/?activityId=pTTvJeSTrpthgk9ASBVGsw&inviterId=".concat(code.inviter, "&inviterCode=").concat(code.inviteCode, "&utm_source=iosapp&utm_medium=liteshare&utm_campaign=&utm_term=Qqfriends&ad_od=share"), 'https://bnzf.jd.com', user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 6:
                         _b.sent();

@@ -81,14 +81,16 @@ var Speed_Sign = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         timestamp = Date.now();
-                        h5st = this.h5stTool.__genH5st({
-                            appid: 'activities_platform',
-                            body: JSON.stringify(body),
-                            client: 'H5',
-                            clientVersion: '1.0.0',
-                            functionId: fn,
-                            t: timestamp.toString()
-                        });
+                        return [4 /*yield*/, this.h5stTool.__genH5st({
+                                appid: 'activities_platform',
+                                body: JSON.stringify(body),
+                                client: 'H5',
+                                clientVersion: '1.0.0',
+                                functionId: fn,
+                                t: timestamp.toString()
+                            })];
+                    case 1:
+                        h5st = _a.sent();
                         return [4 /*yield*/, this.post('https://api.m.jd.com/', "functionId=".concat(fn, "&body=").concat(JSON.stringify(body), "&t=").concat(timestamp, "&appid=activities_platform&client=H5&clientVersion=1.0.0&h5st=").concat(h5st), {
                                 'Host': 'api.m.jd.com',
                                 'Cookie': this.user.cookie,
@@ -98,29 +100,32 @@ var Speed_Sign = /** @class */ (function (_super) {
                                 'user-agent': this.user.UserAgent,
                                 'referer': 'https://daily-redpacket.jd.com/'
                             })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
     Speed_Sign.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, _i, _a, t, e_1;
+            var fp, res, _i, _a, t, e_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
-                        this.h5stTool = new h5st_pro_1.H5ST("15097", this.user.UserAgent, process.env.FP_15097 || "", 'https://daily-redpacket.jd.com/?activityId=9WA12jYGulArzWS7vcrwhw', 'https://daily-redpacket.jd.com', this.user.UserName);
-                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
+                        return [4 /*yield*/, this.getFp()];
                     case 1:
+                        fp = _b.sent();
+                        this.h5stTool = new h5st_pro_1.H5ST("15097", this.user.UserAgent, fp, 'https://daily-redpacket.jd.com/?activityId=9WA12jYGulArzWS7vcrwhw', 'https://daily-redpacket.jd.com', this.user.UserName);
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
+                    case 2:
                         _b.sent();
                         return [4 /*yield*/, this.api('apSignIn_day', { "linkId": "9WA12jYGulArzWS7vcrwhw", "serviceName": "dayDaySignGetRedEnvelopeSignService", "business": 1 })];
-                    case 2:
-                        res = _b.sent();
-                        _b.label = 3;
                     case 3:
-                        _b.trys.push([3, 11, , 12]);
+                        res = _b.sent();
+                        _b.label = 4;
+                    case 4:
+                        _b.trys.push([4, 12, , 13]);
                         if (res.data.retCode === 0) {
                             console.log('签到成功');
                         }
@@ -128,34 +133,34 @@ var Speed_Sign = /** @class */ (function (_super) {
                             console.log(res.data.retMessage);
                         }
                         return [4 /*yield*/, this.wait(2000)];
-                    case 4:
+                    case 5:
                         _b.sent();
                         return [4 /*yield*/, this.api('signPrizeDetailList', { "linkId": "9WA12jYGulArzWS7vcrwhw", "serviceName": "dayDaySignGetRedEnvelopeSignService", "business": 1, "pageSize": 20, "page": 1 })];
-                    case 5:
+                    case 6:
                         res = _b.sent();
                         _i = 0, _a = res.data.prizeDrawBaseVoPageBean.items;
-                        _b.label = 6;
-                    case 6:
-                        if (!(_i < _a.length)) return [3 /*break*/, 10];
-                        t = _a[_i];
-                        if (!(t.prizeType === 4 && t.prizeStatus === 0)) return [3 /*break*/, 9];
-                        return [4 /*yield*/, this.api('apCashWithDraw', { "linkId": "9WA12jYGulArzWS7vcrwhw", "businessSource": "DAY_DAY_RED_PACKET_SIGN", "base": { "prizeType": t.prizeType, "business": t.business, "id": t.id, "poolBaseId": t.poolBaseId, "prizeGroupId": t.prizeGroupId, "prizeBaseId": t.prizeBaseId } })];
+                        _b.label = 7;
                     case 7:
+                        if (!(_i < _a.length)) return [3 /*break*/, 11];
+                        t = _a[_i];
+                        if (!(t.prizeType === 4 && t.prizeStatus === 0)) return [3 /*break*/, 10];
+                        return [4 /*yield*/, this.api('apCashWithDraw', { "linkId": "9WA12jYGulArzWS7vcrwhw", "businessSource": "DAY_DAY_RED_PACKET_SIGN", "base": { "prizeType": t.prizeType, "business": t.business, "id": t.id, "poolBaseId": t.poolBaseId, "prizeGroupId": t.prizeGroupId, "prizeBaseId": t.prizeBaseId } })];
+                    case 8:
                         res = _b.sent();
                         console.log(parseFloat(t.prizeValue), res.data.message);
                         return [4 /*yield*/, this.wait(2000)];
-                    case 8:
-                        _b.sent();
-                        _b.label = 9;
                     case 9:
+                        _b.sent();
+                        _b.label = 10;
+                    case 10:
                         _i++;
-                        return [3 /*break*/, 6];
-                    case 10: return [3 /*break*/, 12];
-                    case 11:
+                        return [3 /*break*/, 7];
+                    case 11: return [3 /*break*/, 13];
+                    case 12:
                         e_1 = _b.sent();
                         console.log('error', e_1);
-                        return [3 /*break*/, 12];
-                    case 12: return [2 /*return*/];
+                        return [3 /*break*/, 13];
+                    case 13: return [2 /*return*/];
                 }
             });
         });

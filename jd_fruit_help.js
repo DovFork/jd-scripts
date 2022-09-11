@@ -98,7 +98,7 @@ var shareCodeSelf = [], log = { help: '', runTimes: '' }, message = '';
             case 7:
                 _o.trys.push([7, 9, , 11]);
                 today = (0, date_fns_1.getDate)(new Date());
-                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://api.jdsharecode.xyz/api/runTimes0701?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode, "&today=").concat(today))];
+                return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://sharecodepool.cnmb.win/api/runTimes0701?activityId=farm&sharecode=".concat(res.farmUserPro.shareCode, "&today=").concat(today))];
             case 8:
                 res = _o.sent();
                 console.log(res);

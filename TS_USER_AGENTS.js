@@ -253,7 +253,7 @@ function getshareCodeHW(key) {
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 6]);
-                    return [4 /*yield*/, axios_1["default"].get('https://api.jdsharecode.xyz/api/HW_CODES')];
+                    return [4 /*yield*/, axios_1["default"].get('https://sharecodepool.cnmb.win/api/HW_CODES')];
                 case 3:
                     data = (_a.sent()).data;
                     shareCodeHW = data[key] || [];
@@ -291,7 +291,7 @@ function getShareCodePool(key, num) {
                     _a.label = 2;
                 case 2:
                     _a.trys.push([2, 4, , 6]);
-                    return [4 /*yield*/, axios_1["default"].get("https://api.jdsharecode.xyz/api/".concat(key, "/").concat(num))];
+                    return [4 /*yield*/, axios_1["default"].get("https://sharecodepool.cnmb.win/api/".concat(key, "/").concat(num))];
                 case 3:
                     data = (_a.sent()).data;
                     shareCode = data.data || [];

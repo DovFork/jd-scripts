@@ -119,65 +119,64 @@ var Jd_speed_wabao = /** @class */ (function (_super) {
     };
     Jd_speed_wabao.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, res, data, _i, _c, t, e_1;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var fp, _a, res, data, _i, _b, t, e_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _a = this;
-                        _b = process.env.FP_8DD95;
-                        if (_b) return [3 /*break*/, 2];
+                        _a = process.env.FP_8DD95;
+                        if (_a) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.getFp()];
                     case 1:
-                        _b = (_d.sent());
-                        _d.label = 2;
+                        _a = (_c.sent());
+                        _c.label = 2;
                     case 2:
-                        _a.fp = _b;
+                        fp = _a;
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
-                        this.h5stTool = new h5st_pro_1.H5ST("8dd95", this.user.UserAgent, this.fp, 'https://bnzf.jd.com/?activityId=pTTvJeSTrpthgk9ASBVGsw', 'https://bnzf.jd.com', this.user.UserName);
+                        this.h5stTool = new h5st_pro_1.H5ST("8dd95", this.user.UserAgent, fp, 'https://bnzf.jd.com/?activityId=pTTvJeSTrpthgk9ASBVGsw', 'https://bnzf.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 3:
-                        _d.sent();
-                        _d.label = 4;
+                        _c.sent();
+                        _c.label = 4;
                     case 4:
-                        _d.trys.push([4, 13, , 14]);
+                        _c.trys.push([4, 13, , 14]);
                         return [4 /*yield*/, this.api('happyDigHome', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
                     case 5:
-                        res = _d.sent();
+                        res = _c.sent();
                         console.log('助力码', res.data.markedPin, res.data.inviteCode);
                         this.shareCodesSelf.push({ inviter: res.data.markedPin, inviteCode: res.data.inviteCode });
                         return [4 /*yield*/, this.api('apTaskList', { "linkId": "pTTvJeSTrpthgk9ASBVGsw" })];
                     case 6:
-                        res = _d.sent();
+                        res = _c.sent();
                         return [4 /*yield*/, this.wait(1000)];
                     case 7:
-                        _d.sent();
-                        _i = 0, _c = res.data;
-                        _d.label = 8;
+                        _c.sent();
+                        _i = 0, _b = res.data;
+                        _c.label = 8;
                     case 8:
-                        if (!(_i < _c.length)) return [3 /*break*/, 12];
-                        t = _c[_i];
+                        if (!(_i < _b.length)) return [3 /*break*/, 12];
+                        t = _b[_i];
                         if (!(t.taskType === 'BROWSE_CHANNEL' && t.taskDoTimes === 0 && t.taskLimitTimes === 1)) return [3 /*break*/, 11];
                         console.log(t.taskShowTitle);
                         return [4 /*yield*/, this.api('apDoTask', { "linkId": "pTTvJeSTrpthgk9ASBVGsw", "taskType": "BROWSE_CHANNEL", "taskId": t.id, "channel": 4, "itemId": encodeURIComponent(t.taskSourceUrl), "checkVersion": false })];
                     case 9:
-                        data = _d.sent();
+                        data = _c.sent();
                         return [4 /*yield*/, this.wait(1000)];
                     case 10:
-                        _d.sent();
+                        _c.sent();
                         if (data.success) {
                             console.log('任务完成');
                         }
                         else {
                             this.o2s(data, '任务失败');
                         }
-                        _d.label = 11;
+                        _c.label = 11;
                     case 11:
                         _i++;
                         return [3 /*break*/, 8];
                     case 12: return [3 /*break*/, 14];
                     case 13:
-                        e_1 = _d.sent();
+                        e_1 = _c.sent();
                         console.log('error', e_1);
                         return [3 /*break*/, 14];
                     case 14: return [2 /*return*/];
@@ -187,29 +186,29 @@ var Jd_speed_wabao = /** @class */ (function (_super) {
     };
     Jd_speed_wabao.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, shareCodesHW, shareCodes, _i, users_1, user, _a, shareCodes_1, code, e_2;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var res, shareCodesHW, shareCodes, _i, users_1, user, fp, _a, _b, shareCodes_1, code, e_2;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         console.log('内部助力');
                         this.o2s(this.shareCodesSelf);
                         shareCodesHW = [];
                         _i = 0, users_1 = users;
-                        _b.label = 1;
+                        _c.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 17];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 19];
                         user = users_1[_i];
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011").concat(user.UserName, "\n"));
-                        _b.label = 2;
+                        _c.label = 2;
                     case 2:
-                        _b.trys.push([2, 15, , 16]);
+                        _c.trys.push([2, 17, , 18]);
                         if (!(shareCodesHW.length === 0)) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.getshareCodeHW('fcwb')];
                     case 3:
-                        shareCodesHW = _b.sent();
-                        _b.label = 4;
+                        shareCodesHW = _c.sent();
+                        _c.label = 4;
                     case 4:
                         if (user.index === 0) {
                             shareCodes = __spreadArray(__spreadArray([], shareCodesHW, true), this.shareCodesSelf, true);
@@ -217,50 +216,58 @@ var Jd_speed_wabao = /** @class */ (function (_super) {
                         else {
                             shareCodes = __spreadArray(__spreadArray([], this.shareCodesSelf, true), shareCodesHW, true);
                         }
-                        _a = 0, shareCodes_1 = shareCodes;
-                        _b.label = 5;
+                        _a = process.env.FP_8DD95;
+                        if (_a) return [3 /*break*/, 6];
+                        return [4 /*yield*/, this.getFp()];
                     case 5:
-                        if (!(_a < shareCodes_1.length)) return [3 /*break*/, 14];
-                        code = shareCodes_1[_a];
-                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteCode));
-                        this.h5stTool = new h5st_pro_1.H5ST("8dd95", this.user.UserAgent, this.fp, "https://bnzf.jd.com/?activityId=pTTvJeSTrpthgk9ASBVGsw&inviterId=".concat(code.inviter, "&inviterCode=").concat(code.inviteCode, "&utm_source=iosapp&utm_medium=liteshare&utm_campaign=&utm_term=Qqfriends&ad_od=share"), 'https://bnzf.jd.com', user.UserName);
-                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
+                        _a = (_c.sent());
+                        _c.label = 6;
                     case 6:
-                        _b.sent();
-                        return [4 /*yield*/, this.api('happyDigHelp', { "linkId": "pTTvJeSTrpthgk9ASBVGsw", "inviter": code.inviter, "inviteCode": code.inviteCode })];
+                        fp = _a;
+                        _b = 0, shareCodes_1 = shareCodes;
+                        _c.label = 7;
                     case 7:
-                        res = _b.sent();
-                        if (!(res.code === 0)) return [3 /*break*/, 9];
+                        if (!(_b < shareCodes_1.length)) return [3 /*break*/, 16];
+                        code = shareCodes_1[_b];
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteCode));
+                        this.h5stTool = new h5st_pro_1.H5ST("8dd95", this.user.UserAgent, fp, "https://bnzf.jd.com/?activityId=pTTvJeSTrpthgk9ASBVGsw&inviterId=".concat(code.inviter, "&inviterCode=").concat(code.inviteCode, "&utm_source=iosapp&utm_medium=liteshare&utm_campaign=&utm_term=Qqfriends&ad_od=share"), 'https://bnzf.jd.com', user.UserName);
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
+                    case 8:
+                        _c.sent();
+                        return [4 /*yield*/, this.api('happyDigHelp', { "linkId": "pTTvJeSTrpthgk9ASBVGsw", "inviter": code.inviter, "inviteCode": code.inviteCode })];
+                    case 9:
+                        res = _c.sent();
+                        if (!(res.code === 0)) return [3 /*break*/, 11];
                         console.log('助力成功');
                         return [4 /*yield*/, this.wait(4000)];
-                    case 8:
-                        _b.sent();
-                        return [3 /*break*/, 14];
-                    case 9:
-                        if (!(res.code === 16144)) return [3 /*break*/, 11];
+                    case 10:
+                        _c.sent();
+                        return [3 /*break*/, 16];
+                    case 11:
+                        if (!(res.code === 16144)) return [3 /*break*/, 13];
                         console.log('上限');
                         return [4 /*yield*/, this.wait(4000)];
-                    case 10:
-                        _b.sent();
-                        return [3 /*break*/, 14];
-                    case 11:
+                    case 12:
+                        _c.sent();
+                        return [3 /*break*/, 16];
+                    case 13:
                         console.log(res.code, res.errMsg);
                         return [4 /*yield*/, this.wait(4000)];
-                    case 12:
-                        _b.sent();
-                        _b.label = 13;
-                    case 13:
-                        _a++;
-                        return [3 /*break*/, 5];
-                    case 14: return [3 /*break*/, 16];
+                    case 14:
+                        _c.sent();
+                        _c.label = 15;
                     case 15:
-                        e_2 = _b.sent();
+                        _b++;
+                        return [3 /*break*/, 7];
+                    case 16: return [3 /*break*/, 18];
+                    case 17:
+                        e_2 = _c.sent();
                         console.log('error', e_2);
-                        return [3 /*break*/, 16];
-                    case 16:
+                        return [3 /*break*/, 18];
+                    case 18:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 17: return [2 /*return*/];
+                    case 19: return [2 /*return*/];
                 }
             });
         });

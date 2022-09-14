@@ -66,9 +66,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 exports.__esModule = true;
-var jd_zjd_tool_js_1 = require("./utils/jd_zjd_tool.js");
-var crypto_js_1 = require("crypto-js");
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
+var h5st_pro_1 = require("./utils/h5st_pro");
 var shareCodeSelf = [], shareCode = [], shareCodeHW = [];
 var Zjd = /** @class */ (function (_super) {
     __extends(Zjd, _super);
@@ -81,7 +80,7 @@ var Zjd = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new Zjd(), this.help, this.tips)];
+                    case 0: return [4 /*yield*/, this.run(this, this.help, this.tips)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -90,7 +89,7 @@ var Zjd = /** @class */ (function (_super) {
         });
     };
     Zjd.prototype.tips = function () {
-        this.zjd_open = Number(process.env.ZJD_OPEN) || 100;
+        this.zjd_open = Number(process.env.ZJD_OPEN) || 10;
         process.env.ZJD_OPEN ? console.log('自定义', this.zjd_open, '个账号开团') : '';
     };
     Zjd.prototype.api = function (fn, body) {
@@ -98,22 +97,20 @@ var Zjd = /** @class */ (function (_super) {
             var h5st;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.wait(4000)];
+                    case 0: return [4 /*yield*/, this.wait(3000)];
                     case 1:
                         _a.sent();
-                        h5st = (0, jd_zjd_tool_js_1.zjdH5st)({
-                            'fromType': 'wxapp',
-                            'timestamp': Date.now(),
-                            'body0': JSON.stringify(body),
-                            'appid': 'swat_miniprogram',
-                            'body': (0, crypto_js_1.SHA256)(JSON.stringify(body)).toString(),
-                            'functionId': fn
-                        });
-                        return [2 /*return*/, this.post("https://api.m.jd.com/api?functionId=".concat(fn, "&fromType=wxapp&timestamp=").concat(Date.now()), "functionId=distributeBeanActivityInfo&body=".concat(encodeURIComponent(JSON.stringify(body)), "&appid=swat_miniprogram&h5st=").concat(encodeURIComponent(h5st)), {
-                                'content-type': 'application/x-www-form-urlencoded',
-                                'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac',
+                        return [4 /*yield*/, this.h5stTool.__genH5st({
+                                appid: 'swat_miniprogram',
+                                body: JSON.stringify(body),
+                                functionId: fn
+                            })];
+                    case 2:
+                        h5st = _a.sent();
+                        return [2 /*return*/, this.post("https://api.m.jd.com/api", "functionId=".concat(fn, "&h5st=").concat(h5st, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&appid=swat_miniprogram"), {
+                                'user-agent': this.user.UserAgent,
                                 'referer': 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html',
-                                'Cookie': this.cookie
+                                'Cookie': this.user.cookie
                             })];
                 }
             });
@@ -121,87 +118,98 @@ var Zjd = /** @class */ (function (_super) {
     };
     Zjd.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var fp, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.cookie = user.cookie;
-                        return [4 /*yield*/, (0, jd_zjd_tool_js_1.zjdInit)()];
+                        this.user = user;
+                        this.user.UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac");
+                        return [4 /*yield*/, this.getFp()];
                     case 1:
+                        fp = _a.sent();
+                        this.h5stTool = new h5st_pro_1.H5ST('d8ac0', this.user.UserAgent, fp, 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html', 'https://servicewechat.com', this.user.UserName);
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
+                    case 2:
                         _a.sent();
                         return [4 /*yield*/, this.api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
-                    case 2:
+                    case 3:
                         res = _a.sent();
-                        if (!(res.data.assistStatus === 1)) return [3 /*break*/, 3];
+                        if (!(res.data.assistStatus === 1)) return [3 /*break*/, 4];
                         // 已开，没满
                         console.log('已开团，', res.data.assistedRecords.length, '/', res.data.assistNum, '，剩余', Math.round(res.data.assistValidMilliseconds / 1000 / 60), '分钟');
                         shareCodeSelf.push({
-                            activityIdEncrypted: res.data.id,
                             assistStartRecordId: res.data.assistStartRecordId,
-                            assistedPinEncrypted: res.data.encPin
+                            encPin: res.data.encPin,
+                            id: res.data.id
                         });
-                        return [3 /*break*/, 12];
-                    case 3:
-                        if (!(res.data.assistStatus === 2 && res.data.canStartNewAssist && this.openNum < this.zjd_open)) return [3 /*break*/, 7];
+                        return [3 /*break*/, 14];
+                    case 4:
+                        if (!(res.data.assistStatus === 2 && res.data.canStartNewAssist && this.openNum < this.zjd_open)) return [3 /*break*/, 9];
                         // 没开团
                         this.openNum++;
-                        return [4 /*yield*/, this.api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
-                    case 4:
-                        res = _a.sent();
-                        if (!res.success) return [3 /*break*/, 6];
-                        console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
-                        return [4 /*yield*/, this.api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
+                        this.h5stTool = new h5st_pro_1.H5ST('dde2b', this.user.UserAgent, fp, 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html', 'https://servicewechat.com', this.user.UserName);
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 5:
-                        res = _a.sent();
-                        shareCodeSelf.push({
-                            activityIdEncrypted: res.data.id,
-                            assistStartRecordId: res.data.assistStartRecordId,
-                            assistedPinEncrypted: res.data.encPin
-                        });
-                        _a.label = 6;
-                    case 6: return [3 /*break*/, 12];
-                    case 7:
-                        if (!(res.data.assistedRecords.length === res.data.assistNum)) return [3 /*break*/, 11];
-                        console.log('已成团');
-                        if (!res.data.canStartNewAssist) return [3 /*break*/, 10];
+                        _a.sent();
                         return [4 /*yield*/, this.api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
-                    case 8:
+                    case 6:
                         res = _a.sent();
-                        if (!res.success) return [3 /*break*/, 10];
+                        this.o2s(res);
+                        if (!res.success) return [3 /*break*/, 8];
                         console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
                         return [4 /*yield*/, this.api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
-                    case 9:
+                    case 7:
                         res = _a.sent();
                         shareCodeSelf.push({
-                            activityIdEncrypted: res.data.id,
                             assistStartRecordId: res.data.assistStartRecordId,
-                            assistedPinEncrypted: res.data.encPin
+                            encPin: res.data.encPin,
+                            id: res.data.id
                         });
-                        _a.label = 10;
-                    case 10: return [3 /*break*/, 12];
+                        _a.label = 8;
+                    case 8: return [3 /*break*/, 14];
+                    case 9:
+                        if (!(res.data.assistedRecords.length === res.data.assistNum)) return [3 /*break*/, 13];
+                        console.log('已成团');
+                        if (!res.data.canStartNewAssist) return [3 /*break*/, 12];
+                        return [4 /*yield*/, this.api('vvipclub_distributeBean_startAssist', { "activityIdEncrypted": res.data.id, "channel": "FISSION_BEAN" })];
+                    case 10:
+                        res = _a.sent();
+                        if (!res.success) return [3 /*break*/, 12];
+                        console.log("\u5F00\u56E2\u6210\u529F\uFF0C\u7ED3\u675F\u65F6\u95F4\uFF1A".concat(res.data.endTime));
+                        return [4 /*yield*/, this.api('distributeBeanActivityInfo', { "paramData": { "channel": "FISSION_BEAN" } })];
                     case 11:
+                        res = _a.sent();
+                        shareCodeSelf.push({
+                            assistStartRecordId: res.data.assistStartRecordId,
+                            encPin: res.data.encPin,
+                            id: res.data.id
+                        });
+                        _a.label = 12;
+                    case 12: return [3 /*break*/, 14];
+                    case 13:
                         if (!res.data.canStartNewAssist) {
                             console.log('不可开团');
                         }
-                        _a.label = 12;
-                    case 12: return [2 /*return*/];
+                        _a.label = 14;
+                    case 14: return [2 /*return*/];
                 }
             });
         });
     };
     Zjd.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var _i, users_1, user, _a, shareCode_1, code, res, e_1;
+            var _i, users_1, user, fp, _a, shareCode_1, code, res, e_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        this.o2s(shareCodeSelf);
+                        this.o2s(shareCodeSelf, '内部助力');
                         _i = 0, users_1 = users;
                         _b.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 11];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 12];
                         user = users_1[_i];
-                        this.cookie = user.cookie;
+                        this.user = user;
+                        this.user.UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac");
                         if (!(shareCodeHW.length === 0)) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.getshareCodeHW('zjd')];
                     case 2:
@@ -211,28 +219,34 @@ var Zjd = /** @class */ (function (_super) {
                         shareCode = user.index === 0
                             ? Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), shareCodeSelf, true)))
                             : Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
-                        console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011").concat(user.UserName, "\n"));
-                        return [4 /*yield*/, (0, jd_zjd_tool_js_1.zjdInit)()];
+                        return [4 /*yield*/, this.getFp()];
                     case 4:
+                        fp = _b.sent();
+                        this.h5stTool = new h5st_pro_1.H5ST('b9790', this.user.UserAgent, fp, 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html', 'https://servicewechat.com', this.user.UserName);
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
+                    case 5:
                         _b.sent();
                         _a = 0, shareCode_1 = shareCode;
-                        _b.label = 5;
-                    case 5:
-                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 10];
-                        code = shareCode_1[_a];
                         _b.label = 6;
                     case 6:
-                        _b.trys.push([6, 8, , 9]);
-                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.assistedPinEncrypted.replace('\n', '')));
-                        return [4 /*yield*/, this.api('vvipclub_distributeBean_assist', { "activityIdEncrypted": code.activityIdEncrypted, "assistStartRecordId": code.assistStartRecordId, "assistedPinEncrypted": code.assistedPinEncrypted, "channel": "FISSION_BEAN", "launchChannel": "undefined" })];
+                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 11];
+                        code = shareCode_1[_a];
+                        _b.label = 7;
                     case 7:
+                        _b.trys.push([7, 9, , 10]);
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(JSON.stringify(code)));
+                        return [4 /*yield*/, this.api('vvipclub_distributeBean_assist', { "assistStartRecordId": code.assistStartRecordId, "assistedPinEncrypted": code.encPin, "activityIdEncrypted": code.id, "channel": "FISSION_BEAN" })];
+                    case 8:
                         res = _b.sent();
-                        if (res.resultCode === '9200008') {
+                        if (res.success) {
+                            console.log('助力成功');
+                        }
+                        else if (res.resultCode === '9200008') {
                             console.log('不能助力自己');
                         }
-                        else if (res.resultCode === '2400203' || res.resultCode === '90000014') {
+                        else if (res.resultCode === '90000014') {
                             console.log('上限');
-                            return [3 /*break*/, 10];
+                            return [3 /*break*/, 11];
                         }
                         else if (res.resultCode === '2400205') {
                             console.log('对方已成团');
@@ -240,24 +254,21 @@ var Zjd = /** @class */ (function (_super) {
                         else if (res.resultCode === '9200011') {
                             console.log('已助力过');
                         }
-                        else if (res.success) {
-                            console.log('助力成功');
-                        }
                         else {
-                            console.log('error', JSON.stringify(res));
+                            this.o2s(res, 'vvipclub_distributeBean_assist');
                         }
-                        return [3 /*break*/, 9];
-                    case 8:
-                        e_1 = _b.sent();
-                        console.log(e_1);
                         return [3 /*break*/, 10];
                     case 9:
-                        _a++;
-                        return [3 /*break*/, 5];
+                        e_1 = _b.sent();
+                        console.log(e_1);
+                        return [3 /*break*/, 11];
                     case 10:
+                        _a++;
+                        return [3 /*break*/, 6];
+                    case 11:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 11: return [2 /*return*/];
+                    case 12: return [2 /*return*/];
                 }
             });
         });

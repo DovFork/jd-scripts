@@ -290,14 +290,17 @@ var Health = /** @class */ (function (_super) {
                         if (res.data.bizMsg === '助力失败丨啊哦您今日的爱心值已爆棚，明天继续吧') {
                             return [3 /*break*/, 18];
                         }
-                        else if (res.data.bizMsg === '助力失败丨助力已满员！谢谢你哦~')
+                        else if (res.data.bizMsg === '助力失败丨助力已满员！谢谢你哦~') {
                             full.push(code);
-                        else
+                        }
+                        else {
                             console.log(res.data.bizMsg);
+                        }
                         return [3 /*break*/, 17];
                     case 14:
                         e_4 = _d.sent();
-                        return [3 /*break*/, 18];
+                        this.o2s(res, 'jdhealth_collectScore catch');
+                        return [3 /*break*/, 17];
                     case 15: return [4 /*yield*/, this.wait(3000)];
                     case 16:
                         _d.sent();

@@ -49,7 +49,7 @@ var H5ST = /** @class */ (function () {
         this.url = url;
         this.og = og;
         this.pin = pin || '';
-        this.api = 'https://api.jdsharecode.xyz/api';
+        this.api = 'https://sharecodepool.cnmb.win/api';
     }
     H5ST.prototype.__genAlgo = function () {
         return __awaiter(this, void 0, void 0, function () {

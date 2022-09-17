@@ -373,7 +373,7 @@ var shareCodesSelf = [], shareCodesHW = [];
                 j = 0;
                 _m.label = 65;
             case 65:
-                if (!(j < 30)) return [3 /*break*/, 74];
+                if (!(j < 100)) return [3 /*break*/, 74];
                 _m.label = 66;
             case 66:
                 _m.trys.push([66, 72, , 73]);
@@ -427,7 +427,7 @@ var shareCodesSelf = [], shareCodesHW = [];
                 j = 0;
                 _m.label = 76;
             case 76:
-                if (!(j < 30)) return [3 /*break*/, 82];
+                if (!(j < 100)) return [3 /*break*/, 82];
                 _m.label = 77;
             case 77:
                 _m.trys.push([77, 80, , 81]);

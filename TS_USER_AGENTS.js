@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.USER_AGENTS_ARR = exports.post = exports.get = exports.jdpingou = exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.randomString = exports.exceptCookie = exports.getJxToken = exports.getRandomNumberByRange = exports.wait = exports.getCookie = exports.getFarmShareCode = exports.getBeanShareCode = void 0;
+exports.USER_AGENTS_ARR = exports.USER_AGENT = exports.post = exports.get = exports.jdpingou = exports.randomWord = exports.getShareCodePool = exports.getshareCodeHW = exports.randomNumString = exports.o2s = exports.randomString = exports.exceptCookie = exports.getJxToken = exports.getRandomNumberByRange = exports.wait = exports.getCookie = exports.getFarmShareCode = exports.getBeanShareCode = void 0;
 var axios_1 = require("axios");
 var ts_md5_1 = require("ts-md5");
 var dotenv = require("dotenv");
@@ -87,6 +87,7 @@ function getRandomNumberByRange(start, end) {
 }
 exports.getRandomNumberByRange = getRandomNumberByRange;
 var USER_AGENT = USER_AGENTS_ARR[getRandomNumberByRange(0, USER_AGENTS_ARR.length)];
+exports.USER_AGENT = USER_AGENT;
 function getBeanShareCode(cookie) {
     var _a, _b;
     return __awaiter(this, void 0, void 0, function () {
@@ -216,9 +217,10 @@ function randomString(e, word) {
     return n;
 }
 exports.randomString = randomString;
-function o2s(arr, title) {
+function o2s(msg, title) {
     if (title === void 0) { title = ''; }
-    title ? console.log(title, JSON.stringify(arr)) : console.log(JSON.stringify(arr));
+    title && console.log('⬇️', title, '⬇️');
+    typeof msg === 'string' ? console.log(msg) : console.log(JSON.stringify(msg));
 }
 exports.o2s = o2s;
 function randomNumString(e) {

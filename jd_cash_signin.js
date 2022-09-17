@@ -1,6 +1,7 @@
 "use strict";
 /**
  * 京东-领现金
+ * cron: 30 7,10 * * *
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -55,12 +56,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
-var CASH = /** @class */ (function (_super) {
-    __extends(CASH, _super);
-    function CASH() {
+var Jd_cash_signin = /** @class */ (function (_super) {
+    __extends(Jd_cash_signin, _super);
+    function Jd_cash_signin() {
         return _super.call(this) || this;
     }
-    CASH.prototype.init = function () {
+    Jd_cash_signin.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -72,7 +73,7 @@ var CASH = /** @class */ (function (_super) {
             });
         });
     };
-    CASH.prototype.api = function (fn, body) {
+    Jd_cash_signin.prototype.api = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
             var sign;
             return __generator(this, function (_a) {
@@ -90,7 +91,7 @@ var CASH = /** @class */ (function (_super) {
             });
         });
     };
-    CASH.prototype.main = function (user) {
+    Jd_cash_signin.prototype.main = function (user) {
         var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
             var res, type, data, otherTaskNum, taskNum, i, _i, _d, t;
@@ -169,6 +170,6 @@ var CASH = /** @class */ (function (_super) {
             });
         });
     };
-    return CASH;
+    return Jd_cash_signin;
 }(TS_JDHelloWorld_1.JDHelloWorld));
-new CASH().init().then()["catch"]();
+new Jd_cash_signin().init().then();

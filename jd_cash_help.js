@@ -1,7 +1,7 @@
 "use strict";
 /**
  * 小程序-领现金-1.5
- * cron: 15 7,18 * * *
+ * cron: 15 14,15,19 * * *
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -54,16 +54,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
-var Jd_cash_wechat = /** @class */ (function (_super) {
-    __extends(Jd_cash_wechat, _super);
-    function Jd_cash_wechat() {
+var Jd_cash_help = /** @class */ (function (_super) {
+    __extends(Jd_cash_help, _super);
+    function Jd_cash_help() {
         var _this = _super.call(this) || this;
         _this.shareCodeSelf = [];
         return _this;
     }
-    Jd_cash_wechat.prototype.init = function () {
+    Jd_cash_help.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -75,16 +84,7 @@ var Jd_cash_wechat = /** @class */ (function (_super) {
             });
         });
     };
-    // async doSign() {
-    //   let body = await this.cashDoSign()
-    //   let data: any = await this.post('https://api.m.jd.com/client.action?functionId=cash_sign', body, {
-    //     'Host': 'api.m.jd.com',
-    //     'Cookie': this.user.cookie,
-    //     'user-agent': this.user.UserAgent,
-    //   })
-    //   console.log(data.data.bizMsg)
-    // }
-    Jd_cash_wechat.prototype.api = function (fn, body) {
+    Jd_cash_help.prototype.api = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -100,7 +100,7 @@ var Jd_cash_wechat = /** @class */ (function (_super) {
                             }), {
                                 'Host': 'api.m.jd.com',
                                 "Referer": "https://servicewechat.com/wx91d27dbf599dff74/621/page-frame.html",
-                                'User-Agent': "Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac",
+                                'User-Agent': "Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac"),
                                 'Cookie': this.user.cookie
                             })];
                     case 2: return [2 /*return*/, _a.sent()];
@@ -108,49 +108,43 @@ var Jd_cash_wechat = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_cash_wechat.prototype.main = function (user) {
-        var _a, _b;
+    Jd_cash_help.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, _i, _c, t, e_1;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var res, _i, _a, t, e_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         this.user = user;
-                        _d.label = 1;
+                        _b.label = 1;
                     case 1:
-                        _d.trys.push([1, 12, , 13]);
-                        return [4 /*yield*/, this.api('cash_mob_home', { "isLTRedPacket": "1" })
-                            // if (res.data.result.signedStatus !== 1) {
-                            //   console.log('开始签到')
-                            //   await this.doSign()
-                            //   console.log('签到成功')
-                            // }
-                        ];
+                        _b.trys.push([1, 12, , 13]);
+                        return [4 /*yield*/, this.api('cash_mob_home', { "isLTRedPacket": "1" })];
                     case 2:
-                        res = _d.sent();
-                        _i = 0, _c = res.data.result.taskInfos;
-                        _d.label = 3;
+                        res = _b.sent();
+                        _i = 0, _a = res.data.result.taskInfos;
+                        _b.label = 3;
                     case 3:
-                        if (!(_i < _c.length)) return [3 /*break*/, 7];
-                        t = _c[_i];
+                        if (!(_i < _a.length)) return [3 /*break*/, 7];
+                        t = _a[_i];
                         if (!(t.doTimes !== t.times)) return [3 /*break*/, 6];
                         console.log(t.name);
                         return [4 /*yield*/, this.api('cash_doTask', { "type": t.type, "taskInfo": t.desc })];
                     case 4:
-                        res = _d.sent();
+                        res = _b.sent();
                         console.log(res.data.result.totalMoney);
                         return [4 /*yield*/, this.api('cash_mob_home', { "isLTRedPacket": "1" })];
                     case 5:
-                        res = _d.sent();
-                        _d.label = 6;
+                        res = _b.sent();
+                        _b.label = 6;
                     case 6:
                         _i++;
                         return [3 /*break*/, 3];
                     case 7:
-                        if (!(new Date().getHours() >= 7 && new Date().getHours() <= 19 && ((_b = (_a = res.data.result) === null || _a === void 0 ? void 0 : _a.limitTimeRedPacket) === null || _b === void 0 ? void 0 : _b.receiveStatus) === '0')) return [3 /*break*/, 10];
+                        this.o2s(res);
+                        if (!1) return [3 /*break*/, 10];
                         return [4 /*yield*/, this.api('cash_join_limited_redpacket', { "id": 5, "level": 3 })];
                     case 8:
-                        res = _d.sent();
+                        res = _b.sent();
                         if (res.data.bizCode === 0) {
                             console.log('开启成功');
                         }
@@ -159,7 +153,7 @@ var Jd_cash_wechat = /** @class */ (function (_super) {
                         }
                         return [4 /*yield*/, this.api('cash_mob_home', { "isLTRedPacket": "1" })];
                     case 9:
-                        res = _d.sent();
+                        res = _b.sent();
                         if (res.data.result.inviteCode && res.data.result.shareDate) {
                             this.shareCodeSelf.push({
                                 inviteCode: res.data.result.inviteCode,
@@ -170,10 +164,10 @@ var Jd_cash_wechat = /** @class */ (function (_super) {
                         return [3 /*break*/, 11];
                     case 10:
                         console.log('不在时间范围内');
-                        _d.label = 11;
+                        _b.label = 11;
                     case 11: return [3 /*break*/, 13];
                     case 12:
-                        e_1 = _d.sent();
+                        e_1 = _b.sent();
                         console.log('error', e_1.message);
                         return [3 /*break*/, 13];
                     case 13: return [2 /*return*/];
@@ -181,6 +175,94 @@ var Jd_cash_wechat = /** @class */ (function (_super) {
             });
         });
     };
-    return Jd_cash_wechat;
+    Jd_cash_help.prototype.help = function (users) {
+        var _a, _b, _c, _d, _e, _f;
+        return __awaiter(this, void 0, void 0, function () {
+            var shareCodeHW, shareCode, res, _i, users_1, user, _g, shareCode_1, code, e_2, _h, users_2, user, i, e_3;
+            return __generator(this, function (_j) {
+                switch (_j.label) {
+                    case 0:
+                        shareCodeHW = [], shareCode = [];
+                        this.o2s(this.shareCodeSelf, '内部助力');
+                        _i = 0, users_1 = users;
+                        _j.label = 1;
+                    case 1:
+                        if (!(_i < users_1.length)) return [3 /*break*/, 9];
+                        user = users_1[_i];
+                        _j.label = 2;
+                    case 2:
+                        _j.trys.push([2, 7, , 8]);
+                        this.user = user;
+                        if (shareCodeHW.length === 0) {
+                            shareCodeHW = this.getshareCodeHW('cash');
+                        }
+                        if (user.index === 0) {
+                            shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true);
+                        }
+                        else {
+                            shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true);
+                        }
+                        _g = 0, shareCode_1 = shareCode;
+                        _j.label = 3;
+                    case 3:
+                        if (!(_g < shareCode_1.length)) return [3 /*break*/, 6];
+                        code = shareCode_1[_g];
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteCode));
+                        return [4 /*yield*/, this.api('redpack_limited_assist', { "inviteCode": code.inviteCode, "shareDate": code.shareDate })];
+                    case 4:
+                        res = _j.sent();
+                        console.log((_c = (_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.result) === null || _b === void 0 ? void 0 : _b.limitTimeAssist) === null || _c === void 0 ? void 0 : _c.tips);
+                        if (((_f = (_e = (_d = res.data) === null || _d === void 0 ? void 0 : _d.result) === null || _e === void 0 ? void 0 : _e.limitTimeAssist) === null || _f === void 0 ? void 0 : _f.assistCode) === '207') {
+                            return [3 /*break*/, 6];
+                        }
+                        _j.label = 5;
+                    case 5:
+                        _g++;
+                        return [3 /*break*/, 3];
+                    case 6: return [3 /*break*/, 8];
+                    case 7:
+                        e_2 = _j.sent();
+                        console.log('error', e_2.message);
+                        return [3 /*break*/, 8];
+                    case 8:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 9:
+                        _h = 0, users_2 = users;
+                        _j.label = 10;
+                    case 10:
+                        if (!(_h < users_2.length)) return [3 /*break*/, 18];
+                        user = users_2[_h];
+                        _j.label = 11;
+                    case 11:
+                        _j.trys.push([11, 16, , 17]);
+                        this.user = user;
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName));
+                        i = 1;
+                        _j.label = 12;
+                    case 12:
+                        if (!(i < 5)) return [3 /*break*/, 15];
+                        return [4 /*yield*/, this.api('cash_open_limited_redpacket', { "node": i })];
+                    case 13:
+                        res = _j.sent();
+                        console.log(res.data);
+                        _j.label = 14;
+                    case 14:
+                        i++;
+                        return [3 /*break*/, 12];
+                    case 15: return [3 /*break*/, 17];
+                    case 16:
+                        e_3 = _j.sent();
+                        console.log('error', e_3.message);
+                        return [3 /*break*/, 17];
+                    case 17:
+                        _h++;
+                        return [3 /*break*/, 10];
+                    case 18: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return Jd_cash_help;
 }(TS_JDHelloWorld_1.JDHelloWorld));
-new Jd_cash_wechat().init().then();
+new Jd_cash_help().init().then();

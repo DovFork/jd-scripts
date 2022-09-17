@@ -69,7 +69,7 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1EFRXxg", "taskToken": "", "channelId": 1 })];
+                return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1ElZXwKuP", "taskToken": "", "channelId": 1 })];
             case 3:
                 res = _t.sent();
                 _c = 0, _d = res.data.result.taskVos;
@@ -96,7 +96,7 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 console.log(((_p = tp[i]) === null || _p === void 0 ? void 0 : _p.shopName) || ((_q = tp[i]) === null || _q === void 0 ? void 0 : _q.skuName) || ((_r = tp[i]) === null || _r === void 0 ? void 0 : _r.title));
                 if (!!t.shoppingActivityVos) return [3 /*break*/, 8];
                 return [4 /*yield*/, api('harmony_collectScore', {
-                        "appId": "1EFRXxg",
+                        "appId": "1ElZXwKuP",
                         "taskToken": tp[i].taskToken,
                         "taskId": t.taskId,
                         "actionType": 1
@@ -109,7 +109,7 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 _t.sent();
                 _t.label = 8;
             case 8: return [4 /*yield*/, api('harmony_collectScore', {
-                    "appId": "1EFRXxg",
+                    "appId": "1ElZXwKuP",
                     "taskToken": tp[i].taskToken,
                     "taskId": t.taskId,
                     "actionType": 0
@@ -159,7 +159,7 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                     return [3 /*break*/, 20];
                 }
                 console.log('去助力', code);
-                return [4 /*yield*/, api('harmony_collectScore', { "appId": "1EFRXxg", "taskToken": code, "taskId": 3 })];
+                return [4 /*yield*/, api('harmony_collectScore', { "appId": "1ElZXwKuP", "taskToken": code, "taskId": 3 })];
             case 18:
                 res = _t.sent();
                 if (res.data.bizCode === 0) {
@@ -195,7 +195,7 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 cookie = value;
                 UserName = decodeURIComponent(cookie.match(/pt_pin=([^;]*)/)[1]);
                 console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(index + 1, "\u3011").concat(UserName, "\n"));
-                return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1EFRXxg", "taskToken": "", "channelId": 1 })];
+                return [4 /*yield*/, api('healthyDay_getHomeData', { "appId": "1ElZXwKuP", "taskToken": "", "channelId": 1 })];
             case 24:
                 res = _t.sent();
                 return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(1000)];
@@ -207,7 +207,7 @@ var shareCodeSelf = [], shareCode = [], shareCodePool = [];
                 _t.label = 26;
             case 26:
                 if (!(i < lotteryNum)) return [3 /*break*/, 30];
-                return [4 /*yield*/, api('interact_template_getLotteryResult', { "appId": "1EFRXxg" })];
+                return [4 /*yield*/, api('interact_template_getLotteryResult', { "appId": "1ElZXwKuP" })];
             case 27:
                 res = _t.sent();
                 if (res.data.result.userAwardsCacheDto.type === 0) {

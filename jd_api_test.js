@@ -112,7 +112,7 @@ function runTimes(db, i) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://sharecodepool.cnmb.win/api/runTimes0701?activityId=".concat(db, "&sharecode=123"))];
+                    return [4 /*yield*/, (0, TS_USER_AGENTS_1.get)("https://sharecodepool.cnmb.win/api/runTimes0917?activityId=".concat(db, "&sharecode=123"))];
                 case 1:
                     _a.sent();
                     console.log("".concat(db, "\u4E0A\u62A5\u6D4B\u8BD5\u6210\u529F ").concat(i));

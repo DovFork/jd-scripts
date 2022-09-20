@@ -149,11 +149,11 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                         _i = 0, users_1 = users;
                         _c.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 25];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 23];
                         user = users_1[_i];
                         _c.label = 2;
                     case 2:
-                        _c.trys.push([2, 23, , 24]);
+                        _c.trys.push([2, 21, , 22]);
                         this.user = user;
                         this.user.UserAgent = "jdapp;iPhone;10.2.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat(this.randPhoneId(), ";network/4g;model/iPhone11,8;addressid/1188016812;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ").concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1");
                         return [4 /*yield*/, this.getShareCodePool('farm', 50)];
@@ -164,12 +164,12 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                         _b = 0, shareCode_1 = shareCode;
                         _c.label = 4;
                     case 4:
-                        if (!(_b < shareCode_1.length)) return [3 /*break*/, 22];
+                        if (!(_b < shareCode_1.length)) return [3 /*break*/, 20];
                         code = shareCode_1[_b];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
                         if (full.includes(code)) {
                             console.log('full contains');
-                            return [3 /*break*/, 21];
+                            return [3 /*break*/, 19];
                         }
                         return [4 /*yield*/, this.get("https://api.m.jd.com/api?functionId=initForFarm&body=".concat(encodeURIComponent(JSON.stringify({ imageUrl: "", nickName: "", "shareCode": code, babelChannel: "3", version: 2, channel: 1 })), "&appid=wh5"), {
                                 "Host": "api.m.jd.com",
@@ -185,7 +185,7 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                         res = _c.sent();
                         if (!!(res.helpResult && res.helpResult.code)) return [3 /*break*/, 6];
                         this.o2s(res, '助力出错');
-                        return [3 /*break*/, 19];
+                        return [3 /*break*/, 15];
                     case 6:
                         if (!(res.helpResult.code === '0')) return [3 /*break*/, 14];
                         console.log('助力成功,获得', res.helpResult.salveHelpAddWater);
@@ -211,44 +211,43 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                     case 12:
                         i++;
                         return [3 /*break*/, 7];
-                    case 13: return [3 /*break*/, 19];
+                    case 13: return [3 /*break*/, 15];
                     case 14:
-                        if (!(res.helpResult.code === '7')) return [3 /*break*/, 15];
-                        console.log('不给自己助力');
-                        this.user['code'] = code;
-                        return [3 /*break*/, 19];
+                        if (res.helpResult.code === '7') {
+                            console.log('不给自己助力');
+                            this.user['code'] = code;
+                        }
+                        else if (res.helpResult.code === '9') {
+                            console.log('已助力');
+                        }
+                        else if (res.helpResult.code === '10') {
+                            console.log('已满');
+                            full.push(code);
+                        }
+                        _c.label = 15;
                     case 15:
-                        if (!(res.helpResult.code === '9')) return [3 /*break*/, 16];
-                        console.log('已助力');
-                        return [3 /*break*/, 19];
-                    case 16:
-                        if (!(res.helpResult.code === '10')) return [3 /*break*/, 17];
-                        console.log('已满');
-                        full.push(code);
-                        return [3 /*break*/, 19];
-                    case 17:
-                        if (!(res.helpResult.remainTimes === 0)) return [3 /*break*/, 19];
+                        if (!(res.helpResult.remainTimes === 0)) return [3 /*break*/, 17];
                         console.log('上限');
                         return [4 /*yield*/, this.wait(10000)];
+                    case 16:
+                        _c.sent();
+                        return [3 /*break*/, 20];
+                    case 17: return [4 /*yield*/, this.wait(10000)];
                     case 18:
                         _c.sent();
-                        return [3 /*break*/, 22];
-                    case 19: return [4 /*yield*/, this.wait(10000)];
-                    case 20:
-                        _c.sent();
-                        _c.label = 21;
-                    case 21:
+                        _c.label = 19;
+                    case 19:
                         _b++;
                         return [3 /*break*/, 4];
-                    case 22: return [3 /*break*/, 24];
-                    case 23:
+                    case 20: return [3 /*break*/, 22];
+                    case 21:
                         e_3 = _c.sent();
                         console.log(e_3.message);
-                        return [3 /*break*/, 24];
-                    case 24:
+                        return [3 /*break*/, 22];
+                    case 22:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 25: return [2 /*return*/];
+                    case 23: return [2 /*return*/];
                 }
             });
         });

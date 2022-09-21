@@ -97,20 +97,23 @@ var Zjd = /** @class */ (function (_super) {
             var h5st;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.wait(3000)];
+                    case 0: return [4 /*yield*/, this.wait(1000)];
                     case 1:
                         _a.sent();
                         return [4 /*yield*/, this.h5stTool.__genH5st({
-                                appid: 'swat_miniprogram',
+                                appid: 'vipMiddle',
                                 body: JSON.stringify(body),
+                                client: 'tjj_m',
+                                clientVersion: '3.1.3',
                                 functionId: fn
                             })];
                     case 2:
                         h5st = _a.sent();
-                        return [2 /*return*/, this.post("https://api.m.jd.com/api", "functionId=".concat(fn, "&h5st=").concat(h5st, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&appid=swat_miniprogram"), {
-                                'user-agent': this.user.UserAgent,
-                                'referer': 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html',
-                                'Cookie': this.user.cookie
+                        return [2 /*return*/, this.post("https://api.m.jd.com/api", "functionId=".concat(fn, "&h5st=").concat(h5st, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&appid=vipMiddle&client=tjj_m&clientVersion=3.1.3"), {
+                                'cookie': this.user.cookie,
+                                'origin': 'https://h5platform.jd.com',
+                                'referer': 'https://h5platform.jd.com/',
+                                'user-agent': this.user.UserAgent
                             })];
                 }
             });
@@ -123,11 +126,12 @@ var Zjd = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         this.user = user;
-                        this.user.UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac");
+                        this.user.UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1");
                         return [4 /*yield*/, this.getFp()];
                     case 1:
                         fp = _a.sent();
-                        this.h5stTool = new h5st_pro_1.H5ST('d8ac0', this.user.UserAgent, fp, 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html', 'https://servicewechat.com', this.user.UserName);
+                        console.log(fp, typeof fp);
+                        this.h5stTool = new h5st_pro_1.H5ST('aea1e', this.user.UserAgent, fp, 'https://h5platform.jd.com/swm-static/exchange-equity/index.html#/pages/divideBean/divideBean?activeId=779241835423588352', 'https://h5platform.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 2:
                         _a.sent();
@@ -147,7 +151,7 @@ var Zjd = /** @class */ (function (_super) {
                         if (!(res.data.assistStatus === 2 && res.data.canStartNewAssist && this.openNum < this.zjd_open)) return [3 /*break*/, 10];
                         // 没开团
                         this.openNum++;
-                        this.h5stTool = new h5st_pro_1.H5ST('dde2b', this.user.UserAgent, fp, 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html', 'https://servicewechat.com', this.user.UserName);
+                        this.h5stTool = new h5st_pro_1.H5ST('82703', this.user.UserAgent, fp, 'https://h5platform.jd.com/swm-static/exchange-equity/index.html#/pages/divideBean/divideBean?activeId=779241835423588352', 'https://h5platform.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 5:
                         _a.sent();
@@ -173,7 +177,7 @@ var Zjd = /** @class */ (function (_super) {
                         if (!(res.data.assistedRecords.length === res.data.assistNum)) return [3 /*break*/, 16];
                         console.log('已成团');
                         if (!res.data.canStartNewAssist) return [3 /*break*/, 15];
-                        this.h5stTool = new h5st_pro_1.H5ST('dde2b', this.user.UserAgent, fp, 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html', 'https://servicewechat.com', this.user.UserName);
+                        this.h5stTool = new h5st_pro_1.H5ST('82703', this.user.UserAgent, fp, 'https://h5platform.jd.com/swm-static/exchange-equity/index.html#/pages/divideBean/divideBean?activeId=779241835423588352', 'https://h5platform.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 11:
                         _a.sent();
@@ -218,20 +222,18 @@ var Zjd = /** @class */ (function (_super) {
                         if (!(_i < users_1.length)) return [3 /*break*/, 12];
                         user = users_1[_i];
                         this.user = user;
-                        this.user.UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E217 MicroMessenger/6.8.0(0x16080000) NetType/WIFI Language/en Branch/Br_trunk MiniProgramEnv/Mac");
+                        this.user.UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1");
                         if (!(shareCodeHW.length === 0)) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.getshareCodeHW('zjd')];
                     case 2:
                         shareCodeHW = _b.sent();
                         _b.label = 3;
                     case 3:
-                        shareCode = user.index === 0
-                            ? Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), shareCodeSelf, true)))
-                            : Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
+                        shareCode = user.index === 0 ? Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), shareCodeSelf, true))) : Array.from(new Set(__spreadArray(__spreadArray([], shareCodeSelf, true), shareCodeHW, true)));
                         return [4 /*yield*/, this.getFp()];
                     case 4:
                         fp = _b.sent();
-                        this.h5stTool = new h5st_pro_1.H5ST('b9790', this.user.UserAgent, fp, 'https://servicewechat.com/wxa5bf5ee667d91626/173/page-frame.html', 'https://servicewechat.com', this.user.UserName);
+                        this.h5stTool = new h5st_pro_1.H5ST('03064', this.user.UserAgent, fp, 'https://h5platform.jd.com/swm-static/exchange-equity/index.html#/pages/divideBean/divideBean?activeId=779241835423588352', 'https://h5platform.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 5:
                         _b.sent();
@@ -244,7 +246,7 @@ var Zjd = /** @class */ (function (_super) {
                     case 7:
                         _b.trys.push([7, 9, , 10]);
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.encPin.replace("\n", "")));
-                        return [4 /*yield*/, this.api('vvipclub_distributeBean_assist', { "assistStartRecordId": code.assistStartRecordId, "assistedPinEncrypted": code.encPin, "activityIdEncrypted": code.id, "channel": "FISSION_BEAN" })];
+                        return [4 /*yield*/, this.api('vvipclub_distributeBean_assist', { "assistStartRecordId": code.assistStartRecordId, "assistedPinEncrypted": code.encPin, "activityIdEncrypted": code.id, "channel": "FISSION_BEAN", "launchChannel": "" })];
                     case 8:
                         res = _b.sent();
                         if (res.success) {

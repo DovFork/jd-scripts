@@ -83,8 +83,8 @@ var Jd_cash_signin = /** @class */ (function (_super) {
                         sign = _a.sent();
                         return [4 /*yield*/, this.post("https://api.m.jd.com/client.action?functionId=".concat(fn), sign, {
                                 'Host': 'api.m.jd.com',
-                                'Cookie': this.cookie,
-                                'user-agent': 'jdapp;'
+                                'Cookie': this.user.cookie,
+                                'user-agent': this.user.UserAgent
                             })];
                     case 2: return [2 /*return*/, _a.sent()];
                 }
@@ -98,7 +98,7 @@ var Jd_cash_signin = /** @class */ (function (_super) {
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
-                        this.cookie = user.cookie;
+                        this.user = user;
                         return [4 /*yield*/, this.api('cash_homePage', {})];
                     case 1:
                         res = _e.sent();

@@ -74,6 +74,7 @@ var Jd_fruit_help = /** @class */ (function (_super) {
     function Jd_fruit_help() {
         var _this = _super.call(this, "农场助力") || this;
         _this.shareCodeSelf = [];
+        _this.code2user = {};
         return _this;
     }
     Jd_fruit_help.prototype.init = function () {
@@ -122,6 +123,7 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                         if (res.code === '0') {
                             console.log('助力码', res.farmUserPro.shareCode);
                             this.shareCodeSelf.push(res.farmUserPro.shareCode);
+                            this.code2user[this.user.UserName] = res.farmUserPro.shareCode;
                         }
                         else {
                             this.o2s(res, 'initForFarm error');
@@ -140,7 +142,7 @@ var Jd_fruit_help = /** @class */ (function (_super) {
     Jd_fruit_help.prototype.help = function (users) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var res, full, _i, users_1, user, shareCodePool, shareCode, _b, shareCode_1, code, i, e_2, e_3;
+            var res, full, _i, users_1, user, myCode, shareCodePool, shareCode, _b, shareCode_1, code, i, runTimes, e_2, e_3;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -149,13 +151,14 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                         _i = 0, users_1 = users;
                         _c.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 23];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 24];
                         user = users_1[_i];
                         _c.label = 2;
                     case 2:
-                        _c.trys.push([2, 21, , 22]);
+                        _c.trys.push([2, 21, , 23]);
                         this.user = user;
                         this.user.UserAgent = "jdapp;iPhone;10.2.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat(this.randPhoneId(), ";network/4g;model/iPhone11,8;addressid/1188016812;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ").concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1");
+                        myCode = (_a = this.code2user[this.user.UserName]) !== null && _a !== void 0 ? _a : "";
                         return [4 /*yield*/, this.getShareCodePool('farm', 50)];
                     case 3:
                         shareCodePool = _c.sent();
@@ -196,10 +199,10 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                         _c.label = 8;
                     case 8:
                         _c.trys.push([8, 10, , 12]);
-                        return [4 /*yield*/, this.get("https://sharecodepool.cnmb.win/api/runTimes0917?activityId=farm&sharecode=".concat((_a = this.user['code']) !== null && _a !== void 0 ? _a : "", "&today=").concat(Date.now().toString()))];
+                        return [4 /*yield*/, this.get("https://sharecodepool.cnmb.win/api/runTimes0917?activityId=farm&sharecode=".concat(myCode, "&today=").concat(Date.now().toString()))];
                     case 9:
-                        res = _c.sent();
-                        console.log(res);
+                        runTimes = _c.sent();
+                        console.log(runTimes);
                         return [3 /*break*/, 13];
                     case 10:
                         e_2 = _c.sent();
@@ -239,15 +242,18 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                     case 19:
                         _b++;
                         return [3 /*break*/, 4];
-                    case 20: return [3 /*break*/, 22];
+                    case 20: return [3 /*break*/, 23];
                     case 21:
                         e_3 = _c.sent();
                         console.log(e_3.message);
-                        return [3 /*break*/, 22];
+                        return [4 /*yield*/, this.wait(10000)];
                     case 22:
+                        _c.sent();
+                        return [3 /*break*/, 23];
+                    case 23:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 23: return [2 /*return*/];
+                    case 24: return [2 /*return*/];
                 }
             });
         });

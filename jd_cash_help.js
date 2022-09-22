@@ -187,15 +187,18 @@ var Jd_cash_help = /** @class */ (function (_super) {
                         _i = 0, users_1 = users;
                         _j.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 9];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 11];
                         user = users_1[_i];
                         _j.label = 2;
                     case 2:
-                        _j.trys.push([2, 7, , 8]);
+                        _j.trys.push([2, 9, , 10]);
                         this.user = user;
-                        if (shareCodeHW.length === 0) {
-                            shareCodeHW = this.getshareCodeHW('cash');
-                        }
+                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.getshareCodeHW('cash')];
+                    case 3:
+                        shareCodeHW = _j.sent();
+                        _j.label = 4;
+                    case 4:
                         if (user.index === 0) {
                             shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true);
                         }
@@ -203,62 +206,64 @@ var Jd_cash_help = /** @class */ (function (_super) {
                             shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true);
                         }
                         _g = 0, shareCode_1 = shareCode;
-                        _j.label = 3;
-                    case 3:
-                        if (!(_g < shareCode_1.length)) return [3 /*break*/, 6];
+                        _j.label = 5;
+                    case 5:
+                        if (!(_g < shareCode_1.length)) return [3 /*break*/, 8];
                         code = shareCode_1[_g];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteCode));
                         return [4 /*yield*/, this.api('redpack_limited_assist', { "inviteCode": code.inviteCode, "shareDate": code.shareDate })];
-                    case 4:
+                    case 6:
                         res = _j.sent();
                         console.log((_c = (_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.result) === null || _b === void 0 ? void 0 : _b.limitTimeAssist) === null || _c === void 0 ? void 0 : _c.tips);
                         if (((_f = (_e = (_d = res.data) === null || _d === void 0 ? void 0 : _d.result) === null || _e === void 0 ? void 0 : _e.limitTimeAssist) === null || _f === void 0 ? void 0 : _f.assistCode) === '207') {
-                            return [3 /*break*/, 6];
+                            return [3 /*break*/, 8];
                         }
-                        _j.label = 5;
-                    case 5:
-                        _g++;
-                        return [3 /*break*/, 3];
-                    case 6: return [3 /*break*/, 8];
+                        _j.label = 7;
                     case 7:
+                        _g++;
+                        return [3 /*break*/, 5];
+                    case 8: return [3 /*break*/, 10];
+                    case 9:
                         e_2 = _j.sent();
                         console.log('error', e_2.message);
-                        return [3 /*break*/, 8];
-                    case 8:
+                        return [3 /*break*/, 10];
+                    case 10:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 9:
-                        _h = 0, users_2 = users;
-                        _j.label = 10;
-                    case 10:
-                        if (!(_h < users_2.length)) return [3 /*break*/, 18];
-                        user = users_2[_h];
-                        _j.label = 11;
                     case 11:
-                        _j.trys.push([11, 16, , 17]);
+                        _h = 0, users_2 = users;
+                        _j.label = 12;
+                    case 12:
+                        if (!(_h < users_2.length)) return [3 /*break*/, 20];
+                        user = users_2[_h];
+                        _j.label = 13;
+                    case 13:
+                        _j.trys.push([13, 18, , 19]);
                         this.user = user;
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName));
                         i = 1;
-                        _j.label = 12;
-                    case 12:
-                        if (!(i < 5)) return [3 /*break*/, 15];
-                        return [4 /*yield*/, this.api('cash_open_limited_redpacket', { "node": i })];
-                    case 13:
-                        res = _j.sent();
-                        console.log(res.data);
                         _j.label = 14;
                     case 14:
-                        i++;
-                        return [3 /*break*/, 12];
-                    case 15: return [3 /*break*/, 17];
+                        if (!(i < 5)) return [3 /*break*/, 17];
+                        return [4 /*yield*/, this.api('cash_open_limited_redpacket', { "node": i })];
+                    case 15:
+                        res = _j.sent();
+                        console.log(res.data.bizMsg);
+                        if (res.data.bizMsg === '无资格')
+                            return [3 /*break*/, 17];
+                        _j.label = 16;
                     case 16:
+                        i++;
+                        return [3 /*break*/, 14];
+                    case 17: return [3 /*break*/, 19];
+                    case 18:
                         e_3 = _j.sent();
                         console.log('error', e_3.message);
-                        return [3 /*break*/, 17];
-                    case 17:
+                        return [3 /*break*/, 19];
+                    case 19:
                         _h++;
-                        return [3 /*break*/, 10];
-                    case 18: return [2 /*return*/];
+                        return [3 /*break*/, 12];
+                    case 20: return [2 /*return*/];
                 }
             });
         });

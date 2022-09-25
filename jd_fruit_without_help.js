@@ -451,7 +451,10 @@ var Jd_fruit = /** @class */ (function (_super) {
                         e_2 = _h.sent();
                         console.log('error', e_2.message);
                         return [3 /*break*/, 77];
-                    case 77: return [2 /*return*/];
+                    case 77: return [4 /*yield*/, this.wait(30000)];
+                    case 78:
+                        _h.sent();
+                        return [2 /*return*/];
                 }
             });
         });

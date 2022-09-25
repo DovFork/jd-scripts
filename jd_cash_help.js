@@ -141,16 +141,11 @@ var Jd_cash_help = /** @class */ (function (_super) {
                         return [3 /*break*/, 3];
                     case 7:
                         this.o2s(res);
-                        if (!1) return [3 /*break*/, 10];
+                        if (!(new Date().getHours() >= 11 && new Date().getHours() < 22)) return [3 /*break*/, 10];
                         return [4 /*yield*/, this.api('cash_join_limited_redpacket', { "id": 5, "level": 3 })];
                     case 8:
                         res = _b.sent();
-                        if (res.data.bizCode === 0) {
-                            console.log('开启成功');
-                        }
-                        else {
-                            console.log(res.data.bizMsg);
-                        }
+                        res.data.bizCode === 0 ? console.log('开启成功') : console.log(res.data.bizMsg);
                         return [4 /*yield*/, this.api('cash_mob_home', { "isLTRedPacket": "1" })];
                     case 9:
                         res = _b.sent();
@@ -159,11 +154,11 @@ var Jd_cash_help = /** @class */ (function (_super) {
                                 inviteCode: res.data.result.inviteCode,
                                 shareDate: res.data.result.shareDate
                             });
-                            console.log('助力码', res.data.result.inviteCode);
+                            console.log('助力码', res.data.result.inviteCode, res.data.result.shareDate);
                         }
                         return [3 /*break*/, 11];
                     case 10:
-                        console.log('不在时间范围内');
+                        console.log('不在时间范围');
                         _b.label = 11;
                     case 11: return [3 /*break*/, 13];
                     case 12:
@@ -176,28 +171,28 @@ var Jd_cash_help = /** @class */ (function (_super) {
         });
     };
     Jd_cash_help.prototype.help = function (users) {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         return __awaiter(this, void 0, void 0, function () {
-            var shareCodeHW, shareCode, res, _i, users_1, user, _g, shareCode_1, code, e_2, _h, users_2, user, i, e_3;
-            return __generator(this, function (_j) {
-                switch (_j.label) {
+            var shareCodeHW, shareCode, full, res, _i, users_1, user, _k, shareCode_1, code, e_2, _l, users_2, user, i, e_3;
+            return __generator(this, function (_m) {
+                switch (_m.label) {
                     case 0:
-                        shareCodeHW = [], shareCode = [];
+                        shareCodeHW = [], shareCode = [], full = [];
                         this.o2s(this.shareCodeSelf, '内部助力');
                         _i = 0, users_1 = users;
-                        _j.label = 1;
+                        _m.label = 1;
                     case 1:
                         if (!(_i < users_1.length)) return [3 /*break*/, 11];
                         user = users_1[_i];
-                        _j.label = 2;
+                        _m.label = 2;
                     case 2:
-                        _j.trys.push([2, 9, , 10]);
+                        _m.trys.push([2, 9, , 10]);
                         this.user = user;
                         if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.getshareCodeHW('cash')];
                     case 3:
-                        shareCodeHW = _j.sent();
-                        _j.label = 4;
+                        shareCodeHW = _m.sent();
+                        _m.label = 4;
                     case 4:
                         if (user.index === 0) {
                             shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true);
@@ -205,63 +200,72 @@ var Jd_cash_help = /** @class */ (function (_super) {
                         else {
                             shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true);
                         }
-                        _g = 0, shareCode_1 = shareCode;
-                        _j.label = 5;
+                        _k = 0, shareCode_1 = shareCode;
+                        _m.label = 5;
                     case 5:
-                        if (!(_g < shareCode_1.length)) return [3 /*break*/, 8];
-                        code = shareCode_1[_g];
+                        if (!(_k < shareCode_1.length)) return [3 /*break*/, 8];
+                        code = shareCode_1[_k];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteCode));
+                        if (full.includes(code.inviteCode)) {
+                            console.log('full contains');
+                            return [3 /*break*/, 7];
+                        }
                         return [4 /*yield*/, this.api('redpack_limited_assist', { "inviteCode": code.inviteCode, "shareDate": code.shareDate })];
                     case 6:
-                        res = _j.sent();
+                        res = _m.sent();
                         console.log((_c = (_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.result) === null || _b === void 0 ? void 0 : _b.limitTimeAssist) === null || _c === void 0 ? void 0 : _c.tips);
-                        if (((_f = (_e = (_d = res.data) === null || _d === void 0 ? void 0 : _d.result) === null || _e === void 0 ? void 0 : _e.limitTimeAssist) === null || _f === void 0 ? void 0 : _f.assistCode) === '207') {
+                        if (((_f = (_e = (_d = res.data) === null || _d === void 0 ? void 0 : _d.result) === null || _e === void 0 ? void 0 : _e.limitTimeAssist) === null || _f === void 0 ? void 0 : _f.tips) === '您来晚啦，您的好友已经领到全部奖励了')
+                            full.push(code.inviteCode);
+                        if (((_j = (_h = (_g = res.data) === null || _g === void 0 ? void 0 : _g.result) === null || _h === void 0 ? void 0 : _h.limitTimeAssist) === null || _j === void 0 ? void 0 : _j.assistCode) === '207') {
                             return [3 /*break*/, 8];
                         }
-                        _j.label = 7;
+                        _m.label = 7;
                     case 7:
-                        _g++;
+                        _k++;
                         return [3 /*break*/, 5];
                     case 8: return [3 /*break*/, 10];
                     case 9:
-                        e_2 = _j.sent();
+                        e_2 = _m.sent();
                         console.log('error', e_2.message);
                         return [3 /*break*/, 10];
                     case 10:
                         _i++;
                         return [3 /*break*/, 1];
                     case 11:
-                        _h = 0, users_2 = users;
-                        _j.label = 12;
+                        _l = 0, users_2 = users;
+                        _m.label = 12;
                     case 12:
-                        if (!(_h < users_2.length)) return [3 /*break*/, 20];
-                        user = users_2[_h];
-                        _j.label = 13;
+                        if (!(_l < users_2.length)) return [3 /*break*/, 20];
+                        user = users_2[_l];
+                        _m.label = 13;
                     case 13:
-                        _j.trys.push([13, 18, , 19]);
+                        _m.trys.push([13, 18, , 19]);
                         this.user = user;
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName));
                         i = 1;
-                        _j.label = 14;
+                        _m.label = 14;
                     case 14:
                         if (!(i < 5)) return [3 /*break*/, 17];
-                        return [4 /*yield*/, this.api('cash_open_limited_redpacket', { "node": i })];
+                        return [4 /*yield*/, this.api('cash_open_limited_redpacket', { "node": i })
+                            // this.o2s(res)
+                        ];
                     case 15:
-                        res = _j.sent();
+                        res = _m.sent();
+                        // this.o2s(res)
                         console.log(res.data.bizMsg);
                         if (res.data.bizMsg === '无资格')
                             return [3 /*break*/, 17];
-                        _j.label = 16;
+                        _m.label = 16;
                     case 16:
                         i++;
                         return [3 /*break*/, 14];
                     case 17: return [3 /*break*/, 19];
                     case 18:
-                        e_3 = _j.sent();
+                        e_3 = _m.sent();
                         console.log('error', e_3.message);
                         return [3 /*break*/, 19];
                     case 19:
-                        _h++;
+                        _l++;
                         return [3 /*break*/, 12];
                     case 20: return [2 /*return*/];
                 }

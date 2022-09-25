@@ -52,6 +52,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
+var jinli_log_1 = require("./test/jinli_log");
+var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var Mofang = /** @class */ (function (_super) {
     __extends(Mofang, _super);
     function Mofang() {
@@ -95,19 +97,129 @@ var Mofang = /** @class */ (function (_super) {
         });
     };
     Mofang.prototype.getLog = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.mfTool.main()];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
+        var n = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, jinli_log_1.logs.length);
+        this.log = jinli_log_1.logs[n].match(/"log":"(.*)"/)[1];
+        this.random = jinli_log_1.logs[n].match(/"random":"(\d+)"/)[1];
     };
     Mofang.prototype.main = function (user) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/];
+            var log, res, taskConfig_projectId, projectPoolId, giftConfig_projectId, _i, _b, t, signDay, type, _c, _d, proInfo, _e, _f, proInfo, exchangeRestScoreMap368, i, exchangeRestScoreMap367, arr;
+            return __generator(this, function (_g) {
+                switch (_g.label) {
+                    case 0:
+                        this.user = user;
+                        log = '';
+                        return [4 /*yield*/, this.api('getInteractionHomeInfo', { "sign": "u6vtLQ7ztxgykLEr" })];
+                    case 1:
+                        res = _g.sent();
+                        taskConfig_projectId = res.result.taskConfig.projectId;
+                        projectPoolId = res.result.taskConfig.projectPoolId;
+                        giftConfig_projectId = res.result.giftConfig.projectId;
+                        return [4 /*yield*/, this.api('queryInteractiveInfo', { "encryptProjectId": taskConfig_projectId, "sourceCode": "acexinpin0823", "ext": {} })];
+                    case 2:
+                        res = _g.sent();
+                        _i = 0, _b = res.assignmentList;
+                        _g.label = 3;
+                    case 3:
+                        if (!(_i < _b.length)) return [3 /*break*/, 17];
+                        t = _b[_i];
+                        if (!(t.completionCnt < t.assignmentTimesLimit)) return [3 /*break*/, 16];
+                        if (!(t.assignmentName === '每日签到')) return [3 /*break*/, 6];
+                        if (!(t.ext.sign1.status === 1)) return [3 /*break*/, 5];
+                        signDay = ((_a = t.ext.sign1.signList) === null || _a === void 0 ? void 0 : _a.length) || 0, type = t.rewards[signDay].rewardType;
+                        console.log(signDay, type);
+                        this.getLog();
+                        return [4 /*yield*/, this.api('doInteractiveAssignment', { "encryptProjectId": taskConfig_projectId, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": "1", "actionType": "", "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": this.random }, "signStr": this.log, "sceneid": "XMFhPageh5" } })];
+                    case 4:
+                        res = _g.sent();
+                        console.log('签到成功');
+                        return [3 /*break*/, 6];
+                    case 5:
+                        console.log('已签到');
+                        _g.label = 6;
+                    case 6:
+                        _c = 0, _d = t.ext.shoppingActivity || t.ext.browseShop || [];
+                        _g.label = 7;
+                    case 7:
+                        if (!(_c < _d.length)) return [3 /*break*/, 12];
+                        proInfo = _d[_c];
+                        if (!(proInfo.status === 1)) return [3 /*break*/, 11];
+                        console.log(t.assignmentName);
+                        this.getLog();
+                        return [4 /*yield*/, this.api('doInteractiveAssignment', { "encryptProjectId": taskConfig_projectId, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 1, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": this.random }, "signStr": this.log, "sceneid": "XMFhPageh5" } })];
+                    case 8:
+                        res = _g.sent();
+                        console.log(res.msg);
+                        return [4 /*yield*/, this.wait(t.ext.waitDuration * 1000 || 1000)];
+                    case 9:
+                        _g.sent();
+                        this.getLog();
+                        return [4 /*yield*/, this.api('doInteractiveAssignment', { "encryptProjectId": taskConfig_projectId, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 0, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": this.random }, "signStr": this.log, "sceneid": "XMFhPageh5" } })];
+                    case 10:
+                        res = _g.sent();
+                        console.log(res.msg);
+                        _g.label = 11;
+                    case 11:
+                        _c++;
+                        return [3 /*break*/, 7];
+                    case 12:
+                        _e = 0, _f = t.ext.productsInfo || t.ext.addCart || [];
+                        _g.label = 13;
+                    case 13:
+                        if (!(_e < _f.length)) return [3 /*break*/, 16];
+                        proInfo = _f[_e];
+                        if (!(proInfo.status === 1)) return [3 /*break*/, 15];
+                        console.log(t.assignmentName);
+                        this.getLog();
+                        return [4 /*yield*/, this.api('doInteractiveAssignment', { "encryptProjectId": taskConfig_projectId, "encryptAssignmentId": t.encryptAssignmentId, "sourceCode": "acexinpin0823", "itemId": proInfo.itemId, "actionType": 0, "completionFlag": "", "ext": {}, "extParam": { "businessData": { "random": this.random }, "signStr": this.log, "sceneid": "XMFhPageh5" } })];
+                    case 14:
+                        res = _g.sent();
+                        console.log(res.msg);
+                        if (res.msg === '任务已完成') {
+                            return [3 /*break*/, 16];
+                        }
+                        _g.label = 15;
+                    case 15:
+                        _e++;
+                        return [3 /*break*/, 13];
+                    case 16:
+                        _i++;
+                        return [3 /*break*/, 3];
+                    case 17: return [4 /*yield*/, this.api('queryInteractiveRewardInfo', { "encryptProjectId": giftConfig_projectId, "sourceCode": "acexinpin0823", "ext": { "needExchangeRestScore": "1" } })];
+                    case 18:
+                        res = _g.sent();
+                        console.log('当前魔方', res.exchangeRestScoreMap["367"]);
+                        return [4 /*yield*/, this.api('queryInteractiveRewardInfo', { "encryptProjectPoolId": projectPoolId, "sourceCode": "acexinpin0823", "ext": { "needPoolRewards": 1, "needExchangeRestScore": 1 } })];
+                    case 19:
+                        res = _g.sent();
+                        console.log('碎片进度', res.exchangeRestScoreMap["368"]);
+                        exchangeRestScoreMap368 = res.exchangeRestScoreMap["368"];
+                        i = 1;
+                        _g.label = 20;
+                    case 20:
+                        if (!(i < Math.floor(exchangeRestScoreMap368 / 6))) return [3 /*break*/, 23];
+                        this.getLog();
+                        return [4 /*yield*/, this.api('doInteractiveAssignment', { "encryptProjectId": giftConfig_projectId, "encryptAssignmentId": "wE62TwscdA52Z4WkpTJq7NaMvfw", "sourceCode": "acexinpin0823", "itemId": "", "actionType": "", "completionFlag": "", "ext": { "exchangeNum": 1 }, "extParam": { "businessData": { "random": this.random }, "signStr": this.log, "sceneid": "XMFhPageh5" } })];
+                    case 21:
+                        res = _g.sent();
+                        console.log('合成魔方', res.rewardsInfo.successRewards['1'].quantity);
+                        if (i === 20)
+                            return [3 /*break*/, 23];
+                        _g.label = 22;
+                    case 22:
+                        i++;
+                        return [3 /*break*/, 20];
+                    case 23: return [4 /*yield*/, this.api('queryInteractiveRewardInfo', { "encryptProjectId": giftConfig_projectId, "sourceCode": "acexinpin0823", "ext": { "needExchangeRestScore": "1" } })];
+                    case 24:
+                        res = _g.sent();
+                        console.log('当前魔方', res.exchangeRestScoreMap["367"]);
+                        exchangeRestScoreMap367 = res.exchangeRestScoreMap["367"], arr = [];
+                        exchangeRestScoreMap367 >= 1 ? arr.push('2VUEMo9KjtktsQNvb2yHED2m2oCh') : '';
+                        exchangeRestScoreMap367 >= 4 ? arr.push('khdCzL9YRdYjh3dWFXfZLteUTYu') : '';
+                        exchangeRestScoreMap367 >= 24 ? arr.push('JkfeMeE5JGmkXiTeJZGzcAWv5cr') : '';
+                        return [2 /*return*/];
+                }
             });
         });
     };

@@ -311,6 +311,7 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                             })];
                     case 31:
                         _g.sent();
+                        console.log('收获助力💧', t.waterEnergy);
                         return [4 /*yield*/, this.wait(3000)];
                     case 32:
                         _g.sent();

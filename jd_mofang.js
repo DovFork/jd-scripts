@@ -52,7 +52,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
-var jinli_log_1 = require("./test/jinli_log");
+var _2000jinli_log_1 = require("./test/2000jinli_log");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
 var Mofang = /** @class */ (function (_super) {
     __extends(Mofang, _super);
@@ -87,7 +87,7 @@ var Mofang = /** @class */ (function (_super) {
                             }), {
                                 'Host': 'api.m.jd.com',
                                 'Origin': 'https://h5.m.jd.com',
-                                'User-Agent': 'jdapp;',
+                                'User-Agent': this.user.UserAgent,
                                 'Referer': 'https://h5.m.jd.com/pb/010631430/2bf3XEEyWG11pQzPGkKpKX2GxJz2/index.html',
                                 'Cookie': this.user.cookie
                             })];
@@ -96,20 +96,40 @@ var Mofang = /** @class */ (function (_super) {
             });
         });
     };
+    Mofang.prototype.api2 = function (body) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.wait(1000)];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.post('https://api.m.jd.com/client.action?functionId=doInteractiveAssignment', body, {
+                                'Host': 'api.m.jd.com',
+                                'Cookie': this.user.cookie,
+                                'content-type': 'application/x-www-form-urlencoded',
+                                'user-agent': 'JD4iPhone'
+                            })];
+                    case 2: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     Mofang.prototype.getLog = function () {
-        var n = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, jinli_log_1.logs.length);
-        this.log = jinli_log_1.logs[n].match(/"log":"(.*)"/)[1];
-        this.random = jinli_log_1.logs[n].match(/"random":"(\d+)"/)[1];
+        var n = (0, TS_USER_AGENTS_1.getRandomNumberByRange)(0, _2000jinli_log_1.logs.length);
+        this.log = _2000jinli_log_1.logs[n].match(/"log":"(.*)"/)[1];
+        this.random = _2000jinli_log_1.logs[n].match(/"random":"(\d+)"/)[1];
     };
     Mofang.prototype.main = function (user) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var log, res, taskConfig_projectId, projectPoolId, giftConfig_projectId, _i, _b, t, signDay, type, _c, _d, proInfo, _e, _f, proInfo, exchangeRestScoreMap368, i, exchangeRestScoreMap367, arr;
+            var res, taskConfig_projectId, projectPoolId, giftConfig_projectId, _i, _b, t, signDay, type, _c, _d, proInfo, _e, _f, proInfo, i, exchangeRestScoreMap368, i, exchangeRestScoreMap367, arr;
             return __generator(this, function (_g) {
                 switch (_g.label) {
                     case 0:
+                        if (!user.cookie.includes('app_open')) {
+                            return [2 /*return*/];
+                        }
                         this.user = user;
-                        log = '';
                         return [4 /*yield*/, this.api('getInteractionHomeInfo', { "sign": "u6vtLQ7ztxgykLEr" })];
                     case 1:
                         res = _g.sent();
@@ -186,32 +206,48 @@ var Mofang = /** @class */ (function (_super) {
                     case 16:
                         _i++;
                         return [3 /*break*/, 3];
-                    case 17: return [4 /*yield*/, this.api('queryInteractiveRewardInfo', { "encryptProjectId": giftConfig_projectId, "sourceCode": "acexinpin0823", "ext": { "needExchangeRestScore": "1" } })];
+                    case 17:
+                        i = 0;
+                        _g.label = 18;
                     case 18:
+                        if (!(i < 4)) return [3 /*break*/, 22];
+                        return [4 /*yield*/, this.getSign('doInteractiveAssignment', { "encryptProjectId": taskConfig_projectId, "completionFlag": true, "encryptAssignmentId": "44M5m7wZs5vDAMkaTmYXeppqTsZR", "sourceCode": "acexinpin0823" })];
+                    case 19:
+                        res = _g.sent();
+                        return [4 /*yield*/, this.api2(res)];
+                    case 20:
+                        res = _g.sent();
+                        this.o2s(res);
+                        _g.label = 21;
+                    case 21:
+                        i++;
+                        return [3 /*break*/, 18];
+                    case 22: return [4 /*yield*/, this.api('queryInteractiveRewardInfo', { "encryptProjectId": giftConfig_projectId, "sourceCode": "acexinpin0823", "ext": { "needExchangeRestScore": "1" } })];
+                    case 23:
                         res = _g.sent();
                         console.log('当前魔方', res.exchangeRestScoreMap["367"]);
                         return [4 /*yield*/, this.api('queryInteractiveRewardInfo', { "encryptProjectPoolId": projectPoolId, "sourceCode": "acexinpin0823", "ext": { "needPoolRewards": 1, "needExchangeRestScore": 1 } })];
-                    case 19:
+                    case 24:
                         res = _g.sent();
                         console.log('碎片进度', res.exchangeRestScoreMap["368"]);
                         exchangeRestScoreMap368 = res.exchangeRestScoreMap["368"];
                         i = 1;
-                        _g.label = 20;
-                    case 20:
-                        if (!(i < Math.floor(exchangeRestScoreMap368 / 6))) return [3 /*break*/, 23];
+                        _g.label = 25;
+                    case 25:
+                        if (!(i < Math.floor(exchangeRestScoreMap368 / 6))) return [3 /*break*/, 28];
                         this.getLog();
                         return [4 /*yield*/, this.api('doInteractiveAssignment', { "encryptProjectId": giftConfig_projectId, "encryptAssignmentId": "wE62TwscdA52Z4WkpTJq7NaMvfw", "sourceCode": "acexinpin0823", "itemId": "", "actionType": "", "completionFlag": "", "ext": { "exchangeNum": 1 }, "extParam": { "businessData": { "random": this.random }, "signStr": this.log, "sceneid": "XMFhPageh5" } })];
-                    case 21:
+                    case 26:
                         res = _g.sent();
                         console.log('合成魔方', res.rewardsInfo.successRewards['1'].quantity);
                         if (i === 20)
-                            return [3 /*break*/, 23];
-                        _g.label = 22;
-                    case 22:
+                            return [3 /*break*/, 28];
+                        _g.label = 27;
+                    case 27:
                         i++;
-                        return [3 /*break*/, 20];
-                    case 23: return [4 /*yield*/, this.api('queryInteractiveRewardInfo', { "encryptProjectId": giftConfig_projectId, "sourceCode": "acexinpin0823", "ext": { "needExchangeRestScore": "1" } })];
-                    case 24:
+                        return [3 /*break*/, 25];
+                    case 28: return [4 /*yield*/, this.api('queryInteractiveRewardInfo', { "encryptProjectId": giftConfig_projectId, "sourceCode": "acexinpin0823", "ext": { "needExchangeRestScore": "1" } })];
+                    case 29:
                         res = _g.sent();
                         console.log('当前魔方', res.exchangeRestScoreMap["367"]);
                         exchangeRestScoreMap367 = res.exchangeRestScoreMap["367"], arr = [];

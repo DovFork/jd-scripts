@@ -136,9 +136,9 @@ var Cfd = /** @class */ (function (_super) {
     Cfd.prototype.main = function (user) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, _i, _b, xb, _c, _d, pick, _e, _f, strBuildIndex;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
+            var res, data, _i, _b, xb, _c, _d, t, _e, _f, pick, _g, _h, strBuildIndex;
+            return __generator(this, function (_j) {
+                switch (_j.label) {
                     case 0:
                         this.user = user;
                         this.user.cookie += '; cid=4;';
@@ -147,7 +147,7 @@ var Cfd = /** @class */ (function (_super) {
                         this.h5stTool = new h5st_3_1_1.H5ST('92a36', this.user.UserAgent, (_a = process.env.FP_92A36) !== null && _a !== void 0 ? _a : "", 'https://st.jingxi.com/fortune_island/index2.html', 'https://st.jingxi.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
-                        _g.sent();
+                        _j.sent();
                         return [4 /*yield*/, this.api('user/QueryUserInfo', {
                                 _stk: '_cfd_t,bizCode,ddwTaskId,dwEnv,dwIsReJoin,ptag,source,strDeviceId,strMarkList,strPgUUNum,strPgtimestamp,strPhoneID,strShareId,strVersion,strZone',
                                 'ddwTaskId': '',
@@ -160,13 +160,13 @@ var Cfd = /** @class */ (function (_super) {
                                 'dwIsReJoin': '0'
                             })];
                     case 2:
-                        res = _g.sent();
+                        res = _j.sent();
                         this.o2s(res);
                         return [4 /*yield*/, this.wait(1000)];
                     case 3:
-                        _g.sent();
+                        _j.sent();
                         _i = 0, _b = res.XbStatus.XBDetail;
-                        _g.label = 4;
+                        _j.label = 4;
                     case 4:
                         if (!(_i < _b.length)) return [3 /*break*/, 8];
                         xb = _b[_i];
@@ -176,71 +176,97 @@ var Cfd = /** @class */ (function (_super) {
                                 strIndex: xb.strIndex
                             })];
                     case 5:
-                        data = _g.sent();
+                        data = _j.sent();
                         console.log('寻宝', xb.strIndex, data.AwardInfo.ddwValue);
                         return [4 /*yield*/, this.wait(5000)];
                     case 6:
-                        _g.sent();
-                        _g.label = 7;
+                        _j.sent();
+                        _j.label = 7;
                     case 7:
                         _i++;
                         return [3 /*break*/, 4];
-                    case 8: return [4 /*yield*/, this.api('story/queryshell', {
+                    case 8: return [4 /*yield*/, this.api('story/querystorageroom', {
                             _stk: '_cfd_t,_imbfd,bizCode,dwEnv,ptag,source,strDeviceId,strZone'
                         })];
                     case 9:
-                        // 贝壳
-                        res = _g.sent();
-                        return [4 /*yield*/, this.wait(1000)];
+                        // 背包
+                        res = _j.sent();
+                        _c = 0, _d = res.Data.Office;
+                        _j.label = 10;
                     case 10:
-                        _g.sent();
-                        _c = 0, _d = res.Data.NormShell;
-                        _g.label = 11;
+                        if (!(_c < _d.length)) return [3 /*break*/, 14];
+                        t = _d[_c];
+                        return [4 /*yield*/, this.api('story/sellgoods', {
+                                _stk: '_cfd_t,_imbfd,bizCode,dwEnv,dwSceneId,ptag,source,strDeviceId,strTypeCnt,strZone',
+                                dwSceneId: '1',
+                                strTypeCnt: "".concat(t.dwType, ":").concat(t.dwCount)
+                            })];
                     case 11:
-                        if (!(_c < _d.length)) return [3 /*break*/, 17];
-                        pick = _d[_c];
-                        _g.label = 12;
+                        data = _j.sent();
+                        console.log('卖贝壳', data.Data.ddwCoin);
+                        return [4 /*yield*/, this.wait(2000)];
                     case 12:
-                        if (!pick.dwNum) return [3 /*break*/, 16];
+                        _j.sent();
+                        _j.label = 13;
+                    case 13:
+                        _c++;
+                        return [3 /*break*/, 10];
+                    case 14: return [4 /*yield*/, this.api('story/queryshell', {
+                            _stk: '_cfd_t,_imbfd,bizCode,dwEnv,ptag,source,strDeviceId,strZone'
+                        })];
+                    case 15:
+                        // 贝壳
+                        res = _j.sent();
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 16:
+                        _j.sent();
+                        _e = 0, _f = res.Data.NormShell;
+                        _j.label = 17;
+                    case 17:
+                        if (!(_e < _f.length)) return [3 /*break*/, 23];
+                        pick = _f[_e];
+                        _j.label = 18;
+                    case 18:
+                        if (!pick.dwNum) return [3 /*break*/, 22];
                         return [4 /*yield*/, this.api('story/pickshell', {
                                 _stk: '_cfd_t,_imbfd,bizCode,dwEnv,dwType,ptag,source,strDeviceId,strZone',
                                 dwType: pick.dwType
                             })];
-                    case 13:
-                        data = _g.sent();
+                    case 19:
+                        data = _j.sent();
                         console.log(data.Data.strFirstDesc);
                         return [4 /*yield*/, this.wait(2000)];
-                    case 14:
-                        _g.sent();
-                        _g.label = 15;
-                    case 15:
+                    case 20:
+                        _j.sent();
+                        _j.label = 21;
+                    case 21:
                         pick.dwNum--;
-                        return [3 /*break*/, 12];
-                    case 16:
-                        _c++;
-                        return [3 /*break*/, 11];
-                    case 17:
-                        _e = 0, _f = ['fun', 'shop', 'sea', 'food'];
-                        _g.label = 18;
-                    case 18:
-                        if (!(_e < _f.length)) return [3 /*break*/, 22];
-                        strBuildIndex = _f[_e];
+                        return [3 /*break*/, 18];
+                    case 22:
+                        _e++;
+                        return [3 /*break*/, 17];
+                    case 23:
+                        _g = 0, _h = ['fun', 'shop', 'sea', 'food'];
+                        _j.label = 24;
+                    case 24:
+                        if (!(_g < _h.length)) return [3 /*break*/, 28];
+                        strBuildIndex = _h[_g];
                         return [4 /*yield*/, this.api('user/CollectCoin', {
                                 _stk: '_cfd_t,_imbfd,bizCode,dwEnv,dwType,ptag,source,strBuildIndex,strDeviceId,strZone',
                                 dwType: '1',
                                 strBuildIndex: strBuildIndex
                             })];
-                    case 19:
-                        data = _g.sent();
+                    case 25:
+                        data = _j.sent();
                         console.log("".concat(strBuildIndex, "\u6536\u91D1\u5E01:"), data.ddwCoin);
                         return [4 /*yield*/, (0, TS_USER_AGENTS_1.wait)(2000)];
-                    case 20:
-                        _g.sent();
-                        _g.label = 21;
-                    case 21:
-                        _e++;
-                        return [3 /*break*/, 18];
-                    case 22: return [2 /*return*/];
+                    case 26:
+                        _j.sent();
+                        _j.label = 27;
+                    case 27:
+                        _g++;
+                        return [3 /*break*/, 24];
+                    case 28: return [2 /*return*/];
                 }
             });
         });

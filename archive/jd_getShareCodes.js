@@ -39,8 +39,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
-var shareCodesTool_1 = require("./utils/shareCodesTool");
+var TS_USER_AGENTS_1 = require("../TS_USER_AGENTS");
+var shareCodesTool_1 = require("../utils/shareCodesTool");
 var cookie = '', UserName, index;
 var beans = '', farms = '', healths = '', pets = '', factorys = '', jxfactorys = '', sgmhs = '', s = '';
 !(function () { return __awaiter(void 0, void 0, void 0, function () {

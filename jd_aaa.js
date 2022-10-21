@@ -1,6 +1,6 @@
 "use strict";
 /**
- * cron: 15,35 21 * * *
+ * cron: 0,30 21 * * *
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -194,21 +194,24 @@ var Cfd = /** @class */ (function (_super) {
                     case 0:
                         shareCodeHW = [], shareCode = [];
                         this.o2s(this.shareCodeSelf, '内部助力');
-                        _i = 0, users_1 = users;
-                        _e.label = 1;
+                        return [4 /*yield*/, this.wait(5000)];
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 15];
-                        user = users_1[_i];
+                        _e.sent();
+                        _i = 0, users_1 = users;
                         _e.label = 2;
                     case 2:
-                        _e.trys.push([2, 13, , 14]);
-                        this.user = user;
-                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.getshareCodeHW('ssypz')];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 16];
+                        user = users_1[_i];
+                        _e.label = 3;
                     case 3:
-                        shareCodeHW = _e.sent();
-                        _e.label = 4;
+                        _e.trys.push([3, 14, , 15]);
+                        this.user = user;
+                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this.getshareCodeHW('ssypz')];
                     case 4:
+                        shareCodeHW = _e.sent();
+                        _e.label = 5;
+                    case 5:
                         if (user.index === 0) {
                             shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true);
                         }
@@ -216,85 +219,85 @@ var Cfd = /** @class */ (function (_super) {
                             shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true);
                         }
                         _a = 0, shareCode_1 = shareCode;
-                        _e.label = 5;
-                    case 5:
-                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 12];
+                        _e.label = 6;
+                    case 6:
+                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 13];
                         code = shareCode_1[_a];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteId));
                         return [4 /*yield*/, this.api('promote_pk_getHomeData', { "inviteId": code.inviteId })];
-                    case 6:
-                        res = _e.sent();
-                        return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"1\",\"shareSource\":1}"))];
                     case 7:
                         res = _e.sent();
-                        return [4 /*yield*/, this.api('promote_pk_collectPkExpandScore', { "actionType": "0", "inviteId": code.inviteId })];
+                        return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"1\",\"shareSource\":1}"))];
                     case 8:
                         res = _e.sent();
-                        return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"2\",\"shareSource\":1}"))];
+                        return [4 /*yield*/, this.api('promote_pk_collectPkExpandScore', { "actionType": "0", "inviteId": code.inviteId })];
                     case 9:
+                        res = _e.sent();
+                        return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"2\",\"shareSource\":1}"))];
+                    case 10:
                         _e.sent();
                         if (res.data.bizCode === 0) {
                             console.log('助力成功');
                             if (res.data.result.times === 8) {
                                 console.log('上限');
-                                return [3 /*break*/, 12];
+                                return [3 /*break*/, 13];
                             }
                         }
                         else {
                             console.log('助力失败', res.data.bizMsg);
                         }
                         return [4 /*yield*/, this.wait(3000)];
-                    case 10:
-                        _e.sent();
-                        _e.label = 11;
                     case 11:
+                        _e.sent();
+                        _e.label = 12;
+                    case 12:
                         _a++;
-                        return [3 /*break*/, 5];
-                    case 12: return [3 /*break*/, 14];
-                    case 13:
+                        return [3 /*break*/, 6];
+                    case 13: return [3 /*break*/, 15];
+                    case 14:
                         e_2 = _e.sent();
                         console.log('error', e_2.message);
-                        return [3 /*break*/, 14];
-                    case 14:
-                        _i++;
-                        return [3 /*break*/, 1];
+                        return [3 /*break*/, 15];
                     case 15:
-                        _b = 0, users_2 = users;
-                        _e.label = 16;
+                        _i++;
+                        return [3 /*break*/, 2];
                     case 16:
-                        if (!(_b < users_2.length)) return [3 /*break*/, 21];
-                        user = users_2[_b];
+                        _b = 0, users_2 = users;
                         _e.label = 17;
                     case 17:
-                        _e.trys.push([17, 19, , 20]);
+                        if (!(_b < users_2.length)) return [3 /*break*/, 22];
+                        user = users_2[_b];
+                        _e.label = 18;
+                    case 18:
+                        _e.trys.push([18, 20, , 21]);
                         this.user = user;
                         return [4 /*yield*/, this.api('promote_pk_receiveAward', {})];
-                    case 18:
+                    case 19:
                         res = _e.sent();
                         res.data.bizCode === 0
                             ? console.log('领取膨胀红包成功', res.data.result.value * 1)
                             : console.log('领取膨胀红包失败', res.data.bizMsg);
-                        return [3 /*break*/, 20];
-                    case 19:
+                        return [3 /*break*/, 21];
+                    case 20:
                         e_3 = _e.sent();
                         console.log('error', e_3.message);
-                        return [3 /*break*/, 20];
-                    case 20:
-                        _b++;
-                        return [3 /*break*/, 16];
+                        return [3 /*break*/, 21];
                     case 21:
+                        _b++;
+                        return [3 /*break*/, 17];
+                    case 22:
                         shareCodeHW = [];
                         _c = 0, users_3 = users;
-                        _e.label = 22;
-                    case 22:
-                        if (!(_c < users_3.length)) return [3 /*break*/, 33];
-                        user = users_3[_c];
-                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 24];
-                        return [4 /*yield*/, this.getshareCodeHW('ssy')];
+                        _e.label = 23;
                     case 23:
-                        shareCodeHW = _e.sent();
-                        _e.label = 24;
+                        if (!(_c < users_3.length)) return [3 /*break*/, 34];
+                        user = users_3[_c];
+                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 25];
+                        return [4 /*yield*/, this.getshareCodeHW('ssy')];
                     case 24:
+                        shareCodeHW = _e.sent();
+                        _e.label = 25;
+                    case 25:
                         if (user.index === 0) {
                             shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true);
                         }
@@ -302,45 +305,45 @@ var Cfd = /** @class */ (function (_super) {
                             shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true);
                         }
                         _d = 0, shareCode_2 = shareCode;
-                        _e.label = 25;
-                    case 25:
-                        if (!(_d < shareCode_2.length)) return [3 /*break*/, 32];
+                        _e.label = 26;
+                    case 26:
+                        if (!(_d < shareCode_2.length)) return [3 /*break*/, 33];
                         code = shareCode_2[_d];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteId));
                         return [4 /*yield*/, this.api('promote_getHomeData', { "inviteId": code.inviteId })];
-                    case 26:
+                    case 27:
                         _e.sent();
                         return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"1\",\"shareSource\":1}"))];
-                    case 27:
+                    case 28:
                         res = _e.sent();
                         return [4 /*yield*/, this.api('promote_collectScore', { "actionType": "0", "inviteId": code.inviteId })];
-                    case 28:
+                    case 29:
                         res = _e.sent();
                         this.o2s(res, '助力');
                         return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"2\",\"shareSource\":1}"))];
-                    case 29:
+                    case 30:
                         _e.sent();
                         if (res.data.bizCode === 0) {
                             console.log('助力成功');
                             if (res.data.result.times === 8) {
                                 console.log('上限');
-                                return [3 /*break*/, 32];
+                                return [3 /*break*/, 33];
                             }
                         }
                         else {
                             console.log('助力失败', res.data.bizMsg);
                         }
                         return [4 /*yield*/, this.wait(3000)];
-                    case 30:
-                        _e.sent();
-                        _e.label = 31;
                     case 31:
-                        _d++;
-                        return [3 /*break*/, 25];
+                        _e.sent();
+                        _e.label = 32;
                     case 32:
+                        _d++;
+                        return [3 /*break*/, 26];
+                    case 33:
                         _c++;
-                        return [3 /*break*/, 22];
-                    case 33: return [2 /*return*/];
+                        return [3 /*break*/, 23];
+                    case 34: return [2 /*return*/];
                 }
             });
         });

@@ -69,6 +69,7 @@ var Cfd = /** @class */ (function (_super) {
     function Cfd() {
         var _this = _super.call(this) || this;
         _this.shareCodeSelf = [];
+        _this.homeShareCodeSelf = [];
         return _this;
     }
     Cfd.prototype.init = function () {
@@ -125,73 +126,88 @@ var Cfd = /** @class */ (function (_super) {
     };
     Cfd.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, mpin, inviteId;
+            var res, mpin, inviteId, inviteId_1, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.user = user;
-                        return [4 /*yield*/, this.qryViewkitCallbackResult('getEncryptedPinColor', 'functionId=getEncryptedPinColor&client=wh5&clientVersion=1.0.0&body={}')];
+                        _a.label = 1;
                     case 1:
+                        _a.trys.push([1, 10, , 11]);
+                        return [4 /*yield*/, this.qryViewkitCallbackResult('getEncryptedPinColor', 'functionId=getEncryptedPinColor&client=wh5&clientVersion=1.0.0&body={}')];
+                    case 2:
                         res = _a.sent();
                         mpin = res.result;
                         return [4 /*yield*/, this.wait(1000)];
-                    case 2:
+                    case 3:
                         _a.sent();
                         return [4 /*yield*/, this.api('promote_pk_getHomeData', {})];
-                    case 3:
+                    case 4:
                         res = _a.sent();
                         console.log('inflateMaxAward', res.data.result.inflateMaxAward);
                         return [4 /*yield*/, this.api('promote_pk_getMsgPopup', {})];
-                    case 4:
+                    case 5:
                         res = _a.sent();
                         this.o2s(res);
-                        if (!(res.data.result.length > 0 && res.data.result[0].divideResultVO)) return [3 /*break*/, 6];
+                        if (!(res.data.result.length > 0 && res.data.result[0].divideResultVO)) return [3 /*break*/, 7];
                         console.log('红包', res.data.result[0].divideResultVO.divideValue * 1);
                         console.log('金币', res.data.result[0].divideResultVO.scores);
                         return [4 /*yield*/, this.api('promote_pk_divideScores', { "appSign": "3" })];
-                    case 5:
+                    case 6:
                         res = _a.sent();
                         console.log('领取组队金币', res.data.result.produceScore * 1);
-                        _a.label = 6;
-                    case 6: return [4 /*yield*/, this.api('promote_pk_getExpandDetail', {})];
-                    case 7:
+                        _a.label = 7;
+                    case 7: return [4 /*yield*/, this.api('promote_getTaskDetail', { "appSign": "3" })];
+                    case 8:
+                        res = _a.sent();
+                        inviteId = res.data.result.inviteId;
+                        console.log('助力码', inviteId);
+                        this.homeShareCodeSelf.push({ inviteId: inviteId, mpin: mpin });
+                        return [4 /*yield*/, this.api('promote_pk_getExpandDetail', {})];
+                    case 9:
                         res = _a.sent();
                         if (res.data.bizCode === 0) {
-                            inviteId = res.data.result.inviteId;
-                            console.log('助力码', inviteId, mpin);
+                            this.o2s(res);
+                            inviteId_1 = res.data.result.inviteId;
+                            console.log('助力码', inviteId_1, mpin);
                             console.log('还有', Math.floor(res.data.result.pkExpandDetailResult.remainTime / 60000), '分钟');
-                            this.shareCodeSelf.push({ inviteId: inviteId, mpin: mpin });
+                            this.shareCodeSelf.push({ inviteId: inviteId_1, mpin: mpin });
                         }
                         else {
                             console.log(res.data.bizMsg);
                         }
-                        return [2 /*return*/];
+                        return [3 /*break*/, 11];
+                    case 10:
+                        e_1 = _a.sent();
+                        console.log(e_1.message);
+                        return [3 /*break*/, 11];
+                    case 11: return [2 /*return*/];
                 }
             });
         });
     };
     Cfd.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var shareCodeHW, shareCode, res, _i, users_1, user, _a, shareCode_1, code, e_1, _b, users_2, user, e_2;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var shareCodeHW, shareCode, res, _i, users_1, user, _a, shareCode_1, code, e_2, _b, users_2, user, e_3, _c, users_3, user, _d, shareCode_2, code;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
                         shareCodeHW = [], shareCode = [];
                         this.o2s(this.shareCodeSelf, '内部助力');
                         _i = 0, users_1 = users;
-                        _c.label = 1;
+                        _e.label = 1;
                     case 1:
                         if (!(_i < users_1.length)) return [3 /*break*/, 15];
                         user = users_1[_i];
-                        _c.label = 2;
+                        _e.label = 2;
                     case 2:
-                        _c.trys.push([2, 13, , 14]);
+                        _e.trys.push([2, 13, , 14]);
                         this.user = user;
                         if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.getshareCodeHW('ssypz')];
                     case 3:
-                        shareCodeHW = _c.sent();
-                        _c.label = 4;
+                        shareCodeHW = _e.sent();
+                        _e.label = 4;
                     case 4:
                         if (user.index === 0) {
                             shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true);
@@ -200,23 +216,23 @@ var Cfd = /** @class */ (function (_super) {
                             shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true);
                         }
                         _a = 0, shareCode_1 = shareCode;
-                        _c.label = 5;
+                        _e.label = 5;
                     case 5:
                         if (!(_a < shareCode_1.length)) return [3 /*break*/, 12];
                         code = shareCode_1[_a];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteId));
                         return [4 /*yield*/, this.api('promote_pk_getHomeData', { "inviteId": code.inviteId })];
                     case 6:
-                        res = _c.sent();
+                        res = _e.sent();
                         return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"1\",\"shareSource\":1}"))];
                     case 7:
-                        res = _c.sent();
+                        res = _e.sent();
                         return [4 /*yield*/, this.api('promote_pk_collectPkExpandScore', { "actionType": "0", "inviteId": code.inviteId })];
                     case 8:
-                        res = _c.sent();
+                        res = _e.sent();
                         return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"2\",\"shareSource\":1}"))];
                     case 9:
-                        _c.sent();
+                        _e.sent();
                         if (res.data.bizCode === 0) {
                             console.log('助力成功');
                             if (res.data.result.times === 8) {
@@ -229,42 +245,102 @@ var Cfd = /** @class */ (function (_super) {
                         }
                         return [4 /*yield*/, this.wait(3000)];
                     case 10:
-                        _c.sent();
-                        _c.label = 11;
+                        _e.sent();
+                        _e.label = 11;
                     case 11:
                         _a++;
                         return [3 /*break*/, 5];
                     case 12: return [3 /*break*/, 14];
                     case 13:
-                        e_1 = _c.sent();
-                        console.log('error', e_1.message);
+                        e_2 = _e.sent();
+                        console.log('error', e_2.message);
                         return [3 /*break*/, 14];
                     case 14:
                         _i++;
                         return [3 /*break*/, 1];
                     case 15:
                         _b = 0, users_2 = users;
-                        _c.label = 16;
+                        _e.label = 16;
                     case 16:
                         if (!(_b < users_2.length)) return [3 /*break*/, 21];
                         user = users_2[_b];
-                        _c.label = 17;
+                        _e.label = 17;
                     case 17:
-                        _c.trys.push([17, 19, , 20]);
+                        _e.trys.push([17, 19, , 20]);
                         this.user = user;
                         return [4 /*yield*/, this.api('promote_pk_receiveAward', {})];
                     case 18:
-                        res = _c.sent();
-                        this.o2s(res, 'promote_pk_receiveAward');
+                        res = _e.sent();
+                        res.data.bizCode === 0
+                            ? console.log('领取膨胀红包成功', res.data.result.value * 1)
+                            : console.log('领取膨胀红包失败', res.data.bizMsg);
                         return [3 /*break*/, 20];
                     case 19:
-                        e_2 = _c.sent();
-                        console.log('error', e_2.message);
+                        e_3 = _e.sent();
+                        console.log('error', e_3.message);
                         return [3 /*break*/, 20];
                     case 20:
                         _b++;
                         return [3 /*break*/, 16];
-                    case 21: return [2 /*return*/];
+                    case 21:
+                        shareCodeHW = [];
+                        _c = 0, users_3 = users;
+                        _e.label = 22;
+                    case 22:
+                        if (!(_c < users_3.length)) return [3 /*break*/, 33];
+                        user = users_3[_c];
+                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 24];
+                        return [4 /*yield*/, this.getshareCodeHW('ssy')];
+                    case 23:
+                        shareCodeHW = _e.sent();
+                        _e.label = 24;
+                    case 24:
+                        if (user.index === 0) {
+                            shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true);
+                        }
+                        else {
+                            shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true);
+                        }
+                        _d = 0, shareCode_2 = shareCode;
+                        _e.label = 25;
+                    case 25:
+                        if (!(_d < shareCode_2.length)) return [3 /*break*/, 32];
+                        code = shareCode_2[_d];
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteId));
+                        return [4 /*yield*/, this.api('promote_getHomeData', { "inviteId": code.inviteId })];
+                    case 26:
+                        _e.sent();
+                        return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"1\",\"shareSource\":1}"))];
+                    case 27:
+                        res = _e.sent();
+                        return [4 /*yield*/, this.api('promote_collectScore', { "actionType": "0", "inviteId": code.inviteId })];
+                    case 28:
+                        res = _e.sent();
+                        this.o2s(res, '助力');
+                        return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"2\",\"shareSource\":1}"))];
+                    case 29:
+                        _e.sent();
+                        if (res.data.bizCode === 0) {
+                            console.log('助力成功');
+                            if (res.data.result.times === 8) {
+                                console.log('上限');
+                                return [3 /*break*/, 32];
+                            }
+                        }
+                        else {
+                            console.log('助力失败', res.data.bizMsg);
+                        }
+                        return [4 /*yield*/, this.wait(3000)];
+                    case 30:
+                        _e.sent();
+                        _e.label = 31;
+                    case 31:
+                        _d++;
+                        return [3 /*break*/, 25];
+                    case 32:
+                        _c++;
+                        return [3 /*break*/, 22];
+                    case 33: return [2 /*return*/];
                 }
             });
         });

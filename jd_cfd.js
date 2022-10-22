@@ -161,7 +161,6 @@ var Cfd = /** @class */ (function (_super) {
                             })];
                     case 2:
                         res = _j.sent();
-                        this.o2s(res);
                         return [4 /*yield*/, this.wait(1000)];
                     case 3:
                         _j.sent();

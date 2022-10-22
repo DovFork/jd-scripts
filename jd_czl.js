@@ -1,6 +1,6 @@
 "use strict";
 /**
- * cron: 0,30 21 * * *
+ * cron: 20 9,18 * * *
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -64,14 +64,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
-var Cfd = /** @class */ (function (_super) {
-    __extends(Cfd, _super);
-    function Cfd() {
+var Jd_czl = /** @class */ (function (_super) {
+    __extends(Jd_czl, _super);
+    function Jd_czl() {
         var _this = _super.call(this) || this;
         _this.shareCodeSelf = [];
         return _this;
     }
-    Cfd.prototype.init = function () {
+    Jd_czl.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -83,12 +83,12 @@ var Cfd = /** @class */ (function (_super) {
             });
         });
     };
-    Cfd.prototype.api = function (fn, body) {
+    Jd_czl.prototype.api = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!['promote_pk_divideScores', 'promote_pk_getExpandDetail', 'promote_pk_collectPkExpandScore'].includes(fn)) return [3 /*break*/, 2];
+                        if (!(fn === 'promote_collectScore')) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.body(body)];
                     case 1:
                         body = _a.sent();
@@ -106,7 +106,7 @@ var Cfd = /** @class */ (function (_super) {
             });
         });
     };
-    Cfd.prototype.qryViewkitCallbackResult = function (fn, body) {
+    Jd_czl.prototype.qryViewkitCallbackResult = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -123,92 +123,58 @@ var Cfd = /** @class */ (function (_super) {
             });
         });
     };
-    Cfd.prototype.main = function (user) {
+    Jd_czl.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, mpin, inviteId, _i, _a, t, e_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var res, mpin, inviteId, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
                         this.user = user;
-                        _b.label = 1;
+                        _a.label = 1;
                     case 1:
-                        _b.trys.push([1, 9, , 10]);
+                        _a.trys.push([1, 4, , 5]);
                         return [4 /*yield*/, this.qryViewkitCallbackResult('getEncryptedPinColor', 'functionId=getEncryptedPinColor&client=wh5&clientVersion=1.0.0&body={}')];
                     case 2:
-                        res = _b.sent();
+                        res = _a.sent();
                         mpin = res.result;
-                        return [4 /*yield*/, this.wait(1000)];
+                        return [4 /*yield*/, this.api('promote_getTaskDetail', { "appSign": "3" })];
                     case 3:
-                        _b.sent();
-                        return [4 /*yield*/, this.api('promote_pk_getHomeData', {})];
+                        res = _a.sent();
+                        inviteId = res.data.result.inviteId;
+                        console.log('助力码', inviteId);
+                        this.shareCodeSelf.push({ mpin: mpin, inviteId: inviteId });
+                        return [3 /*break*/, 5];
                     case 4:
-                        res = _b.sent();
-                        console.log('inflateMaxAward', res.data.result.inflateMaxAward);
-                        return [4 /*yield*/, this.api('promote_pk_getMsgPopup', {})];
-                    case 5:
-                        res = _b.sent();
-                        this.o2s(res);
-                        if (!(res.data.result.length > 0 && res.data.result[0].divideResultVO)) return [3 /*break*/, 7];
-                        console.log('红包', res.data.result[0].divideResultVO.divideValue * 1);
-                        console.log('金币', res.data.result[0].divideResultVO.scores);
-                        return [4 /*yield*/, this.api('promote_pk_divideScores', { "appSign": "3" })];
-                    case 6:
-                        res = _b.sent();
-                        console.log('领取组队金币', res.data.result.produceScore * 1);
-                        _b.label = 7;
-                    case 7: return [4 /*yield*/, this.api('promote_pk_getExpandDetail', {})];
-                    case 8:
-                        res = _b.sent();
-                        if (res.data.bizCode === 0) {
-                            this.o2s(res);
-                            inviteId = res.data.result.inviteId;
-                            console.log('助力码', inviteId, mpin);
-                            console.log('还有', Math.floor(res.data.result.pkExpandDetailResult.remainTime / 60000), '分钟');
-                            this.shareCodeSelf.push({ inviteId: inviteId, mpin: mpin });
-                            for (_i = 0, _a = res.data.result.pkExpandDetailResult.pkExpandStageVOS; _i < _a.length; _i++) {
-                                t = _a[_i];
-                                console.log("".concat(t.assistNum, "/").concat(t.maxAssistNum));
-                            }
-                        }
-                        else {
-                            console.log(res.data.bizMsg);
-                        }
-                        return [3 /*break*/, 10];
-                    case 9:
-                        e_1 = _b.sent();
+                        e_1 = _a.sent();
                         console.log(e_1.message);
-                        return [3 /*break*/, 10];
-                    case 10: return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
     };
-    Cfd.prototype.help = function (users) {
+    Jd_czl.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var shareCodeHW, shareCode, res, _i, users_1, user, _a, shareCode_1, code, e_2, _b, users_2, user, e_3;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var shareCodeHW, shareCode, res, _i, users_1, user, _a, shareCode_1, code, e_2;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         shareCodeHW = [], shareCode = [];
                         this.o2s(this.shareCodeSelf, '内部助力');
-                        return [4 /*yield*/, this.wait(5000)];
-                    case 1:
-                        _c.sent();
                         _i = 0, users_1 = users;
-                        _c.label = 2;
-                    case 2:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 16];
+                        _b.label = 1;
+                    case 1:
+                        if (!(_i < users_1.length)) return [3 /*break*/, 15];
                         user = users_1[_i];
-                        _c.label = 3;
+                        _b.label = 2;
+                    case 2:
+                        _b.trys.push([2, 13, , 14]);
+                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.getshareCodeHW('ssy')];
                     case 3:
-                        _c.trys.push([3, 14, , 15]);
-                        this.user = user;
-                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 5];
-                        return [4 /*yield*/, this.getshareCodeHW('ssypz')];
+                        shareCodeHW = _b.sent();
+                        _b.label = 4;
                     case 4:
-                        shareCodeHW = _c.sent();
-                        _c.label = 5;
-                    case 5:
                         if (user.index === 0) {
                             shareCode = __spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true);
                         }
@@ -216,81 +182,53 @@ var Cfd = /** @class */ (function (_super) {
                             shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true);
                         }
                         _a = 0, shareCode_1 = shareCode;
-                        _c.label = 6;
-                    case 6:
-                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 13];
+                        _b.label = 5;
+                    case 5:
+                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 12];
                         code = shareCode_1[_a];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code.inviteId));
-                        return [4 /*yield*/, this.api('promote_pk_getHomeData', { "inviteId": code.inviteId })];
-                    case 7:
-                        res = _c.sent();
+                        return [4 /*yield*/, this.api('promote_getHomeData', { "inviteId": code.inviteId })];
+                    case 6:
+                        _b.sent();
                         return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"1\",\"shareSource\":1}"))];
+                    case 7:
+                        res = _b.sent();
+                        return [4 /*yield*/, this.api('promote_collectScore', { "actionType": "0", "inviteId": code.inviteId })];
                     case 8:
-                        res = _c.sent();
-                        return [4 /*yield*/, this.api('promote_pk_collectPkExpandScore', { "actionType": "0", "inviteId": code.inviteId })];
-                    case 9:
-                        res = _c.sent();
+                        res = _b.sent();
                         return [4 /*yield*/, this.qryViewkitCallbackResult('collectFriendRecordColor', "functionId=collectFriendRecordColor&client=wh5&clientVersion=1.0.0&body={\"mpin\":\"".concat(code.mpin, "\",\"businessCode\":\"20136\",\"assistType\":\"2\",\"shareSource\":1}"))];
-                    case 10:
-                        _c.sent();
+                    case 9:
+                        _b.sent();
                         if (res.data.bizCode === 0) {
                             console.log('助力成功');
                             if (res.data.result.times === 8) {
                                 console.log('上限');
-                                return [3 /*break*/, 13];
+                                return [3 /*break*/, 12];
                             }
                         }
                         else {
                             console.log('助力失败', res.data.bizMsg);
                         }
                         return [4 /*yield*/, this.wait(3000)];
+                    case 10:
+                        _b.sent();
+                        _b.label = 11;
                     case 11:
-                        _c.sent();
-                        _c.label = 12;
-                    case 12:
                         _a++;
-                        return [3 /*break*/, 6];
-                    case 13: return [3 /*break*/, 15];
+                        return [3 /*break*/, 5];
+                    case 12: return [3 /*break*/, 14];
+                    case 13:
+                        e_2 = _b.sent();
+                        console.log(e_2.message);
+                        return [3 /*break*/, 14];
                     case 14:
-                        e_2 = _c.sent();
-                        console.log('error', e_2.message);
-                        return [3 /*break*/, 15];
-                    case 15:
                         _i++;
-                        return [3 /*break*/, 2];
-                    case 16:
-                        _b = 0, users_2 = users;
-                        _c.label = 17;
-                    case 17:
-                        if (!(_b < users_2.length)) return [3 /*break*/, 24];
-                        user = users_2[_b];
-                        _c.label = 18;
-                    case 18:
-                        _c.trys.push([18, 20, , 21]);
-                        this.user = user;
-                        return [4 /*yield*/, this.api('promote_pk_receiveAward', {})];
-                    case 19:
-                        res = _c.sent();
-                        res.data.bizCode === 0
-                            ? console.log('领取膨胀红包成功', res.data.result.value * 1)
-                            : console.log('领取膨胀红包失败', res.data.bizMsg);
-                        return [3 /*break*/, 21];
-                    case 20:
-                        e_3 = _c.sent();
-                        console.log('error', e_3.message);
-                        return [3 /*break*/, 21];
-                    case 21: return [4 /*yield*/, this.wait(3000)];
-                    case 22:
-                        _c.sent();
-                        _c.label = 23;
-                    case 23:
-                        _b++;
-                        return [3 /*break*/, 17];
-                    case 24: return [2 /*return*/];
+                        return [3 /*break*/, 1];
+                    case 15: return [2 /*return*/];
                 }
             });
         });
     };
-    return Cfd;
+    return Jd_czl;
 }(TS_JDHelloWorld_1.JDHelloWorld));
-new Cfd().init().then();
+new Jd_czl().init().then();

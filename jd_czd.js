@@ -1,6 +1,6 @@
 "use strict";
 /**
- * cron: 15 8 * * *
+ * cron: 15 9,15 * * *
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {

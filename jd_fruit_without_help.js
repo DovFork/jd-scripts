@@ -139,7 +139,7 @@ var Jd_fruit = /** @class */ (function (_super) {
             return __generator(this, function (_h) {
                 switch (_h.label) {
                     case 0:
-                        _h.trys.push([0, 76, , 77]);
+                        _h.trys.push([0, 81, , 82]);
                         this.user = user;
                         this.user.UserAgent = "jdapp;iPhone;10.2.4;;;M/5.0;appBuild/167874;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         res = void 0, data = void 0;
@@ -361,7 +361,7 @@ var Jd_fruit = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 54:
                         _h.sent();
-                        return [4 /*yield*/, this.api('clockInInitForFarm', { "timestamp": Date.now(), "version": 18, "channel": 1, "babelChannel": "120" }, true)];
+                        return [4 /*yield*/, this.api('clockInInitForFarm', { "timestamp": Date.now(), "version": 18, "channel": 1, "babelChannel": "10" }, true)];
                     case 55:
                         res = _h.sent();
                         this.h5stTool = new h5st_1.H5ST('4a0b4', this.user.UserAgent, this.fp);
@@ -389,70 +389,88 @@ var Jd_fruit = /** @class */ (function (_super) {
                     case 61:
                         _d++;
                         return [3 /*break*/, 57];
-                    case 62: return [4 /*yield*/, this.api('friendListInitForFarm', { "lastId": null, "version": 18, "channel": 1, "babelChannel": "120" }, false)];
+                    case 62:
+                        if (!!res.todaySigned) return [3 /*break*/, 66];
+                        this.h5stTool = new h5st_1.H5ST('32b94', this.user.UserAgent, this.fp);
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 63:
+                        _h.sent();
+                        return [4 /*yield*/, this.api('clockInForFarm', { "type": 1, "version": 18, "channel": 1, "babelChannel": "10" }, true)];
+                    case 64:
+                        data = _h.sent();
+                        data.code === '0' ? console.log('签到成功', data.amount) : this.o2s(data, '签到失败');
+                        return [4 /*yield*/, this.wait(2000)];
+                    case 65:
+                        _h.sent();
+                        return [3 /*break*/, 67];
+                    case 66:
+                        console.log('已签到');
+                        _h.label = 67;
+                    case 67:
                         // 删除好友
-                        res = _h.sent();
                         this.h5stTool = new h5st_1.H5ST('eaf91', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 64:
+                    case 68:
                         _h.sent();
+                        return [4 /*yield*/, this.api('friendListInitForFarm', { "lastId": null, "version": 18, "channel": 1, "babelChannel": "120" }, false)];
+                    case 69:
+                        res = _h.sent();
                         _f = 0, _g = res.friends;
-                        _h.label = 65;
-                    case 65:
-                        if (!(_f < _g.length)) return [3 /*break*/, 69];
+                        _h.label = 70;
+                    case 70:
+                        if (!(_f < _g.length)) return [3 /*break*/, 74];
                         t = _g[_f];
                         return [4 /*yield*/, this.api('deleteFriendForFarm', { "shareCode": t.shareCode, "version": 18, "channel": 1, "babelChannel": "120" }, true)];
-                    case 66:
+                    case 71:
                         data = _h.sent();
                         if (data.code === '0') {
                             console.log("\u5220\u9664\u597D\u53CB ".concat(t.nickName, " \u6210\u529F"));
                         }
                         else {
                             console.log("\u5220\u9664\u5931\u8D25 ".concat(t.nickName, " \u5931\u8D25"), data);
-                            return [3 /*break*/, 69];
+                            return [3 /*break*/, 74];
                         }
                         return [4 /*yield*/, this.wait(2000)];
-                    case 67:
+                    case 72:
                         _h.sent();
-                        _h.label = 68;
-                    case 68:
+                        _h.label = 73;
+                    case 73:
                         _f++;
-                        return [3 /*break*/, 65];
-                    case 69:
+                        return [3 /*break*/, 70];
+                    case 74:
                         // 点鸭子
                         this.h5stTool = new h5st_1.H5ST('5c767', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 70:
+                    case 75:
                         _h.sent();
                         i = 0;
-                        _h.label = 71;
-                    case 71:
-                        if (!(i < 10)) return [3 /*break*/, 75];
+                        _h.label = 76;
+                    case 76:
+                        if (!(i < 10)) return [3 /*break*/, 80];
                         return [4 /*yield*/, this.api('getFullCollectionReward', { "type": 2, "version": 18, "channel": 1, "babelChannel": "120" }, true)];
-                    case 72:
+                    case 77:
                         data = _h.sent();
                         if (data.code === '0') {
                             data.title === '小鸭子为你带回了水滴' ? console.log(data.title, data.addWater) : console.log(data.title);
                         }
                         else if (data.code === '10' || data.hasLimit) {
                             console.log('鸭子上限');
-                            return [3 /*break*/, 75];
+                            return [3 /*break*/, 80];
                         }
                         return [4 /*yield*/, this.wait(5000)];
-                    case 73:
+                    case 78:
                         _h.sent();
-                        _h.label = 74;
-                    case 74:
+                        _h.label = 79;
+                    case 79:
                         i++;
-                        return [3 /*break*/, 71];
-                    case 75: return [3 /*break*/, 77];
-                    case 76:
+                        return [3 /*break*/, 76];
+                    case 80: return [3 /*break*/, 82];
+                    case 81:
                         e_2 = _h.sent();
                         console.log('error', e_2.message);
-                        return [3 /*break*/, 77];
-                    case 77: return [4 /*yield*/, this.wait(30000)];
-                    case 78:
+                        return [3 /*break*/, 82];
+                    case 82: return [4 /*yield*/, this.wait(30000)];
+                    case 83:
                         _h.sent();
                         return [2 /*return*/];
                 }

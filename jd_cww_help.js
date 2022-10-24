@@ -150,14 +150,14 @@ var Jd_cww_help = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.api('helpFriend', { "friendPin": code.UserName, "reqSource": "weapp" })];
                     case 5:
                         res = _c.sent();
+                        return [4 /*yield*/, this.wait(2000)];
+                    case 6:
+                        _c.sent();
                         console.log(res.errorCode);
                         if (res.errorCode === 'invite_full')
                             full.push(code.UserName);
                         if (res.errorCode === 'help_full')
                             return [3 /*break*/, 8];
-                        return [4 /*yield*/, this.wait(2000)];
-                    case 6:
-                        _c.sent();
                         _c.label = 7;
                     case 7:
                         _b++;

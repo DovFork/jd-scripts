@@ -183,248 +183,280 @@ var Cww = /** @class */ (function (_super) {
     };
     Cww.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, petFood, lastFeedTime, _i, _a, raceUser, _b, _c, t, _d, _e, followShops, _f, _g, followChannelList, _h, _j, scanMarketList, e_1;
-            return __generator(this, function (_k) {
-                switch (_k.label) {
+            var res, data, petFood, lastFeedTime, feedCount, _i, _a, t, _b, _c, raceUser, winCoin, _d, _e, t, _f, _g, followShops, _h, _j, followChannelList, _k, _l, scanMarketList, e_1;
+            return __generator(this, function (_m) {
+                switch (_m.label) {
                     case 0:
-                        _k.trys.push([0, 59, , 60]);
+                        _m.trys.push([0, 65, , 66]);
                         this.user = user;
                         this.user.UserAgent = "jdapp;iPhone;11.3.0;;;M/5.0;appBuild/167874;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         res = void 0, data = void 0;
                         this.h5stTool = new h5st_pro_1.H5ST('2bba1', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
-                        _k.sent();
+                        _m.sent();
                         return [4 /*yield*/, this.api('petEnterRoom', { "invitePin": "", "reqSource": "h5" })];
                     case 2:
-                        res = _k.sent();
+                        res = _m.sent();
                         this.o2s(res, 'petEnterRoom');
                         petFood = res.data.petFood;
                         lastFeedTime = res.data.lastFeedTime;
                         console.log('狗粮', petFood);
                         console.log('lastFeedTime', (0, date_fns_1.format)(lastFeedTime, "yyyy-MM-dd HH:mm:ss"));
-                        if (!((0, date_fns_1.differenceInMinutes)(Date.now(), lastFeedTime) > 180)) return [3 /*break*/, 6];
+                        feedCount = 0;
+                        for (_i = 0, _a = [10, 20, 40, 80]; _i < _a.length; _i++) {
+                            t = _a[_i];
+                            if (petFood < t) {
+                                break;
+                            }
+                            else {
+                                feedCount = t;
+                            }
+                        }
+                        if (!((0, date_fns_1.differenceInMinutes)(Date.now(), lastFeedTime) > 180 && feedCount)) return [3 /*break*/, 6];
                         this.h5stTool = new h5st_pro_1.H5ST('15dc2', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 3:
-                        _k.sent();
-                        return [4 /*yield*/, this.beforeApi('feed', { "feedCount": "10", "reqSource": "h5" })];
+                        _m.sent();
+                        return [4 /*yield*/, this.beforeApi('feed', { "feedCount": feedCount, "reqSource": "h5" })];
                     case 4:
-                        res = _k.sent();
+                        res = _m.sent();
                         console.log(res.errorCode);
                         return [4 /*yield*/, this.wait(3000)];
                     case 5:
-                        _k.sent();
-                        _k.label = 6;
+                        _m.sent();
+                        _m.label = 6;
                     case 6: return [4 /*yield*/, this.beforeApi('combatDetail', { "help": false, "reqSource": "h5" })];
                     case 7:
-                        res = _k.sent();
+                        res = _m.sent();
                         this.o2s(res, 'combatDetail');
                         if (!(res.data.petRaceResult === 'participate')) return [3 /*break*/, 8];
                         console.log('比赛中');
-                        for (_i = 0, _a = res.data.raceUsers; _i < _a.length; _i++) {
-                            raceUser = _a[_i];
+                        for (_b = 0, _c = res.data.raceUsers; _b < _c.length; _b++) {
+                            raceUser = _c[_b];
                             raceUser.myself
                                 ? console.log(raceUser.nickName, raceUser.distance)
                                 : console.log('对手', raceUser.distance);
                         }
-                        return [3 /*break*/, 15];
+                        return [3 /*break*/, 18];
                     case 8:
                         if (!(res.data.petRaceResult === 'not_participate')) return [3 /*break*/, 15];
                         console.log('开始匹配');
                         this.h5stTool = new h5st_pro_1.H5ST('79b06', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 9:
-                        _k.sent();
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIcon', { "code": "1624363341529274068136", "iconCode": "race_match", "reqSource": "h5" })];
                     case 10:
-                        data = _k.sent();
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('d91e0', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 11:
-                        _k.sent();
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIconNew', { "iconCode": "race_match", "reqSource": "h5" })];
                     case 12:
-                        data = _k.sent();
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('6f192', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 13:
-                        _k.sent();
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('combatMatch', { "teamLevel": "2", "reqSource": "h5" })];
                     case 14:
-                        data = _k.sent();
+                        data = _m.sent();
                         this.o2s(data, 'combatMatch');
-                        _k.label = 15;
+                        return [3 /*break*/, 18];
                     case 15:
-                        this.h5stTool = new h5st_pro_1.H5ST('922a5', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
+                        if (!(res.data.petRaceResult === 'unreceive')) return [3 /*break*/, 18];
+                        winCoin = res.data.winCoin;
+                        this.h5stTool = new h5st_pro_1.H5ST('04889', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 16:
-                        _k.sent();
-                        return [4 /*yield*/, this.api('petGetPetTaskConfig', { "reqSource": "h5" })];
+                        _m.sent();
+                        return [4 /*yield*/, this.beforeApi('combatReceive', { "reqSource": "h5" })];
                     case 17:
-                        res = _k.sent();
+                        data = _m.sent();
+                        console.log('赛跑获胜', winCoin);
+                        _m.label = 18;
+                    case 18:
+                        this.h5stTool = new h5st_pro_1.H5ST('922a5', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
+                    case 19:
+                        _m.sent();
+                        return [4 /*yield*/, this.api('petGetPetTaskConfig', { "reqSource": "h5" })];
+                    case 20:
+                        res = _m.sent();
                         this.o2s(res, 'petGetPetTaskConfig');
                         return [4 /*yield*/, this.wait(2000)];
-                    case 18:
-                        _k.sent();
-                        _b = 0, _c = res.datas;
-                        _k.label = 19;
-                    case 19:
-                        if (!(_b < _c.length)) return [3 /*break*/, 58];
-                        t = _c[_b];
-                        if (!t.followShops) return [3 /*break*/, 32];
+                    case 21:
+                        _m.sent();
+                        _d = 0, _e = res.datas;
+                        _m.label = 22;
+                    case 22:
+                        if (!(_d < _e.length)) return [3 /*break*/, 64];
+                        t = _e[_d];
+                        if (!t.followShops) return [3 /*break*/, 35];
                         this.h5stTool = new h5st_pro_1.H5ST('79b06', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 20:
-                        _k.sent();
+                    case 23:
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIcon', { "code": "1624363341529274068136", "iconCode": "follow_shop", "reqSource": "h5" })];
-                    case 21:
-                        data = _k.sent();
+                    case 24:
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('d91e0', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 22:
-                        _k.sent();
+                    case 25:
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIconNew', { "iconCode": "follow_shop", "reqSource": "h5" })];
-                    case 23:
-                        data = _k.sent();
-                        _d = 0, _e = t.followShops;
-                        _k.label = 24;
-                    case 24:
-                        if (!(_d < _e.length)) return [3 /*break*/, 32];
-                        followShops = _e[_d];
+                    case 26:
+                        data = _m.sent();
+                        _f = 0, _g = t.followShops;
+                        _m.label = 27;
+                    case 27:
+                        if (!(_f < _g.length)) return [3 /*break*/, 35];
+                        followShops = _g[_f];
                         if (followShops.status)
-                            return [3 /*break*/, 31];
+                            return [3 /*break*/, 34];
                         console.log(t.taskName, followShops.name);
                         this.h5stTool = new h5st_pro_1.H5ST('79b06', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 25:
-                        _k.sent();
+                    case 28:
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIcon', { "code": "1624363341529274068136", "iconCode": "follow_shop", "linkAddr": followShops.shopId.toString(), "reqSource": "h5" })];
-                    case 26:
-                        data = _k.sent();
+                    case 29:
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('d91e0', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 27:
-                        _k.sent();
+                    case 30:
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIconNew', { "iconCode": "follow_shop", "linkAddr": followShops.shopId.toString(), "reqSource": "h5" })];
-                    case 28:
-                        data = _k.sent();
+                    case 31:
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('30717', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 29:
-                        _k.sent();
-                        return [4 /*yield*/, this.api('followShopColor', { 'shopId': followShops.shopId.toString(), 'reqSource': 'h5' })];
-                    case 30:
-                        data = _k.sent();
-                        console.log('followShopColor', data.errorCode);
-                        _k.label = 31;
-                    case 31:
-                        _d++;
-                        return [3 /*break*/, 24];
                     case 32:
-                        if (!t.followChannelList) return [3 /*break*/, 47];
+                        _m.sent();
+                        return [4 /*yield*/, this.api('followShopColor', { 'shopId': followShops.shopId.toString(), 'reqSource': 'h5' })];
+                    case 33:
+                        data = _m.sent();
+                        console.log('followShopColor', data.errorCode);
+                        _m.label = 34;
+                    case 34:
+                        _f++;
+                        return [3 /*break*/, 27];
+                    case 35:
+                        if (!t.followChannelList) return [3 /*break*/, 50];
                         this.h5stTool = new h5st_pro_1.H5ST('d91e0', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 33:
-                        _k.sent();
+                    case 36:
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIconNew', { "iconCode": "follow_channel", "reqSource": "h5" })];
-                    case 34:
-                        data = _k.sent();
+                    case 37:
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('5f8cb', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 35:
-                        _k.sent();
-                        return [4 /*yield*/, this.api('getFollowChannels', { "reqSource": "h5" })];
-                    case 36:
-                        data = _k.sent();
-                        return [4 /*yield*/, this.wait(1000)];
-                    case 37:
-                        _k.sent();
-                        _f = 0, _g = t.followChannelList;
-                        _k.label = 38;
                     case 38:
-                        if (!(_f < _g.length)) return [3 /*break*/, 47];
-                        followChannelList = _g[_f];
+                        _m.sent();
+                        return [4 /*yield*/, this.api('getFollowChannels', { "reqSource": "h5" })];
+                    case 39:
+                        data = _m.sent();
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 40:
+                        _m.sent();
+                        _h = 0, _j = t.followChannelList;
+                        _m.label = 41;
+                    case 41:
+                        if (!(_h < _j.length)) return [3 /*break*/, 50];
+                        followChannelList = _j[_h];
                         if (followChannelList.status)
-                            return [3 /*break*/, 46];
+                            return [3 /*break*/, 49];
                         console.log(t.taskName, followChannelList.channelName);
                         this.h5stTool = new h5st_pro_1.H5ST('79b06', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 39:
-                        _k.sent();
+                    case 42:
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIcon', { "code": "1624363341529274068136", "iconCode": "follow_channel", "linkAddr": followChannelList.channelId, "reqSource": "h5" })];
-                    case 40:
-                        data = _k.sent();
+                    case 43:
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('d91e0', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 41:
-                        _k.sent();
+                    case 44:
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIconNew', { "code": "1624363341529274068136", "iconCode": "follow_channel", "linkAddr": followChannelList.channelId, "reqSource": "h5" })];
-                    case 42:
-                        data = _k.sent();
+                    case 45:
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('30717', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 43:
-                        _k.sent();
+                    case 46:
+                        _m.sent();
                         return [4 /*yield*/, this.api('scan', { 'channelId': followChannelList.channelId, 'taskType': 'FollowChannel', 'sid': '66594924', 'reqSource': 'h5' })];
-                    case 44:
-                        data = _k.sent();
+                    case 47:
+                        data = _m.sent();
                         console.log('scan', data.errorCode);
                         return [4 /*yield*/, this.wait(5000)];
-                    case 45:
-                        _k.sent();
-                        _k.label = 46;
-                    case 46:
-                        _f++;
-                        return [3 /*break*/, 38];
-                    case 47:
-                        if (!t.scanMarketList) return [3 /*break*/, 57];
-                        _h = 0, _j = t.scanMarketList;
-                        _k.label = 48;
                     case 48:
-                        if (!(_h < _j.length)) return [3 /*break*/, 57];
-                        scanMarketList = _j[_h];
+                        _m.sent();
+                        _m.label = 49;
+                    case 49:
+                        _h++;
+                        return [3 /*break*/, 41];
+                    case 50:
+                        if (!t.scanMarketList) return [3 /*break*/, 60];
+                        _k = 0, _l = t.scanMarketList;
+                        _m.label = 51;
+                    case 51:
+                        if (!(_k < _l.length)) return [3 /*break*/, 60];
+                        scanMarketList = _l[_k];
                         if (scanMarketList.status)
-                            return [3 /*break*/, 56];
+                            return [3 /*break*/, 59];
                         console.log(t.taskName, scanMarketList.marketName);
                         this.h5stTool = new h5st_pro_1.H5ST('79b06', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 49:
-                        _k.sent();
+                    case 52:
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIcon', { "code": "1624363341529274068136", "iconCode": "scan_market", "linkAddr": scanMarketList.marketLinkH5, "reqSource": "h5" })];
-                    case 50:
-                        data = _k.sent();
+                    case 53:
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('d91e0', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 51:
-                        _k.sent();
+                    case 54:
+                        _m.sent();
                         return [4 /*yield*/, this.beforeApi('clickIconNew', { "iconCode": "scan_market", "linkAddr": scanMarketList.marketLinkH5, "reqSource": "h5" })];
-                    case 52:
-                        data = _k.sent();
+                    case 55:
+                        data = _m.sent();
                         this.h5stTool = new h5st_pro_1.H5ST('30717', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 53:
-                        _k.sent();
+                    case 56:
+                        _m.sent();
                         return [4 /*yield*/, this.api('scan', { "marketLink": scanMarketList.marketLinkH5, "marketId": scanMarketList.marketLinkH5, "taskType": "ScanMarket", "sid": "66594924", "reqSource": "h5" })];
-                    case 54:
-                        data = _k.sent();
+                    case 57:
+                        data = _m.sent();
                         console.log('scanMarketList', data.errorCode);
                         return [4 /*yield*/, this.wait(5000)];
-                    case 55:
-                        _k.sent();
-                        _k.label = 56;
-                    case 56:
-                        _h++;
-                        return [3 /*break*/, 48];
-                    case 57:
-                        _b++;
-                        return [3 /*break*/, 19];
-                    case 58: return [3 /*break*/, 60];
+                    case 58:
+                        _m.sent();
+                        _m.label = 59;
                     case 59:
-                        e_1 = _k.sent();
+                        _k++;
+                        return [3 /*break*/, 51];
+                    case 60:
+                        if (!(t.receiveStatus === 'unreceive')) return [3 /*break*/, 63];
+                        return [4 /*yield*/, this.api('getFood', { "taskType": t.taskType, "reqSource": "h5" })];
+                    case 61:
+                        data = _m.sent();
+                        console.log('领取奖励', t.taskName, data.data);
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 62:
+                        _m.sent();
+                        _m.label = 63;
+                    case 63:
+                        _d++;
+                        return [3 /*break*/, 22];
+                    case 64: return [3 /*break*/, 66];
+                    case 65:
+                        e_1 = _m.sent();
                         console.log(e_1.message);
-                        return [3 /*break*/, 60];
-                    case 60: return [2 /*return*/];
+                        return [3 /*break*/, 66];
+                    case 66: return [2 /*return*/];
                 }
             });
         });

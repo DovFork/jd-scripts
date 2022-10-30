@@ -148,11 +148,11 @@ var Jd_fruit = /** @class */ (function (_super) {
     Jd_fruit.prototype.main = function (user) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, totalEnergy, _i, _b, t, i, i, _c, _d, t, friendList, i, _e, _f, t, _g, _h, t, _j, _k, t, i, e_2;
+            var res, data, totalEnergy, _i, _b, t, i, i, _c, _d, t, friendList, finishCount, _e, _f, t, _g, _h, t, _j, _k, t, i, e_2;
             return __generator(this, function (_l) {
                 switch (_l.label) {
                     case 0:
-                        _l.trys.push([0, 105, , 106]);
+                        _l.trys.push([0, 97, , 98]);
                         this.user = user;
                         this.user.UserAgent = "jdapp;iPhone;11.3.0;;;M/5.0;appBuild/168341;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         res = void 0, data = void 0;
@@ -269,38 +269,19 @@ var Jd_fruit = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.api('taskInitForFarm', { "version": 18, "channel": 1, "babelChannel": "10" })];
                     case 30:
                         res = _l.sent();
-                        if (!!((_a = res['treasureBoxInit-getBean']) === null || _a === void 0 ? void 0 : _a.f)) return [3 /*break*/, 36];
-                        this.h5stTool = new h5st_1.H5ST('67dfc', this.user.UserAgent, this.fp);
+                        if (!((_a = res['treasureBoxInit-getBean']) === null || _a === void 0 ? void 0 : _a.f)) {
+                        }
+                        if (!!res.totalWaterTaskInit.f) return [3 /*break*/, 39];
+                        this.h5stTool = new h5st_1.H5ST('0c010', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 31:
                         _l.sent();
-                        return [4 /*yield*/, this.api('ddnc_getTreasureBoxAward', { "type": 1, "babelChannel": "10", "line": "getBean", "version": 18, "channel": 1 })];
-                    case 32:
-                        data = _l.sent();
-                        return [4 /*yield*/, this.wait(2000)];
-                    case 33:
-                        _l.sent();
-                        return [4 /*yield*/, this.api('farmMarkStatus', { "version": 18, "channel": 1, "babelChannel": "98" })];
-                    case 34:
-                        data = _l.sent();
-                        return [4 /*yield*/, this.api('ddnc_getTreasureBoxAward', { "type": 2, "babelChannel": "98", "line": "getBean", "version": 18, "channel": 1 })];
-                    case 35:
-                        data = _l.sent();
-                        this.o2s(data);
-                        data.code === '0' && console.log('ddnc_getTreasureBoxAward 💧', data.waterGram);
-                        _l.label = 36;
-                    case 36:
-                        if (!!res.totalWaterTaskInit.f) return [3 /*break*/, 45];
-                        this.h5stTool = new h5st_1.H5ST('0c010', this.user.UserAgent, this.fp);
-                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 37:
-                        _l.sent();
                         i = 0;
-                        _l.label = 38;
-                    case 38:
-                        if (!(i < 10 - res.totalWaterTaskTimes)) return [3 /*break*/, 42];
+                        _l.label = 32;
+                    case 32:
+                        if (!(i < 10 - res.totalWaterTaskTimes)) return [3 /*break*/, 36];
                         return [4 /*yield*/, this.api('waterGoodForFarm', { "type": "", "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 39:
+                    case 33:
                         data = _l.sent();
                         if (data.code === '0') {
                             console.log('💧', data.totalEnergy);
@@ -308,266 +289,263 @@ var Jd_fruit = /** @class */ (function (_super) {
                         }
                         else {
                             console.log('浇水失败', data);
-                            return [3 /*break*/, 42];
+                            return [3 /*break*/, 36];
                         }
                         return [4 /*yield*/, this.wait(5000)];
-                    case 40:
+                    case 34:
                         _l.sent();
-                        _l.label = 41;
-                    case 41:
+                        _l.label = 35;
+                    case 35:
                         i++;
-                        return [3 /*break*/, 38];
-                    case 42:
+                        return [3 /*break*/, 32];
+                    case 36:
                         this.h5stTool = new h5st_1.H5ST('102f5', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 43:
+                    case 37:
                         _l.sent();
                         return [4 /*yield*/, this.api('totalWaterTaskForFarm', { "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 44:
+                    case 38:
                         data = _l.sent();
                         data.code === '0' && console.log('十次奖励💧', data.totalWaterTaskEnergy);
-                        _l.label = 45;
-                    case 45:
-                        if (!(!res.firstWaterInit.f && res.firstWaterInit.totalWaterTimes)) return [3 /*break*/, 48];
+                        _l.label = 39;
+                    case 39:
+                        if (!(!res.firstWaterInit.f && res.firstWaterInit.totalWaterTimes)) return [3 /*break*/, 42];
                         this.h5stTool = new h5st_1.H5ST('0cf1e', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 46:
+                    case 40:
                         _l.sent();
                         return [4 /*yield*/, this.api('firstWaterTaskForFarm', { "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 47:
+                    case 41:
                         data = _l.sent();
                         data.code === '0' && console.log('首次奖励💧', data.amount);
-                        _l.label = 48;
-                    case 48:
-                        if (!!res.gotThreeMealInit.f) return [3 /*break*/, 51];
-                        if (!![10, 15, 16, 22, 23].includes(new Date().getHours())) return [3 /*break*/, 51];
+                        _l.label = 42;
+                    case 42:
+                        if (!!res.gotThreeMealInit.f) return [3 /*break*/, 45];
+                        if (!![10, 15, 16, 22, 23].includes(new Date().getHours())) return [3 /*break*/, 45];
                         return [4 /*yield*/, this.api('gotThreeMealForFarm', { "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 49:
+                    case 43:
                         data = _l.sent();
                         data.code === '0' && console.log('定时奖励💧', data.amount);
                         return [4 /*yield*/, this.wait(1000)];
-                    case 50:
+                    case 44:
                         _l.sent();
-                        _l.label = 51;
-                    case 51:
-                        if (!!res.gotBrowseTaskAdInit.f) return [3 /*break*/, 59];
+                        _l.label = 45;
+                    case 45:
+                        if (!!res.gotBrowseTaskAdInit.f) return [3 /*break*/, 53];
                         this.h5stTool = new h5st_1.H5ST('53f09', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 52:
+                    case 46:
                         _l.sent();
                         _c = 0, _d = res.gotBrowseTaskAdInit.userBrowseTaskAds;
-                        _l.label = 53;
-                    case 53:
-                        if (!(_c < _d.length)) return [3 /*break*/, 59];
+                        _l.label = 47;
+                    case 47:
+                        if (!(_c < _d.length)) return [3 /*break*/, 53];
                         t = _d[_c];
-                        if (!(t.hadFinishedTimes !== t.limit)) return [3 /*break*/, 58];
+                        if (!(t.hadFinishedTimes !== t.limit)) return [3 /*break*/, 52];
                         console.log(t.mainTitle);
                         return [4 /*yield*/, this.api('browseAdTaskForFarm', { "advertId": t.advertId, "type": 0, "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 54:
+                    case 48:
                         data = _l.sent();
                         data.code === '0' && console.log('任务完成');
                         return [4 /*yield*/, this.wait(t.time * 1000 || 2000)];
-                    case 55:
+                    case 49:
                         _l.sent();
                         return [4 /*yield*/, this.api('browseAdTaskForFarm', { "advertId": t.advertId, "type": 1, "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 56:
+                    case 50:
                         data = _l.sent();
                         data.code === '0' && console.log('领奖成功💧', data.amount);
                         return [4 /*yield*/, this.wait(1000)];
-                    case 57:
+                    case 51:
                         _l.sent();
-                        _l.label = 58;
-                    case 58:
+                        _l.label = 52;
+                    case 52:
                         _c++;
-                        return [3 /*break*/, 53];
-                    case 59:
-                        if (!!res.waterRainInit.f) return [3 /*break*/, 63];
-                        if (!(!res.waterRainInit.lastTime || Date.now() > (0, date_fns_1.getTime)((0, date_fns_1.addHours)(res.lastTime, 4)))) return [3 /*break*/, 63];
+                        return [3 /*break*/, 47];
+                    case 53:
+                        if (!!res.waterRainInit.f) return [3 /*break*/, 57];
+                        if (!(!res.waterRainInit.lastTime || Date.now() > (0, date_fns_1.getTime)((0, date_fns_1.addHours)(res.lastTime, 4)))) return [3 /*break*/, 57];
                         this.h5stTool = new h5st_1.H5ST('9983a', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 60:
+                    case 54:
                         _l.sent();
                         return [4 /*yield*/, this.api('waterRainForFarm', { "type": 1, "hongBaoTimes": 99, "version": 14, "channel": 1 })];
-                    case 61:
+                    case 55:
                         data = _l.sent();
                         data.code === '0' && console.log('红包雨💧', data.addEnergy);
                         return [4 /*yield*/, this.wait(1000)];
-                    case 62:
+                    case 56:
                         _l.sent();
-                        _l.label = 63;
-                    case 63:
-                        if (!!res.waterFriendTaskInit.f) return [3 /*break*/, 77];
+                        _l.label = 57;
+                    case 57:
+                        if (!!res.waterFriendTaskInit.f) return [3 /*break*/, 69];
                         return [4 /*yield*/, this.friendListInitForFarm()];
-                    case 64:
+                    case 58:
                         friendList = _l.sent();
-                        i = 0;
-                        _l.label = 65;
-                    case 65:
-                        if (!(i < 2 - res.waterFriendTaskInit.waterFriendCountKey)) return [3 /*break*/, 74];
+                        finishCount = 0;
                         _e = 0, _f = friendList.friends;
-                        _l.label = 66;
-                    case 66:
-                        if (!(_e < _f.length)) return [3 /*break*/, 73];
+                        _l.label = 59;
+                    case 59:
+                        if (!(_e < _f.length)) return [3 /*break*/, 66];
                         t = _f[_e];
-                        if (!(t.friendState === 1)) return [3 /*break*/, 72];
+                        if (!(t.friendState === 1)) return [3 /*break*/, 65];
                         console.log("\u5E2E\u597D\u53CB ".concat(t.nickName, " ").concat(t.shareCode, " \u6D47\u6C34"));
                         this.h5stTool = new h5st_1.H5ST('a5a9c', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 67:
+                    case 60:
                         _l.sent();
                         return [4 /*yield*/, this.api('friendInitForFarm', { "shareCode": t.shareCode, "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 68:
+                    case 61:
                         _l.sent();
                         this.h5stTool = new h5st_1.H5ST('673a0', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 69:
+                    case 62:
                         _l.sent();
                         return [4 /*yield*/, this.api('waterFriendForFarm', { "shareCode": t.shareCode, "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 70:
+                    case 63:
                         data = _l.sent();
                         if (data.code === '0') {
                             console.log('帮助成功');
+                            finishCount++;
                         }
                         else {
                             this.o2s(data, '帮助失败');
-                            return [3 /*break*/, 73];
+                            return [3 /*break*/, 66];
                         }
                         return [4 /*yield*/, this.wait(2000)];
-                    case 71:
+                    case 64:
                         _l.sent();
-                        _l.label = 72;
-                    case 72:
+                        if (finishCount === 2)
+                            return [3 /*break*/, 66];
+                        _l.label = 65;
+                    case 65:
                         _e++;
-                        return [3 /*break*/, 66];
-                    case 73:
-                        i++;
-                        return [3 /*break*/, 65];
-                    case 74:
+                        return [3 /*break*/, 59];
+                    case 66:
                         this.h5stTool = new h5st_1.H5ST('d08ff', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 75:
+                    case 67:
                         _l.sent();
                         return [4 /*yield*/, this.api('waterFriendGotAwardForFarm', { "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 76:
+                    case 68:
                         data = _l.sent();
                         console.log('帮好友浇水奖励💧', data.addWater);
-                        _l.label = 77;
-                    case 77:
+                        _l.label = 69;
+                    case 69:
                         // 签到页面
                         this.h5stTool = new h5st_1.H5ST('08dc3', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 78:
+                    case 70:
                         _l.sent();
                         return [4 /*yield*/, this.api('clockInInitForFarm', { "timestamp": Date.now(), "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 79:
+                    case 71:
                         res = _l.sent();
                         this.h5stTool = new h5st_1.H5ST('4a0b4', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 80:
+                    case 72:
                         _l.sent();
                         _g = 0, _h = res.themes || [];
-                        _l.label = 81;
-                    case 81:
-                        if (!(_g < _h.length)) return [3 /*break*/, 86];
+                        _l.label = 73;
+                    case 73:
+                        if (!(_g < _h.length)) return [3 /*break*/, 78];
                         t = _h[_g];
-                        if (!!t.hadGot) return [3 /*break*/, 85];
+                        if (!!t.hadGot) return [3 /*break*/, 77];
                         console.log(t.name);
                         return [4 /*yield*/, this.api('clockInFollowForFarm', { "id": t.id, "type": "theme", "step": 1, "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 82:
+                    case 74:
                         _l.sent();
                         return [4 /*yield*/, this.wait(1000)];
-                    case 83:
+                    case 75:
                         _l.sent();
                         return [4 /*yield*/, this.api('clockInFollowForFarm', { "id": t.id, "type": "theme", "step": 2, "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 84:
+                    case 76:
                         data = _l.sent();
                         data.code === '0' && console.log('关注成功💧', data.amount);
-                        _l.label = 85;
-                    case 85:
+                        _l.label = 77;
+                    case 77:
                         _g++;
-                        return [3 /*break*/, 81];
-                    case 86:
-                        if (!!res.todaySigned) return [3 /*break*/, 90];
+                        return [3 /*break*/, 73];
+                    case 78:
+                        if (!!res.todaySigned) return [3 /*break*/, 82];
                         this.h5stTool = new h5st_1.H5ST('32b94', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 87:
+                    case 79:
                         _l.sent();
                         return [4 /*yield*/, this.api('clockInForFarm', { "type": 1, "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 88:
+                    case 80:
                         data = _l.sent();
                         data.code === '0' ? console.log('签到成功', data.amount) : this.o2s(data, '签到失败');
                         return [4 /*yield*/, this.wait(2000)];
-                    case 89:
+                    case 81:
                         _l.sent();
-                        return [3 /*break*/, 91];
-                    case 90:
+                        return [3 /*break*/, 83];
+                    case 82:
                         console.log('已签到');
-                        _l.label = 91;
-                    case 91:
+                        _l.label = 83;
+                    case 83:
                         // 删除好友
                         this.h5stTool = new h5st_1.H5ST('eaf91', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 92:
+                    case 84:
                         _l.sent();
                         return [4 /*yield*/, this.friendListInitForFarm()];
-                    case 93:
+                    case 85:
                         res = _l.sent();
                         _j = 0, _k = res.friends;
-                        _l.label = 94;
-                    case 94:
-                        if (!(_j < _k.length)) return [3 /*break*/, 98];
+                        _l.label = 86;
+                    case 86:
+                        if (!(_j < _k.length)) return [3 /*break*/, 90];
                         t = _k[_j];
                         return [4 /*yield*/, this.api('deleteFriendForFarm', { "shareCode": t.shareCode, "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 95:
+                    case 87:
                         data = _l.sent();
                         if (data.code === '0') {
                             console.log("\u5220\u9664\u597D\u53CB ".concat(t.nickName, " \u6210\u529F"));
                         }
                         else {
                             console.log("\u5220\u9664\u5931\u8D25 ".concat(t.nickName, " \u5931\u8D25"), data);
-                            return [3 /*break*/, 98];
+                            return [3 /*break*/, 90];
                         }
                         return [4 /*yield*/, this.wait(2000)];
-                    case 96:
+                    case 88:
                         _l.sent();
-                        _l.label = 97;
-                    case 97:
+                        _l.label = 89;
+                    case 89:
                         _j++;
-                        return [3 /*break*/, 94];
-                    case 98:
+                        return [3 /*break*/, 86];
+                    case 90:
                         // 点鸭子
                         this.h5stTool = new h5st_1.H5ST('5c767', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
-                    case 99:
+                    case 91:
                         _l.sent();
                         i = 0;
-                        _l.label = 100;
-                    case 100:
-                        if (!(i < 10)) return [3 /*break*/, 104];
+                        _l.label = 92;
+                    case 92:
+                        if (!(i < 10)) return [3 /*break*/, 96];
                         return [4 /*yield*/, this.api('getFullCollectionReward', { "type": 2, "version": 18, "channel": 1, "babelChannel": "10" })];
-                    case 101:
+                    case 93:
                         data = _l.sent();
                         if (data.code === '0') {
                             data.title === '小鸭子为你带回了水滴' ? console.log(data.title, data.addWater) : console.log(data.title);
                         }
                         else if (data.code === '10' || data.hasLimit) {
                             console.log('鸭子上限');
-                            return [3 /*break*/, 104];
+                            return [3 /*break*/, 96];
                         }
                         return [4 /*yield*/, this.wait(5000)];
-                    case 102:
+                    case 94:
                         _l.sent();
-                        _l.label = 103;
-                    case 103:
+                        _l.label = 95;
+                    case 95:
                         i++;
-                        return [3 /*break*/, 100];
-                    case 104: return [3 /*break*/, 106];
-                    case 105:
+                        return [3 /*break*/, 92];
+                    case 96: return [3 /*break*/, 98];
+                    case 97:
                         e_2 = _l.sent();
                         console.log('error', e_2.message);
-                        return [3 /*break*/, 106];
-                    case 106: return [4 /*yield*/, this.wait(30000)];
-                    case 107:
+                        return [3 /*break*/, 98];
+                    case 98: return [4 /*yield*/, this.wait(30000)];
+                    case 99:
                         _l.sent();
                         return [2 /*return*/];
                 }

@@ -175,8 +175,10 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         this.shareCodeSelf.push(res.data.shareId);
                         return [4 /*yield*/, this.task('GetUserTaskStatusList', {})];
                     case 3:
+                        // res = await this.task('prmt_exchange/client/exchange', {'ruleId': '1848d61655f979f8eac0dd36235586ba'})
+                        // this.o2s(res, 'exchange 0.3')
+                        // return
                         res = _b.sent();
-                        this.o2s(res);
                         _i = 0, _a = res.data.userTaskStatusList;
                         _b.label = 4;
                     case 4:
@@ -213,64 +215,75 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
     };
     Jd_makemoneyshop.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var _i, users_1, user, res, shareCode, shareCodeHW, _a, shareCode_1, code, e_3;
+            var res, shareCode, shareCodeHW, _i, users_1, user, _a, shareCode_1, code, e_3;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
+                        shareCode = [], shareCodeHW = [];
                         _i = 0, users_1 = users;
                         _b.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 12];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 14];
                         user = users_1[_i];
                         this.user = user;
                         if (this.black.includes(this.user.UserName)) {
                             console.log('黑号');
-                            return [3 /*break*/, 11];
+                            return [3 /*break*/, 13];
                         }
                         this.user.UserAgent = "jdltapp;iPhone;4.2.2;Mozilla/5.0 (iPhone; CPU iPhone OS 15_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)";
-                        res = void 0, shareCode = [], shareCodeHW = [];
-                        this.o2s(this.shareCodeSelf, '内部助力');
-                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.getshareCodeHW('zqdyj')];
+                        this.h5stTool = new h5st_pro_1.H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName);
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 2:
-                        shareCodeHW = _b.sent();
-                        _b.label = 3;
+                        _b.sent();
+                        this.o2s(this.shareCodeSelf, '内部助力');
+                        if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.getshareCodeHW('zqdyj')];
                     case 3:
+                        shareCodeHW = _b.sent();
+                        _b.label = 4;
+                    case 4:
                         if (user.index === 0) {
                             shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true)));
                         }
                         else {
                             shareCode = Array.from(new Set(__spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true)));
                         }
-                        _b.label = 4;
-                    case 4:
-                        _b.trys.push([4, 10, , 11]);
-                        _a = 0, shareCode_1 = shareCode;
                         _b.label = 5;
                     case 5:
-                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 9];
+                        _b.trys.push([5, 12, , 13]);
+                        _a = 0, shareCode_1 = shareCode;
+                        _b.label = 6;
+                    case 6:
+                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 11];
                         code = shareCode_1[_a];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
                         return [4 /*yield*/, this.api('querysharevenderinfo', 'activeId,shareId', { activeId: '63526d8f5fe613a6adb48f03', shareId: code })];
-                    case 6:
-                        res = _b.sent();
-                        console.log('助力结果', res.data.guestInfo.guestErrMsg);
-                        return [4 /*yield*/, this.wait(2000)];
                     case 7:
-                        _b.sent();
-                        _b.label = 8;
+                        res = _b.sent();
+                        console.log('获取信息', res.data.guestInfo.guestErrMsg);
+                        if (res.data.guestInfo.guestErrMsg === '天助力次数限制') {
+                            return [3 /*break*/, 11];
+                        }
+                        return [4 /*yield*/, this.api('guesthelp', 'activeId,shareId', { activeId: '63526d8f5fe613a6adb48f03', shareId: code })];
                     case 8:
-                        _a++;
-                        return [3 /*break*/, 5];
-                    case 9: return [3 /*break*/, 11];
+                        res = _b.sent();
+                        this.o2s(res);
+                        return [4 /*yield*/, this.wait(2000)];
+                    case 9:
+                        _b.sent();
+                        _b.label = 10;
                     case 10:
+                        _a++;
+                        return [3 /*break*/, 6];
+                    case 11: return [3 /*break*/, 13];
+                    case 12:
                         e_3 = _b.sent();
                         console.log('error', e_3.message);
-                        return [3 /*break*/, 11];
-                    case 11:
+                        return [3 /*break*/, 13];
+                    case 13:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 12: return [2 /*return*/];
+                    case 14: return [2 /*return*/];
                 }
             });
         });

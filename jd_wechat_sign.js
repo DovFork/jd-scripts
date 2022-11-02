@@ -56,7 +56,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var h5st_3_1_1 = require("./utils/h5st_3.1");
+var h5st_pro_1 = require("./utils/h5st_pro");
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Jd_wechat_sign = /** @class */ (function (_super) {
     __extends(Jd_wechat_sign, _super);
@@ -64,12 +64,32 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
         return _super.call(this, "微信签到") || this;
     }
     Jd_wechat_sign.prototype.init = function () {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(this)];
-                    case 1:
-                        _a.sent();
+            var _b, _c, e_1;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _d.trys.push([0, 4, , 5]);
+                        _b = this;
+                        if (!((_a = process.env.FP_9A38A) !== null && _a !== void 0)) return [3 /*break*/, 1];
+                        _c = _a;
+                        return [3 /*break*/, 3];
+                    case 1: return [4 /*yield*/, this.getFp()];
+                    case 2:
+                        _c = _d.sent();
+                        _d.label = 3;
+                    case 3:
+                        _b.fp = _c;
+                        return [3 /*break*/, 5];
+                    case 4:
+                        e_1 = _d.sent();
+                        console.log('FP Error: ', e_1.message);
+                        process.exit(0);
+                        return [3 /*break*/, 5];
+                    case 5: return [4 /*yield*/, this.run(this)];
+                    case 6:
+                        _d.sent();
                         return [2 /*return*/];
                 }
             });
@@ -84,14 +104,14 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
                             'appid': 'hot_channel',
                             'body': JSON.stringify(body),
                             'client': 'apple',
-                            'clientVersion': '7.21.190',
+                            'clientVersion': '7.22.240',
                             'functionId': "SignComponent_".concat(fn)
                         })];
                     case 1:
                         h5st = _a.sent();
                         temp = fn !== 'startScanTask' ? 'signTask' : 'scanTask';
                         fnId = fn !== 'startScanTask' ? fn : 'doScanTask';
-                        return [2 /*return*/, this.post("https://api.m.jd.com/".concat(temp, "/").concat(fn), "client=apple&clientVersion=7.21.190&functionId=SignComponent_".concat(fnId, "&appid=hot_channel&loginType=2&body=").concat(encodeURIComponent(JSON.stringify(body)), "&h5st=").concat(h5st), {
+                        return [2 /*return*/, this.post("https://api.m.jd.com/".concat(temp, "/").concat(fn), "client=apple&clientVersion=7.22.240&functionId=SignComponent_".concat(fnId, "&appid=hot_channel&loginType=2&body=").concat(encodeURIComponent(JSON.stringify(body)), "&h5st=").concat(h5st), {
                                 'Host': 'api.m.jd.com',
                                 'wqreferer': 'http://wq.jd.com/wxapp/pages/market/market2/index',
                                 'referer': 'https://servicewechat.com/wx91d27dbf599dff74/656/page-frame.html',
@@ -102,51 +122,72 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
             });
         });
     };
+    Jd_wechat_sign.prototype.task = function (fn, body, signComponent) {
+        return __awaiter(this, void 0, void 0, function () {
+            var h5st;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.h5stTool.__genH5st({
+                            appid: "hot_channel",
+                            body: JSON.stringify(body),
+                            client: "android",
+                            clientVersion: "7.22.240",
+                            functionId: signComponent
+                        })];
+                    case 1:
+                        h5st = _a.sent();
+                        return [4 /*yield*/, this.post("https://api.m.jd.com/scanTask/".concat(fn), "client=android&clientVersion=7.22.240&functionId=".concat(signComponent, "&appid=hot_channel&body=").concat(encodeURIComponent(JSON.stringify(body)), "&h5st=").concat(h5st), {
+                                'Host': 'api.m.jd.com',
+                                'wqreferer': 'http://wq.jd.com/wxapp/pages/market/market2/index',
+                                'User-Agent': this.user.UserAgent,
+                                'Referer': 'https://servicewechat.com/wx91d27dbf599dff74/664/page-frame.html',
+                                'Cookie': this.user.cookie
+                            })];
+                    case 2: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     Jd_wechat_sign.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, e_1;
+            var res, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 9, , 10]);
+                        _a.trys.push([0, 7, , 8]);
                         this.user = user;
                         this.user.UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.28(0x18001c2b) NetType/WIFI Language/zh_CN");
                         res = void 0;
-                        this.h5stTool = new h5st_3_1_1.H5ST("9a38a", this.user.UserAgent, process.env.FP_9A38A, 'http://wq.jd.com/wxapp/pages/market/market2/index', 'http://wq.jd.com', this.user.UserName);
+                        // this.h5stTool = new H5ST("9a38a", this.user.UserAgent, this.fp, 'http://wq.jd.com/wxapp/pages/market/market2/index', 'http://wq.jd.com', this.user.UserName);
+                        // await this.h5stTool.__genAlgo()
+                        // res = await this.api('doSignTask', {"activityId": "10004", "version": 1})
+                        // this.o2s(res, 'doSignTask')
+                        this.h5stTool = new h5st_pro_1.H5ST("2b5bc", this.user.UserAgent, this.fp, 'http://wq.jd.com/wxapp/pages/market/market2/index', 'http://wq.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.api('querySignStatus', { "activityId": "10004", "activeId": "", "groupId": "", "version": 1 })];
+                        return [4 /*yield*/, this.task('querySignList', { "activityId": "10004", "version": 1 }, 'SignComponent_querySignList')];
                     case 2:
                         res = _a.sent();
-                        this.o2s(res, 'querySignStatus');
-                        return [4 /*yield*/, this.api('doSignTask', { "activityId": "10004", "version": 1 })];
+                        if (!!res.data.scanTaskInfo.completionFlag) return [3 /*break*/, 6];
+                        return [4 /*yield*/, this.task('startScanTask', { "itemId": res.data.scanTaskInfo.itemId, "activityId": "10004", "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId, "actionType": 1, "version": 1 }, 'SignComponent_doScanTask')];
                     case 3:
                         res = _a.sent();
-                        this.o2s(res, 'doSignTask');
-                        return [4 /*yield*/, this.api('querySignList', { "activityId": "10004", "version": 1 })];
+                        console.log('开始任务', res.message || res.success);
+                        return [4 /*yield*/, this.wait(8000)];
                     case 4:
-                        res = _a.sent();
-                        this.o2s(res, 'querySignList');
-                        if (!!res.data.scanTaskInfo.completionFlag) return [3 /*break*/, 8];
-                        return [4 /*yield*/, this.api('startScanTask', { "itemId": res.data.scanTaskInfo.itemId, "activityId": "10004", "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId, "actionType": 1, "version": 1 })];
+                        _a.sent();
+                        return [4 /*yield*/, this.task('startScanTask', { "activityId": "10004", "actionType": 0, "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId, "itemId": res.data.scanTaskInfo.itemId, "version": 1 }, 'SignComponent_doScanTask')];
                     case 5:
                         res = _a.sent();
-                        this.o2s(res, 'startScanTask 1');
-                        return [4 /*yield*/, this.wait(10000)];
-                    case 6:
-                        _a.sent();
-                        return [4 /*yield*/, this.api('startScanTask', { "itemId": res.data.scanTaskInfo.itemId, "activityId": "10004", "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId, "actionType": 0, "version": 1 })];
+                        console.log('领取奖励', res.data.rewardList[0].discount);
+                        _a.label = 6;
+                    case 6: return [3 /*break*/, 8];
                     case 7:
-                        res = _a.sent();
-                        this.o2s(res, 'startScanTask 0');
-                        _a.label = 8;
-                    case 8: return [3 /*break*/, 10];
-                    case 9:
-                        e_1 = _a.sent();
-                        console.log(e_1.message);
-                        return [3 /*break*/, 10];
-                    case 10: return [2 /*return*/];
+                        e_2 = _a.sent();
+                        console.log(e_2.message);
+                        return [3 /*break*/, 8];
+                    case 8: return [2 /*return*/];
                 }
             });
         });

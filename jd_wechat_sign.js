@@ -2,7 +2,7 @@
 /**
  * 微信小程序签到红包
  * FP_9A38A
- * cron: 8 0 * * *
+ * cron: 8 10 * * *
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -95,33 +95,6 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_wechat_sign.prototype.api = function (fn, body) {
-        return __awaiter(this, void 0, void 0, function () {
-            var h5st, temp, fnId;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.h5stTool.__genH5st({
-                            'appid': 'hot_channel',
-                            'body': JSON.stringify(body),
-                            'client': 'apple',
-                            'clientVersion': '7.22.240',
-                            'functionId': "SignComponent_".concat(fn)
-                        })];
-                    case 1:
-                        h5st = _a.sent();
-                        temp = fn !== 'startScanTask' ? 'signTask' : 'scanTask';
-                        fnId = fn !== 'startScanTask' ? fn : 'doScanTask';
-                        return [2 /*return*/, this.post("https://api.m.jd.com/".concat(temp, "/").concat(fn), "client=apple&clientVersion=7.22.240&functionId=SignComponent_".concat(fnId, "&appid=hot_channel&loginType=2&body=").concat(encodeURIComponent(JSON.stringify(body)), "&h5st=").concat(h5st), {
-                                'Host': 'api.m.jd.com',
-                                'wqreferer': 'http://wq.jd.com/wxapp/pages/market/market2/index',
-                                'referer': 'https://servicewechat.com/wx91d27dbf599dff74/656/page-frame.html',
-                                'cookie': this.user.cookie,
-                                'user-agent': this.user.UserAgent
-                            })];
-                }
-            });
-        });
-    };
     Jd_wechat_sign.prototype.task = function (fn, body, signComponent) {
         return __awaiter(this, void 0, void 0, function () {
             var h5st;
@@ -150,44 +123,48 @@ var Jd_wechat_sign = /** @class */ (function (_super) {
     };
     Jd_wechat_sign.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, e_2;
+            var res, data, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 7, , 8]);
+                        _a.trys.push([0, 9, , 10]);
                         this.user = user;
                         this.user.UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.28(0x18001c2b) NetType/WIFI Language/zh_CN");
-                        res = void 0;
-                        // this.h5stTool = new H5ST("9a38a", this.user.UserAgent, this.fp, 'http://wq.jd.com/wxapp/pages/market/market2/index', 'http://wq.jd.com', this.user.UserName);
-                        // await this.h5stTool.__genAlgo()
-                        // res = await this.api('doSignTask', {"activityId": "10004", "version": 1})
-                        // this.o2s(res, 'doSignTask')
-                        this.h5stTool = new h5st_pro_1.H5ST("2b5bc", this.user.UserAgent, this.fp, 'http://wq.jd.com/wxapp/pages/market/market2/index', 'http://wq.jd.com', this.user.UserName);
+                        res = void 0, data = void 0;
+                        this.h5stTool = new h5st_pro_1.H5ST("9a38a", this.user.UserAgent, this.fp, 'http://wq.jd.com/wxapp/pages/market/market2/index', 'http://wq.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.task('querySignList', { "activityId": "10004", "version": 1 }, 'SignComponent_querySignList')];
+                        return [4 /*yield*/, this.task('doSignTask', { "activityId": "10004", "version": 1 }, 'SignComponent_doSignTask')];
                     case 2:
                         res = _a.sent();
-                        if (!!res.data.scanTaskInfo.completionFlag) return [3 /*break*/, 6];
-                        return [4 /*yield*/, this.task('startScanTask', { "itemId": res.data.scanTaskInfo.itemId, "activityId": "10004", "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId, "actionType": 1, "version": 1 }, 'SignComponent_doScanTask')];
+                        res.success ? console.log('签到奖励', res.data.rewardList[0].discount) : console.log(res.message);
+                        this.h5stTool = new h5st_pro_1.H5ST("2b5bc", this.user.UserAgent, this.fp, 'http://wq.jd.com/wxapp/pages/market/market2/index', 'http://wq.jd.com', this.user.UserName);
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 3:
-                        res = _a.sent();
-                        console.log('开始任务', res.message || res.success);
-                        return [4 /*yield*/, this.wait(8000)];
+                        _a.sent();
+                        return [4 /*yield*/, this.task('querySignList', { "activityId": "10004", "version": 1 }, 'SignComponent_querySignList')];
                     case 4:
+                        res = _a.sent();
+                        if (!!res.data.scanTaskInfo.completionFlag) return [3 /*break*/, 8];
+                        return [4 /*yield*/, this.task('startScanTask', { "itemId": res.data.scanTaskInfo.itemId, "activityId": "10004", "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId, "actionType": 1, "version": 1 }, 'SignComponent_doScanTask')];
+                    case 5:
+                        data = _a.sent();
+                        console.log('开始任务', data.message || res.success);
+                        return [4 /*yield*/, this.wait(8000)];
+                    case 6:
                         _a.sent();
                         return [4 /*yield*/, this.task('startScanTask', { "activityId": "10004", "actionType": 0, "scanAssignmentId": res.data.scanTaskInfo.scanAssignmentId, "itemId": res.data.scanTaskInfo.itemId, "version": 1 }, 'SignComponent_doScanTask')];
-                    case 5:
-                        res = _a.sent();
-                        console.log('领取奖励', res.data.rewardList[0].discount);
-                        _a.label = 6;
-                    case 6: return [3 /*break*/, 8];
                     case 7:
+                        data = _a.sent();
+                        console.log('领取奖励', data.data.rewardList[0].discount);
+                        _a.label = 8;
+                    case 8: return [3 /*break*/, 10];
+                    case 9:
                         e_2 = _a.sent();
                         console.log(e_2.message);
-                        return [3 /*break*/, 8];
-                    case 8: return [2 /*return*/];
+                        return [3 /*break*/, 10];
+                    case 10: return [2 /*return*/];
                 }
             });
         });

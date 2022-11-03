@@ -1,7 +1,8 @@
 "use strict";
 /**
- * 极速-赚钱
- * cron: 35 9,18,23 * * *
+ * 极速版-赚钱大赢家
+ * cron: 2 0,12,18 * * *
+ * CK1优先助力HW.ts
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -151,11 +152,11 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
     };
     Jd_makemoneyshop.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, _i, _a, t, e_2;
+            var res, data, _i, _a, t, i, e_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 12, , 13]);
+                        _b.trys.push([0, 18, , 19]);
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;4.2.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)");
                         res = void 0, data = void 0;
@@ -182,7 +183,7 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         _i = 0, _a = res.data.userTaskStatusList;
                         _b.label = 4;
                     case 4:
-                        if (!(_i < _a.length)) return [3 /*break*/, 11];
+                        if (!(_i < _a.length)) return [3 /*break*/, 17];
                         t = _a[_i];
                         if (!([3538, 3539].includes(t.taskId) && t.awardStatus === 2)) return [3 /*break*/, 10];
                         if (!(t.completedTimes !== t.configTargetTimes)) return [3 /*break*/, 6];
@@ -199,16 +200,38 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                     case 8: return [4 /*yield*/, this.wait(3000)];
                     case 9:
                         _b.sent();
-                        _b.label = 10;
+                        return [3 /*break*/, 16];
                     case 10:
+                        if (!(t.taskId === 3533)) return [3 /*break*/, 16];
+                        console.log('收到助力', t.realCompletedTimes);
+                        i = t.completedTimes;
+                        _b.label = 11;
+                    case 11:
+                        if (!(i < t.realCompletedTimes)) return [3 /*break*/, 16];
+                        return [4 /*yield*/, this.task('Award', { taskId: 3533 })];
+                    case 12:
+                        data = _b.sent();
+                        if (!(data.ret === 0)) return [3 /*break*/, 14];
+                        console.log('领取助力奖励', data.data.prizeInfo * 1 / 100);
+                        return [4 /*yield*/, this.wait(1000)];
+                    case 13:
+                        _b.sent();
+                        return [3 /*break*/, 15];
+                    case 14:
+                        this.o2s(data, '领取助力奖励 error');
+                        return [3 /*break*/, 16];
+                    case 15:
+                        i++;
+                        return [3 /*break*/, 11];
+                    case 16:
                         _i++;
                         return [3 /*break*/, 4];
-                    case 11: return [3 /*break*/, 13];
-                    case 12:
+                    case 17: return [3 /*break*/, 19];
+                    case 18:
                         e_2 = _b.sent();
                         console.log('error', e_2.message);
-                        return [3 /*break*/, 13];
-                    case 13: return [2 /*return*/];
+                        return [3 /*break*/, 19];
+                    case 19: return [2 /*return*/];
                 }
             });
         });
@@ -267,7 +290,7 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.api('guesthelp', 'activeId,shareId', { activeId: '63526d8f5fe613a6adb48f03', shareId: code })];
                     case 8:
                         res = _b.sent();
-                        this.o2s(res);
+                        console.log('助力结果', res.msg);
                         return [4 /*yield*/, this.wait(2000)];
                     case 9:
                         _b.sent();

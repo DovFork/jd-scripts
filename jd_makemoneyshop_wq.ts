@@ -86,10 +86,6 @@ class Jd_makemoneyshop extends JDHelloWorld {
       console.log('助力码', res.data.shareId)
       this.shareCodeSelf.push(res.data.shareId)
 
-      // res = await this.task('prmt_exchange/client/exchange', {'ruleId': '1848d61655f979f8eac0dd36235586ba'})
-      // this.o2s(res, 'exchange 0.3')
-      // return
-
       res = await this.task('GetUserTaskStatusList', {})
       for (let t of res.data.userTaskStatusList) {
         if ([3538, 3539].includes(t.taskId) && t.awardStatus === 2) {
@@ -101,13 +97,23 @@ class Jd_makemoneyshop extends JDHelloWorld {
             this.o2s(data, 'Award')
           }
           await this.wait(3000)
+        } else if (t.taskId === 3532 && t.awardStatus === 2) {
+          data = await this.task('Award', {taskId: 3532})
+          if (data.ret === 0) {
+            console.log('打扫店铺', data.data.prizeInfo * 1 / 100)
+            await this.wait(1000)
+          } else {
+            console.log(data.msg)
+          }
         } else if (t.taskId === 3533) {
           console.log('收到助力', t.realCompletedTimes)
-          for (let i = t.completedTimes; i < t.realCompletedTimes; i++) {
+          for (let i = 0; i < 10; i++) {
+            if (t.awardStatus === 1) break
             data = await this.task('Award', {taskId: 3533})
             if (data.ret === 0) {
               console.log('领取助力奖励', data.data.prizeInfo * 1 / 100)
-              await this.wait(1000)
+              await this.wait(4000)
+              if (data.data.awardStatus === 1) break
             } else {
               this.o2s(data, '领取助力奖励 error')
               break
@@ -115,8 +121,6 @@ class Jd_makemoneyshop extends JDHelloWorld {
           }
         }
       }
-
-
     } catch (e) {
       console.log('error', e.message)
     }
@@ -147,7 +151,6 @@ class Jd_makemoneyshop extends JDHelloWorld {
         for (let code of shareCode) {
           console.log(`账号${user.index + 1} ${user.UserName} 去助力 ${code}`)
           res = await this.api('querysharevenderinfo', 'activeId,shareId', {activeId: '63526d8f5fe613a6adb48f03', shareId: code})
-          console.log('获取信息', res.data.guestInfo.guestErrMsg)
           if (res.data.guestInfo.guestErrMsg === '天助力次数限制') {
             break
           }

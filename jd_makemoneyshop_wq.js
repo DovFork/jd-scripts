@@ -230,8 +230,6 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.wait(4000)];
                     case 18:
                         _b.sent();
-                        if (data.data.awardStatus === 1)
-                            return [3 /*break*/, 21];
                         return [3 /*break*/, 20];
                     case 19:
                         this.o2s(data, '领取助力奖励 error');

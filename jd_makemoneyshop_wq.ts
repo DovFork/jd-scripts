@@ -113,7 +113,6 @@ class Jd_makemoneyshop extends JDHelloWorld {
             if (data.ret === 0) {
               console.log('领取助力奖励', data.data.prizeInfo * 1 / 100)
               await this.wait(4000)
-              if (data.data.awardStatus === 1) break
             } else {
               this.o2s(data, '领取助力奖励 error')
               break

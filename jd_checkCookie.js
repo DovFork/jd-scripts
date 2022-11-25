@@ -61,7 +61,7 @@ var Check_cookie = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(new Check_cookie())];
+                    case 0: return [4 /*yield*/, this.run(this)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -71,24 +71,21 @@ var Check_cookie = /** @class */ (function (_super) {
     };
     Check_cookie.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
+            var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.get("https://api.m.jd.com/client.action?functionId=GetJDUserInfoUnion&appid=jd-cphdeveloper-m&body=".concat(encodeURIComponent(JSON.stringify({ "orgFlag": "JD_PinGou_New", "callSource": "mainorder", "channel": 4, "isHomewhite": 0, "sceneval": 2 })), "&loginType=2&_=").concat(Date.now(), "&sceneval=2&g_login_type=1&callback=GetJDUserInfoUnion&g_ty=ls"), {
-                            'authority': 'api.m.jd.com',
+                    case 0: return [4 /*yield*/, this.get("https://plogin.m.jd.com/cgi-bin/ml/islogin", {
                             'user-agent': user.UserAgent,
-                            'referer': 'https://home.m.jd.com/',
                             'cookie': user.cookie
                         })];
                     case 1:
-                        data = _a.sent();
-                        data = JSON.parse(data.match(/GetJDUserInfoUnion\((.*)\)/)[1]);
-                        if (data.retcode === '0') {
+                        res = _a.sent();
+                        if (res.islogin === '1') {
                             console.log('✅');
                         }
                         else {
                             console.log('❌');
-                            return [2 /*return*/, { msg: "Cookie\u65E0\u6548 \u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName) }];
+                            return [2 /*return*/, { msg: "Cookie\u8FC7\u671F \u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName) }];
                         }
                         return [2 /*return*/];
                 }

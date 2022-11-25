@@ -6,22 +6,19 @@ class Check_cookie extends JDHelloWorld {
   }
 
   async init() {
-    await this.run(new Check_cookie())
+    await this.run(this)
   }
 
   async main(user: User) {
-    let data: any = await this.get(`https://api.m.jd.com/client.action?functionId=GetJDUserInfoUnion&appid=jd-cphdeveloper-m&body=${encodeURIComponent(JSON.stringify({"orgFlag": "JD_PinGou_New", "callSource": "mainorder", "channel": 4, "isHomewhite": 0, "sceneval": 2}))}&loginType=2&_=${Date.now()}&sceneval=2&g_login_type=1&callback=GetJDUserInfoUnion&g_ty=ls`, {
-      'authority': 'api.m.jd.com',
+    let res: any = await this.get(`https://plogin.m.jd.com/cgi-bin/ml/islogin`, {
       'user-agent': user.UserAgent,
-      'referer': 'https://home.m.jd.com/',
       'cookie': user.cookie
     })
-    data = JSON.parse(data.match(/GetJDUserInfoUnion\((.*)\)/)[1])
-    if (data.retcode === '0') {
+    if (res.islogin === '1') {
       console.log('✅')
     } else {
       console.log('❌')
-      return {msg: `Cookie无效 账号${user.index + 1} ${user.UserName}`}
+      return {msg: `Cookie过期 账号${user.index + 1} ${user.UserName}`}
     }
   }
 }

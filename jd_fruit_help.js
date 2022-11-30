@@ -93,6 +93,25 @@ var Jd_fruit_help = /** @class */ (function (_super) {
     Jd_fruit_help.prototype.randPhoneId = function () {
         return Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
     };
+    Jd_fruit_help.prototype.api = function (fn, body) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.get("https://api.m.jd.com/api?functionId=".concat(fn, "&body=").concat(encodeURIComponent(JSON.stringify(body)), "&appid=wh5"), {
+                            "Host": "api.m.jd.com",
+                            "Accept": "*/*",
+                            "Origin": "https://carry.m.jd.com",
+                            "Accept-Encoding": "gzip, deflate, br",
+                            "User-Agent": this.user.UserAgent,
+                            "Accept-Language": "zh-CN,zh-Hans;q=0.9",
+                            "Referer": "https://carry.m.jd.com/",
+                            "Cookie": this.user.cookie
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     Jd_fruit_help.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var res, e_1;
@@ -100,25 +119,10 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         this.user = user;
-                        this.user.UserAgent = "jdapp;iPhone;10.2.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat(this.randPhoneId(), ";network/4g;model/iPhone11,8;addressid/1188016812;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ").concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1");
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 5]);
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/api?functionId=initForFarm&body=".concat(encodeURIComponent(JSON.stringify({ version: 4 })), "&appid=wh5&clientVersion=9.1.0"), {
-                                "accept": "*/*",
-                                "accept-encoding": "gzip, deflate, br",
-                                "accept-language": "zh-CN,zh;q=0.9",
-                                "cache-control": "no-cache",
-                                "cookie": this.user.cookie,
-                                "origin": "https://home.m.jd.com",
-                                "pragma": "no-cache",
-                                "referer": "https://home.m.jd.com/myJd/newhome.action",
-                                "sec-fetch-dest": "empty",
-                                "sec-fetch-mode": "cors",
-                                "sec-fetch-site": "same-site",
-                                "User-Agent": this.user.UserAgent,
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            })];
+                        return [4 /*yield*/, this.api('initForFarm', { "babelChannel": "121", "sid": "3c52b5f17ab2a42398939a27887eaf8w", "version": 18, "channel": 1 })];
                     case 2:
                         res = _a.sent();
                         if (res.code === '0') {
@@ -161,32 +165,32 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                     case 2:
                         _g.trys.push([2, 21, , 23]);
                         this.user = user;
-                        this.user.UserAgent = "jdapp;iPhone;10.2.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat(this.randPhoneId(), ";network/4g;model/iPhone11,8;addressid/1188016812;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ").concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1");
                         myCode = (_a = this.code2user[this.user.UserName]) !== null && _a !== void 0 ? _a : "";
                         return [4 /*yield*/, this.getShareCodePool('farm', 50)];
                     case 3:
                         shareCodePool = _g.sent();
                         shareCode = __spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodePool, true);
-                        this.o2s(shareCode, '助力顺序');
                         _b = 0, shareCode_1 = shareCode;
                         _g.label = 4;
                     case 4:
                         if (!(_b < shareCode_1.length)) return [3 /*break*/, 20];
                         code = shareCode_1[_b];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
+                        if (code === myCode) {
+                            console.log('self pass');
+                            return [3 /*break*/, 19];
+                        }
                         if (full.includes(code)) {
                             console.log('full contains');
                             return [3 /*break*/, 19];
                         }
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/api?functionId=initForFarm&body=".concat(encodeURIComponent(JSON.stringify({ imageUrl: "", nickName: "", "shareCode": code, babelChannel: "3", version: 2, channel: 1 })), "&appid=wh5"), {
-                                "Host": "api.m.jd.com",
-                                "Accept": "*/*",
-                                "Origin": "https://carry.m.jd.com",
-                                "Accept-Encoding": "gzip, deflate, br",
-                                "User-Agent": this.user.UserAgent,
-                                "Accept-Language": "zh-CN,zh-Hans;q=0.9",
-                                "Referer": "https://carry.m.jd.com/",
-                                "Cookie": this.user.cookie
+                        return [4 /*yield*/, this.api('initForFarm', {
+                                "imageUrl": "",
+                                "nickName": "",
+                                "shareCode": code,
+                                "babelChannel": "3",
+                                "version": 2,
+                                "channel": 1
                             })];
                     case 5:
                         res = _g.sent();
@@ -272,25 +276,10 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                         _g.trys.push([28, 38, , 40]);
                         this.user = user;
                         this.user.UserAgent = "jdapp;iPhone;10.2.0;".concat(Math.ceil(Math.random() * 4 + 10), ".").concat(Math.ceil(Math.random() * 4), ";").concat(this.randPhoneId(), ";network/4g;model/iPhone11,8;addressid/1188016812;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ").concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1");
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/api?functionId=farmAssistInit&body=".concat(encodeURIComponent(JSON.stringify({ "version": 14, "channel": 1, "babelChannel": "120" })), "&appid=wh5&clientVersion=9.1.0"), {
-                                "accept": "*/*",
-                                "accept-encoding": "gzip, deflate, br",
-                                "accept-language": "zh-CN,zh;q=0.9",
-                                "cache-control": "no-cache",
-                                "cookie": this.user.cookie,
-                                "origin": "https://home.m.jd.com",
-                                "pragma": "no-cache",
-                                "referer": "https://home.m.jd.com/myJd/newhome.action",
-                                "sec-fetch-dest": "empty",
-                                "sec-fetch-mode": "cors",
-                                "sec-fetch-site": "same-site",
-                                "User-Agent": this.user.UserAgent,
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            })];
+                        return [4 /*yield*/, this.api('farmAssistInit', { "version": 14, "channel": 1, "babelChannel": "120" })];
                     case 29:
                         res = _g.sent();
                         if (!(res.code === '0')) return [3 /*break*/, 36];
-                        this.o2s(res);
                         assistFriendList = res.assistFriendList.length;
                         farmAssistInit_waterEnergy = 0;
                         _d = 0, _e = res.assistStageList;
@@ -299,18 +288,9 @@ var Jd_fruit_help = /** @class */ (function (_super) {
                         if (!(_d < _e.length)) return [3 /*break*/, 35];
                         t = _e[_d];
                         if (!(t.stageStaus === 2)) return [3 /*break*/, 33];
-                        return [4 /*yield*/, this.get("https://api.m.jd.com/api?functionId=receiveStageEnergy&body=".concat(encodeURIComponent(JSON.stringify({ "version": 14, "channel": 1, "babelChannel": "120" })), "&appid=wh5"), {
-                                "Host": "api.m.jd.com",
-                                "Accept": "*/*",
-                                "Origin": "https://carry.m.jd.com",
-                                "Accept-Encoding": "gzip, deflate, br",
-                                "User-Agent": this.user.UserAgent,
-                                "Accept-Language": "zh-CN,zh-Hans;q=0.9",
-                                "Referer": "https://carry.m.jd.com/",
-                                "Cookie": this.user.cookie
-                            })];
+                        return [4 /*yield*/, this.api('receiveStageEnergy', { "version": 14, "channel": 1, "babelChannel": "120" })];
                     case 31:
-                        _g.sent();
+                        res = _g.sent();
                         console.log('收获助力💧', t.waterEnergy);
                         return [4 /*yield*/, this.wait(3000)];
                     case 32:

@@ -68,11 +68,18 @@ class Jd_fruit extends JDHelloWorld {
       if (res.code === '0') {
         console.log('助力码', res.farmUserPro.shareCode)
         this.shareCodeSelf.push(res.farmUserPro.shareCode)
+      } else if (res.code === '3') {
+        console.log('Cookie过期')
+        return {msg: `账号${this.user.index + 1} ${this.user.UserName}\nCookie过期\n`}
       } else {
         this.o2s(res, '初始化失败')
         process.exit(0)
       }
       let totalEnergy: number = res.farmUserPro.totalEnergy
+      console.log('🌲', res.farmUserPro.treeEnergy)
+      if (res.farmUserPro.treeEnergy === res.farmUserPro.treeTotalEnergy) {
+        return {msg: `账号${this.user.index + 1} ${this.user.UserName}\n种树成熟\n`}
+      }
 
       // 弹窗水滴
       if (res.todayGotWaterGoalTask.canPop) {

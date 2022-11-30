@@ -167,11 +167,19 @@ var Jd_fruit = /** @class */ (function (_super) {
                             console.log('助力码', res.farmUserPro.shareCode);
                             this.shareCodeSelf.push(res.farmUserPro.shareCode);
                         }
+                        else if (res.code === '3') {
+                            console.log('Cookie过期');
+                            return [2 /*return*/, { msg: "\u8D26\u53F7".concat(this.user.index + 1, " ").concat(this.user.UserName, "\nCookie\u8FC7\u671F\n") }];
+                        }
                         else {
                             this.o2s(res, '初始化失败');
                             process.exit(0);
                         }
                         totalEnergy = res.farmUserPro.totalEnergy;
+                        console.log('🌲', res.farmUserPro.treeEnergy);
+                        if (res.farmUserPro.treeEnergy === res.farmUserPro.treeTotalEnergy) {
+                            return [2 /*return*/, { msg: "\u8D26\u53F7".concat(this.user.index + 1, " ").concat(this.user.UserName, "\n\u79CD\u6811\u6210\u719F\n") }];
+                        }
                         if (!res.todayGotWaterGoalTask.canPop) return [3 /*break*/, 5];
                         this.h5stTool = new h5st_1.H5ST('c901b', this.user.UserAgent, this.fp);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];

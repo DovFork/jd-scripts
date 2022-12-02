@@ -76,22 +76,22 @@ var Cww = /** @class */ (function (_super) {
     }
     Cww.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        try {
-                            this.fp = process.env.FP_D7BFE;
-                            if (!this.fp) {
-                                console.log('FP_D7BFE undefined');
-                                process.exit(0);
-                            }
-                        }
-                        catch (e) {
-                            console.log(e.message);
-                        }
-                        return [4 /*yield*/, this.run(this)];
+                        _a = this;
+                        _b = process.env.FP_D7BFE;
+                        if (_b) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.getFp()];
                     case 1:
-                        _a.sent();
+                        _b = (_c.sent());
+                        _c.label = 2;
+                    case 2:
+                        _a.fp = _b;
+                        return [4 /*yield*/, this.run(this)];
+                    case 3:
+                        _c.sent();
                         return [2 /*return*/];
                 }
             });
@@ -130,7 +130,7 @@ var Cww = /** @class */ (function (_super) {
                     case 2:
                         beforeApiRes = _b.sent();
                         if (!JSON.stringify(beforeApiRes).includes("请进行验证")) return [3 /*break*/, 5];
-                        return [4 /*yield*/, new JDJRValidator.JDJRValidator().start()];
+                        return [4 /*yield*/, new JDJRValidator.JDJRValidator().run()];
                     case 3:
                         validate = (_b.sent()).validate;
                         console.log('validate', validate);
@@ -170,7 +170,7 @@ var Cww = /** @class */ (function (_super) {
                     case 2:
                         res = _a.sent();
                         if (!JSON.stringify(res).includes("请进行验证")) return [3 /*break*/, 5];
-                        return [4 /*yield*/, new JDJRValidator.JDJRValidator().start()];
+                        return [4 /*yield*/, new JDJRValidator.JDJRValidator().run()];
                     case 3:
                         validate = (_a.sent()).validate;
                         console.log('validate', validate);
@@ -187,7 +187,7 @@ var Cww = /** @class */ (function (_super) {
             return __generator(this, function (_m) {
                 switch (_m.label) {
                     case 0:
-                        _m.trys.push([0, 65, , 66]);
+                        _m.trys.push([0, 66, , 67]);
                         this.user = user;
                         this.user.UserAgent = "jdapp;iPhone;11.3.0;;;M/5.0;appBuild/167874;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         res = void 0, data = void 0;
@@ -292,7 +292,7 @@ var Cww = /** @class */ (function (_super) {
                         _d = 0, _e = res.datas;
                         _m.label = 22;
                     case 22:
-                        if (!(_d < _e.length)) return [3 /*break*/, 64];
+                        if (!(_d < _e.length)) return [3 /*break*/, 65];
                         t = _e[_d];
                         if (!t.followShops) return [3 /*break*/, 35];
                         this.h5stTool = new h5st_pro_1.H5ST('79b06', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
@@ -439,24 +439,29 @@ var Cww = /** @class */ (function (_super) {
                         _k++;
                         return [3 /*break*/, 51];
                     case 60:
-                        if (!(t.receiveStatus === 'unreceive')) return [3 /*break*/, 63];
-                        return [4 /*yield*/, this.api('getFood', { "taskType": t.taskType, "reqSource": "h5" })];
+                        if (!(t.receiveStatus === 'unreceive')) return [3 /*break*/, 64];
+                        this.h5stTool = new h5st_pro_1.H5ST('6917d', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/");
+                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 61:
+                        _m.sent();
+                        return [4 /*yield*/, this.api('getFood', { "taskType": t.taskType, "reqSource": "h5" })];
+                    case 62:
                         data = _m.sent();
+                        this.o2s(data, '领取奖励');
                         console.log('领取奖励', t.taskName, data.data);
                         return [4 /*yield*/, this.wait(1000)];
-                    case 62:
-                        _m.sent();
-                        _m.label = 63;
                     case 63:
+                        _m.sent();
+                        _m.label = 64;
+                    case 64:
                         _d++;
                         return [3 /*break*/, 22];
-                    case 64: return [3 /*break*/, 66];
-                    case 65:
+                    case 65: return [3 /*break*/, 67];
+                    case 66:
                         e_1 = _m.sent();
                         console.log(e_1.message);
-                        return [3 /*break*/, 66];
-                    case 66: return [2 /*return*/];
+                        return [3 /*break*/, 67];
+                    case 67: return [2 /*return*/];
                 }
             });
         });

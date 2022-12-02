@@ -14,15 +14,7 @@ class Cww extends JDHelloWorld {
   }
 
   async init() {
-    try {
-      this.fp = process.env.FP_D7BFE
-      if (!this.fp) {
-        console.log('FP_D7BFE undefined')
-        process.exit(0)
-      }
-    } catch (e) {
-      console.log(e.message)
-    }
+    this.fp = process.env.FP_D7BFE || await this.getFp()
     await this.run(this)
   }
 
@@ -47,7 +39,7 @@ class Cww extends JDHelloWorld {
       'Referer': 'https://h5.m.jd.com/',
     })
     if (JSON.stringify(beforeApiRes).includes("请进行验证")) {
-      let {validate} = await new JDJRValidator.JDJRValidator().start()
+      let {validate} = await new JDJRValidator.JDJRValidator().run()
       console.log('validate', validate)
       return await this.beforeApi(fn, {...body, validate})
     } else {
@@ -75,7 +67,7 @@ class Cww extends JDHelloWorld {
       'Referer': 'https://h5.m.jd.com/',
     })
     if (JSON.stringify(res).includes("请进行验证")) {
-      let {validate} = await new JDJRValidator.JDJRValidator().start()
+      let {validate} = await new JDJRValidator.JDJRValidator().run()
       console.log('validate', validate)
       return await this.api(fn, {...body, validate})
     } else {
@@ -228,7 +220,10 @@ class Cww extends JDHelloWorld {
         }
 
         if (t.receiveStatus === 'unreceive') {
+          this.h5stTool = new H5ST('6917d', this.user.UserAgent, this.fp, "https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html", "https://h5.m.jd.com/")
+          await this.h5stTool.__genAlgo()
           data = await this.api('getFood', {"taskType": t.taskType, "reqSource": "h5"})
+          this.o2s(data, '领取奖励')
           console.log('领取奖励', t.taskName, data.data)
           await this.wait(1000)
         }

@@ -61,19 +61,26 @@ var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var Speed_Sign = /** @class */ (function (_super) {
     __extends(Speed_Sign, _super);
     function Speed_Sign() {
-        if (!process.env.FP_15097) {
-            console.log('FP_15097 undefined');
-            process.exit(0);
-        }
         return _super.call(this) || this;
     }
     Speed_Sign.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.run(this)];
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _a = this;
+                        _b = process.env.FP_15097;
+                        if (_b) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.getFp()];
                     case 1:
-                        _a.sent();
+                        _b = (_c.sent());
+                        _c.label = 2;
+                    case 2:
+                        _a.fp = _b;
+                        return [4 /*yield*/, this.run(this)];
+                    case 3:
+                        _c.sent();
                         return [2 /*return*/];
                 }
             });
@@ -118,7 +125,7 @@ var Speed_Sign = /** @class */ (function (_super) {
                     case 0:
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;3.9.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
-                        this.h5stTool = new h5st_pro_1.H5ST("15097", this.user.UserAgent, process.env.FP_15097, 'https://daily-redpacket.jd.com/?activityId=9WA12jYGulArzWS7vcrwhw', 'https://daily-redpacket.jd.com', this.user.UserName);
+                        this.h5stTool = new h5st_pro_1.H5ST("15097", this.user.UserAgent, this.fp, 'https://daily-redpacket.jd.com/?activityId=9WA12jYGulArzWS7vcrwhw', 'https://daily-redpacket.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
                         _b.sent();

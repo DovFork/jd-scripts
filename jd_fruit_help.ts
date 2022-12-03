@@ -27,24 +27,26 @@ class Jd_fruit_help extends JDHelloWorld {
     return Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
   }
 
-  async api(fn: string, body: object) {
-    return await this.get(`https://api.m.jd.com/api?functionId=${fn}&body=${encodeURIComponent(JSON.stringify(body))}&appid=wh5`, {
-      "Host": "api.m.jd.com",
-      "Accept": "*/*",
-      "Origin": "https://carry.m.jd.com",
-      "Accept-Encoding": "gzip, deflate, br",
-      "User-Agent": this.user.UserAgent,
-      "Accept-Language": "zh-CN,zh-Hans;q=0.9",
-      "Referer": "https://carry.m.jd.com/",
-      "Cookie": this.user.cookie
-    })
-  }
-
   async main(user: User) {
     this.user = user
+    this.user.UserAgent = `jdapp;iPhone;10.2.0;${Math.ceil(Math.random() * 4 + 10)}.${Math.ceil(Math.random() * 4)};${this.randPhoneId()};network/4g;model/iPhone11,8;addressid/1188016812;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${this.getIosVer()} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
     let res: any
     try {
-      res = await this.api('initForFarm', {"babelChannel": "121", "sid": "3c52b5f17ab2a42398939a27887eaf8w", "version": 18, "channel": 1})
+      res = await this.get(`https://api.m.jd.com/api?functionId=initForFarm&body=${encodeURIComponent(JSON.stringify({version: 4}))}&appid=wh5&clientVersion=9.1.0`, {
+        "accept": "*/*",
+        "accept-encoding": "gzip, deflate, br",
+        "accept-language": "zh-CN,zh;q=0.9",
+        "cache-control": "no-cache",
+        "cookie": this.user.cookie,
+        "origin": "https://home.m.jd.com",
+        "pragma": "no-cache",
+        "referer": "https://home.m.jd.com/myJd/newhome.action",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-site",
+        "User-Agent": this.user.UserAgent,
+        "Content-Type": "application/x-www-form-urlencoded"
+      })
       if (res.code === '0') {
         console.log('助力码', res.farmUserPro.shareCode)
         this.shareCodeSelf.push(res.farmUserPro.shareCode)
@@ -66,26 +68,26 @@ class Jd_fruit_help extends JDHelloWorld {
     for (let user of users) {
       try {
         this.user = user
+        this.user.UserAgent = `jdapp;iPhone;10.2.0;${Math.ceil(Math.random() * 4 + 10)}.${Math.ceil(Math.random() * 4)};${this.randPhoneId()};network/4g;model/iPhone11,8;addressid/1188016812;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${this.getIosVer()} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
         let myCode: string = this.code2user[this.user.UserName] ?? ""
         let shareCodePool: string[] = await this.getShareCodePool('farm', 50)
         let shareCode: string[] = [...this.shareCodeSelf, ...shareCodePool]
+        this.o2s(shareCode, '助力顺序')
         for (let code of shareCode) {
           console.log(`账号${user.index + 1} ${user.UserName} 去助力 ${code}`)
-          if (code === myCode) {
-            console.log('self pass')
-            continue
-          }
           if (full.includes(code)) {
             console.log('full contains')
             continue
           }
-          res = await this.api('initForFarm', {
-            "imageUrl": "",
-            "nickName": "",
-            "shareCode": code,
-            "babelChannel": "3",
-            "version": 2,
-            "channel": 1
+          res = await this.get(`https://api.m.jd.com/api?functionId=initForFarm&body=${encodeURIComponent(JSON.stringify({imageUrl: "", nickName: "", "shareCode": code, babelChannel: "3", version: 2, channel: 1}))}&appid=wh5`, {
+            "Host": "api.m.jd.com",
+            "Accept": "*/*",
+            "Origin": "https://carry.m.jd.com",
+            "Accept-Encoding": "gzip, deflate, br",
+            "User-Agent": this.user.UserAgent,
+            "Accept-Language": "zh-CN,zh-Hans;q=0.9",
+            "Referer": "https://carry.m.jd.com/",
+            "Cookie": this.user.cookie
           })
           if (!(res.helpResult && res.helpResult.code)) {
             this.o2s(res, '助力出错')
@@ -128,13 +130,37 @@ class Jd_fruit_help extends JDHelloWorld {
       try {
         this.user = user
         this.user.UserAgent = `jdapp;iPhone;10.2.0;${Math.ceil(Math.random() * 4 + 10)}.${Math.ceil(Math.random() * 4)};${this.randPhoneId()};network/4g;model/iPhone11,8;addressid/1188016812;appBuild/167724;jdSupportDarkMode/0;Mozilla/5.0 (iPhone; CPU iPhone OS ${this.getIosVer()} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1`
-        res = await this.api('farmAssistInit', {"version": 14, "channel": 1, "babelChannel": "120"})
+        res = await this.get(`https://api.m.jd.com/api?functionId=farmAssistInit&body=${encodeURIComponent(JSON.stringify({"version": 14, "channel": 1, "babelChannel": "120"}))}&appid=wh5&clientVersion=9.1.0`, {
+          "accept": "*/*",
+          "accept-encoding": "gzip, deflate, br",
+          "accept-language": "zh-CN,zh;q=0.9",
+          "cache-control": "no-cache",
+          "cookie": this.user.cookie,
+          "origin": "https://home.m.jd.com",
+          "pragma": "no-cache",
+          "referer": "https://home.m.jd.com/myJd/newhome.action",
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-site",
+          "User-Agent": this.user.UserAgent,
+          "Content-Type": "application/x-www-form-urlencoded"
+        })
         if (res.code === '0') {
+          this.o2s(res)
           let assistFriendList: number = res.assistFriendList.length
           let farmAssistInit_waterEnergy: number = 0
           for (let t of res.assistStageList) {
             if (t.stageStaus === 2) {
-              res = await this.api('receiveStageEnergy', {"version": 14, "channel": 1, "babelChannel": "120"})
+              await this.get(`https://api.m.jd.com/api?functionId=receiveStageEnergy&body=${encodeURIComponent(JSON.stringify({"version": 14, "channel": 1, "babelChannel": "120"}))}&appid=wh5`, {
+                "Host": "api.m.jd.com",
+                "Accept": "*/*",
+                "Origin": "https://carry.m.jd.com",
+                "Accept-Encoding": "gzip, deflate, br",
+                "User-Agent": this.user.UserAgent,
+                "Accept-Language": "zh-CN,zh-Hans;q=0.9",
+                "Referer": "https://carry.m.jd.com/",
+                "Cookie": this.user.cookie
+              })
               console.log('收获助力💧', t.waterEnergy)
               await this.wait(3000)
               farmAssistInit_waterEnergy += t.waterEnergy

@@ -85,40 +85,44 @@ class Jd_makemoneyshop extends JDHelloWorld {
       }
       console.log('助力码', res.data.shareId)
       this.shareCodeSelf.push(res.data.shareId)
+      console.log('可提现', res.data.canUseCoinAmount * 1)
 
-      res = await this.task('GetUserTaskStatusList', {})
-      for (let t of res.data.userTaskStatusList) {
-        if ([3538, 3539].includes(t.taskId) && t.awardStatus === 2) {
-          if (t.completedTimes !== t.configTargetTimes) {
-            data = await this.task('DoTask', {'isSecurity': 'true', 'taskId': t.taskId, 'configExtra': ''})
-            this.o2s(data, 'DoTask')
-          } else {
-            data = await this.task('Award', {'taskId': t.taskId})
-            this.o2s(data, 'Award')
-          }
-          await this.wait(3000)
-        } else if (t.taskId === 3532 && t.awardStatus === 2) {
-          data = await this.task('Award', {taskId: 3532})
-          if (data.ret === 0) {
-            console.log('打扫店铺', data.data.prizeInfo * 1 / 100)
-            await this.wait(1000)
-          } else {
-            console.log(data.msg)
-          }
-        } else if (t.taskId === 3533) {
-          console.log('收到助力', t.realCompletedTimes)
-          for (let i = 0; i < 10; i++) {
-            if (t.awardStatus === 1) break
-            data = await this.task('Award', {taskId: 3533})
-            if (data.ret === 0) {
-              console.log('领取助力奖励', data.data.prizeInfo * 1 / 100)
-              await this.wait(4000)
+      for (let i = 0; i < 3; i++) {
+        res = await this.task('GetUserTaskStatusList', {})
+        for (let t of res.data.userTaskStatusList) {
+          if (t.taskType === 2 && t.awardStatus === 2) {
+            if (t.completedTimes !== t.configTargetTimes) {
+              data = await this.task('DoTask', {'isSecurity': 'true', 'taskId': t.taskId, 'configExtra': ''})
+              this.o2s(data, 'DoTask')
             } else {
-              this.o2s(data, '领取助力奖励 error')
-              break
+              data = await this.task('Award', {'taskId': t.taskId})
+              this.o2s(data, 'Award')
+            }
+            await this.wait(3000)
+          } else if (t.taskId === 3532 && t.awardStatus === 2) {
+            data = await this.task('Award', {taskId: 3532})
+            if (data.ret === 0) {
+              console.log('打扫店铺', data.data.prizeInfo * 1 / 100)
+              await this.wait(1000)
+            } else {
+              console.log(data.msg)
+            }
+          } else if (t.taskId === 3533) {
+            console.log('收到助力', t.realCompletedTimes)
+            for (let i = 0; i < 10; i++) {
+              if (t.awardStatus === 1) break
+              data = await this.task('Award', {taskId: 3533})
+              if (data.ret === 0) {
+                console.log('领取助力奖励', data.data.prizeInfo * 1 / 100)
+                await this.wait(1000)
+              } else {
+                this.o2s(data, '领取助力奖励 error')
+                break
+              }
             }
           }
         }
+        await this.wait(5000)
       }
     } catch (e) {
       console.log('error', e.message)

@@ -152,11 +152,11 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
     };
     Jd_makemoneyshop.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, _i, _a, t, i, e_2;
+            var res, data, i, _i, _a, t, i_1, e_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 23, , 24]);
+                        _b.trys.push([0, 27, , 28]);
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;4.2.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)");
                         res = void 0, data = void 0;
@@ -174,78 +174,90 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         }
                         console.log('助力码', res.data.shareId);
                         this.shareCodeSelf.push(res.data.shareId);
-                        return [4 /*yield*/, this.task('GetUserTaskStatusList', {})];
+                        console.log('可提现', res.data.canUseCoinAmount * 1);
+                        i = 0;
+                        _b.label = 3;
                     case 3:
+                        if (!(i < 3)) return [3 /*break*/, 26];
+                        return [4 /*yield*/, this.task('GetUserTaskStatusList', {})];
+                    case 4:
                         res = _b.sent();
                         _i = 0, _a = res.data.userTaskStatusList;
-                        _b.label = 4;
-                    case 4:
-                        if (!(_i < _a.length)) return [3 /*break*/, 22];
-                        t = _a[_i];
-                        if (!([3538, 3539].includes(t.taskId) && t.awardStatus === 2)) return [3 /*break*/, 10];
-                        if (!(t.completedTimes !== t.configTargetTimes)) return [3 /*break*/, 6];
-                        return [4 /*yield*/, this.task('DoTask', { 'isSecurity': 'true', 'taskId': t.taskId, 'configExtra': '' })];
+                        _b.label = 5;
                     case 5:
+                        if (!(_i < _a.length)) return [3 /*break*/, 23];
+                        t = _a[_i];
+                        if (!(t.taskType === 2 && t.awardStatus === 2)) return [3 /*break*/, 11];
+                        if (!(t.completedTimes !== t.configTargetTimes)) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this.task('DoTask', { 'isSecurity': 'true', 'taskId': t.taskId, 'configExtra': '' })];
+                    case 6:
                         data = _b.sent();
                         this.o2s(data, 'DoTask');
-                        return [3 /*break*/, 8];
-                    case 6: return [4 /*yield*/, this.task('Award', { 'taskId': t.taskId })];
-                    case 7:
+                        return [3 /*break*/, 9];
+                    case 7: return [4 /*yield*/, this.task('Award', { 'taskId': t.taskId })];
+                    case 8:
                         data = _b.sent();
                         this.o2s(data, 'Award');
-                        _b.label = 8;
-                    case 8: return [4 /*yield*/, this.wait(3000)];
-                    case 9:
-                        _b.sent();
-                        return [3 /*break*/, 21];
+                        _b.label = 9;
+                    case 9: return [4 /*yield*/, this.wait(3000)];
                     case 10:
-                        if (!(t.taskId === 3532 && t.awardStatus === 2)) return [3 /*break*/, 15];
-                        return [4 /*yield*/, this.task('Award', { taskId: 3532 })];
+                        _b.sent();
+                        return [3 /*break*/, 22];
                     case 11:
+                        if (!(t.taskId === 3532 && t.awardStatus === 2)) return [3 /*break*/, 16];
+                        return [4 /*yield*/, this.task('Award', { taskId: 3532 })];
+                    case 12:
                         data = _b.sent();
-                        if (!(data.ret === 0)) return [3 /*break*/, 13];
+                        if (!(data.ret === 0)) return [3 /*break*/, 14];
                         console.log('打扫店铺', data.data.prizeInfo * 1 / 100);
                         return [4 /*yield*/, this.wait(1000)];
-                    case 12:
-                        _b.sent();
-                        return [3 /*break*/, 14];
                     case 13:
-                        console.log(data.msg);
-                        _b.label = 14;
-                    case 14: return [3 /*break*/, 21];
-                    case 15:
-                        if (!(t.taskId === 3533)) return [3 /*break*/, 21];
-                        console.log('收到助力', t.realCompletedTimes);
-                        i = 0;
-                        _b.label = 16;
-                    case 16:
-                        if (!(i < 10)) return [3 /*break*/, 21];
-                        if (t.awardStatus === 1)
-                            return [3 /*break*/, 21];
-                        return [4 /*yield*/, this.task('Award', { taskId: 3533 })];
-                    case 17:
-                        data = _b.sent();
-                        if (!(data.ret === 0)) return [3 /*break*/, 19];
-                        console.log('领取助力奖励', data.data.prizeInfo * 1 / 100);
-                        return [4 /*yield*/, this.wait(4000)];
-                    case 18:
                         _b.sent();
-                        return [3 /*break*/, 20];
+                        return [3 /*break*/, 15];
+                    case 14:
+                        console.log(data.msg);
+                        _b.label = 15;
+                    case 15: return [3 /*break*/, 22];
+                    case 16:
+                        if (!(t.taskId === 3533)) return [3 /*break*/, 22];
+                        console.log('收到助力', t.realCompletedTimes);
+                        i_1 = 0;
+                        _b.label = 17;
+                    case 17:
+                        if (!(i_1 < 10)) return [3 /*break*/, 22];
+                        if (t.awardStatus === 1)
+                            return [3 /*break*/, 22];
+                        return [4 /*yield*/, this.task('Award', { taskId: 3533 })];
+                    case 18:
+                        data = _b.sent();
+                        if (!(data.ret === 0)) return [3 /*break*/, 20];
+                        console.log('领取助力奖励', data.data.prizeInfo * 1 / 100);
+                        return [4 /*yield*/, this.wait(1000)];
                     case 19:
-                        this.o2s(data, '领取助力奖励 error');
+                        _b.sent();
                         return [3 /*break*/, 21];
                     case 20:
-                        i++;
-                        return [3 /*break*/, 16];
+                        this.o2s(data, '领取助力奖励 error');
+                        return [3 /*break*/, 22];
                     case 21:
+                        i_1++;
+                        return [3 /*break*/, 17];
+                    case 22:
                         _i++;
-                        return [3 /*break*/, 4];
-                    case 22: return [3 /*break*/, 24];
-                    case 23:
+                        return [3 /*break*/, 5];
+                    case 23: return [4 /*yield*/, this.wait(5000)];
+                    case 24:
+                        _b.sent();
+                        _b.label = 25;
+                    case 25:
+                        i++;
+                        return [3 /*break*/, 3];
+                    case 26: return [3 /*break*/, 28];
+                    case 27:
                         e_2 = _b.sent();
                         console.log('error', e_2.message);
-                        return [3 /*break*/, 24];
-                    case 24: return [2 /*return*/];
+                        return [3 /*break*/, 28];
+                    case 28: return [2 /*return*/];
                 }
             });
         });

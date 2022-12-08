@@ -46,7 +46,7 @@ class Jd_plantBean_help extends JDHelloWorld {
   }
 
   async main(user: User) {
-    let res: any
+    let res: any, data: any
     this.user = user
     this.user.UserAgent = `jdapp;iPhone;11.3.6;;;M/5.0;appBuild/168392;Mozilla/5.0 (iPhone; CPU iPhone OS ${this.getIosVer()} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;`
     this.h5stTool = new H5ST('6b93e', this.user.UserAgent, this.fp, 'https://plantearth.m.jd.com/plantBean/index?source=lingjingdoushouye', 'https://plantearth.m.jd.com', this.user.UserName)
@@ -55,6 +55,18 @@ class Jd_plantBean_help extends JDHelloWorld {
     let code: string = res.data.jwordShareInfo.shareUrl.match(/plantUuid=(\w+)/)[1]
     console.log('助力码', code)
     this.shareCodeSelf.push(code)
+
+    for (let t of res.data.taskList) {
+      if (!t.isFinished) {
+        if ([47, 93].includes(t.taskType)) {
+          this.h5stTool = new H5ST('ea7aa', this.user.UserAgent, this.fp, 'https://plantearth.m.jd.com/plantBean/index?source=lingjingdoushouye', 'https://plantearth.m.jd.com', this.user.UserName)
+          await this.h5stTool.__genAlgo()
+          data = await this.api('receiveNutrientsTask', {"awardType": t.taskType, "monitor_source": "plant_m_plant_index", "monitor_refer": "plant_receiveNutrientsTask", "version": "9.2.4.2"})
+          console.log(t.taskName, data.data.nutrToast)
+          await this.wait(6000)
+        }
+      }
+    }
   }
 
   async help(users: User[]) {

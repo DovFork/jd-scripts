@@ -147,19 +147,19 @@ var Health = /** @class */ (function (_super) {
                         i = 0;
                         _e.label = 4;
                     case 4:
-                        if (!(i < 1)) return [3 /*break*/, 25];
+                        if (!(i < 3)) return [3 /*break*/, 27];
                         return [4 /*yield*/, this.api('jdhealth_getTaskDetail', { "buildingId": "", "taskId": "", "channelId": 1 })];
                     case 5:
                         res = _e.sent();
                         _e.label = 6;
                     case 6:
-                        _e.trys.push([6, 21, , 22]);
+                        _e.trys.push([6, 23, , 24]);
                         _i = 0, _b = res.data.result.taskVos;
                         _e.label = 7;
                     case 7:
-                        if (!(_i < _b.length)) return [3 /*break*/, 20];
+                        if (!(_i < _b.length)) return [3 /*break*/, 22];
                         t = _b[_i];
-                        if (!(t.status === 1 || t.status === 3)) return [3 /*break*/, 19];
+                        if (!(t.status === 1 || t.status === 3)) return [3 /*break*/, 21];
                         console.log(t.taskName);
                         if (!(t.taskName.includes('打卡') && t.threeMealInfoVos[0].status === 1)) return [3 /*break*/, 10];
                         return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": t.threeMealInfoVos[0].taskToken, "taskId": t.taskId, "actionType": 0 })];
@@ -169,7 +169,7 @@ var Health = /** @class */ (function (_super) {
                             console.log('打卡成功', parseInt(data.data.result.score));
                         else
                             console.log('打卡失败', data.data.bizMsg);
-                        return [4 /*yield*/, this.wait(1000)];
+                        return [4 /*yield*/, this.wait(3000)];
                     case 9:
                         _e.sent();
                         _e.label = 10;
@@ -186,7 +186,7 @@ var Health = /** @class */ (function (_super) {
                     case 12:
                         res = _e.sent();
                         console.log('\t', res.data.bizMsg);
-                        return [4 /*yield*/, this.wait(t.waitDuration * 1000)];
+                        return [4 /*yield*/, this.wait(t.waitDuration * 1000 + 1000)];
                     case 13:
                         _e.sent();
                         _e.label = 14;
@@ -198,29 +198,33 @@ var Health = /** @class */ (function (_super) {
                         return [3 /*break*/, 19];
                     case 16:
                         console.log(res.data.bizMsg, parseInt(res.data.result.score));
-                        return [4 /*yield*/, this.wait(1500)];
+                        return [4 /*yield*/, this.wait(3000)];
                     case 17:
                         _e.sent();
                         _e.label = 18;
                     case 18:
                         _c++;
                         return [3 /*break*/, 11];
-                    case 19:
+                    case 19: return [4 /*yield*/, this.wait(3000)];
+                    case 20:
+                        _e.sent();
+                        _e.label = 21;
+                    case 21:
                         _i++;
                         return [3 /*break*/, 7];
-                    case 20: return [3 /*break*/, 22];
-                    case 21:
+                    case 22: return [3 /*break*/, 24];
+                    case 23:
                         e_2 = _e.sent();
                         console.log('Error', e_2);
-                        return [3 /*break*/, 22];
-                    case 22: return [4 /*yield*/, this.wait(3000)];
-                    case 23:
+                        return [3 /*break*/, 24];
+                    case 24: return [4 /*yield*/, this.wait(10000)];
+                    case 25:
                         _e.sent();
-                        _e.label = 24;
-                    case 24:
+                        _e.label = 26;
+                    case 26:
                         i++;
                         return [3 /*break*/, 4];
-                    case 25: return [2 /*return*/];
+                    case 27: return [2 /*return*/];
                 }
             });
         });
@@ -234,7 +238,7 @@ var Health = /** @class */ (function (_super) {
                         _i = 0, users_1 = users;
                         _d.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 8];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 7];
                         user = users_1[_i];
                         this.user = user;
                         console.log("\n\u5F00\u59CB\u3010\u4EAC\u4E1C\u8D26\u53F7".concat(user.index + 1, "\u3011").concat(user.UserName, "\n"));
@@ -243,52 +247,49 @@ var Health = /** @class */ (function (_super) {
                         res = _d.sent();
                         _d.label = 3;
                     case 3:
-                        _d.trys.push([3, 6, , 7]);
+                        _d.trys.push([3, 5, , 6]);
                         code = res.data.result.taskVos[0].assistTaskDetailVo.taskToken;
                         console.log('助力码', code);
                         this.shareCodeSelf.push(code);
                         return [4 /*yield*/, this.runTimes(code)];
                     case 4:
                         _d.sent();
-                        return [4 /*yield*/, this.wait(1000)];
+                        return [3 /*break*/, 6];
                     case 5:
-                        _d.sent();
-                        return [3 /*break*/, 7];
-                    case 6:
                         e_3 = _d.sent();
-                        return [3 /*break*/, 7];
-                    case 7:
+                        return [3 /*break*/, 6];
+                    case 6:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 8:
+                    case 7:
                         this.o2s(this.shareCodeSelf, '内部助力码');
                         _a = 0, users_2 = users;
-                        _d.label = 9;
-                    case 9:
-                        if (!(_a < users_2.length)) return [3 /*break*/, 19];
+                        _d.label = 8;
+                    case 8:
+                        if (!(_a < users_2.length)) return [3 /*break*/, 18];
                         user = users_2[_a];
                         this.user = user;
                         _b = this;
                         return [4 /*yield*/, this.getShareCodePool('health', 1)];
-                    case 10:
+                    case 9:
                         _b.shareCodePool = _d.sent();
                         shareCode = Array.from(new Set(__spreadArray(__spreadArray([], this.shareCodeSelf, true), this.shareCodePool, true))), full = [];
                         _c = 0, shareCode_1 = shareCode;
-                        _d.label = 11;
-                    case 11:
-                        if (!(_c < shareCode_1.length)) return [3 /*break*/, 18];
+                        _d.label = 10;
+                    case 10:
+                        if (!(_c < shareCode_1.length)) return [3 /*break*/, 17];
                         code = shareCode_1[_c];
                         if (full.includes(code))
-                            return [3 /*break*/, 17];
+                            return [3 /*break*/, 16];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
                         return [4 /*yield*/, this.api('jdhealth_collectScore', { "taskToken": code, "taskId": "6", "actionType": 0 })];
-                    case 12:
+                    case 11:
                         res = _d.sent();
-                        _d.label = 13;
-                    case 13:
-                        _d.trys.push([13, 14, 15, 17]);
+                        _d.label = 12;
+                    case 12:
+                        _d.trys.push([12, 13, 14, 16]);
                         if (res.data.bizMsg === '助力失败丨啊哦您今日的爱心值已爆棚，明天继续吧') {
-                            return [3 /*break*/, 18];
+                            return [3 /*break*/, 17];
                         }
                         else if (res.data.bizMsg === '助力失败丨助力已满员！谢谢你哦~') {
                             full.push(code);
@@ -296,22 +297,22 @@ var Health = /** @class */ (function (_super) {
                         else {
                             console.log(res.data.bizMsg);
                         }
-                        return [3 /*break*/, 17];
-                    case 14:
+                        return [3 /*break*/, 16];
+                    case 13:
                         e_4 = _d.sent();
                         this.o2s(res, 'jdhealth_collectScore catch');
-                        return [3 /*break*/, 17];
-                    case 15: return [4 /*yield*/, this.wait(3000)];
-                    case 16:
+                        return [3 /*break*/, 16];
+                    case 14: return [4 /*yield*/, this.wait(3000)];
+                    case 15:
                         _d.sent();
                         return [7 /*endfinally*/];
-                    case 17:
+                    case 16:
                         _c++;
-                        return [3 /*break*/, 11];
-                    case 18:
+                        return [3 /*break*/, 10];
+                    case 17:
                         _a++;
-                        return [3 /*break*/, 9];
-                    case 19: return [2 /*return*/];
+                        return [3 /*break*/, 8];
+                    case 18: return [2 /*return*/];
                 }
             });
         });

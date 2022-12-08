@@ -46,7 +46,7 @@ class Health extends JDHelloWorld {
         console.log('签到成功', res.data.result.acquiredScore)
       }
     }
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 3; i++) {
       res = await this.api('jdhealth_getTaskDetail', {"buildingId": "", "taskId": "", "channelId": 1})
       try {
         for (let t of res.data.result.taskVos) {
@@ -58,7 +58,7 @@ class Health extends JDHelloWorld {
                 console.log('打卡成功', parseInt(data.data.result.score))
               else
                 console.log('打卡失败', data.data.bizMsg)
-              await this.wait(1000)
+              await this.wait(3000)
             }
 
             for (let tp of t.productInfoVos || t.followShopVo || t.shoppingActivityVos || []) {
@@ -67,7 +67,7 @@ class Health extends JDHelloWorld {
                 if (t.waitDuration) {
                   res = await this.api('jdhealth_collectScore', {"taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 1})
                   console.log('\t', res.data.bizMsg)
-                  await this.wait(t.waitDuration * 1000)
+                  await this.wait(t.waitDuration * 1000 + 1000)
                 }
                 res = await this.api('jdhealth_collectScore', {"taskToken": tp.taskToken, "taskId": t.taskId, "actionType": 0})
                 if (res.data.bizMsg.includes('做完')) {
@@ -75,16 +75,17 @@ class Health extends JDHelloWorld {
                   break
                 } else {
                   console.log(res.data.bizMsg, parseInt(res.data.result.score))
-                  await this.wait(1500)
+                  await this.wait(3000)
                 }
               }
             }
+            await this.wait(3000)
           }
         }
       } catch (e) {
         console.log('Error', e)
       }
-      await this.wait(3000)
+      await this.wait(10000)
     }
   }
 
@@ -99,7 +100,6 @@ class Health extends JDHelloWorld {
         console.log('助力码', code)
         this.shareCodeSelf.push(code)
         await this.runTimes(code)
-        await this.wait(1000)
       } catch (e) {
       }
     }

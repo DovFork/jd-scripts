@@ -92,16 +92,6 @@ async function jdPlantBean() {
       const shareUrl = $.plantBeanIndexResult.data.jwordShareInfo.shareUrl
       $.myPlantUuid = getParam(shareUrl, 'plantUuid')
       console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.myPlantUuid}\n`);
-
-      for (let k = 0; k < 3; k++) {
-        try {
-          await runTimes()
-          break
-        } catch (e) {
-        }
-        await $.wait(Math.floor(Math.random() * 10 + 3) * 1000)
-      }
-
       roundList = $.plantBeanIndexResult.data.roundList;
       currentRoundId = roundList[1].roundId;//本期的roundId
       lastRoundId = roundList[0].roundId;//上期的roundId
@@ -111,7 +101,7 @@ async function jdPlantBean() {
       message += `【上期时间】${roundList[0].dateDesc.replace('上期 ', '')}\n`;
       message += `【上期成长值】${roundList[0].growth}\n`;
       await receiveNutrients();//定时领取营养液
-      await doHelp();//助力
+      // await doHelp();//助力
       await doTask();//做日常任务
       await stealFriendWater();
       await doCultureBean();
@@ -123,26 +113,7 @@ async function jdPlantBean() {
     }
   } catch (e) {
     $.logErr(e);
-    // const errMsg = `京东账号${$.index} ${$.nickName || $.UserName}\n任务执行异常，请检查执行日志 ‼️‼️`;
-    // if ($.isNode()) await notify.sendNotify(`${$.name}`, errMsg);
-    // $.msg($.name, '', `${errMsg}`)
   }
-}
-
-function runTimes() {
-  return new Promise((resolve, reject) => {
-    $.get({
-      url: `https://sharecodepool.cnmb.win/api/runTimes0917?activityId=bean&sharecode=${$.myPlantUuid}`
-    }, (err, resp, data) => {
-      if (err) {
-        console.log('上报失败', err)
-        reject(err)
-      } else {
-        console.log(data)
-        resolve()
-      }
-    })
-  })
 }
 
 async function doGetReward() {

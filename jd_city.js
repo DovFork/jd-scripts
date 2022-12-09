@@ -102,25 +102,51 @@ var Jd_cash_signin = /** @class */ (function (_super) {
     };
     Jd_cash_signin.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, inviteId;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var res, data, inviteId, _i, _a, t, e_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         this.user = user;
-                        return [4 /*yield*/, this.api('city_getHomeDatav1', { "lbsCity": "", "realLbsCity": "", "inviteId": "", "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": "" })];
+                        _b.label = 1;
                     case 1:
-                        res = _a.sent();
+                        _b.trys.push([1, 8, , 9]);
+                        return [4 /*yield*/, this.api('city_getHomeDatav1', { "lbsCity": "", "realLbsCity": "", "inviteId": "", "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": "" })];
+                    case 2:
+                        res = _b.sent();
                         inviteId = res.data.result.userActBaseInfo.inviteId;
                         console.log('助力码', inviteId);
                         this.shareCodeSelf.push(inviteId);
-                        return [2 /*return*/];
+                        _i = 0, _a = res.data.result.mainInfos || [];
+                        _b.label = 3;
+                    case 3:
+                        if (!(_i < _a.length)) return [3 /*break*/, 7];
+                        t = _a[_i];
+                        if (!(t.remaingAssistNum === 0 && t.status === '1')) return [3 /*break*/, 6];
+                        return [4 /*yield*/, this.api('city_receiveCash', { "cashType": 1, "roundNum": t.roundNum })];
+                    case 4:
+                        data = _b.sent();
+                        console.log('领取', parseFloat(data.data.result.currentTimeCash));
+                        console.log('合计', parseFloat(data.data.result.totalCash));
+                        return [4 /*yield*/, this.wait(2000)];
+                    case 5:
+                        _b.sent();
+                        _b.label = 6;
+                    case 6:
+                        _i++;
+                        return [3 /*break*/, 3];
+                    case 7: return [3 /*break*/, 9];
+                    case 8:
+                        e_1 = _b.sent();
+                        console.log(e_1.message);
+                        return [3 /*break*/, 9];
+                    case 9: return [2 /*return*/];
                 }
             });
         });
     };
     Jd_cash_signin.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, shareCodeHW, _i, users_1, user, shareCode, _a, shareCode_1, code, e_1;
+            var res, shareCodeHW, _i, users_1, user, shareCode, _a, shareCode_1, code, e_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -152,6 +178,7 @@ var Jd_cash_signin = /** @class */ (function (_super) {
                     case 5:
                         if (!(_a < shareCode_1.length)) return [3 /*break*/, 9];
                         code = shareCode_1[_a];
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
                         return [4 /*yield*/, this.api('city_getHomeDatav1', { "lbsCity": "", "realLbsCity": "", "inviteId": code, "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": "{\"log\":\"\",\"sceneid\":\"CHFhPageh5\",\"random\":\"\"}" })];
                     case 6:
                         res = _b.sent();
@@ -169,8 +196,8 @@ var Jd_cash_signin = /** @class */ (function (_super) {
                         return [3 /*break*/, 5];
                     case 9: return [3 /*break*/, 11];
                     case 10:
-                        e_1 = _b.sent();
-                        console.log(e_1.message);
+                        e_2 = _b.sent();
+                        console.log(e_2.message);
                         return [3 /*break*/, 11];
                     case 11:
                         _i++;

@@ -31,10 +31,24 @@ class Jd_cash_signin extends JDHelloWorld {
 
   async main(user: User) {
     this.user = user
-    let res: any = await this.api('city_getHomeDatav1', {"lbsCity": "", "realLbsCity": "", "inviteId": "", "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": ""})
-    let inviteId: string = res.data.result.userActBaseInfo.inviteId
-    console.log('助力码', inviteId)
-    this.shareCodeSelf.push(inviteId)
+    let res: any, data: any
+    try {
+      res = await this.api('city_getHomeDatav1', {"lbsCity": "", "realLbsCity": "", "inviteId": "", "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": ""})
+      let inviteId: string = res.data.result.userActBaseInfo.inviteId
+      console.log('助力码', inviteId)
+      this.shareCodeSelf.push(inviteId)
+
+      for (let t of res.data.result.mainInfos || []) {
+        if (t.remaingAssistNum === 0 && t.status === '1') {
+          data = await this.api('city_receiveCash', {"cashType": 1, "roundNum": t.roundNum})
+          console.log('领取', parseFloat(data.data.result.currentTimeCash))
+          console.log('合计', parseFloat(data.data.result.totalCash))
+          await this.wait(2000)
+        }
+      }
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 
   async help(users: User[]) {
@@ -51,6 +65,7 @@ class Jd_cash_signin extends JDHelloWorld {
           shareCode = Array.from(new Set([...this.shareCodeSelf, ...shareCodeHW]))
         }
         for (let code of shareCode) {
+          console.log(`账号${user.index + 1} ${user.UserName} 去助力 ${code}`)
           res = await this.api('city_getHomeDatav1', {"lbsCity": "", "realLbsCity": "", "inviteId": code, "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": "{\"log\":\"\",\"sceneid\":\"CHFhPageh5\",\"random\":\"\"}"})
           await this.wait(3000)
           if (res.data.result.toasts) {

@@ -65,6 +65,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var TS_USER_AGENTS_1 = require("./TS_USER_AGENTS");
+var city_log_1 = require("./utils/city_log");
 var Jd_cash_signin = /** @class */ (function (_super) {
     __extends(Jd_cash_signin, _super);
     function Jd_cash_signin() {
@@ -171,7 +172,7 @@ var Jd_cash_signin = /** @class */ (function (_super) {
     };
     Jd_cash_signin.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, shareCodeHW, _i, users_1, user, shareCode, _a, shareCode_1, code, e_2;
+            var res, shareCodeHW, _i, users_1, user, shareCode, _a, shareCode_1, code, log, e_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -179,12 +180,12 @@ var Jd_cash_signin = /** @class */ (function (_super) {
                         _i = 0, users_1 = users;
                         _b.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 12];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 13];
                         user = users_1[_i];
                         this.user = user;
                         _b.label = 2;
                     case 2:
-                        _b.trys.push([2, 10, , 11]);
+                        _b.trys.push([2, 11, , 12]);
                         if (!(shareCodeHW.length === 0)) return [3 /*break*/, 4];
                         return [4 /*yield*/, (0, TS_USER_AGENTS_1.getshareCodeHW)('city')];
                     case 3:
@@ -201,33 +202,45 @@ var Jd_cash_signin = /** @class */ (function (_super) {
                         _a = 0, shareCode_1 = shareCode;
                         _b.label = 5;
                     case 5:
-                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 9];
+                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 10];
                         code = shareCode_1[_a];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
-                        return [4 /*yield*/, this.api('city_getHomeDatav1', { "lbsCity": "", "realLbsCity": "", "inviteId": code, "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": "{\"log\":\"\",\"sceneid\":\"CHFhPageh5\",\"random\":\"\"}" })];
+                        return [4 /*yield*/, (0, city_log_1.h)()];
                     case 6:
+                        log = _b.sent();
+                        return [4 /*yield*/, this.api('city_getHomeDatav1', {
+                                "lbsCity": "",
+                                "realLbsCity": "",
+                                "inviteId": code,
+                                "headImg": "",
+                                "userName": "",
+                                "taskChannel": "1",
+                                "location": "",
+                                "safeStr": "{\"log\":\"".concat(log.log, "\",\"sceneid\":\"CHFhPageh5\",\"random\":\"").concat(log.random, "\"}")
+                            })];
+                    case 7:
                         res = _b.sent();
                         return [4 /*yield*/, this.wait(3000)];
-                    case 7:
+                    case 8:
                         _b.sent();
                         if (res.data.result.toasts) {
                             console.log(res.data.result.toasts[0]);
                             if (res.data.result.toasts[0].status === '3')
-                                return [3 /*break*/, 9];
+                                return [3 /*break*/, 10];
                         }
-                        _b.label = 8;
-                    case 8:
+                        _b.label = 9;
+                    case 9:
                         _a++;
                         return [3 /*break*/, 5];
-                    case 9: return [3 /*break*/, 11];
-                    case 10:
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
                         e_2 = _b.sent();
                         console.log(e_2.message);
-                        return [3 /*break*/, 11];
-                    case 11:
+                        return [3 /*break*/, 12];
+                    case 12:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 12: return [2 /*return*/];
+                    case 13: return [2 /*return*/];
                 }
             });
         });

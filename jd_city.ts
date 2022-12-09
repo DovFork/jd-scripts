@@ -3,8 +3,8 @@
  */
 
 import {User, JDHelloWorld} from "./TS_JDHelloWorld";
-import {smashUtils} from "./utils/log";
 import {getshareCodeHW} from "./TS_USER_AGENTS";
+import {h} from "./utils/city_log";
 
 class Jd_cash_signin extends JDHelloWorld {
   user: User
@@ -79,7 +79,17 @@ class Jd_cash_signin extends JDHelloWorld {
         }
         for (let code of shareCode) {
           console.log(`账号${user.index + 1} ${user.UserName} 去助力 ${code}`)
-          res = await this.api('city_getHomeDatav1', {"lbsCity": "", "realLbsCity": "", "inviteId": code, "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": "{\"log\":\"\",\"sceneid\":\"CHFhPageh5\",\"random\":\"\"}"})
+          let log: { log: string, random: number } = await h()
+          res = await this.api('city_getHomeDatav1', {
+            "lbsCity": "",
+            "realLbsCity": "",
+            "inviteId": code,
+            "headImg": "",
+            "userName": "",
+            "taskChannel": "1",
+            "location": "",
+            "safeStr": `{\"log\":\"${log.log}\",\"sceneid\":\"CHFhPageh5\",\"random\":\"${log.random}\"}`
+          })
           await this.wait(3000)
           if (res.data.result.toasts) {
             console.log(res.data.result.toasts[0])

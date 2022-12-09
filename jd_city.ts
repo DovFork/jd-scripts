@@ -46,6 +46,19 @@ class Jd_cash_signin extends JDHelloWorld {
           await this.wait(2000)
         }
       }
+
+      res = await this.api('city_getLotteryInfo', {})
+      console.log('可抽奖', res.data.result.lotteryNum)
+      for (let i = 0; i < res.data.result.lotteryNum; i++) {
+        data = await this.api('city_lotteryAward', {})
+        try {
+          console.log('抽奖', parseFloat(data.data.result.hongbao.value))
+        } catch (e) {
+          console.log(e.message)
+          console.log(data.data.result.hongbao)
+        }
+        await this.wait(2000)
+      }
     } catch (e) {
       console.log(e.message)
     }

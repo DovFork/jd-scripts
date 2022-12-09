@@ -102,14 +102,14 @@ var Jd_cash_signin = /** @class */ (function (_super) {
     };
     Jd_cash_signin.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, inviteId, _i, _a, t, e_1;
+            var res, data, inviteId, _i, _a, t, i, e_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         this.user = user;
                         _b.label = 1;
                     case 1:
-                        _b.trys.push([1, 8, , 9]);
+                        _b.trys.push([1, 14, , 15]);
                         return [4 /*yield*/, this.api('city_getHomeDatav1', { "lbsCity": "", "realLbsCity": "", "inviteId": "", "headImg": "", "userName": "", "taskChannel": "1", "location": "", "safeStr": "" })];
                     case 2:
                         res = _b.sent();
@@ -134,12 +134,37 @@ var Jd_cash_signin = /** @class */ (function (_super) {
                     case 6:
                         _i++;
                         return [3 /*break*/, 3];
-                    case 7: return [3 /*break*/, 9];
+                    case 7: return [4 /*yield*/, this.api('city_getLotteryInfo', {})];
                     case 8:
+                        res = _b.sent();
+                        console.log('可抽奖', res.data.result.lotteryNum);
+                        i = 0;
+                        _b.label = 9;
+                    case 9:
+                        if (!(i < res.data.result.lotteryNum)) return [3 /*break*/, 13];
+                        return [4 /*yield*/, this.api('city_lotteryAward', {})];
+                    case 10:
+                        data = _b.sent();
+                        try {
+                            console.log('抽奖', parseFloat(data.data.result.hongbao.value));
+                        }
+                        catch (e) {
+                            console.log(e.message);
+                            console.log(data.data.result.hongbao);
+                        }
+                        return [4 /*yield*/, this.wait(2000)];
+                    case 11:
+                        _b.sent();
+                        _b.label = 12;
+                    case 12:
+                        i++;
+                        return [3 /*break*/, 9];
+                    case 13: return [3 /*break*/, 15];
+                    case 14:
                         e_1 = _b.sent();
                         console.log(e_1.message);
-                        return [3 /*break*/, 9];
-                    case 9: return [2 /*return*/];
+                        return [3 /*break*/, 15];
+                    case 15: return [2 /*return*/];
                 }
             });
         });

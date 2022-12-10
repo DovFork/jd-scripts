@@ -92,7 +92,7 @@ var Jd_hby = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.wait(1000)];
                     case 3:
                         _a.sent();
-                        return [4 /*yield*/, this.post('https://api.m.jd.com/client.action', "functionId=hby_share&appid=publicUseApi&body={\"sceneId\":\"1113190\",\"activityNo\":\"e1ix3hVmZ892ONEUhkLsG\"}&client=wh5&clientVersion=1.0.0&t=".concat(Date.now()), {
+                        return [4 /*yield*/, this.post('https://api.m.jd.com/client.action', "functionId=hby_share&appid=publicUseApi&body={\"sceneId\":\"".concat(res.data.result.sceneId, "\",\"activityNo\":\"e1ix3hVmZ892ONEUhkLsG\"}&client=wh5&clientVersion=1.0.0&t=").concat(Date.now()), {
                                 'Host': 'api.m.jd.com',
                                 'Origin': 'https://pro.m.jd.com',
                                 'User-Agent': this.user.UserAgent,

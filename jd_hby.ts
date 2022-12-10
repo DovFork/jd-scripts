@@ -28,7 +28,7 @@ class Jd_hby extends JDHelloWorld {
       await this.wait(1000)
 
       await this.post('https://api.m.jd.com/client.action',
-        `functionId=hby_share&appid=publicUseApi&body={"sceneId":"1113190","activityNo":"e1ix3hVmZ892ONEUhkLsG"}&client=wh5&clientVersion=1.0.0&t=${Date.now()}`, {
+        `functionId=hby_share&appid=publicUseApi&body={"sceneId":"${res.data.result.sceneId}","activityNo":"e1ix3hVmZ892ONEUhkLsG"}&client=wh5&clientVersion=1.0.0&t=${Date.now()}`, {
           'Host': 'api.m.jd.com',
           'Origin': 'https://pro.m.jd.com',
           'User-Agent': this.user.UserAgent,

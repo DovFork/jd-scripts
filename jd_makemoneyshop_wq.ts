@@ -107,22 +107,27 @@ class Jd_makemoneyshop extends JDHelloWorld {
             } else {
               console.log(data.msg)
             }
-          } else if (t.taskId === 3533) {
-            console.log('收到助力', t.realCompletedTimes)
-            for (let i = 0; i < 10; i++) {
-              if (t.awardStatus === 1) break
-              data = await this.task('Award', {taskId: 3533})
-              if (data.ret === 0) {
-                console.log('领取助力奖励', data.data.prizeInfo * 1 / 100)
-                await this.wait(1000)
-              } else {
-                this.o2s(data, '领取助力奖励 error')
-                break
-              }
-            }
           }
         }
         await this.wait(5000)
+      }
+
+      res = await this.task('GetUserTaskStatusList', {})
+      for (let t of res.data.userTaskStatusList) {
+        if (t.taskId === 3533) {
+          console.log('收到助力', t.realCompletedTimes)
+          for (let i = t.completedTimes; i <= t.realCompletedTimes; i++) {
+            if (t.awardStatus === 1 || t.completedTimes === t.realCompletedTimes) break
+            data = await this.task('Award', {taskId: 3533})
+            if (data.ret === 0) {
+              console.log('领取助力奖励', data.data.prizeInfo * 1 / 100)
+              await this.wait(1000)
+            } else {
+              this.o2s(data, '领取助力奖励 error')
+              break
+            }
+          }
+        }
       }
     } catch (e) {
       console.log('error', e.message)
@@ -131,6 +136,7 @@ class Jd_makemoneyshop extends JDHelloWorld {
 
   async help(users: User[]) {
     let res: any, shareCode: string[] = [], shareCodeHW: string[] = []
+    this.o2s(this.shareCodeSelf, '内部助力')
     for (let user of users) {
       this.user = user
       if (this.black.includes(this.user.UserName)) {
@@ -140,7 +146,6 @@ class Jd_makemoneyshop extends JDHelloWorld {
       this.user.UserAgent = `jdltapp;iPhone;4.2.2;Mozilla/5.0 (iPhone; CPU iPhone OS 15_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)`
       this.h5stTool = new H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName)
       await this.h5stTool.__genAlgo()
-      this.o2s(this.shareCodeSelf, '内部助力')
 
       if (shareCodeHW.length === 0) {
         shareCodeHW = await this.getshareCodeHW('zqdyj')

@@ -135,52 +135,40 @@ var Jd_plantBean_help = /** @class */ (function (_super) {
     };
     Jd_plantBean_help.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, code, _i, _a, t;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var res, data, code, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
+                        _a.trys.push([0, 4, , 5]);
                         this.user = user;
                         this.user.UserAgent = "jdapp;iPhone;11.3.6;;;M/5.0;appBuild/168392;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         this.h5stTool = new h5st_pro_1.H5ST('6b93e', this.user.UserAgent, this.fp, 'https://plantearth.m.jd.com/plantBean/index?source=lingjingdoushouye', 'https://plantearth.m.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
-                        _b.sent();
+                        _a.sent();
                         return [4 /*yield*/, this.api('plantBeanIndex', { "monitor_source": "plant_m_plant_index", "monitor_refer": "", "version": "9.2.4.2" })];
                     case 2:
-                        res = _b.sent();
+                        res = _a.sent();
                         code = res.data.jwordShareInfo.shareUrl.match(/plantUuid=(\w+)/)[1];
                         console.log('助力码', code);
                         this.shareCodeSelf.push(code);
-                        _i = 0, _a = res.data.taskList;
-                        _b.label = 3;
+                        return [4 /*yield*/, this.api('plantShareSupportList', { "roundId": "" })];
                     case 3:
-                        if (!(_i < _a.length)) return [3 /*break*/, 8];
-                        t = _a[_i];
-                        if (!!t.isFinished) return [3 /*break*/, 7];
-                        if (![47, 93].includes(t.taskType)) return [3 /*break*/, 7];
-                        this.h5stTool = new h5st_pro_1.H5ST('ea7aa', this.user.UserAgent, this.fp, 'https://plantearth.m.jd.com/plantBean/index?source=lingjingdoushouye', 'https://plantearth.m.jd.com', this.user.UserName);
-                        return [4 /*yield*/, this.h5stTool.__genAlgo()];
+                        res = _a.sent();
+                        console.log('收到助力', res.data.length);
+                        return [3 /*break*/, 5];
                     case 4:
-                        _b.sent();
-                        return [4 /*yield*/, this.api('receiveNutrientsTask', { "awardType": t.taskType, "monitor_source": "plant_m_plant_index", "monitor_refer": "plant_receiveNutrientsTask", "version": "9.2.4.2" })];
-                    case 5:
-                        data = _b.sent();
-                        console.log(t.taskName, data.data.nutrToast);
-                        return [4 /*yield*/, this.wait(6000)];
-                    case 6:
-                        _b.sent();
-                        _b.label = 7;
-                    case 7:
-                        _i++;
-                        return [3 /*break*/, 3];
-                    case 8: return [2 /*return*/];
+                        e_2 = _a.sent();
+                        console.log(e_2.message);
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
     };
     Jd_plantBean_help.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, full, _i, users_1, user, shareCodePool, shareCode, _a, shareCode_1, code, e_2;
+            var res, full, _i, users_1, user, shareCodePool, shareCode, _a, shareCode_1, code, e_3;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -234,8 +222,8 @@ var Jd_plantBean_help = /** @class */ (function (_super) {
                         return [3 /*break*/, 5];
                     case 9: return [3 /*break*/, 12];
                     case 10:
-                        e_2 = _b.sent();
-                        console.log(e_2.message);
+                        e_3 = _b.sent();
+                        console.log(e_3.message);
                         return [4 /*yield*/, this.wait(5000)];
                     case 11:
                         _b.sent();

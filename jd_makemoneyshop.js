@@ -1,7 +1,7 @@
 "use strict";
 /**
- * 极速版-赚钱大赢家
- * cron: 2 0,12,18 * * *
+ * 特价版-赚钱大赢家
+ * cron: 1 0,1,23 * * *
  * CK1优先助力HW.ts
  */
 var __extends = (this && this.__extends) || (function () {
@@ -129,23 +129,28 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_makemoneyshop.prototype.api = function (fn, _stk, body) {
+    Jd_makemoneyshop.prototype.api = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
-            var h5st, text;
+            var h5st;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.h5stTool.__genH5st(body)];
+                    case 0: return [4 /*yield*/, this.h5stTool.__genH5st({
+                            'appid': 'jdlt_h5',
+                            'body': JSON.stringify(body),
+                            'client': 'jxh5',
+                            'clientVersion': '1.2.5',
+                            'functionId': fn
+                        })];
                     case 1:
                         h5st = _a.sent();
-                        return [4 /*yield*/, this.get("https://wq.jd.com/makemoneyshop/".concat(fn), {
-                                'Host': 'wq.jd.com',
-                                'Cookie': this.user.cookie,
-                                'user-agent': this.user.UserAgent,
-                                'referer': 'https://wqs.jd.com/'
-                            }, __assign(__assign({ 'g_ty': 'h5', 'g_tk': '', 'appCode': 'msc588d6d5', '_ste': '1', 'h5st': h5st, 'sceneval': '2', 'callback': '' }, body), { '_stk': _stk }))];
-                    case 2:
-                        text = _a.sent();
-                        return [2 /*return*/, JSON.parse(text.match(/\((.*)\)/)[1])];
+                        return [4 /*yield*/, this.get("https://api.m.jd.com/api?g_ty=h5&g_tk=&appCode=msc588d6d5&body=".concat(encodeURIComponent(JSON.stringify(body)), "&appid=jdlt_h5&client=jxh5&functionId=").concat(fn, "&clientVersion=1.2.5&h5st=").concat(h5st, "&loginType=2&sceneval=2"), {
+                                'Host': 'api.m.jd.com',
+                                'Origin': 'https://wqs.jd.com',
+                                'User-Agent': this.user.UserAgent,
+                                'Referer': 'https://wqs.jd.com/',
+                                'Cookie': this.user.cookie
+                            })];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -158,13 +163,13 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                     case 0:
                         _d.trys.push([0, 29, , 30]);
                         this.user = user;
-                        this.user.UserAgent = "jdltapp;iPhone;4.2.2;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)");
+                        this.user.UserAgent = "jdltapp;iPhone;4.5.0;M/5.0;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         res = void 0, data = void 0;
                         this.h5stTool = new h5st_pro_1.H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
                         _d.sent();
-                        return [4 /*yield*/, this.api('home', 'activeId', { 'activeId': '63526d8f5fe613a6adb48f03' })];
+                        return [4 /*yield*/, this.api('makemoneyshop_home', { "activeId": "63526d8f5fe613a6adb48f03", "isFirst": 1, "operType": 1 })];
                     case 2:
                         res = _d.sent();
                         if (res.code !== 0) {
@@ -175,8 +180,7 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         console.log('助力码', res.data.shareId);
                         this.shareCodeSelf.push(res.data.shareId);
                         console.log('可提现', res.data.canUseCoinAmount * 1);
-                        i = 0;
-                        _d.label = 3;
+                        return [2 /*return*/];
                     case 3:
                         if (!(i < 3)) return [3 /*break*/, 19];
                         return [4 /*yield*/, this.task('GetUserTaskStatusList', {})];
@@ -192,12 +196,12 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.task('DoTask', { 'isSecurity': 'true', 'taskId': t.taskId, 'configExtra': '' })];
                     case 6:
                         data = _d.sent();
-                        this.o2s(data, 'DoTask');
+                        data.ret === 0 && console.log("✅");
                         return [3 /*break*/, 9];
                     case 7: return [4 /*yield*/, this.task('Award', { 'taskId': t.taskId })];
                     case 8:
                         data = _d.sent();
-                        this.o2s(data, 'Award');
+                        data.ret === 0 && console.log("✅");
                         _d.label = 9;
                     case 9: return [4 /*yield*/, this.wait(3000)];
                     case 10:
@@ -282,14 +286,14 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         _i = 0, users_1 = users;
                         _b.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 14];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 13];
                         user = users_1[_i];
                         this.user = user;
                         if (this.black.includes(this.user.UserName)) {
                             console.log('黑号');
-                            return [3 /*break*/, 13];
+                            return [3 /*break*/, 12];
                         }
-                        this.user.UserAgent = "jdltapp;iPhone;4.2.2;Mozilla/5.0 (iPhone; CPU iPhone OS 15_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)";
+                        this.user.UserAgent = "jdltapp;iPhone;4.5.0;M/5.0;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         this.h5stTool = new h5st_pro_1.H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 2:
@@ -308,39 +312,35 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         }
                         _b.label = 5;
                     case 5:
-                        _b.trys.push([5, 12, , 13]);
+                        _b.trys.push([5, 11, , 12]);
                         _a = 0, shareCode_1 = shareCode;
                         _b.label = 6;
                     case 6:
-                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 11];
+                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 10];
                         code = shareCode_1[_a];
                         console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
-                        return [4 /*yield*/, this.api('querysharevenderinfo', 'activeId,shareId', { activeId: '63526d8f5fe613a6adb48f03', shareId: code })];
+                        return [4 /*yield*/, this.api('makemoneyshop_guesthelp', { "activeId": "63526d8f5fe613a6adb48f03", "shareId": code, "operType": 1 })];
                     case 7:
                         res = _b.sent();
-                        if (res.data.guestInfo.guestErrMsg === '天助力次数限制') {
-                            return [3 /*break*/, 11];
-                        }
-                        return [4 /*yield*/, this.api('guesthelp', 'activeId,shareId', { activeId: '63526d8f5fe613a6adb48f03', shareId: code })];
-                    case 8:
-                        res = _b.sent();
-                        console.log('助力结果', res.msg);
+                        this.o2s(res);
+                        // console.log('助力结果', res.msg)
                         return [4 /*yield*/, this.wait(2000)];
-                    case 9:
+                    case 8:
+                        // console.log('助力结果', res.msg)
                         _b.sent();
-                        _b.label = 10;
-                    case 10:
+                        _b.label = 9;
+                    case 9:
                         _a++;
                         return [3 /*break*/, 6];
-                    case 11: return [3 /*break*/, 13];
-                    case 12:
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
                         e_3 = _b.sent();
                         console.log('error', e_3.message);
-                        return [3 /*break*/, 13];
-                    case 13:
+                        return [3 /*break*/, 12];
+                    case 12:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 14: return [2 /*return*/];
+                    case 13: return [2 /*return*/];
                 }
             });
         });

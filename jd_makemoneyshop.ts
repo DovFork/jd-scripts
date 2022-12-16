@@ -1,6 +1,6 @@
 /**
- * 极速版-赚钱大赢家
- * cron: 2 0,12,18 * * *
+ * 特价版-赚钱大赢家
+ * cron: 1 0,1,23 * * *
  * CK1优先助力HW.ts
  */
 
@@ -47,37 +47,32 @@ class Jd_makemoneyshop extends JDHelloWorld {
     })
   }
 
-  async api(fn: string, _stk: string, body: object) {
-    let h5st: string = await this.h5stTool.__genH5st(body)
-    let text = await this.get(`https://wq.jd.com/makemoneyshop/${fn}`, {
-      'Host': 'wq.jd.com',
-      'Cookie': this.user.cookie,
-      'user-agent': this.user.UserAgent,
-      'referer': 'https://wqs.jd.com/'
-    }, {
-      'g_ty': 'h5',
-      'g_tk': '',
-      'appCode': 'msc588d6d5',
-      '_ste': '1',
-      'h5st': h5st,
-      'sceneval': '2',
-      'callback': '',
-      ...body,
-      '_stk': _stk
+  async api(fn: string, body: object) {
+    let h5st: string = await this.h5stTool.__genH5st({
+      'appid': 'jdlt_h5',
+      'body': JSON.stringify(body),
+      'client': 'jxh5',
+      'clientVersion': '1.2.5',
+      'functionId': fn,
     })
-    return JSON.parse(text.match(/\((.*)\)/)[1])
+    return await this.get(`https://api.m.jd.com/api?g_ty=h5&g_tk=&appCode=msc588d6d5&body=${encodeURIComponent(JSON.stringify(body))}&appid=jdlt_h5&client=jxh5&functionId=${fn}&clientVersion=1.2.5&h5st=${h5st}&loginType=2&sceneval=2`, {
+      'Host': 'api.m.jd.com',
+      'Origin': 'https://wqs.jd.com',
+      'User-Agent': this.user.UserAgent,
+      'Referer': 'https://wqs.jd.com/',
+      'Cookie': this.user.cookie
+    })
   }
 
   async main(user: User) {
     try {
       this.user = user
-      this.user.UserAgent = `jdltapp;iPhone;4.2.2;Mozilla/5.0 (iPhone; CPU iPhone OS ${this.getIosVer()} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)`
+      this.user.UserAgent = `jdltapp;iPhone;4.5.0;M/5.0;Mozilla/5.0 (iPhone; CPU iPhone OS ${this.getIosVer()} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;`
       let res: any, data: any
-
       this.h5stTool = new H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName)
       await this.h5stTool.__genAlgo()
 
-      res = await this.api('home', 'activeId', {'activeId': '63526d8f5fe613a6adb48f03'})
+      res = await this.api('makemoneyshop_home', {"activeId": "63526d8f5fe613a6adb48f03", "isFirst": 1, "operType": 1})
       if (res.code !== 0) {
         console.log('黑号')
         this.black.push(this.user.UserName)
@@ -86,17 +81,17 @@ class Jd_makemoneyshop extends JDHelloWorld {
       console.log('助力码', res.data.shareId)
       this.shareCodeSelf.push(res.data.shareId)
       console.log('可提现', res.data.canUseCoinAmount * 1)
-
+      return
       for (let i = 0; i < 3; i++) {
         res = await this.task('GetUserTaskStatusList', {})
         for (let t of res.data.userTaskStatusList) {
           if (t.taskType === 2 && t.awardStatus === 2) {
             if (t.completedTimes !== t.configTargetTimes) {
               data = await this.task('DoTask', {'isSecurity': 'true', 'taskId': t.taskId, 'configExtra': ''})
-              this.o2s(data, 'DoTask')
+              data.ret === 0 && console.log("✅")
             } else {
               data = await this.task('Award', {'taskId': t.taskId})
-              this.o2s(data, 'Award')
+              data.ret === 0 && console.log("✅")
             }
             await this.wait(3000)
           } else if (t.taskId === 3532 && t.awardStatus === 2) {
@@ -143,7 +138,7 @@ class Jd_makemoneyshop extends JDHelloWorld {
         console.log('黑号')
         continue
       }
-      this.user.UserAgent = `jdltapp;iPhone;4.2.2;Mozilla/5.0 (iPhone; CPU iPhone OS 15_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)`
+      this.user.UserAgent = `jdltapp;iPhone;4.5.0;M/5.0;Mozilla/5.0 (iPhone; CPU iPhone OS ${this.getIosVer()} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;`
       this.h5stTool = new H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName)
       await this.h5stTool.__genAlgo()
 
@@ -158,12 +153,9 @@ class Jd_makemoneyshop extends JDHelloWorld {
       try {
         for (let code of shareCode) {
           console.log(`账号${user.index + 1} ${user.UserName} 去助力 ${code}`)
-          res = await this.api('querysharevenderinfo', 'activeId,shareId', {activeId: '63526d8f5fe613a6adb48f03', shareId: code})
-          if (res.data.guestInfo.guestErrMsg === '天助力次数限制') {
-            break
-          }
-          res = await this.api('guesthelp', 'activeId,shareId', {activeId: '63526d8f5fe613a6adb48f03', shareId: code})
-          console.log('助力结果', res.msg)
+          res = await this.api('makemoneyshop_guesthelp', {"activeId": "63526d8f5fe613a6adb48f03", "shareId": code, "operType": 1})
+          this.o2s(res)
+          // console.log('助力结果', res.msg)
           await this.wait(2000)
         }
       } catch (e) {

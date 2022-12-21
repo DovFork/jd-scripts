@@ -82,7 +82,7 @@ class Jd_makemoneyshop extends JDHelloWorld {
       console.log('助力码', res.data.shareId)
       this.shareCodeSelf.push(res.data.shareId)
       console.log('可提现', res.data.canUseCoinAmount * 1)
-      return
+
       for (let i = 0; i < 3; i++) {
         res = await this.task('GetUserTaskStatusList', {})
         for (let t of res.data.userTaskStatusList) {
@@ -146,22 +146,20 @@ class Jd_makemoneyshop extends JDHelloWorld {
       if (shareCodeHW.length === 0) {
         shareCodeHW = await this.getshareCodeHW('zqdyj')
       }
-      if (user.index === 0) {
-        shareCode = Array.from(new Set([...shareCodeHW, ...this.shareCodeSelf]))
-      } else {
-        shareCode = Array.from(new Set([...this.shareCodeSelf, ...shareCodeHW]))
-      }
+      shareCode = Array.from(new Set([...shareCodeHW, ...this.shareCodeSelf]))
       try {
         for (let code of shareCode) {
           console.log(`账号${user.index + 1} ${user.UserName} 去助力 ${code}`)
           res = await this.api('makemoneyshop_guesthelp', {"activeId": "63526d8f5fe613a6adb48f03", "shareId": code, "operType": 1})
           this.o2s(res)
+          await this.wait(2000)
           if (res.code === 147)
             break
-          await this.wait(2000)
         }
       } catch (e) {
         console.log('error', e.message)
+      } finally {
+        await wait(2000)
       }
     }
   }

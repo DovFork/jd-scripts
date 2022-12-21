@@ -181,7 +181,8 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         console.log('助力码', res.data.shareId);
                         this.shareCodeSelf.push(res.data.shareId);
                         console.log('可提现', res.data.canUseCoinAmount * 1);
-                        return [2 /*return*/];
+                        i = 0;
+                        _d.label = 3;
                     case 3:
                         if (!(i < 3)) return [3 /*break*/, 19];
                         return [4 /*yield*/, this.task('GetUserTaskStatusList', {})];
@@ -287,12 +288,12 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         _i = 0, users_1 = users;
                         _b.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 13];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 15];
                         user = users_1[_i];
                         this.user = user;
                         if (this.black.includes(this.user.UserName)) {
                             console.log('黑号');
-                            return [3 /*break*/, 12];
+                            return [3 /*break*/, 14];
                         }
                         this.user.UserAgent = "jdltapp;iPhone;4.5.0;M/5.0;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         this.h5stTool = new h5st_3_1_1.H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName);
@@ -305,15 +306,10 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         shareCodeHW = _b.sent();
                         _b.label = 4;
                     case 4:
-                        if (user.index === 0) {
-                            shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true)));
-                        }
-                        else {
-                            shareCode = Array.from(new Set(__spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodeHW, true)));
-                        }
+                        shareCode = Array.from(new Set(__spreadArray(__spreadArray([], shareCodeHW, true), this.shareCodeSelf, true)));
                         _b.label = 5;
                     case 5:
-                        _b.trys.push([5, 11, , 12]);
+                        _b.trys.push([5, 11, 12, 14]);
                         _a = 0, shareCode_1 = shareCode;
                         _b.label = 6;
                     case 6:
@@ -324,24 +320,28 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                     case 7:
                         res = _b.sent();
                         this.o2s(res);
-                        if (res.code === 147)
-                            return [3 /*break*/, 10];
                         return [4 /*yield*/, this.wait(2000)];
                     case 8:
                         _b.sent();
+                        if (res.code === 147)
+                            return [3 /*break*/, 10];
                         _b.label = 9;
                     case 9:
                         _a++;
                         return [3 /*break*/, 6];
-                    case 10: return [3 /*break*/, 12];
+                    case 10: return [3 /*break*/, 14];
                     case 11:
                         e_3 = _b.sent();
                         console.log('error', e_3.message);
-                        return [3 /*break*/, 12];
-                    case 12:
+                        return [3 /*break*/, 14];
+                    case 12: return [4 /*yield*/, wait(2000)];
+                    case 13:
+                        _b.sent();
+                        return [7 /*endfinally*/];
+                    case 14:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 13: return [2 /*return*/];
+                    case 15: return [2 /*return*/];
                 }
             });
         });

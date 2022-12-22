@@ -5,7 +5,7 @@
  */
 
 import {User, JDHelloWorld} from "./TS_JDHelloWorld"
-import {H5ST} from "./utils/h5st_3.1";
+import {H5ST} from "./utils/h5st_pro";
 
 class Jd_makemoneyshop extends JDHelloWorld {
   user: User

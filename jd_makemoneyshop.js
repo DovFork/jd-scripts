@@ -77,7 +77,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
-var h5st_3_1_1 = require("./utils/h5st_3.1");
+var h5st_pro_1 = require("./utils/h5st_pro");
 var Jd_makemoneyshop = /** @class */ (function (_super) {
     __extends(Jd_makemoneyshop, _super);
     function Jd_makemoneyshop() {
@@ -165,7 +165,7 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         this.user = user;
                         this.user.UserAgent = "jdltapp;iPhone;4.5.0;M/5.0;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         res = void 0, data = void 0;
-                        this.h5stTool = new h5st_3_1_1.H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName);
+                        this.h5stTool = new h5st_pro_1.H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 1:
                         _d.sent();
@@ -296,7 +296,7 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                             return [3 /*break*/, 14];
                         }
                         this.user.UserAgent = "jdltapp;iPhone;4.5.0;M/5.0;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
-                        this.h5stTool = new h5st_3_1_1.H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName);
+                        this.h5stTool = new h5st_pro_1.H5ST('d06f1', this.user.UserAgent, this.fp, 'https://wqs.jd.com/sns/202210/20/make-money-shop/index.html', 'https://wqs.jd.com', this.user.UserName);
                         return [4 /*yield*/, this.h5stTool.__genAlgo()];
                     case 2:
                         _b.sent();

@@ -151,7 +151,6 @@ var Jd_plantBean_help = /** @class */ (function (_super) {
                         res = _a.sent();
                         code = res.data.jwordShareInfo.shareUrl.match(/plantUuid=(\w+)/)[1];
                         console.log('助力码', code);
-                        this.shareCodeSelf.push(code);
                         return [4 /*yield*/, this.api('plantShareSupportList', { "roundId": "" })];
                     case 3:
                         res = _a.sent();

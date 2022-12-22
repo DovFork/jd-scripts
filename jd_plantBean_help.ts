@@ -55,7 +55,6 @@ class Jd_plantBean_help extends JDHelloWorld {
       res = await this.api('plantBeanIndex', {"monitor_source": "plant_m_plant_index", "monitor_refer": "", "version": "9.2.4.2"})
       let code: string = res.data.jwordShareInfo.shareUrl.match(/plantUuid=(\w+)/)[1]
       console.log('助力码', code)
-      this.shareCodeSelf.push(code)
 
       res = await this.api('plantShareSupportList', {"roundId": ""})
       console.log('收到助力', res.data.length)

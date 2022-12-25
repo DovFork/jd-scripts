@@ -334,7 +334,7 @@ var Jd_makemoneyshop = /** @class */ (function (_super) {
                         e_3 = _b.sent();
                         console.log('error', e_3.message);
                         return [3 /*break*/, 14];
-                    case 12: return [4 /*yield*/, wait(2000)];
+                    case 12: return [4 /*yield*/, this.wait(2000)];
                     case 13:
                         _b.sent();
                         return [7 /*endfinally*/];

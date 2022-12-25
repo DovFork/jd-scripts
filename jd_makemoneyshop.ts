@@ -159,7 +159,7 @@ class Jd_makemoneyshop extends JDHelloWorld {
       } catch (e) {
         console.log('error', e.message)
       } finally {
-        await wait(2000)
+        await this.wait(2000)
       }
     }
   }

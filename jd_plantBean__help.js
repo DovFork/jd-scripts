@@ -3,7 +3,7 @@
  * 京东-种豆-助力
  * 所有CK助力顺序
  * 内部 -> 助力池
- * cron: 20 0,9,15 * * *
+ * cron: 15 7-21/2 * * *
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -68,15 +68,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 exports.__esModule = true;
 var TS_JDHelloWorld_1 = require("./TS_JDHelloWorld");
 var h5st_pro_1 = require("./utils/h5st_pro");
-var Jd_plantBean_help = /** @class */ (function (_super) {
-    __extends(Jd_plantBean_help, _super);
-    function Jd_plantBean_help() {
+var Jd_plantBean__help = /** @class */ (function (_super) {
+    __extends(Jd_plantBean__help, _super);
+    function Jd_plantBean__help() {
         var _this = _super.call(this) || this;
         _this.shareCodeSelf = [];
         _this.fp = undefined;
         return _this;
     }
-    Jd_plantBean_help.prototype.init = function () {
+    Jd_plantBean__help.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, e_1;
             return __generator(this, function (_c) {
@@ -106,7 +106,7 @@ var Jd_plantBean_help = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_plantBean_help.prototype.api = function (fn, body) {
+    Jd_plantBean__help.prototype.api = function (fn, body) {
         return __awaiter(this, void 0, void 0, function () {
             var h5st, data;
             return __generator(this, function (_a) {
@@ -133,7 +133,7 @@ var Jd_plantBean_help = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_plantBean_help.prototype.main = function (user) {
+    Jd_plantBean__help.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var res, data, code, e_2;
             return __generator(this, function (_a) {
@@ -165,7 +165,7 @@ var Jd_plantBean_help = /** @class */ (function (_super) {
             });
         });
     };
-    Jd_plantBean_help.prototype.help = function (users) {
+    Jd_plantBean__help.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
             var res, full, _i, users_1, user, shareCodePool, shareCode, _a, shareCode_1, code, e_3;
             return __generator(this, function (_b) {
@@ -235,6 +235,6 @@ var Jd_plantBean_help = /** @class */ (function (_super) {
             });
         });
     };
-    return Jd_plantBean_help;
+    return Jd_plantBean__help;
 }(TS_JDHelloWorld_1.JDHelloWorld));
-new Jd_plantBean_help().init().then();
+new Jd_plantBean__help().init().then();

@@ -2,13 +2,13 @@
  * 京东-种豆-助力
  * 所有CK助力顺序
  * 内部 -> 助力池
- * cron: 20 0,9,15 * * *
+ * cron: 15 7-21/2 * * *
  */
 
 import {User, JDHelloWorld} from "./TS_JDHelloWorld"
 import {H5ST} from "./utils/h5st_pro";
 
-class Jd_plantBean_help extends JDHelloWorld {
+class Jd_plantBean__help extends JDHelloWorld {
   user: User
   h5stTool: H5ST
   shareCodeSelf: string[] = []
@@ -99,4 +99,4 @@ class Jd_plantBean_help extends JDHelloWorld {
   }
 }
 
-new Jd_plantBean_help().init().then()
+new Jd_plantBean__help().init().then()

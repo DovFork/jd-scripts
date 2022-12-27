@@ -11,7 +11,6 @@ import {H5ST} from "./utils/h5st_pro";
 class Jd_plantBean__help extends JDHelloWorld {
   user: User
   h5stTool: H5ST
-  shareCodeSelf: string[] = []
   fp: any = undefined
 
   constructor() {
@@ -45,6 +44,15 @@ class Jd_plantBean__help extends JDHelloWorld {
     return JSON.parse(data.match(/jsonp_.*\((.*)\)/)[1])
   }
 
+  async runTimes(code: string) {
+    try {
+      let data = await this.get(`https://sharecodepool.cnmb.win/api/runTimes0917?activityId=bean&sharecode=${code}`)
+      console.log(data)
+    } catch (e) {
+      await this.wait(5000)
+    }
+  }
+
   async main(user: User) {
     let res: any, data: any
     try {
@@ -64,7 +72,6 @@ class Jd_plantBean__help extends JDHelloWorld {
   }
 
   async help(users: User[]) {
-    this.o2s(this.shareCodeSelf, '内部助力')
     let res: any, full: string[] = []
     for (let user of users) {
       try {
@@ -73,10 +80,11 @@ class Jd_plantBean__help extends JDHelloWorld {
         this.h5stTool = new H5ST('6b93e', this.user.UserAgent, this.fp, 'https://plantearth.m.jd.com/plantBean/index?source=lingjingdoushouye', 'https://plantearth.m.jd.com', this.user.UserName)
         await this.h5stTool.__genAlgo()
         let shareCodePool: string[] = await this.getShareCodePool('bean', 50)
-        let shareCode: string[] = Array.from(new Set([...this.shareCodeSelf, ...shareCodePool]))
-
+        let shareCode: string[] = Array.from(new Set([...shareCodePool]))
+        res = await this.api('plantBeanIndex', {"monitor_source": "plant_m_plant_index", "monitor_refer": "", "version": "9.2.4.2"})
+        let my: string = res.data.jwordShareInfo.shareUrl.match(/plantUuid=(\w+)/)[1]
         for (let code of shareCode) {
-          console.log(`账号${user.index + 1} ${user.UserName} 去助力 ${code} ${this.shareCodeSelf.includes(code) ? '*内部*' : ''}`)
+          console.log(`账号${user.index + 1} ${user.UserName} 去助力 ${code}`)
           if (full.includes(code)) {
             console.log('full contains')
             continue
@@ -89,6 +97,7 @@ class Jd_plantBean__help extends JDHelloWorld {
           } else if (res.data.helpShareRes.state === '3') {
             full.push(code)
           }
+          await this.runTimes(my)
           await this.wait(3000)
         }
       } catch (e) {

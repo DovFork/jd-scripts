@@ -72,7 +72,6 @@ var Jd_plantBean__help = /** @class */ (function (_super) {
     __extends(Jd_plantBean__help, _super);
     function Jd_plantBean__help() {
         var _this = _super.call(this) || this;
-        _this.shareCodeSelf = [];
         _this.fp = undefined;
         return _this;
     }
@@ -133,9 +132,32 @@ var Jd_plantBean__help = /** @class */ (function (_super) {
             });
         });
     };
+    Jd_plantBean__help.prototype.runTimes = function (code) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 4]);
+                        return [4 /*yield*/, this.get("https://sharecodepool.cnmb.win/api/runTimes0917?activityId=bean&sharecode=".concat(code))];
+                    case 1:
+                        data = _a.sent();
+                        console.log(data);
+                        return [3 /*break*/, 4];
+                    case 2:
+                        e_2 = _a.sent();
+                        return [4 /*yield*/, this.wait(5000)];
+                    case 3:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Jd_plantBean__help.prototype.main = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, data, code, e_2;
+            var res, data, code, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -157,8 +179,8 @@ var Jd_plantBean__help = /** @class */ (function (_super) {
                         console.log('收到助力', res.data.length);
                         return [3 /*break*/, 5];
                     case 4:
-                        e_2 = _a.sent();
-                        console.log(e_2.message);
+                        e_3 = _a.sent();
+                        console.log(e_3.message);
                         return [3 /*break*/, 5];
                     case 5: return [2 /*return*/];
                 }
@@ -167,20 +189,19 @@ var Jd_plantBean__help = /** @class */ (function (_super) {
     };
     Jd_plantBean__help.prototype.help = function (users) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, full, _i, users_1, user, shareCodePool, shareCode, _a, shareCode_1, code, e_3;
+            var res, full, _i, users_1, user, shareCodePool, shareCode, my, _a, shareCode_1, code, e_4;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        this.o2s(this.shareCodeSelf, '内部助力');
                         full = [];
                         _i = 0, users_1 = users;
                         _b.label = 1;
                     case 1:
-                        if (!(_i < users_1.length)) return [3 /*break*/, 13];
+                        if (!(_i < users_1.length)) return [3 /*break*/, 15];
                         user = users_1[_i];
                         _b.label = 2;
                     case 2:
-                        _b.trys.push([2, 10, , 12]);
+                        _b.trys.push([2, 12, , 14]);
                         this.user = user;
                         this.user.UserAgent = "jdapp;iPhone;11.3.6;;;M/5.0;appBuild/168392;Mozilla/5.0 (iPhone; CPU iPhone OS ".concat(this.getIosVer(), " like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1;");
                         this.h5stTool = new h5st_pro_1.H5ST('6b93e', this.user.UserAgent, this.fp, 'https://plantearth.m.jd.com/plantBean/index?source=lingjingdoushouye', 'https://plantearth.m.jd.com', this.user.UserName);
@@ -190,47 +211,54 @@ var Jd_plantBean__help = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.getShareCodePool('bean', 50)];
                     case 4:
                         shareCodePool = _b.sent();
-                        shareCode = Array.from(new Set(__spreadArray(__spreadArray([], this.shareCodeSelf, true), shareCodePool, true)));
-                        _a = 0, shareCode_1 = shareCode;
-                        _b.label = 5;
+                        shareCode = Array.from(new Set(__spreadArray([], shareCodePool, true)));
+                        return [4 /*yield*/, this.api('plantBeanIndex', { "monitor_source": "plant_m_plant_index", "monitor_refer": "", "version": "9.2.4.2" })];
                     case 5:
-                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 9];
+                        res = _b.sent();
+                        my = res.data.jwordShareInfo.shareUrl.match(/plantUuid=(\w+)/)[1];
+                        _a = 0, shareCode_1 = shareCode;
+                        _b.label = 6;
+                    case 6:
+                        if (!(_a < shareCode_1.length)) return [3 /*break*/, 11];
                         code = shareCode_1[_a];
-                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code, " ").concat(this.shareCodeSelf.includes(code) ? '*内部*' : ''));
+                        console.log("\u8D26\u53F7".concat(user.index + 1, " ").concat(user.UserName, " \u53BB\u52A9\u529B ").concat(code));
                         if (full.includes(code)) {
                             console.log('full contains');
-                            return [3 /*break*/, 8];
+                            return [3 /*break*/, 10];
                         }
                         return [4 /*yield*/, this.api('plantBeanIndex', { "plantUuid": code, "monitor_source": "plant_m_plant_index", "monitor_refer": "", "version": "9.2.4.2" })];
-                    case 6:
+                    case 7:
                         res = _b.sent();
                         console.log(res.data.helpShareRes.promptText);
                         if (res.data.helpShareRes.state === '2') {
                             console.log('上限');
-                            return [3 /*break*/, 9];
+                            return [3 /*break*/, 11];
                         }
                         else if (res.data.helpShareRes.state === '3') {
                             full.push(code);
                         }
-                        return [4 /*yield*/, this.wait(3000)];
-                    case 7:
-                        _b.sent();
-                        _b.label = 8;
+                        return [4 /*yield*/, this.runTimes(my)];
                     case 8:
-                        _a++;
-                        return [3 /*break*/, 5];
-                    case 9: return [3 /*break*/, 12];
-                    case 10:
-                        e_3 = _b.sent();
-                        console.log(e_3.message);
-                        return [4 /*yield*/, this.wait(5000)];
-                    case 11:
                         _b.sent();
-                        return [3 /*break*/, 12];
+                        return [4 /*yield*/, this.wait(3000)];
+                    case 9:
+                        _b.sent();
+                        _b.label = 10;
+                    case 10:
+                        _a++;
+                        return [3 /*break*/, 6];
+                    case 11: return [3 /*break*/, 14];
                     case 12:
+                        e_4 = _b.sent();
+                        console.log(e_4.message);
+                        return [4 /*yield*/, this.wait(5000)];
+                    case 13:
+                        _b.sent();
+                        return [3 /*break*/, 14];
+                    case 14:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 13: return [2 /*return*/];
+                    case 15: return [2 /*return*/];
                 }
             });
         });

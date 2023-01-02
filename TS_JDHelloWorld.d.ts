@@ -29,7 +29,6 @@ declare class JDHelloWorld {
     getIosVer(): string;
     getFp(): Promise<string>;
     body(body: object): Promise<object>;
-    exit(): void;
     run(son: {
         main: any;
         help?: any;

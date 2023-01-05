@@ -95,7 +95,6 @@ var Jd_plantBean__help = /** @class */ (function (_super) {
                     case 3:
                         e_1 = _c.sent();
                         console.log(e_1.message);
-                        this.exit();
                         return [3 /*break*/, 4];
                     case 4: return [4 /*yield*/, this.run(this)];
                     case 5:

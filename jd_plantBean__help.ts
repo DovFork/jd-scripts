@@ -22,7 +22,6 @@ class Jd_plantBean__help extends JDHelloWorld {
       this.fp = process.env.FP_6B93E || await this.getFp()
     } catch (e) {
       console.log(e.message)
-      this.exit()
     }
     await this.run(this)
   }
